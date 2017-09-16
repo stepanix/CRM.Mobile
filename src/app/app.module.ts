@@ -12,6 +12,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ReactiveFormsModule }  from '@angular/forms';
 import { ActivitiesPage } from '../pages/activities/activities';
+import { SchedulePage } from '../pages/schedule/schedule';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { ActivitiesPage } from '../pages/activities/activities';
     HomePage,
     ListPage,
     ActivitiesPage,
-    LoginPage
+    LoginPage,
+    SchedulePage
   ],
   imports: [
     HttpModule,
@@ -33,7 +36,8 @@ import { ActivitiesPage } from '../pages/activities/activities';
     HomePage,
     ListPage,
     ActivitiesPage,
-    LoginPage
+    LoginPage,
+    SchedulePage
   ],
   providers: [
     StatusBar,
