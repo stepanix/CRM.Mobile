@@ -9,12 +9,14 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ReactiveFormsModule }  from '@angular/forms';
+import { ActivitiesPage } from '../pages/activities/activities';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ActivitiesPage
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import { ReactiveFormsModule }  from '@angular/forms';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ActivitiesPage
   ],
   providers: [
     StatusBar,
