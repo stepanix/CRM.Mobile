@@ -24,7 +24,7 @@ export class LoginServiceApi {
      postLogin(loginData) : Observable<any> {
           return  this.http.post(loginUrl , loginData,{headers: this.getHeader()})
           .map((response: Response) => response.json())
-          .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+          .catch((error:any) => Observable.throw(error.json()));
      }
      
 }

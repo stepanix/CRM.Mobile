@@ -24,7 +24,7 @@ export class LoginPage {
     private navCtrl: NavController, 
     private builder: FormBuilder,
     private alertCtrl: AlertController) {
-      
+
 
         localStorage.removeItem('token');
         this.frmLogin = builder.group({
@@ -45,8 +45,6 @@ export class LoginPage {
       
               this.loader.present().then(() => {
               this.frmData = formData;
-              console.log(this.frmData.userName);
-              console.log(this.frmData.password);
       
               this.loginData = 'username=' + this.frmData.userName + '&password=' + this.frmData.password + '&grant_type=password';
       
@@ -72,6 +70,7 @@ export class LoginPage {
                   //     return;
                   // }
                }, err => {
+                   console.log(JSON.stringify(err));
                   // this.alertCtrl.create({
                   //                 title: 'Technocrat CRM Mobile',
                   //                 subTitle: "Login Failed, Please type valid login details ",

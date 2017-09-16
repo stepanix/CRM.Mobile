@@ -6,14 +6,25 @@
         <ion-title>Schedule</ion-title>
     </ion-navbar>
   </ion-header>
-  
-  <ion-content padding>
-  
-      <ion-item>
-          <ion-label>Schedule Date</ion-label>
-          <ion-datetime [(ngModel)]="eventDate"></ion-datetime>
-      </ion-item>
-  
+
+<ion-content class="servicesContainer">
+
+        <ion-item>
+            <ion-calendar [(ngModel)]="eventDate" (onChange)="listMySchedulesApi()" [format]="'YYYY-MM-DD'"></ion-calendar>
+          <!-- <ion-label>Schedule Date</ion-label>
+          <ion-datetime [(ngModel)]="eventDate" (ngModelChange)="listMySchedulesApi()"></ion-datetime> -->
+        </ion-item>
+
+        <ion-list class="servicesList">
+            <button ion-item icon-left  *ngFor="let item of schedules" (click)="openSchedule(item)">
+                  <div item-left><strong>{{item.time}}</strong></div>
+                  <strong>{{item.place}}</strong>
+                  <br>
+                  {{item.address}}
+            </button>
+        </ion-list>
     
   </ion-content>
+    
+ 
   

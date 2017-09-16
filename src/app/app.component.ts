@@ -7,26 +7,33 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
-import { LoginServiceApi } from '../shared/shared';
+import { LoginPage } from '../pages/login/login';
+import { LoginServiceApi,ScheduleServiceApi } from '../shared/shared';
 
 @Component({
   templateUrl: 'app.html',
   providers:[
-    LoginServiceApi
-]
+    LoginServiceApi,
+    ScheduleServiceApi
+  ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = ActivitiesPage;
   
+  private loginPage;
   private activitiesPage;
   private schedulePage;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, 
+    public statusBar: StatusBar, 
+    public splashScreen: SplashScreen) {
+
       this.initializeApp();
+      this.loginPage = LoginPage;
       this.activitiesPage = ActivitiesPage;
       this.schedulePage = SchedulePage;
 
