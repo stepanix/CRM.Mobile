@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController,MenuController,LoadingController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginServiceApi,ProductServiceApi } from '../../shared/shared';
-import { ProductRepoApi } from '../../repos/product-repo-api';
+import { LoginServiceApi,FormServiceApi } from '../../shared/shared';
 import { ActivitiesPage } from '../activities/activities';
+import { SyncServiceApi } from '../../services/sync-service-api';
 
 
 
@@ -20,15 +20,13 @@ export class LoginPage {
   loader : any;
 
   constructor(
-    private productRepoApi: ProductRepoApi,
-    private productServiceApi : ProductServiceApi,
+    private syncServiceApi: SyncServiceApi,
     private loginApi: LoginServiceApi,
     private menu: MenuController,
     private loading: LoadingController,
-    private navCtrl: NavController, 
+    private navCtrl: NavController,
     private builder: FormBuilder,
     private alertCtrl: AlertController) {
-
 
         localStorage.removeItem('token');
         this.frmLogin = builder.group({
@@ -41,35 +39,12 @@ export class LoginPage {
         console.log('ionViewDidLoad LoginPage');
     }
 
-    downloadProductsApi(){
-        var products:any[] = [];
-        this.productServiceApi.getProducts()
-        .subscribe(
-            res => {
-                for(var i = 0;i < res.length; i++){
-                    products.push({
-                        Id : i+1,
-                        ServerId:res[i].id,
-                        Name: res[i].name
-                    });
-                }
-                this.productRepoApi.deleteProducts();
-                this.productRepoApi.insertProducts(products);
-                // this.productRepoApi.listProducts().then((data) => {
-                //     for(var i = 0; i<data.results.length;i++){
-                //         console.log(data.results[i].Name);
-                //     }
-                // });
-            },err => {
-              console.log(err);
-              return;
-          });
-    }
+    
 
     onSubmit(formData) {
       
              this.loader = this.loading.create({
-                content: 'signing in...',
+                content: 'Signing in...',
               });
       
               this.loader.present().then(() => {
@@ -79,36 +54,18 @@ export class LoginPage {
       
               this.loginApi.postLogin(this.loginData).subscribe(res => {
                   localStorage.setItem('token', res.access_token);
-                  this.downloadProductsApi();
+                  //Download items from remote server
+                  this.syncServiceApi.downloadProductsApi();
+                  this.syncServiceApi.downloadFormsApi();
+
+
                   this.navCtrl.setRoot(ActivitiesPage);
-                  // this.roles = res.roles.split(',');
-                  // this.roles.forEach(role => {
-                  //     if(role === 'Service Provider' || role === 'Manager') {
-                  //         localStorage.setItem('role', role);
-                  //         accessGranted = true;
-                  //     }
-                  // });
-      
-                  // if(!accessGranted)
-                  // {
-                  //     this.alertCtrl.create({
-                  //                 title: 'Technocrat CRM Mobile',
-                  //                 subTitle: "Login Failed, Please type valid login details",
-                  //                 buttons: ['OK']
-                  //               }).present();
-                  //     this.loader.dismiss();
-                  //     return;
-                  // }
+                  this.loader.dismiss();
                }, err => {
                    console.log(JSON.stringify(err));
-                  // this.alertCtrl.create({
-                  //                 title: 'Technocrat CRM Mobile',
-                  //                 subTitle: "Login Failed, Please type valid login details ",
-                  //                 buttons: ['OK']
-                  //               }).present();
-                  return;
+                   this.loader.dismiss();
+                   return;
                });
-               this.loader.dismiss();
            });
        }
 

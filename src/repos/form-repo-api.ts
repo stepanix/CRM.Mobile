@@ -1,9 +1,9 @@
 import {Injectable }from '@angular/core';
 import {QueryBuilder} from '../services/query-builder';
-import {ProductModel} from '../models/ProductModel';
+import {FormModel} from '../models/FormModel';
 
 @Injectable()
-export class ProductRepoApi {
+export class FormRepoApi {
       
      private header:Headers;
 
@@ -12,19 +12,19 @@ export class ProductRepoApi {
      }
 
      delete(){
-        var data = new QueryBuilder(new ProductModel());
+        var data = new QueryBuilder(new FormModel());
         data.delete();
      }
 
      insert(dataDto:any[]){
-        var data = new QueryBuilder(new ProductModel());
+        var products = new QueryBuilder(new FormModel());
         for(var i=0; i<dataDto.length;i++){
-            data.create(dataDto[i]);
+            products.create(dataDto[i]);
         }
      }
 
      list() : Promise<any>{
-        var data = new QueryBuilder(new ProductModel());
+        var data = new QueryBuilder(new FormModel());
         var results = data.get("*");
         return results;
      }

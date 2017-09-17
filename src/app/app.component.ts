@@ -8,24 +8,29 @@ import { ListPage } from '../pages/list/list';
 import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { LoginPage } from '../pages/login/login';
+import {SyncServiceApi} from '../services/sync-service-api';
 import { LoginServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
-import { PlaceServiceApi,ProductServiceApi } from '../shared/shared';
+import { PlaceServiceApi,ProductServiceApi,FormServiceApi } from '../shared/shared';
 import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
 import {PlacesAutoCompleteService} from '../services/place-autocomplete-service-api';
 import {ProductRepoApi} from '../repos/product-repo-api';
+import {FormRepoApi} from '../repos/form-repo-api';
 
 
 @Component({
   templateUrl: 'app.html',
   providers:[
+    SyncServiceApi,
     LoginServiceApi,
     ScheduleServiceApi,
     UserServiceApi,
     PlaceServiceApi,
     ProductServiceApi,
+    FormServiceApi,
     RepsAutoCompleteService,
     PlacesAutoCompleteService,
-    ProductRepoApi
+    ProductRepoApi,
+    FormRepoApi
   ]
 })
 export class MyApp {
