@@ -1,18 +1,21 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi,ScheduleServiceApi } from '../shared/shared';
-import {PlaceServiceApi,RetailAuditFormServiceApi} from '../shared/shared';
+import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
 import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 import {ScheduleRepoApi} from '../repos/schedule-repo-api';
+import {StatusRepoApi} from '../repos/status-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
   
     
     constructor(
+        private statusRepoApi : StatusRepoApi,
+        private statusServiceApi : StatusServiceApi,
         private scheduleRepoApi : ScheduleRepoApi,
         private scheduleServiceApi : ScheduleServiceApi,
         private retailAuditFormRepApi : RetailAuditFormRepoApi,
@@ -160,7 +163,28 @@ export class SyncServiceApi {
         });
     }
 
-    downloadServerData(){
+    downloadStatusApi() {
+        var status:any[] = [];
+        this.statusServiceApi.getStatuses()
+        .subscribe(
+            res => {
+                for(var i = 0;i < res.length; i++) {
+                    status.push({
+                         Id: i + 1,
+                         ServerId: res[i].id,
+                         Name: res[i].name
+                    });
+                }
+                this.statusRepoApi.delete();
+                this.statusRepoApi.insert(status);
+            },err => {
+            console.log(err);
+            return;
+        });
+    }
+
+    downloadServerData() {
+        this.downloadStatusApi();
         this.downloadScheduleApi();
         this.downloadRetailAuditFormsApi();
         this.downloadPlacesApi();

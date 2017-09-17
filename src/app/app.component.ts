@@ -11,7 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import {SyncServiceApi} from '../services/sync-service-api';
 import { LoginServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
 import { PlaceServiceApi,ProductServiceApi,FormServiceApi } from '../shared/shared';
-import { RetailAuditFormServiceApi } from '../shared/shared';
+import { RetailAuditFormServiceApi,StatusServiceApi } from '../shared/shared';
 
 import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
 import {PlacesAutoCompleteService} from '../services/place-autocomplete-service-api';
@@ -20,11 +20,14 @@ import {FormRepoApi} from '../repos/form-repo-api';
 import {PlaceRepoApi} from '../repos/place-repo-api';
 import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 import {ScheduleRepoApi} from '../repos/schedule-repo-api';
+import {StatusRepoApi} from '../repos/status-repo-api';
+
 
 @Component({
   templateUrl: 'app.html',
   providers:[
         SyncServiceApi,
+        StatusServiceApi,
         LoginServiceApi,
         ScheduleServiceApi,
         UserServiceApi,
@@ -38,7 +41,8 @@ import {ScheduleRepoApi} from '../repos/schedule-repo-api';
         FormRepoApi,
         PlaceRepoApi,
         RetailAuditFormRepoApi,
-        ScheduleRepoApi
+        ScheduleRepoApi,
+        StatusRepoApi
     ]
 })
 export class MyApp {
