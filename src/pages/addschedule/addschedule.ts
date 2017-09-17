@@ -32,6 +32,9 @@ export class AddSchedulePage {
   dtoUserId = "";
   dtoPlaceId = "";
   users : any[] = [];
+  Recurring : boolean = false;
+  Weeks : any = 0;
+  Note : any = "";
 
   constructor(private placeService:PlacesAutoCompleteService,
     private repsService:RepsAutoCompleteService,
@@ -62,10 +65,24 @@ export class AddSchedulePage {
     this.datePicker.showCalendar();
   }
   
-  test() {
+  checkAutoCompleteInputsSelected() :boolean {
      let selectedPlace = this.searchplace.getSelection();
-     alert(selectedPlace.id);
+     let selectedRep = this.searchrep.getSelection();
+     if(selectedRep===undefined || selectedPlace===undefined || selectedRep==="undefined" || selectedPlace==="undefined"){
+        return false;
+     }else{
+        this.dtoPlaceId = selectedPlace.id;
+        this.dtoUserId = selectedRep.id;
+        return true;
+     }
   }
-  
+
+  saveScheduleApi() {
+    
+  }
+
+  saveSchedule() {
+
+  }
 
 }

@@ -1,13 +1,25 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Schedule new visit</ion-title>
+
+         <ion-title>Schedule new visit</ion-title>
+
+         <ion-buttons end>
+            
+                <button ion-button icon-only (click)="saveSchedule()" [disabled]="selectedDate==='' || !checkAutoCompleteInputsSelected()">
+                    <!-- <button ion-button icon-only (click)="saveSchedule()"> -->
+                    Save
+              
+                </button>
+            
+         </ion-buttons>
+
     </ion-navbar>
 
 </ion-header>
 
 <ion-content class="registerContainer">
-    
+
      <ion-item>
          <ion-label>
              <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
@@ -17,20 +29,33 @@
 
       <ion-item>
           <ion-label>
-             <ion-icon item-left name="time"> Select time (optional)</ion-icon>
+             <ion-icon item-left name="time"> Time (optional)</ion-icon>
              <b><ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="selectedTime"></ion-datetime></b>
           </ion-label>
       </ion-item>
 
       <div style="background:#ffffff">
-         <ion-auto-complete [dataProvider]="repsService" #searchrep></ion-auto-complete>
+         <ion-auto-complete [dataProvider]="repsService" [options]="{ placeholder : 'Search representative' }" #searchrep></ion-auto-complete>
       </div>
 
       <div style="background:#ffffff">
-          <ion-auto-complete [dataProvider]="placeService" #searchplace></ion-auto-complete>
-       </div>
+          <ion-auto-complete [dataProvider]="placeService" [options]="{ placeholder : 'Search place' }" #searchplace></ion-auto-complete>
+      </div>
       
-      <button ion-button secondary (click)="test()">Toggle Menu</button>
+      <ion-item>
+          <ion-label floating>Notes</ion-label>
+          <ion-input type="text" [(ngModel)]="Note"></ion-input>
+      </ion-item>
+
+       <ion-item>
+          <ion-label>Recurring</ion-label>
+          <ion-checkbox color="dark" checked="false" [(ngModel)]="Recurring"></ion-checkbox>
+       </ion-item>
+
+       <ion-item>
+          <ion-label floating>Weeks</ion-label>
+          <ion-input type="number" [(ngModel)]="Weeks" [disabled]="!Recurring"></ion-input>
+      </ion-item>
       
   </ion-content>
 
