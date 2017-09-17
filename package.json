@@ -30,6 +30,7 @@
     "ionic2-auto-complete": "^1.5.2-release",
     "ionic2-date-picker": "^1.0.7",
     "ionicons": "3.0.0",
+    "ionix-sqlite": "^0.1.1",
     "moment": "^2.18.1",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
