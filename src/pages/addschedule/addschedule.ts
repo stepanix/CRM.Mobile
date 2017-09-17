@@ -6,6 +6,8 @@ import {AutoCompleteComponent} from 'ionic2-auto-complete';
 import {AutoCompleteService} from 'ionic2-auto-complete';
 import {ScheduleServiceApi} from '../../shared/shared';
 import {RepsAutoCompleteService} from '../../services/reps-autocomplete-service-api';
+import {PlacesAutoCompleteService} from '../../services/place-autocomplete-service-api';
+
 
 
 @Component({
@@ -19,6 +21,9 @@ export class AddSchedulePage {
   @ViewChild('searchrep')
   searchrep: AutoCompleteComponent;
 
+  @ViewChild('searchplace')
+  searchplace: AutoCompleteComponent;
+
   selectedDate : any = "Select date";
   selectedTime : any = "";
   ScheduleModel : any;
@@ -28,12 +33,12 @@ export class AddSchedulePage {
   dtoPlaceId = "";
   users : any[] = [];
 
-  constructor(
+  constructor(private placeService:PlacesAutoCompleteService,
     private repsService:RepsAutoCompleteService,
     private scheduleServiceApi: ScheduleServiceApi,
-    private navCtrl: NavController, 
-    private navParams: NavParams,
-    private datePicker: DatePicker) {
+    private navCtrl:NavController, 
+    private navParams:NavParams,
+    private datePicker:DatePicker) {
 
      this.datePicker.onDateSelected.subscribe((date) => { this.selectedDate = moment(date).format('YYYY-MM-DD').toString(); });
      this.selectedTime = "";
@@ -58,8 +63,8 @@ export class AddSchedulePage {
   }
   
   test() {
-     let selectedUser = this.searchrep.getSelection();
-     alert(selectedUser.id);
+     let selectedPlace = this.searchplace.getSelection();
+     alert(selectedPlace.id);
   }
   
 

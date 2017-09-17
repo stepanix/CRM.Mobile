@@ -9,7 +9,10 @@ import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { LoginPage } from '../pages/login/login';
 import { LoginServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
+import { PlaceServiceApi } from '../shared/shared';
 import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
+import {PlacesAutoCompleteService} from '../services/place-autocomplete-service-api';
+
 
 @Component({
   templateUrl: 'app.html',
@@ -17,7 +20,9 @@ import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api
     LoginServiceApi,
     ScheduleServiceApi,
     UserServiceApi,
-    RepsAutoCompleteService
+    PlaceServiceApi,
+    RepsAutoCompleteService,
+    PlacesAutoCompleteService
   ]
 })
 export class MyApp {
