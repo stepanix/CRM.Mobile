@@ -19,26 +19,27 @@ import {ProductRepoApi} from '../repos/product-repo-api';
 import {FormRepoApi} from '../repos/form-repo-api';
 import {PlaceRepoApi} from '../repos/place-repo-api';
 import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
-
+import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 
 @Component({
   templateUrl: 'app.html',
   providers:[
-      SyncServiceApi,
-      LoginServiceApi,
-      ScheduleServiceApi,
-      UserServiceApi,
-      PlaceServiceApi,
-      ProductServiceApi,
-      FormServiceApi,
-      RetailAuditFormServiceApi,
-      RepsAutoCompleteService,
-      PlacesAutoCompleteService,
-      ProductRepoApi,
-      FormRepoApi,
-      PlaceRepoApi,
-      RetailAuditFormRepoApi
-   ]
+        SyncServiceApi,
+        LoginServiceApi,
+        ScheduleServiceApi,
+        UserServiceApi,
+        PlaceServiceApi,
+        ProductServiceApi,
+        FormServiceApi,
+        RetailAuditFormServiceApi,
+        RepsAutoCompleteService,
+        PlacesAutoCompleteService,
+        ProductRepoApi,
+        FormRepoApi,
+        PlaceRepoApi,
+        RetailAuditFormRepoApi,
+        ScheduleRepoApi
+    ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -95,12 +96,8 @@ export class MyApp {
       });
 
       this.loader.present().then(() => {
-          //Download items from remote server
-          this.syncServiceApi.downloadRetailAuditFormsApi();
-          this.syncServiceApi.downloadPlacesApi();
-          this.syncServiceApi.downloadProductsApi();
-          this.syncServiceApi.downloadFormsApi();
-          
+          //Download data from remote server
+          this.syncServiceApi.downloadServerData();
           this.loader.dismiss();
       });
   }

@@ -1,17 +1,20 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
-import { ProductServiceApi,FormServiceApi } from '../shared/shared';
+import { ProductServiceApi,FormServiceApi,ScheduleServiceApi } from '../shared/shared';
 import {PlaceServiceApi,RetailAuditFormServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
 import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
+import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
   
     
     constructor(
+        private scheduleRepoApi : ScheduleRepoApi,
+        private scheduleServiceApi : ScheduleServiceApi,
         private retailAuditFormRepApi : RetailAuditFormRepoApi,
         private retailAuditFormServiceApi : RetailAuditFormServiceApi,
         private placeServiceApi : PlaceServiceApi,
@@ -124,6 +127,48 @@ export class SyncServiceApi {
             return;
         });
     }
+
+    downloadScheduleApi() {
+        var schedules:any[] = [];
+        this.scheduleServiceApi.getSchedules()
+        .subscribe(
+            res => {
+                for(var i = 0;i < res.length; i++) {
+                    schedules.push({
+                         Id: i + 1,
+                         ServerId: res[i].id,
+                         PlaceId: res[i].placeId,
+                         UserId: res[i].userId,
+                         VisitDate: res[i].visitDate,
+                         VisitTime: res[i].visitTime,
+                         VisitNote: res[i].visitNote,
+                         IsRecurring: res[i].isRecurring,
+                         RepeatCycle: res[i].repeatCycle,
+                         IsScheduled: res[i].isScheduled,
+                         IsVisited: res[i].isVisited,
+                         IsMissed: res[i].isMissed,
+                         IsUnScheduled: res[i].isUnScheduled,
+                         VisitStatus: res[i].visitStatus,
+                         IsSynched: 1
+                    });
+                }
+                this.scheduleRepoApi.delete();
+                this.scheduleRepoApi.insert(schedules);
+            },err => {
+            console.log(err);
+            return;
+        });
+    }
+
+    downloadServerData(){
+        this.downloadScheduleApi();
+        this.downloadRetailAuditFormsApi();
+        this.downloadPlacesApi();
+        this.downloadProductsApi();
+        this.downloadFormsApi();
+    }
+
+    
    
 
 }

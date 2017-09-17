@@ -8,11 +8,11 @@ export class RetailAuditFormModel extends BaseModel {
         ServerId : 'INTEGER(11)',
         Name: 'TEXT',
         Description: 'TEXT',
-        Available : 'INTEGER(1)',
-        Promoted : 'INTEGER(1)',
-        Price : 'INTEGER(1)',
-        StockLevel : 'INTEGER(1)',
-        Note : 'INTEGER(1)',
+        Available : 'TEXT',
+        Promoted : 'TEXT',
+        Price : 'TEXT',
+        StockLevel : 'TEXT',
+        Note : 'TEXT',
         Fields: 'TEXT'
     }
 
