@@ -26,6 +26,8 @@
     "@ionic/storage": "2.0.1",
     "ion2-calendar": "^2.0.1",
     "ionic-angular": "3.6.0",
+    "ionic2-auto-complete": "^1.5.2-release",
+    "ionic2-date-picker": "^1.0.7",
     "ionicons": "3.0.0",
     "moment": "^2.18.1",
     "rxjs": "5.4.0",

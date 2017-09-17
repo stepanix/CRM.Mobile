@@ -1,0 +1,66 @@
+import { Component,ViewChild  } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { DatePicker } from 'ionic2-date-picker';
+import * as moment from 'moment';
+import {AutoCompleteComponent} from 'ionic2-auto-complete';
+import {AutoCompleteService} from 'ionic2-auto-complete';
+import {ScheduleServiceApi} from '../../shared/shared';
+import {RepsAutoCompleteService} from '../../services/reps-autocomplete-service-api';
+
+
+@Component({
+    selector: 'page-addschedule',
+    templateUrl: 'addschedule.html',
+    providers: [DatePicker]
+})
+
+export class AddSchedulePage {
+  
+  @ViewChild('searchrep')
+  searchrep: AutoCompleteComponent;
+
+  selectedDate : any = "Select date";
+  selectedTime : any = "";
+  ScheduleModel : any;
+  selectedUser: any = {};
+  selectedPlace : any = {};
+  dtoUserId = "";
+  dtoPlaceId = "";
+  users : any[] = [];
+
+  constructor(
+    private repsService:RepsAutoCompleteService,
+    private scheduleServiceApi: ScheduleServiceApi,
+    private navCtrl: NavController, 
+    private navParams: NavParams,
+    private datePicker: DatePicker) {
+
+     this.datePicker.onDateSelected.subscribe((date) => { this.selectedDate = moment(date).format('YYYY-MM-DD').toString(); });
+     this.selectedTime = "";
+     this.ScheduleModel = {};
+     this.selectedTime = "";
+     this.selectedUser.id = "";
+     this.selectedPlace.id = "";
+     this.dtoUserId = "";
+     this.dtoPlaceId = "";
+  }
+
+  ionViewDidLoad() {
+   
+  }
+
+  setSelectedUser(selecteduser) {
+    alert(selecteduser);
+  }
+
+  showCalendar() {
+    this.datePicker.showCalendar();
+  }
+  
+  test() {
+     let selectedUser = this.searchrep.getSelection();
+     alert(selectedUser.id);
+  }
+  
+
+}

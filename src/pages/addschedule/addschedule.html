@@ -1,0 +1,33 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Schedule new visit</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content class="registerContainer">
+    
+     <ion-item>
+         <ion-label>
+             <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
+             <b (click)="showCalendar()">{{selectedDate}}</b>
+         </ion-label>
+      </ion-item>
+
+      <ion-item>
+          <ion-label>
+             <ion-icon item-left name="time"> Select time (optional)</ion-icon>
+             <b><ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="selectedTime"></ion-datetime></b>
+          </ion-label>
+      </ion-item>
+
+      <div style="background:#ffffff">
+         <ion-auto-complete [dataProvider]="repsService" #searchrep></ion-auto-complete>
+      </div>
+      
+      <button ion-button secondary (click)="test()">Toggle Menu</button>
+      
+  </ion-content>
+
+

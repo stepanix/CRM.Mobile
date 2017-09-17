@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule} from '@angular/http';
 import { CalendarModule } from "ion2-calendar";
+import { DatePicker } from 'ionic2-date-picker';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,7 +15,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ReactiveFormsModule }  from '@angular/forms';
 import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
-
+import { AddSchedulePage } from '../pages/addschedule/addschedule';
+import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { SchedulePage } from '../pages/schedule/schedule';
     ListPage,
     ActivitiesPage,
     LoginPage,
-    SchedulePage
+    SchedulePage,
+    AddSchedulePage,
+    DatePicker
   ],
   imports: [
     HttpModule,
@@ -32,6 +36,7 @@ import { SchedulePage } from '../pages/schedule/schedule';
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp),
     CalendarModule,
+    AutoCompleteModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,7 +45,9 @@ import { SchedulePage } from '../pages/schedule/schedule';
     ListPage,
     ActivitiesPage,
     LoginPage,
-    SchedulePage
+    SchedulePage,
+    AddSchedulePage,
+    DatePicker
   ],
   providers: [
     StatusBar,

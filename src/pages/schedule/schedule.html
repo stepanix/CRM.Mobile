@@ -1,11 +1,11 @@
 <ion-header>
-    <ion-navbar>
+     <ion-navbar>
         <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
+           <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>Schedule</ion-title>
     </ion-navbar>
-  </ion-header>
+</ion-header>
 
 <ion-content class="servicesContainer">
 
@@ -28,11 +28,10 @@
         </ion-list>
     
   </ion-content>
-
   
-        <ion-fab right bottom color="danger">
-          <button ion-fab color="danger"><ion-icon ios="md-add" md="md-add"></ion-icon></button>
-        </ion-fab>
+   <ion-fab right bottom color="danger">
+      <button ion-fab color="danger" (click)="addSchedule()"><ion-icon ios="md-add" md="md-add"></ion-icon></button>
+   </ion-fab>
   
     
  

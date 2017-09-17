@@ -8,13 +8,16 @@ import { ListPage } from '../pages/list/list';
 import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { LoginPage } from '../pages/login/login';
-import { LoginServiceApi,ScheduleServiceApi } from '../shared/shared';
+import { LoginServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
+import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
 
 @Component({
   templateUrl: 'app.html',
   providers:[
     LoginServiceApi,
-    ScheduleServiceApi
+    ScheduleServiceApi,
+    UserServiceApi,
+    RepsAutoCompleteService
   ]
 })
 export class MyApp {

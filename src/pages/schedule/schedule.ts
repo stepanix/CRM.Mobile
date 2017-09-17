@@ -8,6 +8,7 @@ import {
   DayConfig
 } from 'ion2-calendar'
 import * as moment from 'moment';
+import { AddSchedulePage } from '../addschedule/addschedule';
 
 @Component({
     selector: 'page-schedule',
@@ -69,6 +70,10 @@ export class SchedulePage {
         }else{
            return moment(time).format('HH:mm').toString();
         }
+    }
+
+    addSchedule() {
+      this.navCtrl.push(AddSchedulePage);
     }
 
 
