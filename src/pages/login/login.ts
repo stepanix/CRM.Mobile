@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController,MenuController,LoadingController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginServiceApi } from '../../shared/shared';
+import { LoginServiceApi,ProductServiceApi } from '../../shared/shared';
+import { ProductRepoApi } from '../../repos/product-repo-api';
 import { ActivitiesPage } from '../activities/activities';
 
 
@@ -18,7 +19,10 @@ export class LoginPage {
   roles : string[];
   loader : any;
 
-  constructor(private loginApi: LoginServiceApi,
+  constructor(
+    private productRepoApi: ProductRepoApi,
+    private productServiceApi : ProductServiceApi,
+    private loginApi: LoginServiceApi,
     private menu: MenuController,
     private loading: LoadingController,
     private navCtrl: NavController, 
@@ -37,6 +41,31 @@ export class LoginPage {
         console.log('ionViewDidLoad LoginPage');
     }
 
+    downloadProductsApi(){
+        var products:any[] = [];
+        this.productServiceApi.getProducts()
+        .subscribe(
+            res => {
+                for(var i = 0;i < res.length; i++){
+                    products.push({
+                        Id : i+1,
+                        ServerId:res[i].id,
+                        Name: res[i].name
+                    });
+                }
+                this.productRepoApi.deleteProducts();
+                this.productRepoApi.insertProducts(products);
+                // this.productRepoApi.listProducts().then((data) => {
+                //     for(var i = 0; i<data.results.length;i++){
+                //         console.log(data.results[i].Name);
+                //     }
+                // });
+            },err => {
+              console.log(err);
+              return;
+          });
+    }
+
     onSubmit(formData) {
       
              this.loader = this.loading.create({
@@ -50,6 +79,7 @@ export class LoginPage {
       
               this.loginApi.postLogin(this.loginData).subscribe(res => {
                   localStorage.setItem('token', res.access_token);
+                  this.downloadProductsApi();
                   this.navCtrl.setRoot(ActivitiesPage);
                   // this.roles = res.roles.split(',');
                   // this.roles.forEach(role => {
