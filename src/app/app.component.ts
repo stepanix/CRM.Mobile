@@ -15,23 +15,25 @@ import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api
 import {PlacesAutoCompleteService} from '../services/place-autocomplete-service-api';
 import {ProductRepoApi} from '../repos/product-repo-api';
 import {FormRepoApi} from '../repos/form-repo-api';
+import {PlaceRepoApi} from '../repos/place-repo-api';
 
 
 @Component({
   templateUrl: 'app.html',
   providers:[
-    SyncServiceApi,
-    LoginServiceApi,
-    ScheduleServiceApi,
-    UserServiceApi,
-    PlaceServiceApi,
-    ProductServiceApi,
-    FormServiceApi,
-    RepsAutoCompleteService,
-    PlacesAutoCompleteService,
-    ProductRepoApi,
-    FormRepoApi
-  ]
+      SyncServiceApi,
+      LoginServiceApi,
+      ScheduleServiceApi,
+      UserServiceApi,
+      PlaceServiceApi,
+      ProductServiceApi,
+      FormServiceApi,
+      RepsAutoCompleteService,
+      PlacesAutoCompleteService,
+      ProductRepoApi,
+      FormRepoApi,
+      PlaceRepoApi
+   ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;

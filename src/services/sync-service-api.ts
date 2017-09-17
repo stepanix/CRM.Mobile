@@ -4,6 +4,7 @@ import { ProductServiceApi,FormServiceApi } from '../shared/shared';
 import {PlaceServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
+import { PlaceRepoApi } from '../repos/place-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
@@ -13,6 +14,8 @@ export class SyncServiceApi {
     places : any[] = [];
 
     constructor(
+        private placeServiceApi : PlaceServiceApi,
+        private placeRepoApi : PlaceRepoApi,
         private formRepoApi : FormRepoApi, 
         private formServiceApi : FormServiceApi, 
         private productRepoApi : ProductRepoApi,
@@ -66,5 +69,35 @@ export class SyncServiceApi {
             return;
         });
     }
+
+    downloadPlacesApi() {
+        var places:any[] = [];
+        this.placeServiceApi.getPlaces()
+        .subscribe(
+            res => {
+                for(var i = 0;i < res.length; i++) {
+                    places.push({
+                         Id: i + 1,
+                         ServerId: res[i].id,
+                         StatusId: res[i].statusId,
+                         Name: res[i].name,
+                         StreetAddress: res[i].streetAddress,
+                         Email: res[i].email,
+                         WebSite: res[i].webSite,
+                         ContactName: res[i].contactName,
+                         ContactTitle: res[i].contactTitle,
+                         Phone: res[i].phone,
+                         CellPhone: res[i].cellPhone,
+                         IsSynched: 1
+                    });
+                }
+                this.placeRepoApi.delete();
+                this.placeRepoApi.insert(places);
+            },err => {
+            console.log(err);
+            return;
+        });
+    }
+   
 
 }

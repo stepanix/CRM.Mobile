@@ -53,18 +53,22 @@ export class LoginPage {
               this.loginData = 'username=' + this.frmData.userName + '&password=' + this.frmData.password + '&grant_type=password';
       
               this.loginApi.postLogin(this.loginData).subscribe(res => {
-                  localStorage.setItem('token', res.access_token);
-                  //Download items from remote server
-                  this.syncServiceApi.downloadProductsApi();
-                  this.syncServiceApi.downloadFormsApi();
+                  
+                   localStorage.setItem('token', res.access_token);
+                  
+                   //Download items from remote server
+                   this.syncServiceApi.downloadPlacesApi();
+                   this.syncServiceApi.downloadProductsApi();
+                   this.syncServiceApi.downloadFormsApi();
+                   
 
-
-                  this.navCtrl.setRoot(ActivitiesPage);
-                  this.loader.dismiss();
-               }, err => {
-                   console.log(JSON.stringify(err));
+                   this.navCtrl.setRoot(ActivitiesPage);
                    this.loader.dismiss();
-                   return;
+
+               }, err => {
+                    console.log(JSON.stringify(err));
+                    this.loader.dismiss();
+                    return;
                });
            });
        }
