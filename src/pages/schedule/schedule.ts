@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams,LoadingController } from 'ionic-angular';
 import {ScheduleServiceApi} from '../../shared/shared';
+import {
+  CalendarComponentOptions,
+  CalendarModalOptions,
+  CalendarModal,
+  DayConfig
+} from 'ion2-calendar'
 import * as moment from 'moment';
 
 @Component({
@@ -12,10 +18,16 @@ export class SchedulePage {
 
     eventDate : any = "";
     schedules : any[] = [];
+    loader : any;
 
-    constructor(private scheduleServiceApi: ScheduleServiceApi,
-        public navCtrl: NavController,
-        public navParams: NavParams) {
+    options: CalendarModalOptions = {
+      canBackwardsSelected : true
+    };
+
+    constructor(private loading: LoadingController,
+        private scheduleServiceApi: ScheduleServiceApi,
+        private navCtrl: NavController,
+        private navParams: NavParams) {
         this.eventDate = new Date().toISOString();
     }
 
@@ -24,23 +36,31 @@ export class SchedulePage {
     }
 
     listMySchedulesApi() {
-      let scheduleDate =  moment(this.eventDate).format('YYYY-MM-DD').toString();
-      this.schedules = [];
-      this.scheduleServiceApi.getMySchedules(scheduleDate)
-      .subscribe(
-           res => {
-             for(var i=0; i< res.length; i++){
-                this.schedules.push({
-                    id:res[i].id,
-                    place: res[i].place.name,
-                    address : res[i].place.streetAddress,
-                    time: this.parseScheduleTime(res[i].visitTime)
-                 });
-              }
-           },err => {
-             console.log(err);
-             return;
-         });
+      this.loader = this.loading.create({
+        content: 'Busy please wait...',
+      });
+      this.loader.present().then(() => {
+          let scheduleDate =  moment(this.eventDate).format('YYYY-MM-DD').toString();
+          this.schedules = [];
+          this.scheduleServiceApi.getMySchedules(scheduleDate)
+          .subscribe(
+              res => {
+                for(var i=0; i< res.length; i++){
+                    this.schedules.push({
+                        id:res[i].id,
+                        place: res[i].place.name,
+                        address : res[i].place.streetAddress,
+                        time: this.parseScheduleTime(res[i].visitTime),
+                        status : res[i].visitStatus
+                    });
+                  }
+                  this.loader.dismiss();
+              },err => {
+                this.loader.dismiss();
+                console.log(err);
+                return;
+            });
+        });
     }
 
     parseScheduleTime(time) {

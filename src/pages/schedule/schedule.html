@@ -10,15 +10,13 @@
 <ion-content class="servicesContainer">
 
         <ion-item>
-            <ion-calendar [(ngModel)]="eventDate" (onChange)="listMySchedulesApi()" [format]="'YYYY-MM-DD'"></ion-calendar>
-          <!-- <ion-label>Schedule Date</ion-label>
-          <ion-datetime [(ngModel)]="eventDate" (ngModelChange)="listMySchedulesApi()"></ion-datetime> -->
+            <ion-calendar [(ngModel)]="eventDate" [options]="options" (onChange)="listMySchedulesApi()" [format]="'YYYY-MM-DD'"></ion-calendar>
         </ion-item>
 
         <ion-list class="servicesList">
             <button ion-item icon-left  *ngFor="let item of schedules" (click)="openSchedule(item)">
-                  <div item-left><strong>{{item.time}}</strong></div>
-                  <strong>{{item.place}}</strong>
+                  <p><ion-icon ios="ios-information-circle" md="ios-information-circle" item-left></ion-icon></p>
+                  <strong><ion-icon ios="ios-time" md="ios-time" item-left></ion-icon>{{item.time}}  -   {{item.place}}</strong>
                   <br>
                   {{item.address}}
             </button>

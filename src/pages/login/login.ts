@@ -80,7 +80,6 @@ export class LoginPage {
                });
                this.loader.dismiss();
            });
-      
-          }
+       }
 
 }
