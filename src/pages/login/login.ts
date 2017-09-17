@@ -57,10 +57,10 @@ export class LoginPage {
                    localStorage.setItem('token', res.access_token);
                   
                    //Download items from remote server
+                   this.syncServiceApi.downloadRetailAuditFormsApi();
                    this.syncServiceApi.downloadPlacesApi();
                    this.syncServiceApi.downloadProductsApi();
                    this.syncServiceApi.downloadFormsApi();
-                   
 
                    this.navCtrl.setRoot(ActivitiesPage);
                    this.loader.dismiss();

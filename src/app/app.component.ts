@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform,LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -11,11 +11,14 @@ import { LoginPage } from '../pages/login/login';
 import {SyncServiceApi} from '../services/sync-service-api';
 import { LoginServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
 import { PlaceServiceApi,ProductServiceApi,FormServiceApi } from '../shared/shared';
+import { RetailAuditFormServiceApi } from '../shared/shared';
+
 import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
 import {PlacesAutoCompleteService} from '../services/place-autocomplete-service-api';
 import {ProductRepoApi} from '../repos/product-repo-api';
 import {FormRepoApi} from '../repos/form-repo-api';
 import {PlaceRepoApi} from '../repos/place-repo-api';
+import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 
 
 @Component({
@@ -28,15 +31,19 @@ import {PlaceRepoApi} from '../repos/place-repo-api';
       PlaceServiceApi,
       ProductServiceApi,
       FormServiceApi,
+      RetailAuditFormServiceApi,
       RepsAutoCompleteService,
       PlacesAutoCompleteService,
       ProductRepoApi,
       FormRepoApi,
-      PlaceRepoApi
+      PlaceRepoApi,
+      RetailAuditFormRepoApi
    ]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
+
+  loader : any;
 
   rootPage: any = ActivitiesPage;
   
@@ -46,7 +53,10 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, 
+  constructor(
+    private loading: LoadingController,
+    private syncServiceApi : SyncServiceApi,
+    public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen) {
 
@@ -75,8 +85,24 @@ export class MyApp {
       this.nav.setRoot(page.component);
   }
 
-  navigatePage(p){
+  navigatePage(p) {
     this.nav.setRoot(p)
-  } 
+  }
+
+  syncData() {
+      this.loader = this.loading.create({
+        content: 'Syncing data, please wait...',
+      });
+
+      this.loader.present().then(() => {
+          //Download items from remote server
+          this.syncServiceApi.downloadRetailAuditFormsApi();
+          this.syncServiceApi.downloadPlacesApi();
+          this.syncServiceApi.downloadProductsApi();
+          this.syncServiceApi.downloadFormsApi();
+          
+          this.loader.dismiss();
+      });
+  }
 
 }

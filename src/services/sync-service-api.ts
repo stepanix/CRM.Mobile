@@ -1,26 +1,25 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi } from '../shared/shared';
-import {PlaceServiceApi} from '../shared/shared';
+import {PlaceServiceApi,RetailAuditFormServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
+import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
   
-    labelAttribute = "name";
-
-    places : any[] = [];
-
+    
     constructor(
+        private retailAuditFormRepApi : RetailAuditFormRepoApi,
+        private retailAuditFormServiceApi : RetailAuditFormServiceApi,
         private placeServiceApi : PlaceServiceApi,
         private placeRepoApi : PlaceRepoApi,
         private formRepoApi : FormRepoApi, 
         private formServiceApi : FormServiceApi, 
         private productRepoApi : ProductRepoApi,
-        private productServiceApi:ProductServiceApi) {
-        
+        private productServiceApi:ProductServiceApi) {        
     }
 
     downloadProductsApi() {
@@ -93,6 +92,33 @@ export class SyncServiceApi {
                 }
                 this.placeRepoApi.delete();
                 this.placeRepoApi.insert(places);
+            },err => {
+            console.log(err);
+            return;
+        });
+    }
+
+    downloadRetailAuditFormsApi() {
+        var retailAuditForms:any[] = [];
+        this.retailAuditFormServiceApi.getRetailAuditForms()
+        .subscribe(
+            res => {
+                for(var i = 0;i < res.length; i++) {
+                    retailAuditForms.push({
+                         Id: i + 1,
+                         ServerId: res[i].id,
+                         Name: res[i].name,
+                         Description: res[i].description,
+                         Available: res[i].available,
+                         Promoted: res[i].promoted,
+                         Price: res[i].price,
+                         StockLevel: res[i].stockLevel,
+                         Note: res[i].note,
+                         Fields: res[i].fields
+                    });
+                }
+                this.retailAuditFormRepApi.delete();
+                this.retailAuditFormRepApi.insert(retailAuditForms);
             },err => {
             console.log(err);
             return;

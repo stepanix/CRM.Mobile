@@ -5,3 +5,4 @@ export * from '../services/user-service-api';
 export * from '../services/place-service-api';
 export * from '../services/product-service-api';
 export * from '../services/form-service-api';
+export * from '../services/retailauditform-service-api';
