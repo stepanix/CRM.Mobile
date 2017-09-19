@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams,LoadingController } from 'ionic-angular';
 import {ScheduleServiceApi} from '../../shared/shared';
+import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
+
 import {
   CalendarComponentOptions,
   CalendarModalOptions,
@@ -26,6 +28,7 @@ export class SchedulePage {
     };
 
     constructor(private loading: LoadingController,
+        private scheduleRepoApi : ScheduleRepoApi,
         private scheduleServiceApi: ScheduleServiceApi,
         private navCtrl: NavController,
         private navParams: NavParams) {
@@ -33,8 +36,30 @@ export class SchedulePage {
     }
 
     ionViewDidLoad() {
-      this.listMySchedulesApi();
+      this.listMyScheduleRepo();
     }
+
+    listMyScheduleRepo() {
+            this.loader = this.loading.create({
+                content: 'Busy please wait...',
+            });
+            this.loader.present().then(() => {
+            this.scheduleRepoApi.list().then((res) => {
+                for(var i = 0; i<res.results.length;i++){
+                    this.schedules.push({
+                        id : res.results[i].ServerId,
+                        place : res.results[i].PlaceName,
+                        address : res.results[i].PlaceAddress,
+                        time : this.parseScheduleTime(res.results[i].VisitTime),
+                        status : res.results[i].VisitStatus
+                    });
+                 }
+                 this.loader.dismiss();
+             });
+         });
+    }
+
+    
 
     listMySchedulesApi() {
       this.loader = this.loading.create({

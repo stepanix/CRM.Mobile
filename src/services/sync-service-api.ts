@@ -141,6 +141,8 @@ export class SyncServiceApi {
                          Id: i + 1,
                          ServerId: res[i].id,
                          PlaceId: res[i].placeId,
+                         PlaceName : res[i].place.name,
+                         PlaceAddress : res[i].place.streetAddress,
                          UserId: res[i].userId,
                          VisitDate: res[i].visitDate,
                          VisitTime: res[i].visitTime,
@@ -155,6 +157,7 @@ export class SyncServiceApi {
                          IsSynched: 1
                     });
                 }
+                
                 this.scheduleRepoApi.delete();
                 this.scheduleRepoApi.insert(schedules);
             },err => {

@@ -8,6 +8,8 @@ export class ScheduleModel extends BaseModel {
         Id: 'INTEGER(11) PRIMARY KEY',
         ServerId : 'INTEGER(11)',
         PlaceId: 'INTEGER(11)',
+        PlaceName: 'TEXT',
+        PlaceAddress : 'TEXT',
         UserId: 'TEXT',
         VisitDate: 'TEXT',
         VisitTime: 'TEXT',

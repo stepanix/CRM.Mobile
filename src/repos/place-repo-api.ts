@@ -27,5 +27,7 @@ export class PlaceRepoApi {
         var results = data.get("*");
         return results;
      }
+
+    
      
 }
