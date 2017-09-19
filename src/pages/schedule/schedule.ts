@@ -36,7 +36,11 @@ export class SchedulePage {
     }
 
     ionViewDidLoad() {
-      this.listMyScheduleRepo();
+        if(localStorage.getItem("isOnline")==="true"){
+            this.listMySchedulesApi();
+        }else{
+            this.listMyScheduleRepo();
+        }
     }
 
     listMyScheduleRepo() {
@@ -44,7 +48,9 @@ export class SchedulePage {
                 content: 'Busy please wait...',
             });
             this.loader.present().then(() => {
-            this.scheduleRepoApi.list().then((res) => {
+                let scheduleDate =  moment(this.eventDate).format('YYYY-MM-DD').toString();
+                this.schedules = [];
+            this.scheduleRepoApi.listByDate(scheduleDate).then((res) => {
                 for(var i = 0; i<res.results.length;i++){
                     this.schedules.push({
                         id : res.results[i].ServerId,

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform,LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Network } from '@ionic-native/network';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -23,9 +24,11 @@ import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 import {StatusRepoApi} from '../repos/status-repo-api';
 
 
+
 @Component({
   templateUrl: 'app.html',
   providers:[
+        Network,
         SyncServiceApi,
         StatusServiceApi,
         LoginServiceApi,
@@ -59,6 +62,7 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   constructor(
+    private network: Network,
     private loading: LoadingController,
     private syncServiceApi : SyncServiceApi,
     public platform: Platform, 
@@ -77,10 +81,20 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+          // Okay, so the platform is ready and our plugins are available.
+          // Here you can do any higher level native things you might need.
+          this.statusBar.styleDefault();
+          this.splashScreen.hide();
+
+          let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+              localStorage.setItem("isOnline","false");
+              console.log("isOnline = false");
+          });
+
+          let connectSubscription = this.network.onConnect().subscribe(() => {
+              localStorage.setItem("isOnline","true");
+              console.log("isOnline = true");
+          });
     });
   }
 

@@ -28,5 +28,11 @@ export class ScheduleRepoApi {
         var results = data.get("*");
         return results;
      }
+
+     listByDate(visitDate:string) : Promise<any>{
+        var data = new QueryBuilder(new ScheduleModel());
+        var results = data.where("VisitDate", "=", visitDate).get();
+        return results;
+     }
      
 }
