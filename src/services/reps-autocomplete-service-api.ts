@@ -18,14 +18,14 @@ export class RepsAutoCompleteService implements AutoCompleteService {
       if(localStorage.getItem("isOnline")==="true") {
           this.listUsersApi();
       }else{
-          this.listPlacesRepo();
+          this.listUsersRepo();
       }
   }
 
   listUsersRepo() {
       this.users = [];
       this.placeRepoApi.list().then((res) => {
-          for(var i = 0; i<res.results.length;i++){
+          for(var i = 0; i<res.results.length;i++) {
               this.places.push({
                   id : res.results[i].ServerId,
                   name : res.results[i].Name,
