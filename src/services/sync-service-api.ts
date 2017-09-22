@@ -28,6 +28,16 @@ export class SyncServiceApi {
         private productServiceApi:ProductServiceApi) {        
     }
 
+    newGuid():string {
+        function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+    }
+
     downloadProductsApi() {
             var products:any[] = [];
             this.productServiceApi.getProducts()
@@ -35,7 +45,7 @@ export class SyncServiceApi {
                 res => {
                     for(var i = 0;i < res.length; i++) {
                         products.push({
-                             Id: i + 1,
+                             Id: this.newGuid(),
                              ServerId: res[i].id,
                              Name: res[i].name
                         });
@@ -60,7 +70,7 @@ export class SyncServiceApi {
             res => {
                 for(var i = 0;i < res.length; i++) {
                     forms.push({
-                         Id: i + 1,
+                         Id: this.newGuid(),
                          ServerId: res[i].id,
                          Title: res[i].title,
                          Description: res[i].description,
@@ -82,7 +92,7 @@ export class SyncServiceApi {
             res => {
                 for(var i = 0;i < res.length; i++) {
                     places.push({
-                         Id: i + 1,
+                         Id: this.newGuid(),
                          ServerId: res[i].id,
                          StatusId: res[i].statusId,
                          Name: res[i].name,
@@ -111,7 +121,7 @@ export class SyncServiceApi {
             res => {
                 for(var i = 0;i < res.length; i++) {
                     retailAuditForms.push({
-                         Id: i + 1,
+                         Id: this.newGuid(),
                          ServerId: res[i].id,
                          Name: res[i].name,
                          Description: res[i].description,
@@ -138,7 +148,7 @@ export class SyncServiceApi {
             res => {
                 for(var i = 0;i < res.length; i++) {
                     schedules.push({
-                         Id: i + 1,
+                         Id: this.newGuid(),
                          ServerId: res[i].id,
                          PlaceId: res[i].placeId,
                          PlaceName : res[i].place.name,
@@ -173,7 +183,7 @@ export class SyncServiceApi {
             res => {
                 for(var i = 0;i < res.length; i++) {
                     status.push({
-                         Id: i + 1,
+                         Id: this.newGuid(),
                          ServerId: res[i].id,
                          Name: res[i].name
                     });

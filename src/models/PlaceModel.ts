@@ -4,7 +4,7 @@ export class PlaceModel extends BaseModel {
     public database: string = 'crm.db';
     public table: string = 'place';
     public schema: Object = {
-        Id: 'INTEGER(11) PRIMARY KEY',
+        Id: 'TEXT',
         ServerId : 'INTEGER(11)',
         StatusId: 'INTEGER(11)',
         Name: 'TEXT',

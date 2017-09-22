@@ -10,7 +10,7 @@
 <ion-content class="servicesContainer">
 
         <ion-item>
-            <ion-calendar [(ngModel)]="eventDate" [options]="options" (onChange)="listMySchedulesApi()" [format]="'YYYY-MM-DD'"></ion-calendar>
+            <ion-calendar [(ngModel)]="eventDate" [options]="options" (onChange)="listSchedule()" [format]="'YYYY-MM-DD'"></ion-calendar>
         </ion-item>
 
         <ion-list class="servicesList">

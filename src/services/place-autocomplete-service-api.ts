@@ -4,6 +4,7 @@ import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import {crmBaseUrl} from '../shared/global-vars';
 import {PlaceServiceApi} from '../shared/shared';
+import {PlaceRepoApi} from '../repos/place-repo-api';
 
 @Injectable()
 export class PlacesAutoCompleteService implements AutoCompleteService {
@@ -12,9 +13,28 @@ export class PlacesAutoCompleteService implements AutoCompleteService {
 
     places : any[] = [];
 
-  constructor(private http:Http,private placeServiceApi:PlaceServiceApi) {
-     this.listPlacesApi();
+  constructor(private placeRepoApi : PlaceRepoApi,
+    private http:Http,private placeServiceApi:PlaceServiceApi) {
+    
+        if(localStorage.getItem("isOnline")==="true") {
+           this.listPlacesApi();
+        }else{
+           this.listPlacesRepo();
+        }
   }
+
+    listPlacesRepo() {
+            this.places = [];
+        this.placeRepoApi.list().then((res) => {
+            for(var i = 0; i<res.results.length;i++){
+                this.places.push({
+                    id : res.results[i].ServerId,
+                    name : res.results[i].Name,
+                    streetAddress : res.results[i].StreetAddress
+                });
+            }
+        });
+    }
 
 
   listPlacesApi(){
@@ -33,8 +53,7 @@ export class PlacesAutoCompleteService implements AutoCompleteService {
     let filtered : any[] = [];
     for(let i = 0; i < this.places.length; i++) {
         let place = this.places[i];
-        if(place.name.toLowerCase().indexOf(query.toLowerCase()) == 0
-          || place.streetAddress.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        if(place.name.toLowerCase().indexOf(query.toLowerCase()) == 0 ) {
             filtered.push(place);
         }
     }

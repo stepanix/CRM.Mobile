@@ -24,7 +24,7 @@ export class SchedulePage {
     loader : any;
 
     options: CalendarModalOptions = {
-      canBackwardsSelected : true
+       canBackwardsSelected : true
     };
 
     constructor(private loading: LoadingController,
@@ -36,6 +36,10 @@ export class SchedulePage {
     }
 
     ionViewDidLoad() {
+        
+    }
+
+    listSchedule(){
         if(localStorage.getItem("isOnline")==="true"){
             this.listMySchedulesApi();
         }else{
@@ -50,19 +54,24 @@ export class SchedulePage {
             this.loader.present().then(() => {
                 let scheduleDate =  moment(this.eventDate).format('YYYY-MM-DD').toString();
                 this.schedules = [];
-            this.scheduleRepoApi.listByDate(scheduleDate).then((res) => {
+            this.scheduleRepoApi.listByDate(this.parseRepoDate(scheduleDate)).then((res) => {
                 for(var i = 0; i<res.results.length;i++){
                     this.schedules.push({
-                        id : res.results[i].ServerId,
+                        id : res.results[i].Id,
                         place : res.results[i].PlaceName,
                         address : res.results[i].PlaceAddress,
                         time : this.parseScheduleTime(res.results[i].VisitTime),
                         status : res.results[i].VisitStatus
                     });
                  }
+                 console.log(JSON.stringify(this.eventDate))
                  this.loader.dismiss();
              });
          });
+    }
+
+    parseRepoDate(date):string{
+        return date + "T00:00:00";
     }
 
     

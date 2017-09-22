@@ -4,6 +4,7 @@ import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import {crmBaseUrl} from '../shared/global-vars';
 import {UserServiceApi} from '../shared/shared';
+import {PlaceRepoApi} from '../repos/place-repo-api';
 
 @Injectable()
 export class RepsAutoCompleteService implements AutoCompleteService {
@@ -13,9 +14,26 @@ export class RepsAutoCompleteService implements AutoCompleteService {
     users : any[] = [];
 
   constructor(private http:Http,private userServiceApi:UserServiceApi) {
-     this.listUsersApi();
+      this.listUsersApi();
+      if(localStorage.getItem("isOnline")==="true") {
+          this.listUsersApi();
+      }else{
+          this.listPlacesRepo();
+      }
   }
 
+  listUsersRepo() {
+      this.users = [];
+      this.placeRepoApi.list().then((res) => {
+          for(var i = 0; i<res.results.length;i++){
+              this.places.push({
+                  id : res.results[i].ServerId,
+                  name : res.results[i].Name,
+                  streetAddress : res.results[i].StreetAddress
+              });
+          }
+      });
+ }
 
   listUsersApi(){
     this.users = [];

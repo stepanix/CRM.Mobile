@@ -5,7 +5,7 @@ export class FormModel extends BaseModel {
     public database: string = 'crm.db';
     public table: string = 'form';
     public schema: Object = {
-        Id: 'INTEGER(11) PRIMARY KEY',
+        Id: 'TEXT',
         ServerId : 'INTEGER(11)',
         Title: 'TEXT',
         Description: 'TEXT',

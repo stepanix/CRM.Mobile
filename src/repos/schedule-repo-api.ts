@@ -23,6 +23,11 @@ export class ScheduleRepoApi {
         }
      }
 
+     insertRecord(dataDto:any){
+        var data = new QueryBuilder(new ScheduleModel());
+        data.create(dataDto);
+     }
+
      list() : Promise<any>{
         var data = new QueryBuilder(new ScheduleModel());
         var results = data.get("*");
