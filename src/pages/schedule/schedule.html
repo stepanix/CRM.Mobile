@@ -14,17 +14,19 @@
         </ion-item>
 
         <ion-list class="servicesList">
-            <button ion-item icon-left  *ngFor="let item of schedules" (click)="openSchedule(item)">
-                  <p><ion-icon ios="ios-information-circle" md="ios-information-circle" item-left><span style="font-size: 20px!important"><strong> {{item.status}}</strong></span></ion-icon></p>
-                  <strong>
-                    <ion-icon ios="ios-time" md="ios-time" item-left>
-                      <span style="font-size: 20px!important"><strong>{{item.time}}</strong></span>
-                    </ion-icon>
-                    {{item.place}}
-                  </strong>
-                  <br>
-                  {{item.address}}
-            </button>
+            <div  *ngFor="let item of schedules">
+                <button ion-item icon-left [disabled]="item.isSynched===0"  (click)="openSchedule(item)">
+                    <p><ion-icon ios="ios-information-circle" md="ios-information-circle" item-left><span style="font-size: 20px!important"><strong> {{item.status}}</strong></span></ion-icon></p>
+                    <strong>
+                        <ion-icon ios="ios-time" md="ios-time" item-left>
+                        <span style="font-size: 20px!important"><strong>{{item.time}}</strong></span>
+                        </ion-icon>
+                        {{item.place}}
+                    </strong>
+                    <br>
+                    {{item.address}}
+                </button>
+            </div>
         </ion-list>
     
   </ion-content>

@@ -15,6 +15,8 @@ export class PlaceModel extends BaseModel {
         ContactTitle: 'TEXT',
         Phone: 'TEXT',
         CellPhone: 'TEXT',
+        Latitude: 'TEXT',
+        Longitude : 'TEXT',
         IsSynched: 'INTEGER(1)'
     }
 }

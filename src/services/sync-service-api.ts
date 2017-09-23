@@ -106,6 +106,8 @@ export class SyncServiceApi {
                          ContactTitle: res[i].contactTitle,
                          Phone: res[i].phone,
                          CellPhone: res[i].cellPhone,
+                         Latitude : res[i].latitude,
+                         Longitude : res[i].longitude,
                          IsSynched: 1
                     });
                 }

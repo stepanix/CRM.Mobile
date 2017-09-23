@@ -11,6 +11,7 @@ import {
 } from 'ion2-calendar'
 import * as moment from 'moment';
 import { AddSchedulePage } from '../addschedule/addschedule';
+import { VisitPage } from '../visit/visit';
 
 @Component({
     selector: 'page-schedule',
@@ -55,26 +56,25 @@ export class SchedulePage {
                 let scheduleDate =  moment(this.eventDate).format('YYYY-MM-DD').toString();
                 this.schedules = [];
             this.scheduleRepoApi.listByDate(this.parseRepoDate(scheduleDate)).then((res) => {
-                for(var i = 0; i<res.results.length;i++){
-                    this.schedules.push({
-                        id : res.results[i].Id,
-                        place : res.results[i].PlaceName,
-                        address : res.results[i].PlaceAddress,
-                        time : this.parseScheduleTime(res.results[i].VisitTime),
-                        status : res.results[i].VisitStatus
-                    });
+                for(var i = 0; i<res.results.length;i++) {
+                     this.schedules.push({
+                         id : res.results[i].Id,
+                         placeId : res.results[i].PlaceId,
+                         place : res.results[i].PlaceName,
+                         address : res.results[i].PlaceAddress,
+                         time : this.parseScheduleTime(res.results[i].VisitTime),
+                         status : res.results[i].VisitStatus,
+                         isSynched : res.results[i].IsSynched
+                     });
                  }
-                 console.log(JSON.stringify(this.eventDate))
                  this.loader.dismiss();
              });
          });
     }
 
-    parseRepoDate(date):string{
-        return date + "T00:00:00";
+    parseRepoDate(date):string {
+       return date + "T00:00:00";
     }
-
-    
 
     listMySchedulesApi() {
       this.loader = this.loading.create({
@@ -89,10 +89,12 @@ export class SchedulePage {
                 for(var i=0; i< res.length; i++){
                     this.schedules.push({
                         id:res[i].id,
+                        placeId : res[i].place.id,
                         place: res[i].place.name,
                         address : res[i].place.streetAddress,
                         time: this.parseScheduleTime(res[i].visitTime),
-                        status : res[i].visitStatus
+                        status : res[i].visitStatus,
+                        isSynched : 1
                     });
                   }
                   this.loader.dismiss();
@@ -113,7 +115,15 @@ export class SchedulePage {
     }
 
     addSchedule() {
-      this.navCtrl.push(AddSchedulePage);
+       this.navCtrl.push(AddSchedulePage);
+    }
+
+    openSchedule(item) {
+        this.navCtrl.push(VisitPage, {
+            scheduleId: item.id,
+            placeId : item.placeId,
+            placeName : item.place
+         });
     }
 
 
