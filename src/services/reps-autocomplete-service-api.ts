@@ -16,7 +16,7 @@ export class RepsAutoCompleteService implements AutoCompleteService {
   constructor(private userRepoApi : UserRepoApi,
               private http:Http,private userServiceApi:UserServiceApi) {
       
-        this.listUsersApi();
+        
         if(localStorage.getItem("isOnline")==="true") {
             this.listUsersApi();
         }else{
