@@ -18,10 +18,10 @@ import {FormServiceApi} from '../../shared/shared';
 
 export class FormPage {
   
-   loader : any;
-   formData : any;
-   formFields : any[] = [];
-   formId : any;
+    loader : any;
+    formData : any;
+    formFields : any[] = [];
+    formId : any;
 
     formFieldModel:any[] = [];
 
@@ -40,7 +40,9 @@ export class FormPage {
      }
 
      submitForm(){
-       //alert(this.formFieldModel["f08798ec-8715-270f-3058-23c9b9deadbc"]);
+       for(var i=0;i<this.formFields.length;i++){
+         alert(this.formFieldModel[this.formFields[i].id]);
+       }
      }
 
      getFormRepo() {
