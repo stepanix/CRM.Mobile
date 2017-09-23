@@ -22,7 +22,7 @@ import {PlaceRepoApi} from '../repos/place-repo-api';
 import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 import {StatusRepoApi} from '../repos/status-repo-api';
-
+import {UserRepoApi} from '../repos/user-repo-api';
 
 
 @Component({
@@ -45,7 +45,8 @@ import {StatusRepoApi} from '../repos/status-repo-api';
         PlaceRepoApi,
         RetailAuditFormRepoApi,
         ScheduleRepoApi,
-        StatusRepoApi
+        StatusRepoApi,
+        UserRepoApi
     ]
 })
 export class MyApp {

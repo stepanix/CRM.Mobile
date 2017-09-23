@@ -4,7 +4,7 @@ import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import {crmBaseUrl} from '../shared/global-vars';
 import {UserServiceApi} from '../shared/shared';
-import {PlaceRepoApi} from '../repos/place-repo-api';
+import {UserRepoApi} from '../repos/user-repo-api';
 
 @Injectable()
 export class RepsAutoCompleteService implements AutoCompleteService {
@@ -13,41 +13,44 @@ export class RepsAutoCompleteService implements AutoCompleteService {
 
     users : any[] = [];
 
-  constructor(private http:Http,private userServiceApi:UserServiceApi) {
-      this.listUsersApi();
-      if(localStorage.getItem("isOnline")==="true") {
-          this.listUsersApi();
-      }else{
-          this.listUsersRepo();
-      }
+  constructor(private userRepoApi : UserRepoApi,
+              private http:Http,private userServiceApi:UserServiceApi) {
+      
+        this.listUsersApi();
+        if(localStorage.getItem("isOnline")==="true") {
+            this.listUsersApi();
+        }else{
+            this.listUsersRepo();
+        }
   }
 
   listUsersRepo() {
       this.users = [];
-      this.placeRepoApi.list().then((res) => {
-          for(var i = 0; i<res.results.length;i++) {
-              this.places.push({
-                  id : res.results[i].ServerId,
-                  name : res.results[i].Name,
-                  streetAddress : res.results[i].StreetAddress
+      this.userRepoApi.list().then((res) => {
+          for(var i = 0; i < res.results.length;i++) {
+              this.users.push({
+                  id : res.results[i].Id,
+                  fullName : res.results[i].FirstName + " " + res.results[i].Surname,
+                  firstName : res.results[i].FirstName,
+                  surname : res.results[i].Surname
               });
           }
       });
- }
+  }
 
-  listUsersApi(){
+  listUsersApi() {
     this.users = [];
     this.userServiceApi.getUsers()
     .subscribe(
         res => {
-          for(var i=0; i<res.length;i++){
+          for(var i=0; i < res.length;i++) {
               this.users.push({
-                id : res[i].id,
-                fullName : res[i].firstName + " " + res[i].surname,
-                firstName : res[i].firstName,
-                surname : res[i].surname 
+                 id : res[i].id,
+                 fullName : res[i].firstName + " " + res[i].surname,
+                 firstName : res[i].firstName,
+                 surname : res[i].surname
               });
-          }
+           }
         },err => {
           console.log(err);
           return;
