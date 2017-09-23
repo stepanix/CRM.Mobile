@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-angular';
+import { NavController, NavParams,LoadingController } from 'ionic-angular';
 import {FormServiceApi} from '../../shared/shared';
 import {FormRepoApi} from '../../repos/form-repo-api';
+import { FormPage } from '../form/form';
 
 
 @Component({
@@ -52,28 +53,34 @@ export class ListFormsPage {
   }
 
   listFormsApi() {
-    this.loader = this.loading.create({
-      content: 'Busy please wait...',
-    });
-    this.loader.present().then(() => {
-        this.forms = [];
-        this.formServiceApi.getForms()
-        .subscribe(
-            res => {
-              for(var i=0; i< res.length; i++){
-                  this.forms.push({
-                      id:res[i].id,
-                      title : res[i].title,
-                      description: res[i].description
-                  });
-                }
+        this.loader = this.loading.create({
+            content: 'Busy please wait...',
+        });
+        this.loader.present().then(() => {
+            this.forms = [];
+            this.formServiceApi.getForms()
+            .subscribe(
+                res => {
+                   for(var i=0; i< res.length; i++) {
+                        this.forms.push({
+                            id:res[i].id,
+                            title : res[i].title,
+                            description: res[i].description
+                        });
+                    }
+                    this.loader.dismiss();
+                },err => {
                 this.loader.dismiss();
-            },err => {
-              this.loader.dismiss();
-              console.log(err);
-              return;
-          });
-      });
+                console.log(err);
+                return;
+            });
+        });
+  }
+
+  openForm(item) {
+    this.navCtrl.push(FormPage, {
+        formId : item.id
+     });
   }
 
 

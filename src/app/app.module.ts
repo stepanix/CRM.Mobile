@@ -19,6 +19,8 @@ import { AddSchedulePage } from '../pages/addschedule/addschedule';
 import { VisitPage } from '../pages/visit/visit';
 import { ListFormsPage } from '../pages/listforms/listforms';
 
+import { FormPage } from '../pages/form/form';
+
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 
@@ -33,7 +35,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     AddSchedulePage,
     DatePicker,
     VisitPage,
-    ListFormsPage
+    ListFormsPage,
+    FormPage
   ],
   imports: [
     HttpModule,
@@ -54,7 +57,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     AddSchedulePage,
     DatePicker,
     VisitPage,
-    ListFormsPage
+    ListFormsPage,
+    FormPage
   ],
   providers: [
     StatusBar,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ListFormsPage } from '../listforms/listforms';ListFormsPage
+import { ListFormsPage } from '../listforms/listforms';
 
 
 @Component({

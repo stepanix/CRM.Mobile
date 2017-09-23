@@ -1,0 +1,60 @@
+
+<ion-header>
+
+  <ion-navbar>
+     <ion-title>form</ion-title>
+
+     <ion-buttons end>
+        
+            <button ion-button icon-only (click)="submitForm()">
+                Submit
+            </button>
+        
+     </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="registerContainer">
+      
+    <!-- <form [formGroup]="detailsForm" novalidate>        
+        <div formGroupName="formFields"> -->
+            <ion-list class="signInList signIn">
+
+                  <ion-item *ngFor="let item of formFields">
+
+                      <ion-label *ngIf="item.questionTypeId !=='6'" floating>{{item.question}} </ion-label>
+                      
+                      <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
+
+                      <ion-textarea *ngIf="item.questionTypeId==='2'" [(ngModel)]="formFieldModel[item.id]"></ion-textarea>
+
+                      <ion-input *ngIf="item.questionTypeId==='3'" type="number" [(ngModel)]="formFieldModel[item.id]"> </ion-input>
+
+                      <ion-select *ngIf="item.questionTypeId==='4'" [(ngModel)]="formFieldModel[item.id]">
+                          <ion-option value="Yes">Yes</ion-option>
+                          <ion-option value="No">No</ion-option>
+                      </ion-select>
+
+                      <ion-select *ngIf="item.questionTypeId==='5'" [(ngModel)]="formFieldModel[item.id]">
+                          <ion-option *ngFor="let option of item.answers" value="{{option.id}}">{{option.answer}}</ion-option>
+                      </ion-select>
+
+                      <div  *ngIf="item.questionTypeId==='6'" (click)="checkIn('photo')">
+                          {{item.question}}
+                          <span style="float: right;">
+                              Take a Photo   <ion-icon ios="ios-camera" md="ios-camera" item-right></ion-icon>
+                          </span>
+                      </div>
+
+                  </ion-item>
+               
+            </ion-list>
+        <!-- </div>
+
+      </form> -->
+      
+
+</ion-content>
