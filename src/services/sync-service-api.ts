@@ -46,15 +46,17 @@ export class SyncServiceApi {
             this.productServiceApi.getProducts()
             .subscribe(
                 res => {
-                    for(var i = 0;i < res.length; i++) {
-                        products.push({
-                             Id: this.newGuid(),
-                             ServerId: res[i].id,
-                             Name: res[i].name
-                        });
+                    if(res.length>0){
+                        for(var i = 0;i < res.length; i++) {
+                            products.push({
+                                Id: this.newGuid(),
+                                ServerId: res[i].id,
+                                Name: res[i].name
+                            });
+                        }
+                        this.productRepoApi.delete();
+                        this.productRepoApi.insert(products);
                     }
-                    this.productRepoApi.delete();
-                    this.productRepoApi.insert(products);
                     // this.productRepoApi.listProducts().then((data) => {
                     //     for(var i = 0; i<data.results.length;i++){
                     //         console.log(data.results[i].Name);
@@ -72,16 +74,18 @@ export class SyncServiceApi {
         .subscribe(
             res => {
                 for(var i = 0;i < res.length; i++) {
-                    forms.push({
-                         Id: this.newGuid(),
-                         ServerId: res[i].id,
-                         Title: res[i].title,
-                         Description: res[i].description,
-                         Fields: res[i].fields
-                    });
+                    if(res.length>0){
+                        forms.push({
+                            Id: this.newGuid(),
+                            ServerId: res[i].id,
+                            Title: res[i].title,
+                            Description: res[i].description,
+                            Fields: res[i].fields
+                        });
+                     }
+                    this.formRepoApi.delete();
+                    this.formRepoApi.insert(forms);
                 }
-                this.formRepoApi.delete();
-                this.formRepoApi.insert(forms);
             },err => {
             console.log(err);
             return;
@@ -93,53 +97,59 @@ export class SyncServiceApi {
         this.placeServiceApi.getPlaces()
         .subscribe(
             res => {
-                for(var i = 0;i < res.length; i++) {
-                    places.push({
-                         Id: this.newGuid(),
-                         ServerId: res[i].id,
-                         StatusId: res[i].statusId,
-                         Name: res[i].name,
-                         StreetAddress: res[i].streetAddress,
-                         Email: res[i].email,
-                         WebSite: res[i].webSite,
-                         ContactName: res[i].contactName,
-                         ContactTitle: res[i].contactTitle,
-                         Phone: res[i].phone,
-                         CellPhone: res[i].cellPhone,
-                         Latitude : res[i].latitude,
-                         Longitude : res[i].longitude,
-                         IsSynched: 1
-                    });
+                if(res.length>0){
+                        for(var i = 0;i < res.length; i++) {
+                            places.push({
+                                Id: this.newGuid(),
+                                ServerId: res[i].id,
+                                StatusId: res[i].statusId,
+                                Name: res[i].name,
+                                StreetAddress: res[i].streetAddress,    
+                                Email: res[i].email,
+                                WebSite: res[i].webSite,
+                                ContactName: res[i].contactName,
+                                ContactTitle: res[i].contactTitle,
+                                Phone: res[i].phone,
+                                CellPhone: res[i].cellPhone,
+                                Latitude :  res[i].latitude,
+                                Longitude : res[i].longitude,
+                                IsSynched: 1
+                            });
+                        }
+                        this.placeRepoApi.delete();
+                        this.placeRepoApi.insert(places);
                 }
-                this.placeRepoApi.delete();
-                this.placeRepoApi.insert(places);
             },err => {
             console.log(err);
             return;
         });
     }
 
+    
+
     downloadRetailAuditFormsApi() {
         var retailAuditForms:any[] = [];
         this.retailAuditFormServiceApi.getRetailAuditForms()
         .subscribe(
             res => {
-                for(var i = 0;i < res.length; i++) {
-                    retailAuditForms.push({
-                         Id: this.newGuid(),
-                         ServerId: res[i].id,
-                         Name: res[i].name,
-                         Description: res[i].description,
-                         Available: res[i].available,
-                         Promoted: res[i].promoted,
-                         Price: res[i].price,
-                         StockLevel: res[i].stockLevel,
-                         Note: res[i].note,
-                         Fields: res[i].fields
-                    });
+                if(res.length>0){
+                    for(var i = 0;i < res.length; i++) {
+                        retailAuditForms.push({
+                            Id: this.newGuid(),
+                            ServerId: res[i].id,
+                            Name: res[i].name,
+                            Description: res[i].description,
+                            Available: res[i].available,
+                            Promoted: res[i].promoted,
+                            Price: res[i].price,
+                            StockLevel: res[i].stockLevel,
+                            Note: res[i].note,
+                            Fields: res[i].fields
+                        });
+                    }
+                    this.retailAuditFormRepApi.delete();
+                    this.retailAuditFormRepApi.insert(retailAuditForms);
                 }
-                this.retailAuditFormRepApi.delete();
-                this.retailAuditFormRepApi.insert(retailAuditForms);
             },err => {
             console.log(err);
             return;
@@ -151,30 +161,33 @@ export class SyncServiceApi {
         this.scheduleServiceApi.getSchedules()
         .subscribe(
             res => {
-                for(var i = 0;i < res.length; i++) {
-                    schedules.push({
-                         Id: this.newGuid(),
-                         ServerId: res[i].id,
-                         PlaceId: res[i].placeId,
-                         PlaceName : res[i].place.name,
-                         PlaceAddress : res[i].place.streetAddress,
-                         UserId: res[i].userId,
-                         VisitDate: res[i].visitDate,
-                         VisitTime: res[i].visitTime,
-                         VisitNote: res[i].visitNote,
-                         IsRecurring: res[i].isRecurring,
-                         RepeatCycle: res[i].repeatCycle,
-                         IsScheduled: res[i].isScheduled,
-                         IsVisited: res[i].isVisited,
-                         IsMissed: res[i].isMissed,
-                         IsUnScheduled: res[i].isUnScheduled,
-                         VisitStatus: res[i].visitStatus,
-                         IsSynched: 1
-                    });
+                if(res.length>0) {
+                    for(var i = 0;i < res.length; i++) {
+                        schedules.push({
+                                Id: this.newGuid(),
+                                ServerId: res[i].id,
+                                PlaceId: res[i].placeId,
+                                PlaceName : res[i].place.name,
+                                PlaceAddress : res[i].place.streetAddress,
+                                UserId: res[i].userId,
+                                VisitDate: res[i].visitDate,
+                                VisitTime: res[i].visitTime,
+                                VisitNote: res[i].visitNote,
+                                IsRecurring: res[i].isRecurring,
+                                RepeatCycle: res[i].repeatCycle,
+                                IsScheduled: res[i].isScheduled,
+                                IsVisited: res[i].isVisited,
+                                IsMissed: res[i].isMissed,
+                                IsUnScheduled: res[i].isUnScheduled,
+                                Latitude: res[i].place.latitude,
+                                Longitude : res[i].place.longitude,
+                                VisitStatus: res[i].visitStatus,
+                                IsSynched: 1
+                         });
+                    }                
+                    this.scheduleRepoApi.delete();
+                    this.scheduleRepoApi.insert(schedules);
                 }
-                
-                this.scheduleRepoApi.delete();
-                this.scheduleRepoApi.insert(schedules);
             },err => {
             console.log(err);
             return;
@@ -186,15 +199,18 @@ export class SyncServiceApi {
         this.statusServiceApi.getStatuses()
         .subscribe(
             res => {
-                for(var i = 0;i < res.length; i++) {
-                    status.push({
-                         Id: this.newGuid(),
-                         ServerId: res[i].id,
-                         Name: res[i].name
-                    });
+                if(res.length>0){
+                    for(var i = 0;i < res.length; i++) {
+                        status.push({
+                            Id: this.newGuid(),
+                            ServerId: res[i].id,
+                            Name: res[i].name
+                        });
+                    }
+                
+                    this.statusRepoApi.delete();
+                    this.statusRepoApi.insert(status);
                 }
-                this.statusRepoApi.delete();
-                this.statusRepoApi.insert(status);
             },err => {
             console.log(err);
             return;
@@ -206,15 +222,19 @@ export class SyncServiceApi {
         this.userServiceApi.getUsers()
         .subscribe(
             res => {
-                for(var i = 0;i < res.length; i++) {
-                    user.push({
-                         Id: res[i].id,
-                         FirstName: res[i].firstName,
-                         Surname: res[i].surname
-                    });
+                if(res.length>0){
+                    for(var i = 0;i < res.length; i++) {
+                        user.push({
+                            Id: res[i].id,
+                            FirstName: res[i].firstName,
+                            Surname: res[i].surname
+                        });
+                    }
+                
+                    this.userRepoApi.delete();
+                    this.userRepoApi.insert(user);
                 }
-                this.userRepoApi.delete();
-                this.userRepoApi.insert(user);
+               
             },err => {
             console.log(err);
             return;
@@ -222,16 +242,21 @@ export class SyncServiceApi {
     }
 
     downloadServerData() {
+        
+        this.uploadDataToServer();
+
         this.downloadUserApi();
         this.downloadStatusApi();
-        this.downloadScheduleApi();
-        this.downloadRetailAuditFormsApi();
         this.downloadPlacesApi();
         this.downloadProductsApi();
+        this.downloadScheduleApi();
+        this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
     }
 
-    
+    uploadDataToServer() {
+
+    }
    
 
 }

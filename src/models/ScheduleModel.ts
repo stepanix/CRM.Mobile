@@ -23,6 +23,8 @@ export class ScheduleModel extends BaseModel {
         VisitStatus: 'TEXT',
         CheckInTime: 'TEXT',
         CheckOutTime: 'TEXT',
+        Latitude: 'TEXT',
+        Longitude : 'TEXT',
         IsSynched: 'INTEGER(1)'
     }
 

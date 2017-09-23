@@ -17,6 +17,8 @@ import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { AddSchedulePage } from '../pages/addschedule/addschedule';
 import { VisitPage } from '../pages/visit/visit';
+import { ListFormsPage } from '../pages/listforms/listforms';
+
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 
@@ -30,7 +32,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     SchedulePage,
     AddSchedulePage,
     DatePicker,
-    VisitPage
+    VisitPage,
+    ListFormsPage
   ],
   imports: [
     HttpModule,
@@ -50,7 +53,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     SchedulePage,
     AddSchedulePage,
     DatePicker,
-    VisitPage
+    VisitPage,
+    ListFormsPage
   ],
   providers: [
     StatusBar,

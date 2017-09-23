@@ -39,5 +39,10 @@ export class ScheduleRepoApi {
         var results = data.where("VisitDate", "=", visitDate).get();
         return results;
      }
+
+     updateRecord(dataDto:any) {
+        var data = new QueryBuilder(new ScheduleModel());
+        data.where("ServerId", "=", dataDto.id).update(dataDto);
+     }
      
 }

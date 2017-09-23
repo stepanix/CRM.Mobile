@@ -64,6 +64,8 @@ export class SchedulePage {
                          address : res.results[i].PlaceAddress,
                          time : this.parseScheduleTime(res.results[i].VisitTime),
                          status : res.results[i].VisitStatus,
+                         latitude : res.results[i].Latitude,
+                         longitude : res.results[i].Longitude,
                          isSynched : res.results[i].IsSynched
                      });
                  }
@@ -94,6 +96,8 @@ export class SchedulePage {
                         address : res[i].place.streetAddress,
                         time: this.parseScheduleTime(res[i].visitTime),
                         status : res[i].visitStatus,
+                        latitude : res[i].latitude,
+                        longitude : res[i].longitude,
                         isSynched : 1
                     });
                   }
@@ -120,9 +124,12 @@ export class SchedulePage {
 
     openSchedule(item) {
         this.navCtrl.push(VisitPage, {
-            scheduleId: item.id,
+            scheduleId : item.id,
             placeId : item.placeId,
-            placeName : item.place
+            placeName : item.place,
+            streetAddress : item.address,
+            lat : item.latitude,
+            lng : item.longitude
          });
     }
 

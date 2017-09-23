@@ -8,33 +8,54 @@
 </ion-header>
 
 <ion-content padding>
-      
 
-    <ion-list class="signInList signIn">
-           <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn()">
-                <ion-icon ios="ios-camera" md="ios-camera" item-left></ion-icon>
-                  Photo
-               <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+      <ion-list class="signInList signIn">
+
+            <button ion-item style="text-align: left;">
+                <ion-icon ios="ios-compass" md="ios-compass" item-left></ion-icon>
+                  {{placeName}}
           </button>
-          <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn()">
-              <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
-                Form
-             <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-        </button>
-        <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn()">
-            <ion-icon ios="md-list-box" md="md-list-box" item-left></ion-icon>
-              Note
-           <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-      </button>
-      <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn()">
-          <ion-icon ios="ios-create" md="ios-create" item-left></ion-icon>
-            Audits
-         <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-    </button>
-    <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn()">
-        <ion-icon ios="md-checkbox" md="md-checkbox" item-left></ion-icon>
-          Orders
-       <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-  </button>
+
+          <button ion-item style="text-align: left;">
+              {{streetAddress}}
+              <ion-icon ios="ios-navigate" md="ios-navigate" item-right></ion-icon>
+              <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+          </button>
+
+      </ion-list>
+
+      <ion-list class="signInList signIn">
+
+            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('photo')">
+                  <ion-icon ios="ios-camera" md="ios-camera" item-left></ion-icon>
+                      Photo
+                  <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+            </button>
+
+            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('form')">
+                <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
+                    Form
+                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+            </button>
+
+            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('note')">
+                <ion-icon ios="md-list-box" md="md-list-box" item-left></ion-icon>
+                    Note
+                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+            </button>
+
+            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('audits')">
+                <ion-icon ios="ios-create" md="ios-create" item-left></ion-icon>
+                    Audits
+                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+            </button>
+
+            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('orders')">
+                <ion-icon ios="md-checkbox" md="md-checkbox" item-left></ion-icon>
+                   Orders
+                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+            </button>
+
    </ion-list>
+
 </ion-content>

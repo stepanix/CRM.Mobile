@@ -1,0 +1,26 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Form</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="signInList signIn">
+
+    <div  *ngFor="let item of forms">
+        <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="openForm(item)">
+          
+            <ion-icon ios="ios-document" md="ios-document" item-left>
+              <span style="color:black; text-align: right;font-size: 18px; padding-left: 10px;">
+                  {{item.title}}
+              </span>
+            </ion-icon>
+                
+            <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+        </button>
+   </div>
+
+</ion-content>
