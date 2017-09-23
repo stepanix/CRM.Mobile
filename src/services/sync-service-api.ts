@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
-import { ProductServiceApi,FormServiceApi,ScheduleServiceApi } from '../shared/shared';
+import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
 import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
@@ -8,18 +8,21 @@ import { PlaceRepoApi } from '../repos/place-repo-api';
 import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 import {StatusRepoApi} from '../repos/status-repo-api';
+import {UserRepoApi} from '../repos/user-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
   
     
     constructor(
+        private userRepoApi : UserRepoApi,
         private statusRepoApi : StatusRepoApi,
         private statusServiceApi : StatusServiceApi,
         private scheduleRepoApi : ScheduleRepoApi,
         private scheduleServiceApi : ScheduleServiceApi,
         private retailAuditFormRepApi : RetailAuditFormRepoApi,
         private retailAuditFormServiceApi : RetailAuditFormServiceApi,
+        private userServiceApi : UserServiceApi,
         private placeServiceApi : PlaceServiceApi,
         private placeRepoApi : PlaceRepoApi,
         private formRepoApi : FormRepoApi, 
@@ -196,7 +199,28 @@ export class SyncServiceApi {
         });
     }
 
+    downloadUserApi() {
+        var user:any[] = [];
+        this.userServiceApi.getUsers()
+        .subscribe(
+            res => {
+                for(var i = 0;i < res.length; i++) {
+                    user.push({
+                         Id: res[i].id,
+                         FirstName: res[i].firstName,
+                         Surname: res[i].surname
+                    });
+                }
+                this.userRepoApi.delete();
+                this.userRepoApi.insert(user);
+            },err => {
+            console.log(err);
+            return;
+        });
+    }
+
     downloadServerData() {
+        this.downloadUserApi();
         this.downloadStatusApi();
         this.downloadScheduleApi();
         this.downloadRetailAuditFormsApi();

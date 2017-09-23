@@ -16,6 +16,7 @@ import { ReactiveFormsModule }  from '@angular/forms';
 import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { AddSchedulePage } from '../pages/addschedule/addschedule';
+import { VisitPage } from '../pages/visit/visit';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 
@@ -28,7 +29,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     LoginPage,
     SchedulePage,
     AddSchedulePage,
-    DatePicker
+    DatePicker,
+    VisitPage
   ],
   imports: [
     HttpModule,
@@ -47,7 +49,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
     LoginPage,
     SchedulePage,
     AddSchedulePage,
-    DatePicker
+    DatePicker,
+    VisitPage
   ],
   providers: [
     StatusBar,

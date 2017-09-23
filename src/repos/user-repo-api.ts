@@ -11,6 +11,18 @@ export class UserRepoApi {
             
      }
 
+     delete(){
+        var data = new QueryBuilder(new UserModel());
+        data.delete();
+     }
+
+     insert(dataDto:any[]){
+        var data = new QueryBuilder(new UserModel());
+        for(var i=0; i<dataDto.length;i++){
+            data.create(dataDto[i]);
+        }
+     }
+
      list() : Promise<any> {
         var data = new QueryBuilder(new UserModel());
         var results = data.get("*");
