@@ -18,9 +18,7 @@
 
 
 <ion-content class="registerContainer">
-      
-    <!-- <form [formGroup]="detailsForm" novalidate>        
-        <div formGroupName="formFields"> -->
+    
             <ion-list class="signInList signIn">
 
                   <ion-item *ngFor="let item of formFields">
@@ -39,7 +37,7 @@
                       </ion-select>
 
                       <ion-select *ngIf="item.questionTypeId==='5'" [(ngModel)]="formFieldModel[item.id]">
-                          <ion-option *ngFor="let option of item.answers" value="{{option.id}}">{{option.answer}}</ion-option>
+                          <ion-option *ngFor="let option of item.answers" value="{{option.answer}}">{{option.answer}}</ion-option>
                       </ion-select>
 
                       <div  *ngIf="item.questionTypeId==='6'" (click)="checkIn('photo')">
@@ -52,9 +50,5 @@
                   </ion-item>
                
             </ion-list>
-        <!-- </div>
-
-      </form> -->
-      
 
 </ion-content>
