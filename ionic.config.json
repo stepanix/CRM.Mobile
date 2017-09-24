@@ -1,6 +1,6 @@
 {
   "name": "crm",
-  "app_id": "",
+  "app_id": "e4b2ae16",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
