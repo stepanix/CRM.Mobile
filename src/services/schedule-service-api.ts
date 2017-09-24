@@ -82,6 +82,12 @@ export class ScheduleServiceApi {
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
 
+     addScheduleList (scheduleModel: any[]): Observable<any[]> {
+        return this.http.post(crmBaseUrl + "Schedule/List", scheduleModel ,{headers: this.getHeader()}) // ...using post request
+                         .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
+                         .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
+     }
+
      updateSchedule (scheduleModel: any): Observable<any> {
         return this.http.put(crmBaseUrl + "Schedule", scheduleModel ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data

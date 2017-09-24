@@ -246,6 +246,7 @@ export class SyncServiceApi {
 
     downloadServerData() {
         this.uploadFormValuesToServer();
+        this.uploadScheduleToServer();
         this.downloadUserApi();
         this.downloadStatusApi();
         this.downloadPlacesApi();
@@ -274,6 +275,36 @@ export class SyncServiceApi {
               res => {
                 console.log(JSON.stringify(res));
                 this.formValueRepoApi.deleteSynched(res);
+              },err => {
+                console.log(err);
+                return;
+           });
+        });
+    }
+
+    uploadScheduleToServer() {
+        let schedules = [];
+        this.scheduleRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length;i++) {
+                schedules.push({
+                    id : 0,
+                    syncId : res.results[i].Id,
+                    placeId : res.results[i].PlaceId,
+                    place : res.results[i].PlaceName,
+                    address : res.results[i].PlaceAddress,
+                    time : res.results[i].VisitTime,
+                    status : res.results[i].VisitStatus,
+                    latitude : res.results[i].Latitude,
+                    longitude : res.results[i].Longitude,
+                    isSynched : res.results[i].IsSynched
+                });
+            }
+
+            this.scheduleServiceApi.addScheduleList(schedules)
+            .subscribe(
+              res => {
+                console.log(JSON.stringify(res));
+                this.scheduleRepoApi.deleteSynched(res);
               },err => {
                 console.log(err);
                 return;

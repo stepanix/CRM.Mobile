@@ -16,6 +16,13 @@ export class ScheduleRepoApi {
         data.delete();
      }
 
+     deleteSynched(dataDto:any[]) {
+        var data = new QueryBuilder(new ScheduleModel());
+        for(var i=0; i<dataDto.length;i++) {
+            data.where("Id","=",dataDto[i].syncId).delete();
+        }
+     }
+
      insert(dataDto:any[]){
         var data = new QueryBuilder(new ScheduleModel());
         for(var i=0; i<dataDto.length;i++){
@@ -37,6 +44,12 @@ export class ScheduleRepoApi {
      listByDate(visitDate:string) : Promise<any>{
         var data = new QueryBuilder(new ScheduleModel());
         var results = data.where("VisitDate", "=", visitDate).get();
+        return results;
+     }
+
+     listUnSynched() : Promise<any>{
+        var data = new QueryBuilder(new ScheduleModel());
+        var results = data.where("IsSynched", "=", "0").get();
         return results;
      }
 
