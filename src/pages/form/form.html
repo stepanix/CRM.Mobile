@@ -6,7 +6,7 @@
 
      <ion-buttons end>
         
-            <button ion-button icon-only (click)="submitForm()">
+            <button ion-button icon-only (click)="submitForm()" [disabled] = "!allMandatoryFieldsValidated()">
                 Submit
             </button>
         
@@ -23,7 +23,7 @@
 
                   <ion-item *ngFor="let item of formFields">
 
-                      <ion-label *ngIf="item.questionTypeId !=='6'" floating>{{item.question}} </ion-label>
+                      <ion-label *ngIf="item.questionTypeId !=='6'" floating><span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
                       
                       <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
 
@@ -45,6 +45,11 @@
                           <span style="float: right;">
                               Take a Photo   <ion-icon ios="ios-camera" md="ios-camera" item-right></ion-icon>
                           </span>
+                      </div>
+
+                      <div *ngIf="item.questionTypeId==='7'">
+                          <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
+                          <b (click)="showCalendar()">{{selectedDate}}</b>
                       </div>
 
                   </ion-item>

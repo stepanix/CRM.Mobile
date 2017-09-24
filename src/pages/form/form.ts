@@ -9,15 +9,19 @@ import {
 } from "@angular/forms"
 import {FormRepoApi} from '../../repos/form-repo-api';
 import {FormServiceApi} from '../../shared/shared';
+import { DatePicker } from 'ionic2-date-picker';
+import * as moment from 'moment';
 
 
 @Component({
     selector: 'page-form',
     templateUrl: 'form.html',
+    providers: [DatePicker]
 })
 
 export class FormPage {
   
+    selectedDate : any = "Select date";
     loader : any;
     formData : any;
     formFields : any[] = [];
@@ -28,9 +32,10 @@ export class FormPage {
     constructor(private loading: LoadingController,
       public formServiceApi:FormServiceApi,
       public formRepoApi:FormRepoApi,
-      private formBuilder:FormBuilder,
+      private datePicker:DatePicker,
       public navCtrl:NavController,
       public navParams:NavParams) {
+        this.datePicker.onDateSelected.subscribe((date) => { this.selectedDate = moment(date).format('YYYY-MM-DD').toString(); });
         this.formId = this.navParams.get('formId');
         this.getFormApi();
      }
@@ -39,10 +44,35 @@ export class FormPage {
       
      }
 
+     showCalendar() {
+       this.datePicker.showCalendar();
+     }
+
      submitForm(){
        for(var i=0;i<this.formFields.length;i++){
          alert(this.formFieldModel[this.formFields[i].id]);
        }
+     }
+
+     allMandatoryFieldsValidated() : boolean {
+          for(var i=0;i<this.formFields.length;i++){
+            if((this.formFieldModel[this.formFields[i].id]===undefined 
+              || this.formFieldModel[this.formFields[i].id]==="undefined"
+              || this.formFieldModel[this.formFields[i].id]==="null"
+              || this.formFieldModel[this.formFields[i].id]===null
+              || this.formFieldModel[this.formFields[i].id]==="")
+              && this.isFieldMandatory(this.formFields[i])){
+                return false;                 
+            }
+          }
+          return true;
+     }
+
+     isFieldMandatory(field){
+          let index: number = this.formFields.indexOf(field);
+          if (index !== -1) {
+              return this.formFields[index].mandatory;
+          }
      }
 
      getFormRepo() {
