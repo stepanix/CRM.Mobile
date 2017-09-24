@@ -99,7 +99,6 @@ export class FormPage {
                       name : res.results[i].Name
                   });
               }
-              this.loader.dismiss();
           });
      }
 
