@@ -9,7 +9,7 @@ import {
 } from "@angular/forms"
 import {FormRepoApi} from '../../repos/form-repo-api';
 import {ProductRepoApi} from '../../repos/product-repo-api';
-import {FormServiceApi,ProductServiceApi} from '../../shared/shared';
+import {FormServiceApi,ProductServiceApi,FormValueServiceApi} from '../../shared/shared';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 
@@ -35,6 +35,7 @@ export class FormPage {
     formFieldModel:any[] = [];
 
     constructor(private loading: LoadingController,
+      private formValueServiceApi : FormValueServiceApi,
       private productRepoApi : ProductRepoApi,
       private productServiceApi : ProductServiceApi,
       public formServiceApi : FormServiceApi,
@@ -67,11 +68,10 @@ export class FormPage {
            }
      }
 
-     ionViewDidLoad() {
-      
+     ionViewDidLoad(){
      }
 
-     showCalendar() {
+     showCalendar(){
        this.datePicker.showCalendar();
      }
 
@@ -89,14 +89,33 @@ export class FormPage {
             id : 1,
             placeId : this.placeId,
             formId : this.formId,
-            formFieldValues : this.formFieldValues,
+            formFieldValues : JSON.stringify(this.formFieldValues),
             scheduleId : this.scheduleId
         }
-        console.log(JSON.stringify(this.formFieldDtoIn));
      }
 
      submitForm() {
         this.prepareDtoData();
+        if(localStorage.getItem("isOnline")==="true") {
+            this.saveFormValuesApi();
+        }else{
+          this.saveFormValuesRepo();
+        }
+     }
+
+     saveFormValuesApi() {
+        this.formValueServiceApi.addFormValue(this.formFieldDtoIn)
+            .subscribe(
+              res => {
+                this.navCtrl.pop();
+              },err => {
+                console.log(err);
+                return;
+          });
+     }
+
+     saveFormValuesRepo(){
+
      }
 
      listProductsApi() {

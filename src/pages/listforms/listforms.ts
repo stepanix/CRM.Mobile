@@ -85,8 +85,8 @@ export class ListFormsPage {
   openForm(item) {
         this.navCtrl.push(FormPage, {
             formId : item.id,
-            placeId : item.placeId,
-            scheduleId : item.scheduleId
+            placeId : this.placeId,
+            scheduleId : this.scheduleId
         });
   }
 

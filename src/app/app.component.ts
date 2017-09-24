@@ -12,7 +12,7 @@ import { LoginPage } from '../pages/login/login';
 import {SyncServiceApi} from '../services/sync-service-api';
 import { LoginServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
 import { PlaceServiceApi,ProductServiceApi,FormServiceApi } from '../shared/shared';
-import { RetailAuditFormServiceApi,StatusServiceApi } from '../shared/shared';
+import { RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi } from '../shared/shared';
 
 import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
 import {PlacesAutoCompleteService} from '../services/place-autocomplete-service-api';
@@ -46,7 +46,8 @@ import {UserRepoApi} from '../repos/user-repo-api';
         RetailAuditFormRepoApi,
         ScheduleRepoApi,
         StatusRepoApi,
-        UserRepoApi
+        UserRepoApi,
+        FormValueServiceApi
     ]
 })
 export class MyApp {
