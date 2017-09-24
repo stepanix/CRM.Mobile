@@ -8,6 +8,7 @@ import {
   Validators
 } from "@angular/forms"
 import {FormRepoApi} from '../../repos/form-repo-api';
+import {FormValueRepoApi} from '../../repos/formvalue-repo-api';
 import {ProductRepoApi} from '../../repos/product-repo-api';
 import {FormServiceApi,ProductServiceApi,FormValueServiceApi} from '../../shared/shared';
 import { DatePicker } from 'ionic2-date-picker';
@@ -35,6 +36,7 @@ export class FormPage {
     formFieldModel:any[] = [];
 
     constructor(private loading: LoadingController,
+      private formValueRepoApi:FormValueRepoApi,
       private formValueServiceApi : FormValueServiceApi,
       private productRepoApi : ProductRepoApi,
       private productServiceApi : ProductServiceApi,
@@ -68,6 +70,16 @@ export class FormPage {
            }
      }
 
+     newGuid() : string {
+      function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+              .toString(16)
+              .substring(1);
+      }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+    }
+
      ionViewDidLoad(){
      }
 
@@ -75,16 +87,20 @@ export class FormPage {
        this.datePicker.showCalendar();
      }
 
-     prepareDtoData() {
-       this.formFieldValues = [];
-       for(var i=0;i<this.formFields.length;i++) {
-           if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
-              this.formFieldValues.push ({
-                  question : this.formFields[i].question,
-                  answer : this.formFieldModel[this.formFields[i].id]
-              });
-           }
-        }
+     saveFormFieldValues(){
+      this.formFieldValues = [];
+      for(var i=0;i<this.formFields.length;i++) {
+          if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
+             this.formFieldValues.push ({
+                 question : this.formFields[i].question,
+                 answer : this.formFieldModel[this.formFields[i].id]
+             });
+          }
+       }
+     }
+
+     prepareApiDtoData() {
+        this.saveFormFieldValues();    
         this.formFieldDtoIn = {
             id : 1,
             placeId : this.placeId,
@@ -94,28 +110,55 @@ export class FormPage {
         }
      }
 
+     prepareRepoDtoData() {
+      this.saveFormFieldValues();    
+      this.formFieldDtoIn = {
+          id : this.newGuid(),
+          PlaceId : this.placeId,
+          FormId : this.formId,
+          FormFieldValues : JSON.stringify(this.formFieldValues),
+          ScheduleId : this.scheduleId,
+          IsSynched : 0
+      }
+   }
+
      submitForm() {
-        this.prepareDtoData();
-        if(localStorage.getItem("isOnline")==="true") {
+         if(localStorage.getItem("isOnline")==="true") {
             this.saveFormValuesApi();
-        }else{
-          this.saveFormValuesRepo();
-        }
+         }else{
+            this.saveFormValuesRepo();
+         }
      }
 
      saveFormValuesApi() {
-        this.formValueServiceApi.addFormValue(this.formFieldDtoIn)
-            .subscribe(
-              res => {
-                this.navCtrl.pop();
-              },err => {
-                console.log(err);
-                return;
-          });
+        this.prepareApiDtoData();
+        this.loader = this.loading.create({
+            content: 'Busy, please wait...',
+        });
+        this.loader.present().then(() => {
+            this.formValueServiceApi.addFormValue(this.formFieldDtoIn)
+                .subscribe(
+                  res => {
+                    this.navCtrl.pop();
+                    this.loader.dismiss();
+                  },err => {
+                    console.log(err);
+                    this.loader.dismiss();
+                    return;
+             });
+        });
      }
 
-     saveFormValuesRepo(){
-
+     saveFormValuesRepo() {
+          this.prepareRepoDtoData();
+          this.loader = this.loading.create({
+              content: 'Busy, please wait...',
+          });
+          this.loader.present().then(() => {
+              this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
+              this.navCtrl.pop();
+              this.loader.dismiss();
+          });
      }
 
      listProductsApi() {

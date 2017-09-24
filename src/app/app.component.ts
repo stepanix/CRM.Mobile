@@ -23,6 +23,7 @@ import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 import {StatusRepoApi} from '../repos/status-repo-api';
 import {UserRepoApi} from '../repos/user-repo-api';
+import {FormValueRepoApi} from '../repos/formvalue-repo-api';
 
 
 @Component({
@@ -47,7 +48,8 @@ import {UserRepoApi} from '../repos/user-repo-api';
         ScheduleRepoApi,
         StatusRepoApi,
         UserRepoApi,
-        FormValueServiceApi
+        FormValueServiceApi,
+        FormValueRepoApi
     ]
 })
 export class MyApp {
