@@ -39,35 +39,33 @@ export class LoginPage {
         console.log('ionViewDidLoad LoginPage');
     }
 
-    
-
     onSubmit(formData) {
       
-             this.loader = this.loading.create({
+            this.loader = this.loading.create({
                 content: 'Signing in...',
-              });
-      
-              this.loader.present().then(() => {
-              this.frmData = formData;
-      
-              this.loginData = 'username=' + this.frmData.userName + '&password=' + this.frmData.password + '&grant_type=password';
-      
-              this.loginApi.postLogin(this.loginData).subscribe(res => {
-                  
-                   localStorage.setItem('token', res.access_token);
-                  
-                   //Download data from remote server
-                   this.syncServiceApi.downloadServerData();
+            });
 
-                   this.navCtrl.setRoot(ActivitiesPage);
-                   this.loader.dismiss();
+            this.loader.present().then(() => {
+            this.frmData = formData;
 
-               }, err => {
-                    console.log(JSON.stringify(err));
-                    this.loader.dismiss();
-                    return;
-               });
-           });
-       }
+            this.loginData = 'username=' + this.frmData.userName + '&password=' + this.frmData.password + '&grant_type=password';
+
+            this.loginApi.postLogin(this.loginData).subscribe(res => {
+                
+                localStorage.setItem('token', res.access_token);
+                
+                //Download data from remote server
+                this.syncServiceApi.downloadServerData();
+
+                this.navCtrl.setRoot(ActivitiesPage);
+                this.loader.dismiss();
+
+            }, err => {
+                console.log(JSON.stringify(err));
+                this.loader.dismiss();
+                return;
+            });
+        });
+   }
 
 }

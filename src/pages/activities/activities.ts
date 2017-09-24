@@ -19,18 +19,18 @@ export class ActivitiesPage {
 
          var token = localStorage.getItem('token');
 
-        if(token===null || token===undefined || token==="null"){
-            this.navCtrl.setRoot(LoginPage);
+         if(token===null || token===undefined || token==="null") {
+             this.navCtrl.setRoot(LoginPage);
          }else{
-            this.loader = this.loading.create({
-              content: 'Synching data, please wait...',
-            });
+             this.loader = this.loading.create({
+                content: 'Synching data, please wait...',
+             });
 
             this.loader.present().then(() => {
-              syncServiceApi.downloadServerData();
-              this.loader.dismiss();
+               syncServiceApi.downloadServerData();
+               this.loader.dismiss();
             });
-         }
+        }
   }
 
   ionViewDidLoad() {
