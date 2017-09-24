@@ -43,7 +43,7 @@ export class ListFormsPage {
           content: 'Busy please wait...',
       });
       this.loader.present().then(() => {
-            this.forms = [];
+              this.forms = [];
               this.fromRepoApi.list().then((res) => {
                   for(var i = 0; i<res.results.length;i++) {
                       this.forms.push({

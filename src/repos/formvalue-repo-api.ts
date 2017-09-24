@@ -16,6 +16,13 @@ export class FormValueRepoApi {
         data.delete();
      }
 
+     deleteSynched(dataDto:any[]) {
+        var data = new QueryBuilder(new FormValueModel());
+        for(var i=0; i<dataDto.length;i++) {
+            data.where("ServerId","=",dataDto[i].id).delete();
+        }
+     }
+
      insert(dataDto:any[]) {
         var data = new QueryBuilder(new FormValueModel());
         for(var i=0; i<dataDto.length;i++){
@@ -31,6 +38,12 @@ export class FormValueRepoApi {
      list():Promise<any> {
         var data = new QueryBuilder(new FormValueModel());
         var results = data.get("*");
+        return results;
+     }
+
+     listUnSynched() : Promise<any>{
+        var data = new QueryBuilder(new FormValueModel());
+        var results = data.where("IsSynched", "=", "0").get();
         return results;
      }
 

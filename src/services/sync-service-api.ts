@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
-import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi} from '../shared/shared';
+import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
@@ -9,12 +9,15 @@ import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
 import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 import {StatusRepoApi} from '../repos/status-repo-api';
 import {UserRepoApi} from '../repos/user-repo-api';
+import {FormValueRepoApi} from '../repos/formvalue-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
   
     
     constructor(
+        private formValueServiceApi : FormValueServiceApi,
+        private formValueRepoApi : FormValueRepoApi,
         private userRepoApi : UserRepoApi,
         private statusRepoApi : StatusRepoApi,
         private statusServiceApi : StatusServiceApi,
@@ -242,9 +245,7 @@ export class SyncServiceApi {
     }
 
     downloadServerData() {
-        
-        this.uploadDataToServer();
-
+        this.uploadFormValuesToServer();
         this.downloadUserApi();
         this.downloadStatusApi();
         this.downloadPlacesApi();
@@ -254,8 +255,29 @@ export class SyncServiceApi {
         this.downloadFormsApi();
     }
 
-    uploadDataToServer() {
+    uploadFormValuesToServer() {
+        let formValues = [];
+        this.formValueRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length;i++) {
+                formValues.push({
+                    id : 0,
+                    placeId : res.results[i].PlaceId,
+                    formId : res.results[i].FormId,
+                    formFieldValues : JSON.stringify(JSON.parse(res.results[i].FormFieldValues)),
+                    scheduleId : res.results[i].ScheduleId
+                });
+            }
 
+            this.formValueServiceApi.addFormValueList(formValues)
+            .subscribe(
+              res => {
+                this.formValueRepoApi.deleteSynched(res);
+              },err => {
+                console.log(err);
+                return;
+           });
+
+        });
     }
    
 

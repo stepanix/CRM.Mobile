@@ -19,15 +19,23 @@ export class FormValueServiceApi {
      }
 
      getHeader() {
-        this.header = new Headers();        
+        this.header = new Headers();
         this.token = 'bearer ' + localStorage.getItem('token');
         this.header.append('Authorization', this.token);
-        this.header.append('Content-Type', 'application/json');   
+        this.header.append('Content-Type', 'application/json');
         return this.header; 
      }
      
      addFormValue (formModel: any): Observable<any> {
         return this.http.post(crmBaseUrl + "FormValue", formModel  ,{headers: this.getHeader()}) // ...using post request
+                         .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
+                         .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
+     }
+
+     addFormValueList (formModel: any[]): Observable<any[]> {
+        console.log(JSON.stringify(formModel));
+         console.log(crmBaseUrl + "FormValue/List");
+        return this.http.post(crmBaseUrl + "FormValue/List", formModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
@@ -43,7 +51,6 @@ export class FormValueServiceApi {
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
-     
 
    
      

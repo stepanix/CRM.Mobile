@@ -58,7 +58,7 @@ export class SchedulePage {
             this.scheduleRepoApi.listByDate(this.parseRepoDate(scheduleDate)).then((res) => {
                 for(var i = 0; i<res.results.length;i++) {
                      this.schedules.push({
-                         id : res.results[i].Id,
+                         id : res.results[i].ServerId,
                          placeId : res.results[i].PlaceId,
                          place : res.results[i].PlaceName,
                          address : res.results[i].PlaceAddress,
