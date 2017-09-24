@@ -28,5 +28,11 @@ export class FormRepoApi {
         var results = data.get("*");
         return results;
      }
+
+     listById(serverId:any) : Promise<any>{
+        var data = new QueryBuilder(new FormModel());
+        var results = data.where("ServerId", "=", serverId).get();
+        return results;
+     }
      
 }

@@ -23,7 +23,7 @@
 
                   <ion-item *ngFor="let item of formFields">
 
-                      <ion-label *ngIf="item.questionTypeId !=='6'" floating><span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
+                      <ion-label *ngIf="item.questionTypeId !=='6' && item.questionTypeId !=='7'" floating><span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
                       
                       <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
 
@@ -40,7 +40,8 @@
                           <ion-option *ngFor="let option of item.answers" value="{{option.answer}}">{{option.answer}}</ion-option>
                       </ion-select>
 
-                      <div  *ngIf="item.questionTypeId==='6'" (click)="checkIn('photo')">
+                      <div *ngIf="item.questionTypeId==='6'" (click)="checkIn('photo')">
+                          <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
                           {{item.question}}
                           <span style="float: right;">
                               Take a Photo   <ion-icon ios="ios-camera" md="ios-camera" item-right></ion-icon>
@@ -48,8 +49,9 @@
                       </div>
 
                       <div *ngIf="item.questionTypeId==='7'">
+                          <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>                    
                           <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
-                          <b (click)="showCalendar()">{{selectedDate}}</b>
+                          <b (click)="showCalendar()">{{formFieldModel[item.id]}}</b>
                       </div>
 
                   </ion-item>

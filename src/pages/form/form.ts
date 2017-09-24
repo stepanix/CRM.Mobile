@@ -35,9 +35,22 @@ export class FormPage {
       private datePicker:DatePicker,
       public navCtrl:NavController,
       public navParams:NavParams) {
-        this.datePicker.onDateSelected.subscribe((date) => { this.selectedDate = moment(date).format('YYYY-MM-DD').toString(); });
-        this.formId = this.navParams.get('formId');
-        this.getFormApi();
+
+          this.datePicker.onDateSelected.subscribe((date) => {
+              for (var i=0; i < this.formFields.length; i++) {
+                  if (this.formFields[i].questionTypeId==="7") {
+                    this.formFieldModel[this.formFields[i].id] = moment(date).format('YYYY-MM-DD').toString(); 
+                  }
+              }
+          });
+
+          this.formId = this.navParams.get('formId');
+
+          if(localStorage.getItem("isOnline")==="true"){
+            this.getFormApi();
+          }else{
+              this.getFormRepo();
+          }
      }
 
      ionViewDidLoad() {
@@ -75,14 +88,39 @@ export class FormPage {
           }
      }
 
-     getFormRepo() {
+     
 
+     getFormRepo() {
+        this.loader = this.loading.create({
+            content: 'Busy please wait...',
+        });
+
+        this.loader.present().then(() => {
+          
+                this.formFields = [];
+
+                this.formRepoApi.listById(this.formId).then((res) => {
+
+                  let fields = JSON.parse(res.results[0].Fields);
+                    
+                    for(var i=0; i < fields.length; i++) {
+                        this.formFields.push({
+                            id : fields[i].id,
+                            questionTypeId : fields[i].questionTypeId,
+                            question : fields[i].question,
+                            answers : fields[i].answers,
+                            mandatory : fields[i].mandatory
+                        });
+                    }
+                    this.loader.dismiss();
+                });
+        });
      }
 
      getFormApi() {
 
           this.loader = this.loading.create({
-            content: 'Busy please wait...',
+             content: 'Busy please wait...',
           });
 
           this.loader.present().then(() => {
