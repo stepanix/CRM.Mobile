@@ -62,6 +62,10 @@
                           <b (click)="openBarCode()">{{formFieldModel[item.id]}}</b>
                       </div>
 
+                      <ion-select *ngIf="item.questionTypeId==='10'" [(ngModel)]="formFieldModel[item.id]">
+                          <ion-option *ngFor="let option of products" value="{{option.name}}">{{option.name}}</ion-option>
+                      </ion-select>
+
                   </ion-item>
                
             </ion-list>

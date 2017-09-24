@@ -8,7 +8,8 @@ import {
   Validators
 } from "@angular/forms"
 import {FormRepoApi} from '../../repos/form-repo-api';
-import {FormServiceApi} from '../../shared/shared';
+import {ProductRepoApi} from '../../repos/product-repo-api';
+import {FormServiceApi,ProductServiceApi} from '../../shared/shared';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 
@@ -26,10 +27,13 @@ export class FormPage {
     formData : any;
     formFields : any[] = [];
     formId : any;
+    products : any[] = [];
 
     formFieldModel:any[] = [];
 
     constructor(private loading: LoadingController,
+      private productRepoApi : ProductRepoApi,
+      private productServiceApi : ProductServiceApi,
       public formServiceApi:FormServiceApi,
       public formRepoApi:FormRepoApi,
       private datePicker:DatePicker,
@@ -47,8 +51,10 @@ export class FormPage {
           this.formId = this.navParams.get('formId');
 
           if(localStorage.getItem("isOnline")==="true"){
+            this.listProductsApi();
             this.getFormApi();
           }else{
+              this.listProductsRepo();
               this.getFormRepo();
           }
      }
@@ -61,10 +67,40 @@ export class FormPage {
        this.datePicker.showCalendar();
      }
 
-     submitForm(){
-       for(var i=0;i<this.formFields.length;i++){
-         alert(this.formFieldModel[this.formFields[i].id]);
-       }
+     submitForm() {
+        for(var i=0;i<this.formFields.length;i++){
+          alert(this.formFieldModel[this.formFields[i].id]);
+        }
+     }
+
+     listProductsApi() {
+            this.products = [];
+            this.productServiceApi.getProducts()
+             .subscribe(
+                res => {
+                  for(var i=0; i< res.length; i++) {
+                        this.products.push({
+                            id:res[i].id,
+                            name : res[i].name
+                        });
+                    }
+                },err => {
+                 console.log(err);
+                 return;
+            });
+     }
+
+     listProductsRepo() {
+        this.products = [];
+        this.productRepoApi.list().then((res) => {
+              for(var i = 0; i<res.results.length;i++) {
+                  this.products.push({
+                      id : res.results[i].ServerId,
+                      name : res.results[i].Name
+                  });
+              }
+              this.loader.dismiss();
+          });
      }
 
      allMandatoryFieldsValidated() : boolean {
@@ -87,8 +123,6 @@ export class FormPage {
               return this.formFields[index].mandatory;
           }
      }
-
-     
 
      getFormRepo() {
         this.loader = this.loading.create({
