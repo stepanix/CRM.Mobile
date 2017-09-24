@@ -27,36 +27,44 @@ export class FormPage {
     formData : any;
     formFields : any[] = [];
     formId : any;
+    scheduleId : any;
+    placeId : any;
     products : any[] = [];
-
+    formFieldValues : any[] = [];
+    formFieldDtoIn : any;
     formFieldModel:any[] = [];
 
     constructor(private loading: LoadingController,
       private productRepoApi : ProductRepoApi,
       private productServiceApi : ProductServiceApi,
-      public formServiceApi:FormServiceApi,
-      public formRepoApi:FormRepoApi,
-      private datePicker:DatePicker,
-      public navCtrl:NavController,
-      public navParams:NavParams) {
+      public formServiceApi : FormServiceApi,
+      public formRepoApi : FormRepoApi,
+      private datePicker : DatePicker,
+      public navCtrl : NavController,
+      public navParams : NavParams) {
 
-          this.datePicker.onDateSelected.subscribe((date) => {
-              for (var i=0; i < this.formFields.length; i++) {
-                  if (this.formFields[i].questionTypeId==="7") {
-                    this.formFieldModel[this.formFields[i].id] = moment(date).format('YYYY-MM-DD').toString(); 
-                  }
-              }
-          });
+           this.datePicker.onDateSelected.subscribe((date) => {
+                for (var i=0; i < this.formFields.length; i++) {
+                    if (this.formFields[i].questionTypeId==="7") {
+                       this.formFieldModel[this.formFields[i].id] = moment(date).format('YYYY-MM-DD').toString(); 
+                    }
+                }
+           });
+          
+           this.formFieldValues = [];
+           this.formFieldDtoIn = {};
 
-          this.formId = this.navParams.get('formId');
+           this.formId = this.navParams.get('formId');
+           this.placeId = this.navParams.get('placeId');
+           this.scheduleId = this.navParams.get('scheduleId');
 
-          if(localStorage.getItem("isOnline")==="true"){
-            this.listProductsApi();
-            this.getFormApi();
-          }else{
-              this.listProductsRepo();
-              this.getFormRepo();
-          }
+           if(localStorage.getItem("isOnline")==="true") {
+               this.listProductsApi();
+               this.getFormApi();
+           }else{
+               this.listProductsRepo();
+               this.getFormRepo();
+           }
      }
 
      ionViewDidLoad() {
@@ -67,10 +75,28 @@ export class FormPage {
        this.datePicker.showCalendar();
      }
 
-     submitForm() {
-        for(var i=0;i<this.formFields.length;i++){
-          alert(this.formFieldModel[this.formFields[i].id]);
+     prepareDtoData() {
+       this.formFieldValues = [];
+       for(var i=0;i<this.formFields.length;i++) {
+           if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
+              this.formFieldValues.push ({
+                  question : this.formFields[i].question,
+                  answer : this.formFieldModel[this.formFields[i].id]
+              });
+           }
         }
+        this.formFieldDtoIn = {
+            id : 1,
+            placeId : this.placeId,
+            formId : this.formId,
+            formFieldValues : this.formFieldValues,
+            scheduleId : this.scheduleId
+        }
+        console.log(JSON.stringify(this.formFieldDtoIn));
+     }
+
+     submitForm() {
+        this.prepareDtoData();
      }
 
      listProductsApi() {
@@ -100,6 +126,17 @@ export class FormPage {
                   });
               }
           });
+     }
+
+     isFormFieldValueValid(formFieldValue) : boolean{
+        if(formFieldValue===undefined 
+          || formFieldValue==="undefined"
+          || formFieldValue==="null"
+          || formFieldValue===null
+          || formFieldValue===""){
+            return false;
+          }
+          return true;
      }
 
      allMandatoryFieldsValidated() : boolean {
@@ -181,8 +218,5 @@ export class FormPage {
        
      }
 
-    parseFormFields() {
-      
-    }
-
+    
 }

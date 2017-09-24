@@ -14,11 +14,16 @@ export class ListFormsPage {
   loader : any;
   forms : any[] = [];
 
+  scheduleId : any;
+  placeId : any;
+
   constructor(private loading: LoadingController,
     private formServiceApi : FormServiceApi,
     private fromRepoApi : FormRepoApi,
     public navCtrl: NavController, 
     public navParams: NavParams) {
+        this.scheduleId = this.navParams.get('scheduleId');
+        this.placeId = this.navParams.get('placeId');
   }
 
   ionViewDidLoad() {
@@ -78,9 +83,11 @@ export class ListFormsPage {
   }
 
   openForm(item) {
-    this.navCtrl.push(FormPage, {
-        formId : item.id
-     });
+        this.navCtrl.push(FormPage, {
+            formId : item.id,
+            placeId : item.placeId,
+            scheduleId : item.scheduleId
+        });
   }
 
 
