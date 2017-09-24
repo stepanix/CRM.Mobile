@@ -23,7 +23,7 @@
 
                   <ion-item *ngFor="let item of formFields">
 
-                      <ion-label *ngIf="item.questionTypeId !=='6' && item.questionTypeId !=='7'" floating><span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
+                      <ion-label *ngIf="item.questionTypeId !=='6' && item.questionTypeId !=='7' && item.questionTypeId !=='9'" floating><span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
                       
                       <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
 
@@ -49,10 +49,17 @@
                       </div>
 
                       <div *ngIf="item.questionTypeId==='7'">
-                          <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
+                          <span  *ngIf="item.mandatory === true" style="color:red;font-weight: bold;">* </span>
                           <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
-                          <span style="color:black;"> Select date </span>
+                          <span style="color:black;"> {{item.question}} </span>
                           <b (click)="showCalendar()">{{formFieldModel[item.id]}}</b>
+                      </div>
+
+                      <div *ngIf="item.questionTypeId==='9'">
+                          <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
+                          <ion-icon item-left name="ios-barcode" (click)="openBarCode()"></ion-icon>
+                          <span style="color:black;"> {{item.question}} </span>
+                          <b (click)="openBarCode()">{{formFieldModel[item.id]}}</b>
                       </div>
 
                   </ion-item>
