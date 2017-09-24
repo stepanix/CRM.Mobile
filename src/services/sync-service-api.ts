@@ -246,12 +246,11 @@ export class SyncServiceApi {
 
     downloadServerData() {
         this.uploadFormValuesToServer();
-        this.uploadScheduleToServer();
+        this.syncScheduleWithServer();
         this.downloadUserApi();
         this.downloadStatusApi();
         this.downloadPlacesApi();
-        this.downloadProductsApi();
-        this.downloadScheduleApi();
+        this.downloadProductsApi();        
         this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
     }
@@ -282,7 +281,7 @@ export class SyncServiceApi {
         });
     }
 
-    uploadScheduleToServer() {
+    syncScheduleWithServer() {
         let schedules = [];
         this.scheduleRepoApi.listUnSynched().then((res) => {
             for(var i = 0; i<res.results.length;i++) {
@@ -290,13 +289,19 @@ export class SyncServiceApi {
                     id : 0,
                     syncId : res.results[i].Id,
                     placeId : res.results[i].PlaceId,
-                    place : res.results[i].PlaceName,
-                    address : res.results[i].PlaceAddress,
-                    time : res.results[i].VisitTime,
-                    status : res.results[i].VisitStatus,
-                    latitude : res.results[i].Latitude,
-                    longitude : res.results[i].Longitude,
-                    isSynched : res.results[i].IsSynched
+                    userId: res.results[i].UserId,
+                    visitDate: res.results[i].VisitDate,
+                    visitTime : this.parseDateTime(res.results[i].VisitTime),
+                    visitNote : res.results[i].VisitNote,
+                    isRecurring: Boolean(res.results[i].IsRecurring),
+                    repeatCycle : res.results[i].RepeatCycle,
+                    isVisited : Boolean(res.results[i].IsVisited),
+                    isScheduled: Boolean(res.results[i].IsScheduled),
+                    isMissed : Boolean(res.results[i].IsMissed),
+                    isUnScheduled : Boolean(res.results[i].IsUnScheduled),
+                    visitStatus : res.results[i].VisitStatus,
+                    checkInTime : this.parseDateTime(res.results[i].CheckInTime),
+                    checkOutTime : this.parseDateTime(res.results[i].CheckOutTime),
                 });
             }
 
@@ -305,11 +310,23 @@ export class SyncServiceApi {
               res => {
                 console.log(JSON.stringify(res));
                 this.scheduleRepoApi.deleteSynched(res);
+                this.downloadScheduleApi();
               },err => {
                 console.log(err);
                 return;
            });
         });
+    }
+
+    parseDateTime(dateTimeVar){
+        if(dateTimeVar===undefined 
+            || dateTimeVar===""
+            || dateTimeVar==="undefined"
+            || dateTimeVar==="null"
+            || dateTimeVar===null){
+                return null;
+            }
+            return dateTimeVar;
     }
    
 
