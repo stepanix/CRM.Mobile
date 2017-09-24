@@ -261,6 +261,7 @@ export class SyncServiceApi {
             for(var i = 0; i<res.results.length;i++) {
                 formValues.push({
                     id : 0,
+                    syncId : res.results[i].Id,
                     placeId : res.results[i].PlaceId,
                     formId : res.results[i].FormId,
                     formFieldValues : JSON.stringify(JSON.parse(res.results[i].FormFieldValues)),
@@ -271,12 +272,12 @@ export class SyncServiceApi {
             this.formValueServiceApi.addFormValueList(formValues)
             .subscribe(
               res => {
+                console.log(JSON.stringify(res));
                 this.formValueRepoApi.deleteSynched(res);
               },err => {
                 console.log(err);
                 return;
            });
-
         });
     }
    

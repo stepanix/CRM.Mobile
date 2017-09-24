@@ -19,7 +19,7 @@ export class FormValueRepoApi {
      deleteSynched(dataDto:any[]) {
         var data = new QueryBuilder(new FormValueModel());
         for(var i=0; i<dataDto.length;i++) {
-            data.where("ServerId","=",dataDto[i].id).delete();
+            data.where("Id","=",dataDto[i].syncId).delete();
         }
      }
 

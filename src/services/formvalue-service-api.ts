@@ -33,8 +33,6 @@ export class FormValueServiceApi {
      }
 
      addFormValueList (formModel: any[]): Observable<any[]> {
-        console.log(JSON.stringify(formModel));
-         console.log(crmBaseUrl + "FormValue/List");
         return this.http.post(crmBaseUrl + "FormValue/List", formModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
