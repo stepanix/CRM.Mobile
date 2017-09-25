@@ -37,10 +37,10 @@ export class SchedulePage {
     }
 
     ionViewDidLoad() {
-        
+      this.listSchedule();
     }
 
-    listSchedule(){
+    listSchedule() {
         if(localStorage.getItem("isOnline")==="true"){
             this.listMySchedulesApi();
         }else{

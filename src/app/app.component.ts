@@ -90,15 +90,17 @@ export class MyApp {
           this.statusBar.styleDefault();
           this.splashScreen.hide();
 
-          let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-              localStorage.setItem("isOnline","false");
-              console.log("isOnline = false");
-          });
+          localStorage.setItem("isOnline","false");
 
-          let connectSubscription = this.network.onConnect().subscribe(() => {
-              localStorage.setItem("isOnline","true");
-              console.log("isOnline = true");
-          });
+        //   let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+        //       localStorage.setItem("isOnline","false");
+        //       console.log("isOnline = false");
+        //   });
+
+        //   let connectSubscription = this.network.onConnect().subscribe(() => {
+        //       localStorage.setItem("isOnline","true");
+        //       console.log("isOnline = true");
+        //   });
     });
   }
 

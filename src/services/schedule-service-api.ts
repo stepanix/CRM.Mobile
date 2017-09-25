@@ -65,6 +65,7 @@ export class ScheduleServiceApi {
      }
 
      getMySchedules(scheduleDate) : Observable<any[]> {
+         console.log(crmBaseUrl + "Schedule/MySchedules?scheduleDate=" + scheduleDate);
         return  this.http.get(crmBaseUrl + "Schedule/MySchedules?scheduleDate=" + scheduleDate,{headers: this.getHeader()})
         .map((response: Response) => response.json())
         .catch((error:any) => Observable.throw(error.json() || 'Server error'));
