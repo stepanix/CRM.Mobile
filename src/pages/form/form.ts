@@ -123,11 +123,12 @@ export class FormPage {
    }
 
      submitForm() {
-         if(localStorage.getItem("isOnline")==="true") {
-            this.saveFormValuesApi();
-         }else{
-            this.saveFormValuesRepo();
-         }
+        this.saveFormValuesRepo();
+        //  if(localStorage.getItem("isOnline")==="true") {
+        //     this.saveFormValuesApi();
+        //  }else{
+        //     this.saveFormValuesRepo();
+        //  }
      }
 
      saveFormValuesApi() {

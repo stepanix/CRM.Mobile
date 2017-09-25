@@ -27,7 +27,8 @@ export class ListFormsPage {
   }
 
   ionViewDidLoad() {
-     this.listSchedule();
+    this.listFormsRepo();
+     //this.listSchedule();
   }
 
   listSchedule() {

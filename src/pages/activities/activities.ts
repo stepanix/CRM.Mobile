@@ -24,7 +24,7 @@ export class ActivitiesPage {
          }else{
              this.loader = this.loading.create({
                 content: 'Synching data, please wait...',
-             });
+          });
 
             this.loader.present().then(() => {
                syncServiceApi.downloadServerData();

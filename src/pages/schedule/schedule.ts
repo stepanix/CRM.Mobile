@@ -37,15 +37,16 @@ export class SchedulePage {
     }
 
     ionViewDidLoad() {
-      this.listSchedule();
+      //this.listSchedule();
+      this.listMyScheduleRepo();
     }
 
     listSchedule() {
-        if(localStorage.getItem("isOnline")==="true"){
-            this.listMySchedulesApi();
-        }else{
-            this.listMyScheduleRepo();
-        }
+        // if(localStorage.getItem("isOnline")==="true"){
+        //     this.listMySchedulesApi();
+        // }else{
+        //     this.listMyScheduleRepo();
+        // }
     }
 
     listMyScheduleRepo() {
