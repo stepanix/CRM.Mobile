@@ -42,11 +42,7 @@ export class SchedulePage {
     }
 
     listSchedule() {
-        // if(localStorage.getItem("isOnline")==="true"){
-        //     this.listMySchedulesApi();
-        // }else{
-        //     this.listMyScheduleRepo();
-        // }
+       this.listMyScheduleRepo();
     }
 
     listMyScheduleRepo() {

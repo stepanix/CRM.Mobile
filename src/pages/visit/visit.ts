@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams,AlertController  } from 'ionic-angular';
+import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
+import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
+
 
 
 @Component({
@@ -16,27 +19,87 @@ export class VisitPage {
   streetAddress : any;
   lat : any;
   lng : any;
+  dataDtoIn : any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private scheduleRepoApi : ScheduleRepoApi,
+    public alertCtrl : AlertController,
+    public navCtrl : NavController, public navParams : NavParams) {
     this.scheduleId = this.navParams.get('scheduleId');
     this.placeId = this.navParams.get('placeId');
     this.placeName = this.navParams.get('placeName');
     this.streetAddress = this.navParams.get('streetAddress');
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
+    this.getScheduleData();
   }
 
   ionViewDidLoad() {
      
   }
 
-  checkIn(type){
-      if(type==="form") {
-          this.navCtrl.push(ListFormsPage, {
-            scheduleId : this.scheduleId,
-            placeId : this.placeId
-        });
-      }
+  getScheduleData() {
+     this.scheduleRepoApi.listById(this.scheduleId).then((res) => {
+         this.dataDtoIn = res.results[0];
+         console.log(JSON.stringify(this.dataDtoIn));
+     });
   }
+
+  updateScheduleStatus(){
+    this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
+    this.dataDtoIn.VisitStatus = "Checked In";
+    this.dataDtoIn.IsSynched = 0;
+    this.scheduleRepoApi.updateRecord(this.dataDtoIn);
+  }
+
+  checkIn(type){
+    if (this.dataDtoIn.VisitStatus !== "Checked In") {
+            let confirm = this.alertCtrl.create({
+              title: 'Do you want to check in at ' + this.placeName + ' ?',       
+              buttons: [
+                {
+                  text: 'Check in here',
+                  handler: () => {
+
+                      this.updateScheduleStatus();
+
+                      if(type==="form") {
+                          this.navCtrl.push(ListFormsPage, {
+                              scheduleId : this.scheduleId,
+                              placeId : this.placeId
+                          });
+                      }
+
+                  }
+                },
+                {
+                  text: 'Proceed without check in',
+                  handler: () => {
+                    console.log('Agree clicked');
+                  }
+                },
+                {
+                  text: 'Cancel',
+                  handler: () => {
+                    
+                  }
+                }
+              ]
+            });
+            confirm.present();
+       }else{
+            if(type==="form") {
+                this.navCtrl.push(ListFormsPage, {
+                    scheduleId : this.scheduleId,
+                    placeId : this.placeId
+                });
+            }
+       }
+      
+  }
+
+
+  
+
+
 
 }

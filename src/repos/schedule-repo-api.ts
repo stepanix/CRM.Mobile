@@ -11,7 +11,7 @@ export class ScheduleRepoApi {
             
      }
 
-     delete(){
+     delete() {
         var data = new QueryBuilder(new ScheduleModel());
         data.delete();
      }
@@ -23,31 +23,37 @@ export class ScheduleRepoApi {
         }
      }
 
-     insert(dataDto:any[]){
+     insert(dataDto:any[]) {
         var data = new QueryBuilder(new ScheduleModel());
-        for(var i=0; i<dataDto.length;i++){
+        for(var i=0; i<dataDto.length;i++) {
             data.create(dataDto[i]);
         }
      }
 
-     insertRecord(dataDto:any){
+     insertRecord(dataDto:any) {
         var data = new QueryBuilder(new ScheduleModel());
         data.create(dataDto);
      }
 
-     list() : Promise<any>{
+     list() : Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
         var results = data.get("*");
         return results;
      }
 
-     listByDate(visitDate:string) : Promise<any>{
+     listByDate(visitDate:string) : Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
         var results = data.where("VisitDate", "=", visitDate).get();
         return results;
      }
 
-     listUnSynched() : Promise<any>{
+     listById(serverId:any) : Promise<any> {
+        var data = new QueryBuilder(new ScheduleModel());
+        var results = data.where("ServerId", "=", serverId).get();
+        return results;
+     }
+
+     listUnSynched() : Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
         var results = data.where("IsSynched", "=", "0").get();
         return results;
@@ -55,7 +61,7 @@ export class ScheduleRepoApi {
 
      updateRecord(dataDto:any) {
         var data = new QueryBuilder(new ScheduleModel());
-        data.where("ServerId", "=", dataDto.id).update(dataDto);
+        data.where("Id", "=", dataDto.Id).update(dataDto);
      }
      
 }
