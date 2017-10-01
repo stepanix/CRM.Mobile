@@ -4,19 +4,23 @@
            <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>Visit Task</ion-title>
-        <ion-buttons end>
-                
-              <page-network> </page-network>
-                
-          </ion-buttons>
+
+        <ion-buttons end [hidden]="hideCheckOutButton">
+            <ion-icon ios="ios-arrow-dropleft-circle" md="ios-arrow-dropleft-circle" item-left></ion-icon>
+            CHECK OUT
+        </ion-buttons>
+
+        <ion-buttons end>                
+              <page-network> </page-network>                
+        </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-      <ion-list class="signInList signIn">
+      <ion-list class="signInList signIn">        
 
-            <button ion-item style="text-align: left;">
+         <button ion-item style="text-align: left;">
                 <ion-icon ios="ios-compass" md="ios-compass" item-left></ion-icon>
                   {{placeName}}
           </button>

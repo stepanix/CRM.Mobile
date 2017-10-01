@@ -38,7 +38,7 @@ export class SchedulePage {
 
     ionViewDidLoad() {
       //this.listSchedule();
-      this.listMyScheduleRepo();
+       this.listMyScheduleRepo();
     }
 
     listSchedule() {
@@ -69,6 +69,14 @@ export class SchedulePage {
                  this.loader.dismiss();
              });
          });
+    }
+
+    isValidScheduleIdNumber(value) {
+         if((parseFloat(value) == parseInt(value)) && !isNaN(value)) {
+             return true;
+         } else {
+             return false;
+         }
     }
 
     parseRepoDate(date):string {
@@ -120,6 +128,7 @@ export class SchedulePage {
     }
 
     openSchedule(item) {
+        this.scheduleRepoApi.checkOutUnattendedSchedule();
         this.navCtrl.push(VisitPage, {
             scheduleId : item.id,
             placeId : item.placeId,

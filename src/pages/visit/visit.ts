@@ -20,6 +20,7 @@ export class VisitPage {
   lat : any;
   lng : any;
   dataDtoIn : any;
+  hideCheckOutButton : boolean = true;
 
   constructor(private scheduleRepoApi : ScheduleRepoApi,
     public alertCtrl : AlertController,
@@ -40,7 +41,15 @@ export class VisitPage {
   getScheduleData() {
      this.scheduleRepoApi.listById(this.scheduleId).then((res) => {
          this.dataDtoIn = res.results[0];
-         console.log(JSON.stringify(this.dataDtoIn));
+         if(res.results.length > 0){
+            if(this.dataDtoIn.VisitStatus === "Checked In"){
+              this.hideCheckOutButton = false;
+            }else{
+              this.hideCheckOutButton = true;
+            }
+         }else{
+            this.hideCheckOutButton = true;
+         }
      });
   }
 

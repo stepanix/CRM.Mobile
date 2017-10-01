@@ -1,11 +1,13 @@
 import {Injectable }from '@angular/core';
 import {QueryBuilder} from '../services/query-builder';
 import {ScheduleModel} from '../models/ScheduleModel';
+import * as moment from 'moment';
 
 @Injectable()
 export class ScheduleRepoApi {
       
      private header:Headers;
+     dtoScheduleIn : any[];
 
      constructor() {
             
@@ -28,6 +30,23 @@ export class ScheduleRepoApi {
         for(var i=0; i<dataDto.length;i++) {
             data.create(dataDto[i]);
         }
+     }
+
+     checkOutUnattendedSchedule() {
+        this.dtoScheduleIn = [];
+        var data = new QueryBuilder(new ScheduleModel());
+        this.list().then((res) => {
+            for(var i = 0; i<res.results.length;i++) {
+                 this.dtoScheduleIn.push({                    
+                    VisitStatus : 'Checked Out',
+                    IsVisited : true,
+                    CheckOutTime : moment().format("YYYY-MM-DD HH:mm"),
+                    IsSynched : 0
+                 });
+                 data.where("VisitStatus", "=", "Checked In").update(this.dtoScheduleIn[i]);
+             }
+         });
+        
      }
 
      insertRecord(dataDto:any) {
