@@ -3,6 +3,7 @@ import { NavController, NavParams,AlertController  } from 'ionic-angular';
 import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
 import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
+import { SchedulePage } from '../schedule/schedule';
 
 
 
@@ -69,6 +70,7 @@ export class VisitPage {
                   text: 'Check in here',
                   handler: () => {
 
+                      this.hideCheckOutButton = false;
                       this.updateScheduleStatus();
 
                       if(type==="form") {
@@ -103,11 +105,12 @@ export class VisitPage {
                 });
             }
        }
-      
   }
 
-
-  
+  checkOutVisit() {
+    this.scheduleRepoApi.checkOutVisit();
+    this.navCtrl.setRoot(SchedulePage);
+  }
 
 
 

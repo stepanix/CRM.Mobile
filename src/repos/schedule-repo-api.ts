@@ -32,7 +32,7 @@ export class ScheduleRepoApi {
         }
      }
 
-     checkOutUnattendedSchedule() {
+     checkOutVisit() {
         this.dtoScheduleIn = [];
         var data = new QueryBuilder(new ScheduleModel());
         this.list().then((res) => {

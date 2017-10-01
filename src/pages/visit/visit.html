@@ -6,8 +6,10 @@
         <ion-title>Visit Task</ion-title>
 
         <ion-buttons end [hidden]="hideCheckOutButton">
-            <ion-icon ios="ios-arrow-dropleft-circle" md="ios-arrow-dropleft-circle" item-left></ion-icon>
-            CHECK OUT
+           <button ion-button icon-only (click)="checkOutVisit()" style="background-color: #fafafa;color:#000000">
+               <ion-icon ios="ios-arrow-dropleft-circle" md="ios-arrow-dropleft-circle" id="iconNetwork" name="iconNetwork"></ion-icon>
+                  CHECK OUT
+           </button>
         </ion-buttons>
 
         <ion-buttons end>                

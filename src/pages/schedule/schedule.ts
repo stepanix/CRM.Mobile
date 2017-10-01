@@ -122,7 +122,7 @@ export class SchedulePage {
     }
 
     openSchedule(item) {
-        this.scheduleRepoApi.checkOutUnattendedSchedule();
+        this.scheduleRepoApi.checkOutVisit();
         this.navCtrl.push(VisitPage, {
             scheduleId : item.id,
             placeId : item.placeId,
