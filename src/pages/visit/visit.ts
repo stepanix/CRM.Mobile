@@ -69,17 +69,14 @@ export class VisitPage {
                 {
                   text: 'Check in here',
                   handler: () => {
-
                       this.hideCheckOutButton = false;
                       this.updateScheduleStatus();
-
                       if(type==="form") {
                           this.navCtrl.push(ListFormsPage, {
                               scheduleId : this.scheduleId,
                               placeId : this.placeId
                           });
                       }
-
                   }
                 },
                 {
