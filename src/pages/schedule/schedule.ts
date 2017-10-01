@@ -71,13 +71,7 @@ export class SchedulePage {
          });
     }
 
-    isValidScheduleIdNumber(value) {
-         if((parseFloat(value) == parseInt(value)) && !isNaN(value)) {
-             return true;
-         } else {
-             return false;
-         }
-    }
+    
 
     parseRepoDate(date):string {
        return date + "T00:00:00";

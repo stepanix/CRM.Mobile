@@ -286,14 +286,14 @@ export class SyncServiceApi {
         this.scheduleRepoApi.listUnSynched().then((res) => {
             for(var i = 0; i<res.results.length;i++) {
                 schedules.push({
-                    id : res.results[i].ServerId,
+                    id : parseInt(res.results[i].ServerId),
                     syncId : res.results[i].Id,
                     placeId : res.results[i].PlaceId,
                     userId : res.results[i].UserId,
                     visitDate : res.results[i].VisitDate,
                     visitTime : this.parseDateTime(res.results[i].VisitTime),
                     visitNote : res.results[i].VisitNote,
-                    isRecurring : Boolean(res.results[i].IsRecurring),
+                    isRepeat : Boolean(res.results[i].IsRecurring),
                     repeatCycle : res.results[i].RepeatCycle,
                     isVisited : Boolean(res.results[i].IsVisited),
                     isScheduled: Boolean(res.results[i].IsScheduled),
@@ -304,7 +304,7 @@ export class SyncServiceApi {
                     checkOutTime : this.parseDateTime(res.results[i].CheckOutTime),
                 });
             }
-
+            console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {

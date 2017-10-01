@@ -124,6 +124,7 @@ export class AddSchedulePage {
         this.loader.present().then(() => {
               let ScheduleDto = {
                 Id: this.newGuid(),
+                ServerId :  0,
                 PlaceId: this.dtoPlaceId,
                 PlaceName : this.searchplace.getSelection().name,
                 PlaceAddress : this.searchplace.getSelection().streetAddress,

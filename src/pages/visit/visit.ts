@@ -42,7 +42,7 @@ export class VisitPage {
      this.scheduleRepoApi.listById(this.scheduleId).then((res) => {
          this.dataDtoIn = res.results[0];
          if(res.results.length > 0){
-            if(this.dataDtoIn.VisitStatus === "Checked In"){
+            if(this.dataDtoIn.VisitStatus === "In"){
               this.hideCheckOutButton = false;
             }else{
               this.hideCheckOutButton = true;
@@ -55,7 +55,7 @@ export class VisitPage {
 
   updateScheduleStatus(){
     this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
-    this.dataDtoIn.VisitStatus = "Checked In";
+    this.dataDtoIn.VisitStatus = "In";
     this.dataDtoIn.IsSynched = 0;
     this.scheduleRepoApi.updateRecord(this.dataDtoIn);
   }
