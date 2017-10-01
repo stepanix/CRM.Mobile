@@ -46,7 +46,12 @@ export class ScheduleRepoApi {
                  data.where("VisitStatus", "=", "In").update(this.dtoScheduleIn[i]);
              }
          });
-        
+     }
+
+     getChekedInVisit(){
+        var data = new QueryBuilder(new ScheduleModel());
+        var results = data.where("VisitStatus", "=", "In").get();
+        return results;
      }
 
      insertRecord(dataDto:any) {

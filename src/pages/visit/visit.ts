@@ -54,15 +54,15 @@ export class VisitPage {
      });
   }
 
-  updateScheduleStatus(){
-    this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
-    this.dataDtoIn.VisitStatus = "In";
-    this.dataDtoIn.IsSynched = 0;
-    this.scheduleRepoApi.updateRecord(this.dataDtoIn);
+  updateScheduleStatus() {
+      this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
+      this.dataDtoIn.VisitStatus = "In";
+      this.dataDtoIn.IsSynched = 0;
+      this.scheduleRepoApi.updateRecord(this.dataDtoIn);
   }
 
-  checkIn(type){
-    if (this.dataDtoIn.VisitStatus !== "Checked In") {
+  checkIn(type) {
+    if (this.dataDtoIn.VisitStatus !== "In") {
             let confirm = this.alertCtrl.create({
               title: 'Do you want to check in at ' + this.placeName + ' ?',       
               buttons: [

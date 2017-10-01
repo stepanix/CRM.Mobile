@@ -21,24 +21,26 @@ import { ListFormsPage } from '../pages/listforms/listforms';
 
 import { FormPage } from '../pages/form/form';
 import { NetworkPage } from '../pages/network/network';
+import { VisitStatusPage } from '../pages/visitstatus/visitstatus';
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage,
-    ListPage,
-    ActivitiesPage,
-    LoginPage,
-    SchedulePage,
-    AddSchedulePage,
-    DatePicker,
-    VisitPage,
-    ListFormsPage,
-    FormPage,
-    NetworkPage
+      MyApp,
+      HomePage,
+      ListPage,
+      ActivitiesPage,
+      LoginPage,
+      SchedulePage,
+      AddSchedulePage,
+      DatePicker,
+      VisitPage,
+      ListFormsPage,
+      FormPage,
+      NetworkPage,
+      VisitStatusPage
   ],
   imports: [
     HttpModule,
@@ -50,18 +52,19 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage,
-    ListPage,
-    ActivitiesPage,
-    LoginPage,
-    SchedulePage,
-    AddSchedulePage,
-    DatePicker,
-    VisitPage,
-    ListFormsPage,
-    FormPage,
-    NetworkPage
+      MyApp,
+      HomePage,
+      ListPage,
+      ActivitiesPage,
+      LoginPage,
+      SchedulePage,
+      AddSchedulePage,
+      DatePicker,
+      VisitPage,
+      ListFormsPage,
+      FormPage,
+      NetworkPage,
+      VisitStatusPage
   ],
   providers: [
     StatusBar,
