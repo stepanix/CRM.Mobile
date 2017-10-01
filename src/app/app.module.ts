@@ -22,6 +22,8 @@ import { ListFormsPage } from '../pages/listforms/listforms';
 import { FormPage } from '../pages/form/form';
 import { NetworkPage } from '../pages/network/network';
 import { VisitStatusPage } from '../pages/visitstatus/visitstatus';
+import { PlacesPage } from '../pages/places/places';
+
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
@@ -40,7 +42,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
       ListFormsPage,
       FormPage,
       NetworkPage,
-      VisitStatusPage
+      VisitStatusPage,
+      PlacesPage
   ],
   imports: [
     HttpModule,
@@ -64,7 +67,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
       ListFormsPage,
       FormPage,
       NetworkPage,
-      VisitStatusPage
+      VisitStatusPage,
+      PlacesPage
   ],
   providers: [
     StatusBar,

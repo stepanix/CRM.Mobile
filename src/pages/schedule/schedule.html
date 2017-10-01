@@ -1,9 +1,13 @@
 <ion-header>
+
      <ion-navbar>
+
         <button ion-button menuToggle>
            <ion-icon name="menu"></ion-icon>
         </button>
+
         <ion-title>Schedule</ion-title>
+
         <ion-buttons end>
                 
             <page-network> </page-network>
@@ -11,9 +15,12 @@
         </ion-buttons>
       
     </ion-navbar>
+
 </ion-header>
 
 <ion-content class="servicesContainer">
+
+        <page-visitstatus></page-visitstatus>
 
         <ion-item>
             <ion-calendar [(ngModel)]="eventDate" [options]="options" (onChange)="listSchedule()" [format]="'YYYY-MM-DD'"></ion-calendar>
