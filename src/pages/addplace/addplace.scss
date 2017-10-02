@@ -1,0 +1,21 @@
+page-addplace {
+
+    <ion-header>
+    
+        <ion-navbar>
+    
+             <ion-title>Schedule new visit</ion-title>
+    
+             <ion-buttons end>
+                
+                    <button ion-button icon-only (click)="saveScheduleRepo()" [disabled]="selectedDate==='' || !checkAutoCompleteInputsSelected()">
+                        Save
+                    </button>
+                
+             </ion-buttons>
+    
+        </ion-navbar>
+    
+    </ion-header>
+
+}

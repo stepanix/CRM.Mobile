@@ -245,12 +245,12 @@ export class SyncServiceApi {
     }
 
     downloadServerData() {
-        this.uploadFormValuesToServer();
+        // this.uploadFormValuesToServer();
         this.syncScheduleWithServer();
         this.downloadUserApi();
         this.downloadStatusApi();
         this.downloadPlacesApi();
-        this.downloadProductsApi();        
+        this.downloadProductsApi();
         this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
     }
@@ -304,11 +304,10 @@ export class SyncServiceApi {
                     checkOutTime : this.parseDateTime(res.results[i].CheckOutTime),
                 });
             }
-            console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {
-                console.log(JSON.stringify(res));
+                this.uploadFormValuesToServer();
                 this.scheduleRepoApi.deleteSynched(res);
                 this.downloadScheduleApi();
               },err => {

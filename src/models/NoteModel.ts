@@ -9,7 +9,9 @@ export class NoteModel extends BaseModel {
         ServerId : 'INTEGER(11)',
         PlaceId : 'INTEGER(11)',
         Description : 'TEXT',
-        IsSynched: 'INTEGER(1)'
+        IsSynched: 'INTEGER(1)',
+        ScheduleRepoId: 'TEXT',
+        PlaceRepoId : 'TEXT'
     }
 
 }

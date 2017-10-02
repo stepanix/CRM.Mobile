@@ -1,17 +1,15 @@
 import {BaseModel} from '../services/query-builder';
 
 
-export class ProductRetailAuditModel extends BaseModel {
+export class PhotoModel extends BaseModel {
     public database: string = 'crm.db';
-    public table: string = 'productRetailAudit';
+    public table: string = 'photo';
     public schema: Object = {
         Id: 'TEXT',
         ServerId : 'INTEGER(11)',
         PlaceId : 'INTEGER(11)',
-        RetailAuditFormId : 'INTEGER(11)',
-        ScheduleId : 'INTEGER(11)',        
-        RetailAuditFormFieldValues: 'TEXT',
-        IsSaved: 'INTEGER(1)',
+        PictureUrl : 'TEXT',
+        Note : 'TEXT',
         IsSynched: 'INTEGER(1)',
         ScheduleRepoId: 'TEXT',
         PlaceRepoId : 'TEXT'

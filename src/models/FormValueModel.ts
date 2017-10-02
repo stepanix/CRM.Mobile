@@ -9,9 +9,11 @@ export class FormValueModel extends BaseModel {
         ServerId : 'INTEGER(11)',
         PlaceId : 'INTEGER(11)',
         FormId : 'INTEGER(11)',
-        ScheduleId : 'INTEGER(11)',        
+        ScheduleId : 'INTEGER(11)',
         FormFieldValues: 'TEXT',
-        IsSynched: 'INTEGER(1)'
+        IsSynched: 'INTEGER(1)',
+        ScheduleRepoId: 'TEXT',
+        PlaceRepoId : 'TEXT'
     }
 
 }

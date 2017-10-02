@@ -25,7 +25,8 @@ export class ScheduleModel extends BaseModel {
         CheckOutTime: 'TEXT',
         Latitude: 'TEXT',
         Longitude : 'TEXT',
-        IsSynched: 'INTEGER(1)'
+        IsSynched: 'INTEGER(1)',
+        RepoId : 'TEXT'
     }
 
 }

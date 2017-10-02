@@ -18,7 +18,7 @@ export class PlacesPage {
              public navCtrl: NavController,
              private loading: LoadingController,
              public navParams: NavParams) {
-
+        this.getPlaces();
   }
 
   ionViewDidLoad() {
