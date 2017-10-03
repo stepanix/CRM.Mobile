@@ -6,9 +6,9 @@
   
            <ion-buttons end>
               
-                  <!-- <button ion-button icon-only (click)="savePlaceRepo()" [disabled]="selectedDate==='' || !checkAutoCompleteInputsSelected()">
+                  <button ion-button icon-only (click)="savePlaceRepo()" [disabled]="PlaceModel.Name===''">
                       Save
-                  </button> -->
+                  </button>
               
            </ion-buttons>
   
@@ -29,8 +29,37 @@
           <ion-select placeholder="Status" [(ngModel)]="PlaceModel.SelectedStatus">
              <ion-option *ngFor="let item of status" value="{{item.id}}">{{item.name}}</ion-option>
           </ion-select>
-     </ion-item>
-                  
-     <input placeholder="search address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" [(ngModel)]="PlaceModel.StreetAddress" #search [formControl]="searchControl">               
+     </ion-item>       
+     
+     <input placeholder="Search street address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" [(ngModel)]="PlaceModel.StreetAddress" #search [formControl]="searchControl">               
 
+     <ion-item>
+            <ion-label floating>Contact name</ion-label>
+            <ion-input type="text" [(ngModel)]="PlaceModel.ContactName"></ion-input>
+     </ion-item>
+
+     <ion-item>
+            <ion-label floating>Contact title</ion-label>
+            <ion-input type="text" [(ngModel)]="PlaceModel.ContactTitle"></ion-input>
+     </ion-item>
+
+     <ion-item>
+            <ion-label floating>Phone</ion-label>
+            <ion-input type="text" [(ngModel)]="PlaceModel.Phone"></ion-input>
+     </ion-item>
+
+     <ion-item>
+            <ion-label floating>Cell Phone</ion-label>
+            <ion-input type="text" [(ngModel)]="PlaceModel.CellPhone"></ion-input>
+     </ion-item>
+
+     <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input type="text" [(ngModel)]="PlaceModel.Email"></ion-input>
+     </ion-item>
+
+     <ion-item>
+            <ion-label floating>Website</ion-label>
+            <ion-input type="text" [(ngModel)]="PlaceModel.Website"></ion-input>
+     </ion-item>
 </ion-content>
