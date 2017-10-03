@@ -23,26 +23,26 @@ export class NetworkPage {
         
     }
 
-      ngAfterViewChecked(){
-        let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-          this.isOffline = true;
-          console.log(this.isOffline);
-      });
+    ngAfterViewChecked() {
+          let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+              this.isOffline = true;
+              console.log(this.isOffline);
+          });
 
-      let connectSubscription = this.network.onConnect().subscribe(() => {
-        this.isOffline = false;
-        console.log(this.isOffline);
-      });
-  }
+          let connectSubscription = this.network.onConnect().subscribe(() => {
+              this.isOffline = false;
+              console.log(this.isOffline);
+          });
+     }
 
-  syncData() {
-      this.loader = this.loading.create({
-        content: 'Synching data, please wait...',
-      });
-      this.loader.present().then(() => {
-        this.syncServiceApi.downloadServerData();
-        this.loader.dismiss();
-    });
-  }
+    syncData() {
+          this.loader = this.loading.create({
+              content: 'Synching data, please wait...',
+          });
+          this.loader.present().then(() => {
+              this.syncServiceApi.downloadServerData();
+              this.loader.dismiss();
+          });
+    }
 
 }

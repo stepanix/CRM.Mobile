@@ -6,9 +6,9 @@
   
            <ion-buttons end>
               
-                  <button ion-button icon-only (click)="savePlaceRepo()" [disabled]="selectedDate==='' || !checkAutoCompleteInputsSelected()">
+                  <!-- <button ion-button icon-only (click)="savePlaceRepo()" [disabled]="selectedDate==='' || !checkAutoCompleteInputsSelected()">
                       Save
-                  </button>
+                  </button> -->
               
            </ion-buttons>
   
@@ -16,7 +16,21 @@
   
   </ion-header>
 
-
 <ion-content class="registerContainer">
+
+    <page-visitstatus></page-visitstatus>
+
+    <ion-item>
+         <ion-label floating>Name</ion-label>
+         <ion-input type="text" [(ngModel)]="PlaceModel.Name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+          <ion-select placeholder="Status" [(ngModel)]="PlaceModel.SelectedStatus">
+             <ion-option *ngFor="let item of status" value="{{item.id}}">{{item.name}}</ion-option>
+          </ion-select>
+     </ion-item>
+                  
+     <input placeholder="search address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" [(ngModel)]="PlaceModel.StreetAddress" #search [formControl]="searchControl">               
 
 </ion-content>

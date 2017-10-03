@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-ang
 import {PlaceRepoApi} from '../../repos/place-repo-api';
 import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 import { VisitPage } from '../visit/visit';
+import { AddPlacePage } from '../addplace/addplace';
 
 @Component({
    selector: 'page-places',
@@ -56,6 +57,10 @@ export class PlacesPage {
         lat : item.latitude,
         lng : item.longitude
      });
+ }
+
+ addPlace() {
+    this.navCtrl.setRoot(AddPlacePage);
  }
 
 

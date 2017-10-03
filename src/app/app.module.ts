@@ -23,9 +23,11 @@ import { FormPage } from '../pages/form/form';
 import { NetworkPage } from '../pages/network/network';
 import { VisitStatusPage } from '../pages/visitstatus/visitstatus';
 import { PlacesPage } from '../pages/places/places';
-
+import { AddPlacePage } from '../pages/addplace/addplace';
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
+
+import { AgmCoreModule } from "angular2-google-maps/core";
 
 
 @NgModule({
@@ -43,15 +45,20 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
       FormPage,
       NetworkPage,
       VisitStatusPage,
-      PlacesPage
+      PlacesPage,
+      AddPlacePage
   ],
   imports: [
+    AgmCoreModule.forRoot({
+        apiKey: "AIzaSyC6UFj0VOyEzkqseKrklaDH8XOTJh_q6wk",
+        libraries: ["places"]
+    }),
     HttpModule,
     BrowserModule,
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp),
     CalendarModule,
-    AutoCompleteModule
+    AutoCompleteModule,    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -68,7 +75,8 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
       FormPage,
       NetworkPage,
       VisitStatusPage,
-      PlacesPage
+      PlacesPage,
+      AddPlacePage
   ],
   providers: [
     StatusBar,
