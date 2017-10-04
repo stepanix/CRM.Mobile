@@ -10,24 +10,27 @@ export class PlaceRepoApi {
      constructor() {
      }
 
-     delete(){
+     delete() {
         var data = new QueryBuilder(new PlaceModel());
         data.delete();
      }
 
-     insert(dataDto:any[]){
+     insert(dataDto : any[]) {
         var data = new QueryBuilder(new PlaceModel());
         for(var i=0; i<dataDto.length;i++){
             data.create(dataDto[i]);
         }
      }
 
-     list() : Promise<any>{
+     insertRecord(dataDto : any) {
+        var data = new QueryBuilder(new PlaceModel());
+        data.create(dataDto);
+     }
+
+     list() : Promise<any> {
         var data = new QueryBuilder(new PlaceModel());
         var results = data.get("*");
         return results;
      }
-
-    
      
 }

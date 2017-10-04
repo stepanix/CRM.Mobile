@@ -102,7 +102,7 @@ export class AddSchedulePage {
                 isUnScheduled: false,
                 visitStatus : "New visit"
             };
-            console.log(JSON.stringify(ScheduleDto));
+            //console.log(JSON.stringify(ScheduleDto));
             this.scheduleServiceApi.addSchedule(ScheduleDto)
             .subscribe(
                 res => {

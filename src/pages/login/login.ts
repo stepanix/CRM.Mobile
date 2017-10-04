@@ -54,9 +54,6 @@ export class LoginPage {
                 
                 localStorage.setItem('token', res.access_token);
                 
-                //Download data from remote server
-                this.syncServiceApi.downloadServerData();
-
                 this.navCtrl.setRoot(ActivitiesPage);
                 this.loader.dismiss();
 

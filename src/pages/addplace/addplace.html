@@ -29,7 +29,7 @@
           <ion-select placeholder="Status" [(ngModel)]="PlaceModel.SelectedStatus">
              <ion-option *ngFor="let item of status" value="{{item.id}}">{{item.name}}</ion-option>
           </ion-select>
-     </ion-item>       
+     </ion-item>
      
      <input placeholder="Search street address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" [(ngModel)]="PlaceModel.StreetAddress" #search [formControl]="searchControl">               
 
