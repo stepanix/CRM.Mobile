@@ -110,7 +110,7 @@ export class SchedulePage {
     }
 
     parseScheduleTime(time) {
-        if (time === null) {
+        if (time === null || time==="") {
            return "Any Time";
         }else{
            return moment(time).format('HH:mm').toString();

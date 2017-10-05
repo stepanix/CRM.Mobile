@@ -29,6 +29,7 @@ export class LoginPage {
     private alertCtrl: AlertController) {
 
         localStorage.removeItem('token');
+        localStorage.removeItem('userid');
         this.frmLogin = builder.group({
            'userName': ['',Validators.required],
            'password': ['',Validators.required]
@@ -53,7 +54,7 @@ export class LoginPage {
             this.loginApi.postLogin(this.loginData).subscribe(res => {
                 
                 localStorage.setItem('token', res.access_token);
-                
+                localStorage.setItem('userid',res.userid);
                 this.navCtrl.setRoot(ActivitiesPage);
                 this.loader.dismiss();
 

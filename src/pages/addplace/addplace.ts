@@ -20,7 +20,8 @@ export class AddPlacePage {
     PlaceModel : any = {};
     status : any[] = [];
     searchControl: FormControl;
-    repoId : string;
+    placeRepoId : string;
+    scheduleRepoId : string;
 
     latitude: number;
     longitude: number;
@@ -82,9 +83,9 @@ export class AddPlacePage {
     }
 
     savePlaceRepo() {
-        this.repoId = this.newGuid();
+        this.placeRepoId = this.newGuid();
         this.PlaceModel = {
-            Id: this.repoId,
+            Id: this.placeRepoId,
             ServerId: 0,
             StatusId: this.PlaceModel.SelectedStatus,
             Name: this.PlaceModel.Name,
@@ -98,39 +99,49 @@ export class AddPlacePage {
             Latitude: this.latitude,
             Longitude : this.longitude,
             IsSynched : 0,
-            RepoId : this.repoId
+            RepoId : this.placeRepoId
         };
         this.placeRepoApi.insertRecord(this.PlaceModel);
         this.createVisitToPlace();
      }
 
      createVisitToPlace(){
+        this.scheduleRepoId = this.newGuid();
         let ScheduleDto = {
-            Id: this.newGuid(),
-            RepoId : this.newGuid(),
+            Id: this.scheduleRepoId,
+            RepoId : this.scheduleRepoId,
             ServerId :  0,
-            PlaceId: this.repoId,
+            PlaceId : this.placeRepoId,
             PlaceName : this.PlaceModel.Name,
             PlaceAddress : this.PlaceModel.StreetAddress,
-            UserId: this.dtoUserId,
-            VisitDate: moment().format('YYYY-MM-DD').toString() + "T00:00:00",
-            VisitTime: "",
-            VisitNote: "",
-            IsRecurring: false,
-            RepeatCycle: 0,
-            IsScheduled: false,
-            IsVisited: true,
-            IsMissed: false,
-            IsUnScheduled: true,
-            VisitStatus: 'New Visit',
+            UserId : localStorage.getItem('userid'),
+            VisitDate : moment().format('YYYY-MM-DD').toString() + "T00:00:00",
+            VisitTime : "",
+            VisitNote : "",
+            IsRecurring : false,
+            RepeatCycle : 0,
+            IsScheduled : false,
+            IsVisited : true,
+            IsMissed : false,
+            IsUnScheduled : true,
+            VisitStatus : 'In',
+            CheckInTime : moment().format("YYYY-MM-DD HH:mm"),
+            Latitude : this.latitude,
+            Longitude : this.longitude,
             IsSynched: 0
         };
         this.scheduleRepoApi.insertRecord(ScheduleDto);
-        this.navCtrl.setRoot(VisitPage);
+        this.navCtrl.push(VisitPage, {
+             scheduleId : this.scheduleRepoId,
+             placeId : this.placeRepoId,
+             placeName : this.PlaceModel.Name,
+             streetAddress : this.PlaceModel.StreetAddress,
+             lat : this.latitude,
+             lng : this.longitude
+         });
      }
 
     ionViewDidLoad() {
-        
     }
 
     listStatusRepo(){

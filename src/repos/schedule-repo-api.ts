@@ -38,10 +38,10 @@ export class ScheduleRepoApi {
         this.list().then((res) => {
             for(var i = 0; i<res.results.length;i++) {
                  this.dtoScheduleIn.push({                    
-                    VisitStatus : 'Out',
-                    IsVisited : true,
-                    CheckOutTime : moment().format("YYYY-MM-DD HH:mm"),
-                    IsSynched : 0
+                        VisitStatus : 'Out',
+                        IsVisited : true,
+                        CheckOutTime : moment().format("YYYY-MM-DD HH:mm"),
+                        IsSynched : 0
                  });
                  data.where("VisitStatus", "=", "In").update(this.dtoScheduleIn[i]);
              }
