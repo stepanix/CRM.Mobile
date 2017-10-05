@@ -56,6 +56,12 @@ export class PlaceServiceApi {
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
 
+     addPlaceList (placeModel: any[]): Observable<any[]> {
+        return this.http.post(crmBaseUrl + "Place/List", placeModel ,{headers: this.getHeader()})
+                         .map((res:Response) => res.json())
+                         .catch((error:any) => Observable.throw(error.json() || 'Server error'));
+     }
+
      updatePlace (placeModel: any): Observable<any> {
         return this.http.put(crmBaseUrl + "Place", placeModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data

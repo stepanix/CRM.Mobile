@@ -245,11 +245,11 @@ export class SyncServiceApi {
     }
 
     downloadServerData() {
-        // this.uploadFormValuesToServer();
-        this.syncScheduleWithServer();
+        this.syncPlaceWithServer();
+        // this.syncScheduleWithServer();
         this.downloadUserApi();
         this.downloadStatusApi();
-        this.downloadPlacesApi();
+        //this.downloadPlacesApi();
         this.downloadProductsApi();
         this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
@@ -281,6 +281,40 @@ export class SyncServiceApi {
         });
     }
 
+    syncPlaceWithServer(){
+        let places = [];
+        this.placeRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length;i++) {
+                places.push({
+                    id : parseInt(res.results[i].ServerId),
+                    syncId : res.results[i].Id,
+                    name : res.results[i].Name,
+                    streetAddress : res.results[i].StreetAddress,
+                    statusId : res.results[i].StatusId,
+                    email : res.results[i].Email,
+                    webSite : res.results[i].WebSite,
+                    contactName : res.results[i].ContactName,
+                    contactTitle : res.results[i].ContactTitle,
+                    phone : res.results[i].Phone,
+                    cellPhone : res.results[i].CellPhone,
+                    latitude : res.results[i].Latitude,
+                    longitude : res.results[i].Longitude,
+                    repoId : res.results[i].RepoId
+                });
+            }
+            this.placeServiceApi.addPlaceList(places)
+            .subscribe(
+              res => {
+                this.placeRepoApi.deleteSynched(res);
+                this.downloadPlacesApi();
+                this.syncScheduleWithServer();
+              },err => {
+                console.log(err);
+                return;
+           });
+        });
+    }
+
     syncScheduleWithServer() {
         let schedules = [];
         this.scheduleRepoApi.listUnSynched().then((res) => {
@@ -304,10 +338,11 @@ export class SyncServiceApi {
                     checkOutTime : this.parseDateTime(res.results[i].CheckOutTime),
                 });
             }
+            console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {
-                this.uploadFormValuesToServer();
+                //this.uploadFormValuesToServer();
                 this.scheduleRepoApi.deleteSynched(res);
                 this.downloadScheduleApi();
               },err => {
