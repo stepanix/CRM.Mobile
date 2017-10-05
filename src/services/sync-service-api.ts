@@ -14,6 +14,7 @@ import {FormValueRepoApi} from '../repos/formvalue-repo-api';
 @Injectable()
 export class SyncServiceApi {
   
+    placesTemp : any[] = [];
     
     constructor(
         private formValueServiceApi : FormValueServiceApi,
@@ -96,13 +97,13 @@ export class SyncServiceApi {
     }
 
     downloadPlacesApi() {
-        var places:any[] = [];
+        this.placesTemp = [];
         this.placeServiceApi.getPlaces()
         .subscribe(
             res => {
                 if(res.length>0){
                         for(var i = 0;i < res.length; i++) {
-                            places.push({
+                            this.placesTemp.push({
                                 Id: this.newGuid(),
                                 ServerId: res[i].id,
                                 StatusId: res[i].statusId,
@@ -116,11 +117,12 @@ export class SyncServiceApi {
                                 CellPhone: res[i].cellPhone,
                                 Latitude :  res[i].latitude,
                                 Longitude : res[i].longitude,
-                                IsSynched: 1
+                                IsSynched: 1,
+                                repoId : res[i].repoId
                             });
                         }
                         this.placeRepoApi.delete();
-                        this.placeRepoApi.insert(places);
+                        this.placeRepoApi.insert(this.placesTemp);
                 }
             },err => {
             console.log(err);
@@ -190,12 +192,14 @@ export class SyncServiceApi {
                     }                
                     this.scheduleRepoApi.delete();
                     this.scheduleRepoApi.insert(schedules);
+                    this.uploadFormValuesToServer();
                 }
             },err => {
             console.log(err);
             return;
         });
     }
+   
 
     downloadStatusApi() {
         var status:any[] = [];
@@ -322,7 +326,7 @@ export class SyncServiceApi {
                 schedules.push({
                     id : parseInt(res.results[i].ServerId),
                     syncId : res.results[i].Id,
-                    placeId : res.results[i].PlaceId,
+                    placeId : this.parsePlaceId(res.results[i].PlaceId),
                     userId : res.results[i].UserId,
                     visitDate : res.results[i].VisitDate,
                     visitTime : this.parseDateTime(res.results[i].VisitTime),
@@ -338,7 +342,6 @@ export class SyncServiceApi {
                     checkOutTime : this.parseDateTime(res.results[i].CheckOutTime),
                 });
             }
-            console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {
@@ -350,6 +353,15 @@ export class SyncServiceApi {
                 return;
            });
         });
+    }
+
+    parsePlaceId(repoid) {
+       let placeModel =  this.placesTemp.find(place => place.repoId === repoid);
+       if (placeModel !==undefined) {
+           return placeModel.ServerId;
+       }else{
+           return repoid;
+       }
     }
 
     parseDateTime(dateTimeVar){
