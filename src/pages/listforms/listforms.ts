@@ -28,15 +28,15 @@ export class ListFormsPage {
 
   ionViewDidLoad() {
     this.listFormsRepo();
-     //this.listSchedule();
   }
 
   listSchedule() {
-      if(localStorage.getItem("isOnline")==="true"){
-          this.listFormsApi();
-      }else{
-          this.listFormsRepo();
-      }
+    this.listFormsRepo();
+    //   if(localStorage.getItem("isOnline")==="true"){
+    //       this.listFormsApi();
+    //   }else{
+    //       this.listFormsRepo();
+    //   }
   }
 
   listFormsRepo() {

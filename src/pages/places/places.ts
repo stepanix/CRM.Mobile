@@ -39,20 +39,31 @@ export class PlacesPage {
                 this.places.push({
                     id : res.results[i].ServerId,
                     name : res.results[i].Name,
-                    streetAddress : res.results[i].StreetAddress
+                    streetAddress : res.results[i].StreetAddress,
+                    placeId : this.parsePlaceId(res.results[i].ServerId,res.results[i].RepoId),
+                    latitude : res.results[i].Latitude,
+                    longitude : res.results[i].Longitude
                 });
-            }
-            this.loader.dismiss();
-        });
+             }
+             this.loader.dismiss();
+          });
       });
+  }
+
+  parsePlaceId(serverid,repoid) {
+     if(serverid==="0") {
+        return repoid;
+     }else{
+        return serverid;
+     }
   }
 
   openVisit(item) {
     this.scheduleRepoApi.checkOutVisit();
     this.navCtrl.push(VisitPage, {
-        scheduleId : item.id,
+        scheduleId : this.newGuid(),
         placeId : item.placeId,
-        placeName : item.place,
+        placeName : item.name,
         streetAddress : item.address,
         lat : item.latitude,
         lng : item.longitude
@@ -63,6 +74,15 @@ export class PlacesPage {
     this.navCtrl.setRoot(AddPlacePage);
  }
 
+  newGuid() : string {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+  }
 
 
 }

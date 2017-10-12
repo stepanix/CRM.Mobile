@@ -123,6 +123,30 @@ export class SchedulePage {
 
     openSchedule(item) {
         this.scheduleRepoApi.checkOutVisit();
+        let ScheduleDto = {
+            Id: this.newGuid(),
+            RepoId : this.newGuid(),
+            ServerId :  item.id,
+            PlaceId : item.placeId,
+            PlaceName : item.place,
+            PlaceAddress : item.address,
+            UserId : localStorage.getItem('userid'),
+            VisitDate : moment().format('YYYY-MM-DD').toString() + "T00:00:00",
+            VisitTime : "",
+            VisitNote : "",
+            IsRecurring : false,
+            RepeatCycle : 0,
+            IsScheduled : false,
+            IsVisited : true,
+            IsMissed : false,
+            IsUnScheduled : true,
+            VisitStatus : 'In',
+            CheckInTime : moment().format("YYYY-MM-DD HH:mm"),
+            Latitude : item.latitude,
+            Longitude : item.longitude,
+            IsSynched: 0
+        };
+        this.scheduleRepoApi.checkInVisit(ScheduleDto);
         this.navCtrl.push(VisitPage, {
             scheduleId : item.id,
             placeId : item.placeId,
@@ -133,6 +157,14 @@ export class SchedulePage {
          });
     }
 
-
+    newGuid() : string {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+          return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+    }
 
 }

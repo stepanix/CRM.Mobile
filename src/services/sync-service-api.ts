@@ -178,7 +178,7 @@ export class SyncServiceApi {
                                 VisitDate: res[i].visitDate,
                                 VisitTime: res[i].visitTime,
                                 VisitNote: res[i].visitNote,
-                                IsRecurring: res[i].isRecurring,
+                                IsRecurring: res[i].isRepeat,
                                 RepeatCycle: res[i].repeatCycle,
                                 IsScheduled: res[i].isScheduled,
                                 IsVisited: res[i].isVisited,
@@ -342,6 +342,7 @@ export class SyncServiceApi {
                     checkOutTime : this.parseDateTime(res.results[i].CheckOutTime),
                 });
             }
+            console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {

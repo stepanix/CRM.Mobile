@@ -20,8 +20,11 @@ export class VisitPage {
   streetAddress : any;
   lat : any;
   lng : any;
-  dataDtoIn : any;
+  dataDtoIn : any = {};
   hideCheckOutButton : boolean = true;
+  visitStatus = "";
+  repoId : any;
+  
 
   constructor(private scheduleRepoApi : ScheduleRepoApi,
     public alertCtrl : AlertController,
@@ -41,28 +44,71 @@ export class VisitPage {
 
   getScheduleData() {
      this.scheduleRepoApi.listById(this.scheduleId).then((res) => {
-         this.dataDtoIn = res.results[0];
          if(res.results.length > 0){
+            this.dataDtoIn = res.results[0];
             if(this.dataDtoIn.VisitStatus === "In"){
+              this.visitStatus = this.dataDtoIn.VisitStatus;
               this.hideCheckOutButton = false;
             }else{
               this.hideCheckOutButton = true;
             }
          }else{
+            this.dataDtoIn.ServerId = 0;
+            this.visitStatus = "";
             this.hideCheckOutButton = true;
          }
      });
   }
 
-  updateScheduleStatus() {
+  enterSchedule(){
+    if(this.dataDtoIn.ServerId === 0){
+      this.createNewSchedule();
+    }else{
+      this.updateScheduleStatus();
+    }
+  }
+
+  updateScheduleStatus() {      
       this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
       this.dataDtoIn.VisitStatus = "In";
       this.dataDtoIn.IsSynched = 0;
-      this.scheduleRepoApi.updateRecord(this.dataDtoIn);
+      this.scheduleRepoApi.checkInVisit(this.dataDtoIn);
+  }
+
+  createNewSchedule() {
+        let ScheduleDto = {
+            Id: this.scheduleId,
+            RepoId : this.scheduleId,
+            ServerId :  0,
+            PlaceId: this.placeId,
+            PlaceName : this.placeName,
+            PlaceAddress : this.parseStreetAddress(this.streetAddress),
+            UserId: localStorage.getItem('userid'),
+            VisitDate: moment().format("YYYY-MM-DD") + "T00:00:00",
+            VisitTime: moment().format("YYYY-MM-DD HH:mm"),
+            CheckInTime : moment().format("YYYY-MM-DD HH:mm"),
+            VisitNote: "",
+            IsRecurring: false,
+            RepeatCycle: 0,
+            IsScheduled: false,
+            IsVisited: false,
+            IsMissed: false,
+            IsUnScheduled: true,
+            VisitStatus: 'In',
+            IsSynched: 0
+      };
+      console.log(JSON.stringify(ScheduleDto));
+      this.scheduleRepoApi.insertRecord(ScheduleDto);
+  }
+
+  parseStreetAddress(address){
+    if(address===undefined){
+      return "";
+    }
   }
 
   checkIn(type) {
-    if (this.dataDtoIn.VisitStatus !== "In") {
+    if (this.visitStatus !== "In") {
             let confirm = this.alertCtrl.create({
               title: 'Do you want to check in at ' + this.placeName + ' ?',       
               buttons: [
@@ -70,7 +116,7 @@ export class VisitPage {
                   text: 'Check in here',
                   handler: () => {
                       this.hideCheckOutButton = false;
-                      this.updateScheduleStatus();
+                      this.enterSchedule();
                       if(type==="form") {
                           this.navCtrl.push(ListFormsPage, {
                               scheduleId : this.scheduleId,

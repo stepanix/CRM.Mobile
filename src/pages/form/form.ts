@@ -124,11 +124,6 @@ export class FormPage {
 
      submitForm() {
         this.saveFormValuesRepo();
-        //  if(localStorage.getItem("isOnline")==="true") {
-        //     this.saveFormValuesApi();
-        //  }else{
-        //     this.saveFormValuesRepo();
-        //  }
      }
 
      saveFormValuesApi() {
