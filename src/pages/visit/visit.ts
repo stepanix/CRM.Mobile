@@ -91,7 +91,7 @@ export class VisitPage {
             IsRecurring: false,
             RepeatCycle: 0,
             IsScheduled: false,
-            IsVisited: false,
+            IsVisited: true,
             IsMissed: false,
             IsUnScheduled: true,
             VisitStatus: 'In',
