@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
 import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 import { SchedulePage } from '../schedule/schedule';
-
+import { PhotoPage } from '../photo/photo';
 
 
 @Component({
@@ -122,6 +122,12 @@ export class VisitPage {
                               scheduleId : this.scheduleId,
                               placeId : this.placeId
                           });
+                      }
+                      if(type==="photo") {
+                          this.navCtrl.push(PhotoPage, {
+                            scheduleId : this.scheduleId,
+                            placeId : this.placeId
+                        });
                       }
                   }
                 },

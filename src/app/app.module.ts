@@ -24,10 +24,12 @@ import { NetworkPage } from '../pages/network/network';
 import { VisitStatusPage } from '../pages/visitstatus/visitstatus';
 import { PlacesPage } from '../pages/places/places';
 import { AddPlacePage } from '../pages/addplace/addplace';
+import { PhotoPage } from '../pages/photo/photo';
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 import { AgmCoreModule } from "angular2-google-maps/core";
+import { Camera } from '@ionic-native/camera';
 
 
 @NgModule({
@@ -46,7 +48,8 @@ import { AgmCoreModule } from "angular2-google-maps/core";
       NetworkPage,
       VisitStatusPage,
       PlacesPage,
-      AddPlacePage
+      AddPlacePage,
+      PhotoPage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -76,9 +79,11 @@ import { AgmCoreModule } from "angular2-google-maps/core";
       NetworkPage,
       VisitStatusPage,
       PlacesPage,
-      AddPlacePage
+      AddPlacePage,
+      PhotoPage
   ],
   providers: [
+    Camera,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

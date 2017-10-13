@@ -34,10 +34,10 @@ export class SchedulePage {
         private navCtrl: NavController,
         private navParams: NavParams) {
         this.eventDate = new Date().toISOString();
+        
     }
 
     ionViewDidLoad() {
-      //this.listSchedule();
        this.listMyScheduleRepo();
     }
 
@@ -50,7 +50,7 @@ export class SchedulePage {
                 content: 'Busy please wait...',
             });
             this.loader.present().then(() => {
-                let scheduleDate =  moment(this.eventDate).format('YYYY-MM-DD').toString();
+                let scheduleDate = moment(this.eventDate).format('YYYY-MM-DD').toString();
                 this.schedules = [];
             this.scheduleRepoApi.listByDate(this.parseRepoDate(scheduleDate)).then((res) => {
                 for(var i = 0; i<res.results.length;i++) {
