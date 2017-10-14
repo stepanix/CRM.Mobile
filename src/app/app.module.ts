@@ -61,7 +61,7 @@ import { Camera } from '@ionic-native/camera';
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp),
     CalendarModule,
-    AutoCompleteModule,    
+    AutoCompleteModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

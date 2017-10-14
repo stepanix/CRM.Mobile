@@ -8,6 +8,7 @@ export class PhotoModel extends BaseModel {
         Id: 'TEXT',
         ServerId : 'INTEGER(11)',
         PlaceId : 'INTEGER(11)',
+        ScheduleId : 'INTEGER(11)',
         PictureUrl : 'TEXT',
         Note : 'TEXT',
         IsSynched: 'INTEGER(1)',

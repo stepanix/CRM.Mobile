@@ -2,19 +2,23 @@
   
     <ion-navbar>
   
-           <button ion-button menuToggle>
+          <button ion-button menuToggle>
               <ion-icon name="menu"></ion-icon>
-           </button>
+          </button>
 
-           <ion-title>Take photo</ion-title>
-  
-           <ion-buttons (click)="selectPhoto()" end>
-              
-                <button ion-button icon-only>
-                    Save
-                </button>
-              
-           </ion-buttons>
+          <ion-title>Take photo</ion-title>
+
+          <ion-buttons end>
+                
+                    <button ion-button icon-only (click)="savePhotoRepo()" [disabled]="base64Image==='assets/camera.png'">
+                        Save
+                    </button>
+                
+             </ion-buttons>
+
+          <ion-buttons end>
+              <page-network></page-network>
+          </ion-buttons>
   
     </ion-navbar>
   
@@ -22,7 +26,25 @@
 
 <ion-content class="registerContainer">
 
-  
-  
+        <div class="editProfilePicContainer">
+          
+          <p></p>
+
+          <img [src]="base64Image" />
+
+        </div>
+
+        <ion-list>
+
+            <ion-item>
+                <ion-textarea [(ngModel)]="photoModel.Note" placeholder="Note..."></ion-textarea>
+            </ion-item>
+
+
+       </ion-list>
 
 </ion-content>
+
+<ion-fab right bottom color="danger">
+     <button ion-fab color="danger" (click)="presentActionSheet()"><ion-icon ios="md-camera" md="md-camera"></ion-icon></button>
+</ion-fab>

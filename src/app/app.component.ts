@@ -12,7 +12,7 @@ import { PlacesPage } from '../pages/places/places';
 import { LoginPage } from '../pages/login/login';
 import {SyncServiceApi} from '../services/sync-service-api';
 import { LoginServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
-import { PlaceServiceApi,ProductServiceApi,FormServiceApi } from '../shared/shared';
+import { PlaceServiceApi,ProductServiceApi,FormServiceApi,PhotoServiceApi } from '../shared/shared';
 import { RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi } from '../shared/shared';
 
 import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
@@ -25,6 +25,7 @@ import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 import {StatusRepoApi} from '../repos/status-repo-api';
 import {UserRepoApi} from '../repos/user-repo-api';
 import {FormValueRepoApi} from '../repos/formvalue-repo-api';
+import {PhotoRepoApi} from '../repos/photo-repo-api';
 
 
 @Component({
@@ -50,7 +51,9 @@ import {FormValueRepoApi} from '../repos/formvalue-repo-api';
         StatusRepoApi,
         UserRepoApi,
         FormValueServiceApi,
-        FormValueRepoApi
+        FormValueRepoApi,
+        PhotoRepoApi,
+        PhotoServiceApi
     ]
 })
 export class MyApp {

@@ -153,6 +153,12 @@ export class VisitPage {
                     placeId : this.placeId
                 });
             }
+            if(type==="photo") {
+              this.navCtrl.push(PhotoPage, {
+                scheduleId : this.scheduleId,
+                placeId : this.placeId
+            });
+          }
        }
   }
 

@@ -8,3 +8,4 @@ export * from '../services/form-service-api';
 export * from '../services/retailauditform-service-api';
 export * from '../services/status-service-api';
 export * from '../services/formvalue-service-api';
+export * from '../services/photo-service-api';

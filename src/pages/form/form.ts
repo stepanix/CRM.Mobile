@@ -61,13 +61,16 @@ export class FormPage {
            this.placeId = this.navParams.get('placeId');
            this.scheduleId = this.navParams.get('scheduleId');
 
-           if(localStorage.getItem("isOnline")==="true") {
-               this.listProductsApi();
-               this.getFormApi();
-           }else{
-               this.listProductsRepo();
-               this.getFormRepo();
-           }
+           this.listProductsRepo();
+           this.getFormRepo();
+
+        //    if(localStorage.getItem("isOnline")==="true") {
+        //        this.listProductsApi();
+        //        this.getFormApi();
+        //    }else{
+        //        this.listProductsRepo();
+        //        this.getFormRepo();
+        //    }
      }
 
      newGuid() : string {
@@ -87,16 +90,16 @@ export class FormPage {
        this.datePicker.showCalendar();
      }
 
-     saveFormFieldValues(){
+     saveFormFieldValues() {
       this.formFieldValues = [];
-      for(var i=0;i<this.formFields.length;i++) {
-          if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
-             this.formFieldValues.push ({
-                 question : this.formFields[i].question,
-                 answer : this.formFieldModel[this.formFields[i].id]
-             });
-          }
-       }
+        for(var i=0;i<this.formFields.length;i++) {
+            if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
+                this.formFieldValues.push ({
+                    question : this.formFields[i].question,
+                    answer : this.formFieldModel[this.formFields[i].id]
+                });
+            }
+        }
      }
 
      prepareApiDtoData() {
