@@ -64,6 +64,7 @@ export class SyncServiceApi {
                         this.productRepoApi.delete();
                         this.productRepoApi.insert(products);
                     }
+                    console.log(JSON.stringify(products));
                     // this.productRepoApi.listProducts().then((data) => {
                     //     for(var i = 0; i<data.results.length;i++){
                     //         console.log(data.results[i].Name);
@@ -272,10 +273,10 @@ export class SyncServiceApi {
                 formValues.push({
                     id : 0,
                     syncId : res.results[i].Id,
-                    placeId : res.results[i].PlaceId,
+                    placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
                     formId : res.results[i].FormId,
                     formFieldValues : JSON.stringify(JSON.parse(res.results[i].FormFieldValues)),
-                    scheduleId : res.results[i].ScheduleId
+                    scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId))
                 });
             }
 
@@ -283,7 +284,7 @@ export class SyncServiceApi {
             .subscribe(
               res => {
                 console.log(JSON.stringify(res));
-                this.formValueRepoApi.deleteSynched(res);
+                this.formValueRepoApi.updateSynched(res);
               },err => {
                 console.log(err);
                 return;
@@ -304,7 +305,6 @@ export class SyncServiceApi {
                         scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId))
                     });
             }
-            // console.log(JSON.stringify(photoValues));
             this.photoServiceAPi.addPhotoList(photoValues)
             .subscribe(
               res => {
