@@ -7,8 +7,8 @@ export class PhotoModel extends BaseModel {
     public schema: Object = {
         Id: 'TEXT',
         ServerId : 'INTEGER(11)',
-        PlaceId : 'INTEGER(11)',
-        ScheduleId : 'INTEGER(11)',
+        PlaceId : 'TEXT',
+        ScheduleId : 'TEXT',
         PictureUrl : 'TEXT',
         Note : 'TEXT',
         IsSynched: 'INTEGER(1)',

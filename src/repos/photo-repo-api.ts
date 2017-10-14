@@ -16,6 +16,17 @@ export class PhotoRepoApi {
         data.delete();
      }
 
+     updateSynched(dataDto:any[]) {
+        var dtoData = {};
+        var data = new QueryBuilder(new PhotoModel());
+        for(var i=0; i<dataDto.length;i++) {
+            dtoData ={
+                IsSynched : 1
+            };
+            data.where("Id","=",dataDto[i].syncId).update(dtoData);
+        }
+     }
+
      deleteSynched(dataDto:any[]) {
         var data = new QueryBuilder(new PhotoModel());
         for(var i=0; i<dataDto.length;i++) {
@@ -33,6 +44,11 @@ export class PhotoRepoApi {
      insertRecord(dataDto:any) {
         var data = new QueryBuilder(new PhotoModel());
         data.create(dataDto);
+     }
+
+     updateRecord(dataDto:any) {
+        var data = new QueryBuilder(new PhotoModel());
+        data.where("Id", "=", dataDto.Id).update(dataDto);
      }
 
      list():Promise<any> {

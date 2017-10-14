@@ -7,7 +7,7 @@ export class ScheduleModel extends BaseModel {
     public schema: Object = {
         Id: 'TEXT',
         ServerId : 'INTEGER(11)',
-        PlaceId: 'INTEGER(11)',
+        PlaceId: 'TEXT',
         PlaceName: 'TEXT',
         PlaceAddress : 'TEXT',
         UserId: 'TEXT',

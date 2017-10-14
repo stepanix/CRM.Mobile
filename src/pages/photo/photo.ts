@@ -10,11 +10,12 @@ import {PhotoRepoApi} from '../../repos/photo-repo-api';
 })
 export class PhotoPage {
 
-  photoModel : any;
+  photoModel : any = {};
   base64Image: string = "assets/camera.png";
   scheduleId : any;
   placeId : any;
   photoRepoId : any;
+  photoId : any;
 
   constructor(public toastCtrl: ToastController,
               public photoRepoApi : PhotoRepoApi,
@@ -22,7 +23,8 @@ export class PhotoPage {
               private camera: Camera,
               public navCtrl: NavController, 
               public navParams: NavParams) {
-
+        
+         this.photoId = this.navParams.get('photoId');
          this.placeId = this.navParams.get('placeId');
          this.scheduleId = this.navParams.get('scheduleId');
          this.photoModel.Note = "";
@@ -54,8 +56,9 @@ export class PhotoPage {
   }
 
   savePhotoRepo() {
+      this.photoId = this.newGuid();
       let PhotoDtoIn = {
-          Id : this.newGuid(),
+          Id : this.photoId,
           ServerId: 0,
           PictureUrl : this.base64Image,
           Note : this.photoModel.Note,
@@ -63,10 +66,27 @@ export class PhotoPage {
           PlaceId : this.placeId,
           IsSynched : 0
       }
-      console.log(JSON.stringify(PhotoDtoIn));
       this.photoRepoApi.insertRecord(PhotoDtoIn);
       let toast = this.toastCtrl.create({
           message: 'Record saved successfully',
+          duration: 3000
+      });
+      toast.present();
+  }
+
+  updatePhotoRepo(){
+        let PhotoDtoIn = {
+          Id : this.photoId,
+          ServerId: 0,
+          PictureUrl : this.base64Image,
+          Note : this.photoModel.Note,
+          ScheduleId : this.scheduleId,
+          PlaceId : this.placeId,
+          IsSynched : 0
+      }
+      this.photoRepoApi.updateRecord(PhotoDtoIn);
+      let toast = this.toastCtrl.create({
+          message: 'Record updated successfully',
           duration: 3000
       });
       toast.present();

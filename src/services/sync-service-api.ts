@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
-import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi } from '../shared/shared';
+import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi,PhotoServiceApi } from '../shared/shared';
 import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
@@ -10,13 +10,16 @@ import {ScheduleRepoApi} from '../repos/schedule-repo-api';
 import {StatusRepoApi} from '../repos/status-repo-api';
 import {UserRepoApi} from '../repos/user-repo-api';
 import {FormValueRepoApi} from '../repos/formvalue-repo-api';
+import {PhotoRepoApi} from '../repos/photo-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
   
     placesTemp : any[] = [];
+    scheduleTemp : any[] =[];
     
-    constructor(
+    constructor(private photoServiceAPi : PhotoServiceApi,
+        private photoRepoApi : PhotoRepoApi,
         private formValueServiceApi : FormValueServiceApi,
         private formValueRepoApi : FormValueRepoApi,
         private userRepoApi : UserRepoApi,
@@ -32,7 +35,7 @@ export class SyncServiceApi {
         private formRepoApi : FormRepoApi, 
         private formServiceApi : FormServiceApi, 
         private productRepoApi : ProductRepoApi,
-        private productServiceApi:ProductServiceApi) {        
+        private productServiceApi : ProductServiceApi) {
     }
 
     newGuid():string {
@@ -187,11 +190,14 @@ export class SyncServiceApi {
                                 Latitude: res[i].place.latitude,
                                 Longitude : res[i].place.longitude,
                                 VisitStatus: res[i].visitStatus,
-                                IsSynched: 1
+                                IsSynched: 1,
+                                repoId : res[i].repoId
                          });
-                    }                
+                    }
+                    this.scheduleTemp = schedules;
                     this.scheduleRepoApi.delete();
                     this.scheduleRepoApi.insert(schedules);
+                    this.uploadPhotosToServer();
                     this.uploadFormValuesToServer();
                 }
             },err => {
@@ -285,6 +291,31 @@ export class SyncServiceApi {
         });
     }
 
+    uploadPhotosToServer() {
+        let photoValues = [];
+        this.photoRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length; i++) {
+                    photoValues.push({
+                        id : 0,
+                        syncId : res.results[i].Id,
+                        pictureUrl : res.results[i].PictureUrl,
+                        note : res.results[i].Note,
+                        placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
+                        scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId))
+                    });
+            }
+            // console.log(JSON.stringify(photoValues));
+            this.photoServiceAPi.addPhotoList(photoValues)
+            .subscribe(
+              res => {
+                this.photoRepoApi.updateSynched(res);
+              },err => {
+                console.log(err);
+                return;
+           });
+        });
+    }
+
     syncPlaceWithServer(){
         let places = [];
         this.placeRepoApi.listUnSynched().then((res) => {
@@ -326,7 +357,7 @@ export class SyncServiceApi {
                 schedules.push({
                     id : parseInt(res.results[i].ServerId),
                     syncId : res.results[i].Id,
-                    placeId : this.parsePlaceId(res.results[i].PlaceId),
+                    placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
                     userId : res.results[i].UserId,
                     visitDate : res.results[i].VisitDate,
                     visitTime : this.parseDateTime(res.results[i].VisitTime),
@@ -340,12 +371,14 @@ export class SyncServiceApi {
                     visitStatus : res.results[i].VisitStatus,
                     checkInTime : this.parseDateTime(res.results[i].CheckInTime),
                     checkOutTime : this.parseDateTime(res.results[i].CheckOutTime),
+                    repoId : res.results[i].RepoId
                 });
             }
             console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {
+                //this.uploadPhotosToServer();  
                 //this.uploadFormValuesToServer();
                 this.scheduleRepoApi.deleteSynched(res);
                 this.downloadScheduleApi();
@@ -363,6 +396,15 @@ export class SyncServiceApi {
        }else{
            return repoid;
        }
+    }
+
+    parseScheduleId(repoid) {
+       let scheduleModel = this.scheduleTemp.find(schedule => schedule.repoId === repoid);
+       if (scheduleModel !==undefined) {
+        return scheduleModel.ServerId;
+        }else{
+            return repoid;
+        }
     }
 
     parseDateTime(dateTimeVar){
