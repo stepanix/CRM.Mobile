@@ -125,7 +125,7 @@ export class FormPage {
         });
     }
     
-     selectPhoto(questionId) {
+    selectPhoto(questionId) {
             let returnImage = this;
     
             var libOptions = {

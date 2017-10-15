@@ -30,13 +30,14 @@ export class VisitStatusPage {
       this.scheduleRepoApi.getChekedInVisit().then((res) => {
             if (res.results.length > 0) {
                 this.placeCheckedIn = " Checked in at " + res.results[0].PlaceName;
-                this.scheduleId = res.results[0].ServerId;
+                this.scheduleId = res.results[0].RepoId;
                 this.placeId =  res.results[0].PlaceId;
                 this.placeName = res.results[0].PlaceName;
                 this.streetAddress = res.results[0].PlaceAddress;
                 this.lat = res.results[0].Latitude;
                 this.lng = res.results[0].Longitude;
             }
+            console.log(res.results);
       });
    }
 

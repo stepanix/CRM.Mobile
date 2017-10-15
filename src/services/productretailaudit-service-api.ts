@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 
 
 @Injectable()
-export class FormValueServiceApi {
+export class ProductRetailAuditServiceApi {
 
     private token : string;
     private header: Headers;
@@ -26,16 +26,16 @@ export class FormValueServiceApi {
         return this.header; 
      }
      
-     addFormValue (formModel: any): Observable<any> {
-        return this.http.post(crmBaseUrl + "FormValue", formModel  ,{headers: this.getHeader()}) // ...using post request
+     addProductRetailAudit (productRetailAuditModel: any): Observable<any> {
+        return this.http.post(crmBaseUrl + "ProductRetailAudit", productRetailAuditModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
 
-     addFormValueList (formModel: any[]): Observable<any[]> {
-        return this.http.post(crmBaseUrl + "FormValue/List", formModel  ,{headers: this.getHeader()}) // ...using post request
+     addProductRetailAuditList (productRetailAuditModel: any[]): Observable<any[]> {
+        return this.http.post(crmBaseUrl + "ProductRetailAudit/List", productRetailAuditModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
-     
+
 }

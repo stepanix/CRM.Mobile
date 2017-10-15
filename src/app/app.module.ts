@@ -26,7 +26,8 @@ import { PlacesPage } from '../pages/places/places';
 import { AddPlacePage } from '../pages/addplace/addplace';
 import { PhotoPage } from '../pages/photo/photo';
 import { NotePage } from '../pages/note/note';
-
+import { ListRetailAuditFormPage } from '../pages/listretailauditform/listretailauditform';
+import { RetailAuditFormPage } from '../pages/retailauditform/retailauditform';
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
@@ -52,7 +53,9 @@ import { Camera } from '@ionic-native/camera';
       PlacesPage,
       AddPlacePage,
       PhotoPage,
-      NotePage
+      NotePage,
+      ListRetailAuditFormPage,
+      RetailAuditFormPage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -84,7 +87,9 @@ import { Camera } from '@ionic-native/camera';
       PlacesPage,
       AddPlacePage,
       PhotoPage,
-      NotePage
+      NotePage,
+      ListRetailAuditFormPage,
+      RetailAuditFormPage
   ],
   providers: [
     Camera,

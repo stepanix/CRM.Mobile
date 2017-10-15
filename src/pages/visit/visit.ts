@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { NavController, NavParams,AlertController  } from 'ionic-angular';
 import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
+import { ListRetailAuditFormPage } from '../listretailauditform/listretailauditform';
 import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 import { SchedulePage } from '../schedule/schedule';
 import { PhotoPage } from '../photo/photo';
 import { NotePage } from '../note/note';
+import { ActivitiesPage } from '../activities/activities';
 
 @Component({
    selector: 'page-visit',
@@ -42,7 +44,7 @@ export class VisitPage {
      
   }
 
-  getScheduleData() {
+  getScheduleData() {   
      this.scheduleRepoApi.listById(this.scheduleId).then((res) => {
          if(res.results.length > 0){
             this.dataDtoIn = res.results[0];
@@ -123,6 +125,12 @@ export class VisitPage {
                               placeId : this.placeId
                           });
                       }
+                      if(type==="audits") {
+                        this.navCtrl.push(ListRetailAuditFormPage, {
+                            scheduleId : this.scheduleId,
+                            placeId : this.placeId
+                        });
+                      }
                       if(type==="photo") {
                           this.navCtrl.push(PhotoPage, {
                             scheduleId : this.scheduleId,
@@ -159,6 +167,12 @@ export class VisitPage {
                     placeId : this.placeId
                 });
             }
+            if(type==="audits") {
+              this.navCtrl.push(ListRetailAuditFormPage, {
+                  scheduleId : this.scheduleId,
+                  placeId : this.placeId
+              });
+            }
             if(type==="photo") {
               this.navCtrl.push(PhotoPage, {
                   scheduleId : this.scheduleId,
@@ -176,7 +190,7 @@ export class VisitPage {
 
   checkOutVisit() {
     this.scheduleRepoApi.checkOutVisit();
-    this.navCtrl.setRoot(SchedulePage);
+    this.navCtrl.setRoot(ActivitiesPage);
   }
 
 

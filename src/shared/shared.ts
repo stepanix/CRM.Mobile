@@ -10,3 +10,4 @@ export * from '../services/status-service-api';
 export * from '../services/formvalue-service-api';
 export * from '../services/photo-service-api';
 export * from '../services/note-service-api';
+export * from '../services/productretailaudit-service-api';

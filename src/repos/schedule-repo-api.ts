@@ -71,9 +71,9 @@ export class ScheduleRepoApi {
         return results;
      }
 
-     listById(serverId:any) : Promise<any> {
+     listById(serverId:string) : Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
-        var results = data.where("ServerId", "=", serverId).orWhere("RepoId", "=", serverId).orWhere("Id", "=", serverId).get();
+        var results = data.where("RepoId", "=", serverId).orWhere("VisitStatus", "=", "In").get();
         return results;
      }
 
