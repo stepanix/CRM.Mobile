@@ -42,18 +42,21 @@
                           <ion-option *ngFor="let option of item.answers" value="{{option.answer}}">{{option.answer}}</ion-option>
                       </ion-select>
 
-                      <div *ngIf="item.questionTypeId==='6'" (click)="checkIn('photo')">
+                      <div *ngIf="item.questionTypeId==='6'">
                           <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
-                          {{item.question}}
+                          <div class="editProfilePicContainer">
+                              <p></p>
+                              <img [src]="base64Image" />
+                          </div>
                           <span style="float: right;">
-                              Take a Photo   <ion-icon ios="ios-camera" md="ios-camera" item-right></ion-icon>
+                              {{item.question}} <ion-icon ios="ios-camera" (click)="presentActionSheet(item.id)" md="ios-camera" item-right></ion-icon>
                           </span>
                       </div>
 
                       <div *ngIf="item.questionTypeId==='7'">
                           <span  *ngIf="item.mandatory === true" style="color:red;font-weight: bold;">* </span>
                           <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
-                          <span style="color:black;"> {{item.question}} </span>
+                          <span style="color:black;">{{item.question}}</span>
                           <b (click)="showCalendar()">{{formFieldModel[item.id]}}</b>
                       </div>
 

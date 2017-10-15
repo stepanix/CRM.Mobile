@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams,LoadingController } from 'ionic-angular';
+import {  NavController, NavParams,LoadingController,ActionSheetController } from 'ionic-angular';
 import {
   FormBuilder,
   FormControl,
@@ -13,6 +13,7 @@ import {ProductRepoApi} from '../../repos/product-repo-api';
 import {FormServiceApi,ProductServiceApi,FormValueServiceApi} from '../../shared/shared';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 
 @Component({
@@ -34,8 +35,11 @@ export class FormPage {
     formFieldValues : any[] = [];
     formFieldDtoIn : any;
     formFieldModel:any[] = [];
+    base64Image : string;
 
-    constructor(private loading: LoadingController,
+    constructor(private camera: Camera,
+      public actionSheetCtrl: ActionSheetController,
+      private loading: LoadingController,
       private formValueRepoApi:FormValueRepoApi,
       private formValueServiceApi : FormValueServiceApi,
       private productRepoApi : ProductRepoApi,
@@ -82,6 +86,67 @@ export class FormPage {
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
     }
+
+    presentActionSheet(questionId) {
+        let actionSheet = this.actionSheetCtrl.create({
+          title: 'Change your profile picture',
+          buttons: [
+                {
+                  text: 'Take a picture',
+                  handler: () => {
+                  this.takePhoto(questionId);
+                }
+                },{
+                  text: 'Select from gallery',
+                  handler: () => {
+                  this.selectPhoto(questionId);
+                }
+                },{
+                  text: 'Cancel',
+                }
+          ]
+        });
+        actionSheet.present();
+      }
+
+      takePhoto(questionId) {
+        var options: CameraOptions = {
+          quality: 100,
+          destinationType: this.camera.DestinationType.DATA_URL,
+          encodingType: this.camera.EncodingType.JPEG,
+          mediaType: this.camera.MediaType.PICTURE,
+          correctOrientation: true,
+          saveToPhotoAlbum : true
+        }
+        this.camera.getPicture(options).then((imageData) => {          
+            this.base64Image = 'data:image/jpeg;base64,' + imageData;
+            this.formFieldModel[questionId] = this.base64Image;
+        }, (err) => {
+        });
+    }
+    
+     selectPhoto(questionId) {
+            let returnImage = this;
+    
+            var libOptions = {
+                quality: 100,
+                sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+                destinationType: this.camera.DestinationType.FILE_URI,
+                encodingType: this.camera.EncodingType.JPEG,
+                saveToPhotoAlbum: true,
+                correctOrientation: true
+            };
+          
+            this.camera.getPicture(libOptions).then((filePath) => {
+                  window["plugins"].Base64.encodeFile(filePath, function(base64) {
+                       console.log(base64);
+                       returnImage.base64Image = base64;
+                       returnImage.formFieldModel[questionId] = returnImage.base64Image;
+                  });
+                  
+            }, (err) => {
+            });
+       }
 
      ionViewDidLoad(){
      }
