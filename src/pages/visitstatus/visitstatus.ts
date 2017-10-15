@@ -23,7 +23,8 @@ export class VisitStatusPage {
       this.getCheckedInVisit();
   }
 
-   ionViewDidLoad() {
+  ionViewDidEnter(){
+     this.getCheckedInVisit();
    }
 
    getCheckedInVisit() {

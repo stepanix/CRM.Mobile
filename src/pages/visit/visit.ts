@@ -7,7 +7,6 @@ import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 import { SchedulePage } from '../schedule/schedule';
 import { PhotoPage } from '../photo/photo';
 import { NotePage } from '../note/note';
-import { ActivitiesPage } from '../activities/activities';
 
 @Component({
    selector: 'page-visit',
@@ -27,21 +26,24 @@ export class VisitPage {
   visitStatus = "";
   repoId : any;
   
-
   constructor(private scheduleRepoApi : ScheduleRepoApi,
     public alertCtrl : AlertController,
-    public navCtrl : NavController, public navParams : NavParams) {
-    this.scheduleId = this.navParams.get('scheduleId');
-    this.placeId = this.navParams.get('placeId');
-    this.placeName = this.navParams.get('placeName');
-    this.streetAddress = this.navParams.get('streetAddress');
-    this.lat = this.navParams.get('lat');
-    this.lng = this.navParams.get('lng');
-    this.getScheduleData();
+    public navCtrl : NavController, 
+    public navParams : NavParams) {
+    
   }
 
-  ionViewDidLoad() {
-     
+  ionViewDidLoad(){
+  }
+
+  ionViewWillEnter(){
+      this.scheduleId = this.navParams.get('scheduleId');
+      this.placeId = this.navParams.get('placeId');
+      this.placeName = this.navParams.get('placeName');
+      this.streetAddress = this.navParams.get('streetAddress');
+      this.lat = this.navParams.get('lat');
+      this.lng = this.navParams.get('lng');
+      this.getScheduleData();
   }
 
   getScheduleData() {   
@@ -190,7 +192,7 @@ export class VisitPage {
 
   checkOutVisit() {
     this.scheduleRepoApi.checkOutVisit();
-    this.navCtrl.setRoot(ActivitiesPage);
+    this.navCtrl.setRoot(SchedulePage);
   }
 
 

@@ -67,14 +67,6 @@ export class FormPage {
 
            this.listProductsRepo();
            this.getFormRepo();
-
-        //    if(localStorage.getItem("isOnline")==="true") {
-        //        this.listProductsApi();
-        //        this.getFormApi();
-        //    }else{
-        //        this.listProductsRepo();
-        //        this.getFormRepo();
-        //    }
      }
 
      newGuid() : string {

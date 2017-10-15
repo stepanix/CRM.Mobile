@@ -1,18 +1,102 @@
-<!--
-  Generated template for the RetailauditformPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
+    
+      <ion-navbar>
+         <ion-title>Retail audit</ion-title>
+    
+         <ion-buttons end>
+            
+                <button ion-button icon-only (click)="submitForm()" [disabled] = "!allMandatoryFieldsValidated() && price>0">
+                    Submit
+                </button>
+                
+                <page-network> </page-network>
+                
+         </ion-buttons>
+    
+      </ion-navbar>
+    
+    </ion-header>
 
-  <ion-navbar>
-    <ion-title>retailauditform</ion-title>
-  </ion-navbar>
+    <ion-content class="registerContainer">
+        
+                <ion-list class="signInList signIn">
 
-</ion-header>
+                    <ion-item>
+                        <ion-label>Available</ion-label>
+                        <ion-checkbox [(ngModel)]="available"></ion-checkbox>
+                    </ion-item>
 
+                    <ion-item>
+                        <ion-label>Promoted</ion-label>
+                        <ion-checkbox [(ngModel)]="promoted"></ion-checkbox>
+                    </ion-item>
 
-<ion-content padding>
+                    <ion-item>
+                        <span style="color:red;font-weight: bold;">* </span>
+                        <ion-label floating>Price</ion-label>
+                        <ion-input type="number" [(ngModel)]="price"></ion-input>
+                    </ion-item>
 
-</ion-content>
+                    <ion-item *ngIf="showStockLevel==='true'">
+                        <ion-label floating>Stock Level</ion-label>
+                        <ion-input type="number" [(ngModel)]="stockLevel"></ion-input>
+                    </ion-item>
+
+                    <ion-item *ngIf="showNote==='true'">
+                        <ion-label floating>Note</ion-label>
+                        <ion-input type="text" [(ngModel)]="note"></ion-input>
+                    </ion-item>
+
+                    <ion-item *ngFor="let item of formFields">
+    
+                          <ion-label *ngIf="item.questionTypeId !=='6' && item.questionTypeId !=='7' && item.questionTypeId !=='9'" floating><span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
+                          
+                          <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
+    
+                          <ion-textarea *ngIf="item.questionTypeId==='2'" [(ngModel)]="formFieldModel[item.id]"></ion-textarea>
+    
+                          <ion-input *ngIf="item.questionTypeId==='3'" type="number" [(ngModel)]="formFieldModel[item.id]"> </ion-input>
+    
+                          <ion-select *ngIf="item.questionTypeId==='4'" [(ngModel)]="formFieldModel[item.id]">
+                              <ion-option value="Yes">Yes</ion-option>
+                              <ion-option value="No">No</ion-option>
+                          </ion-select>
+    
+                          <ion-select *ngIf="item.questionTypeId==='5'" [(ngModel)]="formFieldModel[item.id]">
+                              <ion-option *ngFor="let option of item.answers" value="{{option.answer}}">{{option.answer}}</ion-option>
+                          </ion-select>
+    
+                          <div *ngIf="item.questionTypeId==='6'">
+                              <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
+                              <div class="editProfilePicContainer">
+                                  <p></p>
+                                  <img [src]="base64Image" />
+                              </div>
+                              <span style="float: right;">
+                                  {{item.question}} <ion-icon ios="ios-camera" (click)="presentActionSheet(item.id)" md="ios-camera" item-right></ion-icon>
+                              </span>
+                          </div>
+    
+                          <div *ngIf="item.questionTypeId==='7'">
+                              <span  *ngIf="item.mandatory === true" style="color:red;font-weight: bold;">* </span>
+                              <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
+                              <span style="color:black;">{{item.question}}</span>
+                              <b (click)="showCalendar()">{{formFieldModel[item.id]}}</b>
+                          </div>
+    
+                          <div *ngIf="item.questionTypeId==='9'">
+                              <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
+                              <ion-icon item-left name="ios-barcode" (click)="openBarCode()"></ion-icon>
+                              <span style="color:black;"> {{item.question}} </span>
+                              <b (click)="openBarCode()">{{formFieldModel[item.id]}}</b>
+                          </div>
+    
+                          <ion-select *ngIf="item.questionTypeId==='10'" [(ngModel)]="formFieldModel[item.id]">
+                              <ion-option *ngFor="let option of products" value="{{option.name}}">{{option.name}}</ion-option>
+                          </ion-select>
+    
+                      </ion-item>
+                   
+                </ion-list>
+    
+    </ion-content>

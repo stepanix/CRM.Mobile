@@ -51,7 +51,7 @@ export class ListRetailAuditFormPage {
 
   openForm(item) {
       this.navCtrl.push(RetailAuditFormPage, {
-          formId : item.id,
+          retailFormId : item.id,
           placeId : this.placeId,
           scheduleId : this.scheduleId
       });

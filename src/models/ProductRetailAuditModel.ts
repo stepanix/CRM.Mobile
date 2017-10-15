@@ -14,7 +14,12 @@ export class ProductRetailAuditModel extends BaseModel {
         IsSaved: 'INTEGER(1)',
         IsSynched: 'INTEGER(1)',
         ScheduleRepoId: 'TEXT',
-        PlaceRepoId : 'TEXT'
+        PlaceRepoId : 'TEXT',
+        Available : 'TEXT',
+        Promoted : 'TEXT',
+        Price: 'TEXT',
+        StockLevel : 'INTEGER(11)',
+        Note: 'TEXT'
     }
 
 }

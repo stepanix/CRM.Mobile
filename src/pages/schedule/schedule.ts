@@ -37,6 +37,8 @@ export class SchedulePage {
         
     }
 
+    
+
     ionViewDidLoad() {
        this.listMyScheduleRepo();
     }
