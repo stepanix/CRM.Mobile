@@ -24,7 +24,7 @@ export class PhotoPage {
               public navCtrl: NavController, 
               public navParams: NavParams) {
         
-         this.photoId = this.navParams.get('photoId');
+         this.photoId = this.navParams.get('Id');
          this.placeId = this.navParams.get('placeId');
          this.scheduleId = this.navParams.get('scheduleId');
          this.photoModel.Note = "";

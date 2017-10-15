@@ -25,6 +25,8 @@ import { VisitStatusPage } from '../pages/visitstatus/visitstatus';
 import { PlacesPage } from '../pages/places/places';
 import { AddPlacePage } from '../pages/addplace/addplace';
 import { PhotoPage } from '../pages/photo/photo';
+import { NotePage } from '../pages/note/note';
+
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
@@ -49,7 +51,8 @@ import { Camera } from '@ionic-native/camera';
       VisitStatusPage,
       PlacesPage,
       AddPlacePage,
-      PhotoPage
+      PhotoPage,
+      NotePage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -80,7 +83,8 @@ import { Camera } from '@ionic-native/camera';
       VisitStatusPage,
       PlacesPage,
       AddPlacePage,
-      PhotoPage
+      PhotoPage,
+      NotePage
   ],
   providers: [
     Camera,

@@ -5,7 +5,7 @@ import { ListFormsPage } from '../listforms/listforms';
 import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 import { SchedulePage } from '../schedule/schedule';
 import { PhotoPage } from '../photo/photo';
-
+import { NotePage } from '../note/note';
 
 @Component({
    selector: 'page-visit',
@@ -129,6 +129,12 @@ export class VisitPage {
                             placeId : this.placeId
                         });
                       }
+                      if(type==="note") {
+                        this.navCtrl.push(NotePage, {
+                          scheduleId : this.scheduleId,
+                          placeId : this.placeId
+                      });
+                    }
                   }
                 },
                 {
@@ -155,10 +161,16 @@ export class VisitPage {
             }
             if(type==="photo") {
               this.navCtrl.push(PhotoPage, {
-                scheduleId : this.scheduleId,
-                placeId : this.placeId
+                  scheduleId : this.scheduleId,
+                  placeId : this.placeId
             });
           }
+          if(type==="note") {
+             this.navCtrl.push(NotePage, {
+                 scheduleId : this.scheduleId,
+                 placeId : this.placeId
+            });
+         }
        }
   }
 

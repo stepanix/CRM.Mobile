@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi,PhotoServiceApi } from '../shared/shared';
 import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi} from '../shared/shared';
+import {NoteServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
@@ -11,6 +12,7 @@ import {StatusRepoApi} from '../repos/status-repo-api';
 import {UserRepoApi} from '../repos/user-repo-api';
 import {FormValueRepoApi} from '../repos/formvalue-repo-api';
 import {PhotoRepoApi} from '../repos/photo-repo-api';
+import {NoteRepoApi} from '../repos/note-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
@@ -18,7 +20,9 @@ export class SyncServiceApi {
     placesTemp : any[] = [];
     scheduleTemp : any[] =[];
     
-    constructor(private photoServiceAPi : PhotoServiceApi,
+    constructor(private noteRepoApi : NoteRepoApi,
+        private noteServiceApi : NoteServiceApi,
+        private photoServiceAPi : PhotoServiceApi,
         private photoRepoApi : PhotoRepoApi,
         private formValueServiceApi : FormValueServiceApi,
         private formValueRepoApi : FormValueRepoApi,
@@ -64,12 +68,6 @@ export class SyncServiceApi {
                         this.productRepoApi.delete();
                         this.productRepoApi.insert(products);
                     }
-                    console.log(JSON.stringify(products));
-                    // this.productRepoApi.listProducts().then((data) => {
-                    //     for(var i = 0; i<data.results.length;i++){
-                    //         console.log(data.results[i].Name);
-                    //     }
-                    // });
                 },err => {
                 console.log(err);
                 return;
@@ -133,8 +131,6 @@ export class SyncServiceApi {
             return;
         });
     }
-
-    
 
     downloadRetailAuditFormsApi() {
         var retailAuditForms:any[] = [];
@@ -200,6 +196,7 @@ export class SyncServiceApi {
                     this.scheduleRepoApi.insert(schedules);
                     this.uploadPhotosToServer();
                     this.uploadFormValuesToServer();
+                    this.uploadNotesToServer();
                 }
             },err => {
             console.log(err);
@@ -256,11 +253,9 @@ export class SyncServiceApi {
     }
 
     downloadServerData() {
-        this.syncPlaceWithServer();
-        // this.syncScheduleWithServer();
+        this.syncPlaceWithServer();       
         this.downloadUserApi();
         this.downloadStatusApi();
-        //this.downloadPlacesApi();
         this.downloadProductsApi();
         this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
@@ -279,7 +274,6 @@ export class SyncServiceApi {
                     scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId))
                 });
             }
-
             this.formValueServiceApi.addFormValueList(formValues)
             .subscribe(
               res => {
@@ -309,6 +303,30 @@ export class SyncServiceApi {
             .subscribe(
               res => {
                 this.photoRepoApi.updateSynched(res);
+              },err => {
+                console.log(err);
+                return;
+           });
+        });
+    }
+
+    uploadNotesToServer() {
+        let noteValues = [];
+        this.noteRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length; i++) {
+                noteValues.push({
+                        id : 0,
+                        syncId : res.results[i].Id,
+                        description : res.results[i].Description,
+                        placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
+                        scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId))
+                    });
+            }
+            console.log(JSON.stringify(noteValues));
+            this.noteServiceApi.addNoteList(noteValues)
+            .subscribe(
+              res => {
+                this.noteRepoApi.updateSynched(res);
               },err => {
                 console.log(err);
                 return;
@@ -378,10 +396,8 @@ export class SyncServiceApi {
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {
-                //this.uploadPhotosToServer();  
-                //this.uploadFormValuesToServer();
-                this.scheduleRepoApi.deleteSynched(res);
-                this.downloadScheduleApi();
+                 this.scheduleRepoApi.deleteSynched(res);
+                 this.downloadScheduleApi();
               },err => {
                 console.log(err);
                 return;
