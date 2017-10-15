@@ -29,12 +29,12 @@ export class RetailAuditFormPage {
 
   showStockLevel : any;
   showNote: any;
-  available:boolean;
-  promoted:boolean;
+  available : boolean;
+  promoted : boolean;
 
-  price:number=0;
-  stockLevel:number=0;
-  note:string="";
+  price:number = 0;
+  stockLevel:number = 0;
+  note:string = "";
 
 
   constructor(private datePicker : DatePicker,

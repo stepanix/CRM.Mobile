@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi,PhotoServiceApi } from '../shared/shared';
-import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi} from '../shared/shared';
-import {NoteServiceApi} from '../shared/shared';
+import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi} from '../shared/shared';
+import {NoteServiceApi,ProductRetailAuditServiceApi,FormValueServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
@@ -13,6 +13,7 @@ import {UserRepoApi} from '../repos/user-repo-api';
 import {FormValueRepoApi} from '../repos/formvalue-repo-api';
 import {PhotoRepoApi} from '../repos/photo-repo-api';
 import {NoteRepoApi} from '../repos/note-repo-api';
+import {ProductRetailRepoApi} from '../repos/productretailaudit-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
@@ -20,7 +21,9 @@ export class SyncServiceApi {
     placesTemp : any[] = [];
     scheduleTemp : any[] =[];
     
-    constructor(private noteRepoApi : NoteRepoApi,
+    constructor(private productRetailAuditServiceApi:ProductRetailAuditServiceApi,
+        private productRetailRepoApi : ProductRetailRepoApi,
+        private noteRepoApi : NoteRepoApi,
         private noteServiceApi : NoteServiceApi,
         private photoServiceAPi : PhotoServiceApi,
         private photoRepoApi : PhotoRepoApi,
@@ -197,13 +200,13 @@ export class SyncServiceApi {
                     this.uploadPhotosToServer();
                     this.uploadFormValuesToServer();
                     this.uploadNotesToServer();
+                    this.uploadProductRetailAuditToServer();
                 }
             },err => {
             console.log(err);
             return;
         });
     }
-   
 
     downloadStatusApi() {
         var status:any[] = [];
@@ -259,6 +262,38 @@ export class SyncServiceApi {
         this.downloadProductsApi();
         this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
+    }
+
+    uploadProductRetailAuditToServer() {
+        let formValues = [];
+        this.productRetailRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length;i++) {
+                formValues.push({
+                    id : 0,
+                    syncId : res.results[i].Id,
+                    placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
+                    retailAuditFormId : res.results[i].RetailAuditFormId,
+                    retailAuditFormFieldValues : JSON.stringify(JSON.parse(res.results[i].RetailAuditFormFieldValues)),
+                    scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId)),
+                    isSaved : true,
+                    available : res.results[i].Available,
+                    promoted : res.results[i].Promoted,
+                    price : res.results[i].Price,
+                    stockLevel : res.results[i].StockLevel,
+                    note : res.results[i].Note
+                });
+            }
+            console.log(JSON.stringify(formValues));
+            this.productRetailAuditServiceApi.addProductRetailAuditList(formValues)
+            .subscribe(
+              res => {
+                console.log(JSON.stringify(res));
+                this.productRetailRepoApi.updateSynched(res);
+              },err => {
+                console.log(err);
+                return;
+           });
+        });
     }
 
     uploadFormValuesToServer() {

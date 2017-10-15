@@ -27,13 +27,13 @@ export class ProductRetailAuditServiceApi {
      }
      
      addProductRetailAudit (productRetailAuditModel: any): Observable<any> {
-        return this.http.post(crmBaseUrl + "ProductRetailAudit", productRetailAuditModel  ,{headers: this.getHeader()}) // ...using post request
+        return this.http.post(crmBaseUrl + "ProductAuditRetail", productRetailAuditModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
 
      addProductRetailAuditList (productRetailAuditModel: any[]): Observable<any[]> {
-        return this.http.post(crmBaseUrl + "ProductRetailAudit/List", productRetailAuditModel  ,{headers: this.getHeader()}) // ...using post request
+        return this.http.post(crmBaseUrl + "ProductAuditRetail/List", productRetailAuditModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
