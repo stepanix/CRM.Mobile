@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ActionSheetController,ToastController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import {PhotoRepoApi} from '../../repos/photo-repo-api';
-
+import {ActivityRepoApi} from '../../repos/activity-repo-api';
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-photo',
@@ -16,14 +17,17 @@ export class PhotoPage {
   placeId : any;
   photoRepoId : any;
   photoId : any;
+  placeName : string;
 
-  constructor(public toastCtrl: ToastController,
+  constructor(public activityRepoApi : ActivityRepoApi,
+              public toastCtrl: ToastController,
               public photoRepoApi : PhotoRepoApi,
               public actionSheetCtrl: ActionSheetController,
               private camera: Camera,
               public navCtrl: NavController, 
               public navParams: NavParams) {
         
+         this.placeName = this.navParams.get('placeName');
          this.photoId = this.navParams.get('Id');
          this.placeId = this.navParams.get('placeId');
          this.scheduleId = this.navParams.get('scheduleId');
@@ -66,6 +70,7 @@ export class PhotoPage {
           PlaceId : this.placeId,
           IsSynched : 0
       }
+      this.logActivityRepo();
       this.photoRepoApi.insertRecord(PhotoDtoIn);
       let toast = this.toastCtrl.create({
           message: 'Record saved successfully',
@@ -73,6 +78,18 @@ export class PhotoPage {
       });
       toast.present();
   }
+
+  logActivityRepo() {
+    let ActivityDtoIn = {
+       Id: this.newGuid(),
+       PlaceName : this.placeName,
+       PlaceId: this.placeId,
+       ActivityLog: 'Photos',
+       IsSynched: 0,
+       DateCreated : moment().format('YYYY-MM-DD').toString()
+    }
+    this.activityRepoApi.insertRecord(ActivityDtoIn);
+ }
 
   updatePhotoRepo(){
         let PhotoDtoIn = {

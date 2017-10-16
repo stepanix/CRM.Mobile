@@ -123,24 +123,28 @@ export class VisitPage {
                       this.enterSchedule();
                       if(type==="form") {
                           this.navCtrl.push(ListFormsPage, {
+                              placeName : this.placeName,
                               scheduleId : this.scheduleId,
                               placeId : this.placeId
                           });
                       }
                       if(type==="audits") {
                         this.navCtrl.push(ListRetailAuditFormPage, {
+                            placeName : this.placeName,
                             scheduleId : this.scheduleId,
                             placeId : this.placeId
                         });
                       }
                       if(type==="photo") {
                           this.navCtrl.push(PhotoPage, {
+                            placeName : this.placeName,
                             scheduleId : this.scheduleId,
                             placeId : this.placeId
                         });
                       }
                       if(type==="note") {
                         this.navCtrl.push(NotePage, {
+                          placeName : this.placeName,
                           scheduleId : this.scheduleId,
                           placeId : this.placeId
                       });
@@ -165,24 +169,28 @@ export class VisitPage {
        }else{
             if(type==="form") {
                 this.navCtrl.push(ListFormsPage, {
+                    placeName : this.placeName,
                     scheduleId : this.scheduleId,
                     placeId : this.placeId
                 });
             }
             if(type==="audits") {
               this.navCtrl.push(ListRetailAuditFormPage, {
+                  placeName : this.placeName,
                   scheduleId : this.scheduleId,
                   placeId : this.placeId
               });
             }
             if(type==="photo") {
               this.navCtrl.push(PhotoPage, {
+                  placeName : this.placeName,
                   scheduleId : this.scheduleId,
                   placeId : this.placeId
             });
           }
           if(type==="note") {
              this.navCtrl.push(NotePage, {
+                 placeName : this.placeName,
                  scheduleId : this.scheduleId,
                  placeId : this.placeId
             });

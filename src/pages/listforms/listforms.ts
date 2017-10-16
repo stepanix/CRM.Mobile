@@ -16,12 +16,14 @@ export class ListFormsPage {
 
   scheduleId : any;
   placeId : any;
+  placeName : string;
 
   constructor(private loading: LoadingController,
     private formServiceApi : FormServiceApi,
     private fromRepoApi : FormRepoApi,
     public navCtrl: NavController, 
     public navParams: NavParams) {
+        this.placeName = this.navParams.get('placeName');
         this.scheduleId = this.navParams.get('scheduleId');
         this.placeId = this.navParams.get('placeId');
   }
@@ -87,7 +89,8 @@ export class ListFormsPage {
         this.navCtrl.push(FormPage, {
             formId : item.id,
             placeId : this.placeId,
-            scheduleId : this.scheduleId
+            scheduleId : this.scheduleId,
+            placeName :this.placeName 
         });
   }
 

@@ -15,6 +15,8 @@ import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
+import {ActivityRepoApi} from '../../repos/activity-repo-api';
+
 
 @Component({
     selector: 'page-form',
@@ -36,8 +38,10 @@ export class FormPage {
     formFieldDtoIn : any;
     formFieldModel:any[] = [];
     base64Image : string;
+    placeName : string;
 
-    constructor(private camera: Camera,
+    constructor(public activityRepoApi : ActivityRepoApi,
+      private camera: Camera,
       public actionSheetCtrl: ActionSheetController,
       private loading: LoadingController,
       private formValueRepoApi:FormValueRepoApi,
@@ -61,6 +65,7 @@ export class FormPage {
            this.formFieldValues = [];
            this.formFieldDtoIn = {};
 
+           this.placeName = this.navParams.get('placeName');
            this.formId = this.navParams.get('formId');
            this.placeId = this.navParams.get('placeId');
            this.scheduleId = this.navParams.get('scheduleId');
@@ -212,9 +217,22 @@ export class FormPage {
           });
           this.loader.present().then(() => {
               this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
+              this.logActivityRepo();
               this.navCtrl.pop();
               this.loader.dismiss();
           });
+     }
+
+     logActivityRepo() {
+        let ActivityDtoIn = {
+           Id: this.newGuid(),
+           PlaceName : this.placeName,
+           PlaceId: this.placeId,
+           ActivityLog: 'Forms',
+           IsSynched: 0,
+           DateCreated : moment().format('YYYY-MM-DD').toString()
+        }
+        this.activityRepoApi.insertRecord(ActivityDtoIn);
      }
 
      listProductsApi() {

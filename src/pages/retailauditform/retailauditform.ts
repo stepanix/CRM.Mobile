@@ -6,6 +6,8 @@ import { ProductRepoApi } from '../../repos/product-repo-api';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import {ActivityRepoApi} from '../../repos/activity-repo-api';
+
 
 @Component({
   selector: 'page-retailauditform',
@@ -35,9 +37,11 @@ export class RetailAuditFormPage {
   price:number = 0;
   stockLevel:number = 0;
   note:string = "";
+  placeName : string;
 
 
-  constructor(private datePicker : DatePicker,
+  constructor(public activityRepoApi : ActivityRepoApi,
+    private datePicker : DatePicker,
     private productRepoApi : ProductRepoApi,
     private retailAuditFormRepoApi:RetailAuditFormRepoApi,
     private productRetailAuditRepoApi : ProductRetailRepoApi,
@@ -57,6 +61,7 @@ export class RetailAuditFormPage {
       this.formFieldValues = [];
       this.formFieldDtoIn = {};
 
+      this.placeName = this.navParams.get('placeName');
       this.formId = this.navParams.get('retailFormId');
       this.placeId = this.navParams.get('placeId');
       this.scheduleId = this.navParams.get('scheduleId');
@@ -180,8 +185,21 @@ selectPhoto(questionId) {
   saveFormValuesRepo() {
       this.prepareRepoDtoData();
       this.productRetailAuditRepoApi.insertRecord(this.formFieldDtoIn);
+      this.logActivityRepo();
       this.navCtrl.pop();
   }
+
+  logActivityRepo() {
+    let ActivityDtoIn = {
+       Id: this.newGuid(),     
+       PlaceName : this.placeName,
+       PlaceId: this.placeId,
+       ActivityLog: 'Product Retail',
+       IsSynched: 0,      
+       DateCreated : moment().format('YYYY-MM-DD').toString()
+    }
+    this.activityRepoApi.insertRecord(ActivityDtoIn);
+ }
 
   listProductsRepo() {
     this.products = [];

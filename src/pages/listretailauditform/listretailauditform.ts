@@ -15,11 +15,13 @@ export class ListRetailAuditFormPage {
 
   scheduleId : any;
   placeId : any;
+  placeName : string;
 
   constructor(private loading: LoadingController,
      private retailAuditFormRepoApi : RetailAuditFormRepoApi,
      public navCtrl: NavController, 
      public navParams: NavParams) {
+      this.placeName = this.navParams.get('placeName');
       this.scheduleId = this.navParams.get('scheduleId');
       this.placeId = this.navParams.get('placeId');
       
@@ -53,7 +55,8 @@ export class ListRetailAuditFormPage {
       this.navCtrl.push(RetailAuditFormPage, {
           retailFormId : item.id,
           placeId : this.placeId,
-          scheduleId : this.scheduleId
+          scheduleId : this.scheduleId,
+          placeName : this.placeName
       });
   }
 

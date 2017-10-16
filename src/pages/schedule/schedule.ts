@@ -34,10 +34,7 @@ export class SchedulePage {
         private navCtrl: NavController,
         private navParams: NavParams) {
         this.eventDate = new Date().toISOString();
-        
     }
-
-    
 
     ionViewDidLoad() {
        this.listMyScheduleRepo();
