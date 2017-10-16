@@ -40,6 +40,11 @@ export class ProductRetailRepoApi {
         }
      }
 
+     updateRecord(dataDto:any) {
+        var data = new QueryBuilder(new ProductRetailAuditModel());        
+        data.where("Id","=",dataDto.Id).update(dataDto);  
+     }
+
      insertRecord(dataDto:any) {
         var data = new QueryBuilder(new ProductRetailAuditModel());
         data.create(dataDto);
@@ -60,6 +65,12 @@ export class ProductRetailRepoApi {
      listById(serverId:any) : Promise<any> {
         var data = new QueryBuilder(new ProductRetailAuditModel());
         var results = data.where("ServerId", "=", serverId).get();
+        return results;
+     }
+
+     listByFormId(Id:any) : Promise<any>{
+        var data = new QueryBuilder(new ProductRetailAuditModel());
+        var results = data.where("Id", "=", Id).get();
         return results;
      }
      

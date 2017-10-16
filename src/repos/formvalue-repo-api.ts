@@ -46,12 +46,9 @@ export class FormValueRepoApi {
         data.create(dataDto);
      }
 
-     updateRecord(dataDto:any[]) {
-        var dtoData = {};
-        var data = new QueryBuilder(new FormValueModel());
-        for(var i=0; i<dataDto.length;i++) {
-            data.where("Id","=",dataDto[i].Id).update(dtoData);
-        }
+     updateRecord(dataDto:any) {
+        var data = new QueryBuilder(new FormValueModel());        
+        data.where("Id","=",dataDto.Id).update(dataDto);      
      }
 
      list():Promise<any> {

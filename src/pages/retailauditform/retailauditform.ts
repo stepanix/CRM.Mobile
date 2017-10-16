@@ -69,7 +69,15 @@ export class RetailAuditFormPage {
       this.scheduleId = this.navParams.get('scheduleId');
 
       this.listProductsRepo();
-      this.getFormRepo();
+
+      if(this.retailAuditFormId===undefined){
+        this.getFormRepo();
+     }else{
+       this.getFormFieldsRepo();
+     }
+
+    //   this.listProductsRepo();
+    //   this.getFormRepo();
   }
 
   newGuid() : string {
@@ -152,21 +160,24 @@ selectPhoto(questionId) {
    }
 
    saveFormFieldValues() {
-      this.formFieldValues = [];
-      for(var i=0;i<this.formFields.length;i++) {
-          if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
-              this.formFieldValues.push ({
-                  question : this.formFields[i].question,
-                  answer : this.formFieldModel[this.formFields[i].id]
-              });
-          }
-      }
+        this.formFieldValues = [];
+        for(var i=0;i<this.formFields.length;i++) {
+            //if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
+                this.formFieldValues.push ({
+                    id : this.formFields[i].id,
+                    questionTypeId : this.formFields[i].questionTypeId,
+                    question : this.formFields[i].question,
+                    answer : this.formFieldModel[this.formFields[i].id]
+                });
+            //}
+        }
    }
 
    prepareRepoDtoData() {
-      this.saveFormFieldValues();    
+      this.saveFormFieldValues();
+      this.retailAuditFormId = this.newGuid();
       this.formFieldDtoIn = {
-          id : this.newGuid(),
+          id : this.retailAuditFormId,
           PlaceId : this.placeId,
           Available : this.available,
           Promoted : this.promoted,
@@ -184,12 +195,39 @@ selectPhoto(questionId) {
     this.saveFormValuesRepo();
   }
 
-  saveFormValuesRepo() {
-      this.prepareRepoDtoData();
-      this.productRetailAuditRepoApi.insertRecord(this.formFieldDtoIn);
-      this.logActivityRepo();
-      this.navCtrl.pop();
+  insertFormValuesRepo(){
+    this.prepareRepoDtoData();
+    this.productRetailAuditRepoApi.insertRecord(this.formFieldDtoIn);
+    this.logActivityRepo();
   }
+
+  saveFormValuesRepo() {
+     if (this.retailAuditFormId===undefined) {
+        this.insertFormValuesRepo();
+     }else{
+        this.updateFormValuesRepo();
+     }
+     this.navCtrl.pop();
+  }
+
+  updateFormValuesRepo(){
+    this.saveFormFieldValues();
+    this.formFieldDtoIn = {
+        Id : this.retailAuditFormId,
+        PlaceId : this.placeId,
+        Available : this.available,
+        Promoted : this.promoted,
+        Price : this.price,
+        StockLevel : this.stockLevel,
+        Note:this.note,
+        RetailAuditFormId : this.formId,
+        RetailAuditFormFieldValues : JSON.stringify(this.formFieldValues),
+        ScheduleId : this.scheduleId,
+        IsSynched : 0
+    }
+    console.log(JSON.stringify(this.formFieldDtoIn));
+    this.productRetailAuditRepoApi.updateRecord(this.formFieldDtoIn);
+ }
 
   logActivityRepo() {
     let ActivityDtoIn = {
@@ -249,7 +287,7 @@ isFieldMandatory(field){
 }
 
 getFormRepo() {
-    
+
       this.formFields = [];
 
       this.retailAuditFormRepoApi.listById(this.formId).then((res) => {
@@ -271,6 +309,28 @@ getFormRepo() {
      });
  
 }
+
+getFormFieldsRepo() {
+    this.formFieldValues = [];
+    this.productRetailAuditRepoApi.listByFormId(this.retailAuditFormId).then((res) => {
+       console.log(res.results[0]);
+        this.formId = res.results[0].RetailAuditFormId;
+        this.getFormRepo();
+        let fields = JSON.parse(res.results[0].RetailAuditFormFieldValues);
+        for(var i=0; i < fields.length; i++) {
+            this.formFieldModel[fields[i].id] = this.parseModelAnswer(fields[i].answer);
+            console.log(this.formFieldModel[fields[i].id]);
+        }
+    });
+ }
+
+ parseModelAnswer(value) {
+    if(value===undefined) {
+        return "";
+    }else{
+        return value;
+    }
+ }
 
 
 
