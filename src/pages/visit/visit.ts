@@ -7,6 +7,8 @@ import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 import { SchedulePage } from '../schedule/schedule';
 import { PhotoPage } from '../photo/photo';
 import { NotePage } from '../note/note';
+import { FormPage } from '../form/form';
+import { RetailAuditFormPage } from '../retailauditform/retailauditform';
 
 import {ActivityRepoApi} from '../../repos/activity-repo-api';
 
@@ -27,8 +29,9 @@ export class VisitPage {
   hideCheckOutButton : boolean = true;
   visitStatus = "";
   repoId : any;
+  activities : any[] = [];
   
-  constructor(
+  constructor(private activityRepoApi : ActivityRepoApi,
     private scheduleRepoApi : ScheduleRepoApi,
     public alertCtrl : AlertController,
     public navCtrl : NavController, 
@@ -47,7 +50,57 @@ export class VisitPage {
       this.lat = this.navParams.get('lat');
       this.lng = this.navParams.get('lng');
       this.getScheduleData();
+      this.getActivityRepo();
   }
+
+  getActivityRepo(){
+    this.activities = [];
+    this.activityRepoApi.list().then((res) => {
+        for(var i = 0; i<res.results.length;i++) {
+            this.activities.push({
+                PlaceName : res.results[i].PlaceName,
+                ActivityTypeId :  res.results[i].ActivityTypeId,
+                ActivityLog : res.results[i].ActivityLog,
+                DateCreated : moment(res.results[i].DateCreated).format("lll")
+            });
+        }
+    });
+  }
+
+  navigatePage(type,logId) {
+    if(type==="Forms") {
+        this.navCtrl.push(FormPage, {
+            Id : logId,
+            placeName : this.placeName,
+            scheduleId : this.scheduleId,
+            placeId : this.placeId
+        });
+    }
+    if(type==="Product Retail Audit") {
+      this.navCtrl.push(RetailAuditFormPage, {
+          Id : logId,
+          placeName : this.placeName,
+          scheduleId : this.scheduleId,
+          placeId : this.placeId
+      });
+    }
+    if(type==="Photos") {
+        this.navCtrl.push(PhotoPage, {
+          Id : logId,
+          placeName : this.placeName,
+          scheduleId : this.scheduleId,
+          placeId : this.placeId
+      });
+    }
+    if(type==="Notes") {
+      this.navCtrl.push(NotePage, {
+        Id : logId,
+        placeName : this.placeName,
+        scheduleId : this.scheduleId,
+        placeId : this.placeId
+    });
+  }
+}
 
   getScheduleData() {   
      this.scheduleRepoApi.listById(this.scheduleId).then((res) => {

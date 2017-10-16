@@ -196,7 +196,7 @@ selectPhoto(questionId) {
        Id: this.newGuid(),     
        PlaceName : this.placeName,
        PlaceId: this.placeId,
-       ActivityLog: 'Product Retail',
+       ActivityLog: 'Product Retail Audit',
        ActivityTypeId : this.retailAuditFormId,
        IsSynched: 0,
        DateCreated : moment().format().toString()

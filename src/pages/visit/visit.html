@@ -69,8 +69,32 @@
 
    </ion-list>
 
+   <ion-card>
+        <ion-card-header>
+             <div style="text-align: center;">
+                <span style="color:#666;font-size: 1.2rem; text-align:center;font-size: 17px;">
+                    Activity History
+                </span>
+             </div>
+        </ion-card-header>
+   </ion-card>
+
    <ion-list>
-       
+        <div *ngFor="let item of activities">
+                <ion-card>
+                   <ion-card-header (click)="navigatePage(item.ActivityLog,item.ActivityTypeId)">
+                       <ion-icon ios="ios-home" md="ios-home" item-left>
+                           {{item.PlaceName}}
+                       </ion-icon>
+                       <span style="color:#666;font-size: 1.2rem; float:right;font-size: 13px;">
+                           {{item.DateCreated}}
+                       </span>
+                   </ion-card-header>
+                   <ion-card-content (click)="navigatePage(item.ActivityLog,item.ActivityTypeId)">
+                         {{item.ActivityLog}}
+                   </ion-card-content>
+                </ion-card>
+          </div>
    </ion-list>
 
 </ion-content>

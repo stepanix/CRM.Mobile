@@ -58,7 +58,7 @@ export class FormPage {
            this.datePicker.onDateSelected.subscribe((date) => {
                 for (var i=0; i < this.formFields.length; i++) {
                     if (this.formFields[i].questionTypeId==="7") {
-                       this.formFieldModel[this.formFields[i].id] = moment(date).format('YYYY-MM-DD').toString(); 
+                       this.formFieldModel[this.formFields[i].id] = moment(date).format('YYYY-MM-DD').toString();
                     }
                 }
            });
@@ -73,7 +73,12 @@ export class FormPage {
            this.scheduleId = this.navParams.get('scheduleId');
 
            this.listProductsRepo();
-           this.getFormRepo();
+            
+           if(this.formFieldId===undefined){
+              this.getFormRepo();
+           }else{
+             this.getFormFieldsRepo();
+           }
      }
 
      newGuid() : string {
@@ -157,12 +162,14 @@ export class FormPage {
      saveFormFieldValues() {
       this.formFieldValues = [];
         for(var i=0;i<this.formFields.length;i++) {
-            if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
+            //if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
                 this.formFieldValues.push ({
+                    id : this.formFields[i].id,
+                    questionTypeId : this.formFields[i].questionTypeId,
                     question : this.formFields[i].question,
                     answer : this.formFieldModel[this.formFields[i].id]
                 });
-            }
+            //}
         }
      }
 
@@ -214,16 +221,39 @@ export class FormPage {
      }
 
      saveFormValuesRepo() {
-          this.prepareRepoDtoData();
-          this.loader = this.loading.create({
-              content: 'Busy, please wait...',
-          });
-          this.loader.present().then(() => {
-              this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
-              this.logActivityRepo();
-              this.navCtrl.pop();
-              this.loader.dismiss();
-          });
+          console.log("Form Field " + this.formFieldId);
+          if(this.formFieldId===undefined){
+              this.insertFormvaluesRepo();
+          }else{
+              this.updateFormValuesRepo();
+          }
+     }
+
+     insertFormvaluesRepo(){
+        this.prepareRepoDtoData();
+        this.loader = this.loading.create({
+            content: 'Busy, please wait...',
+        });
+        this.loader.present().then(() => {
+            this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
+            this.logActivityRepo();
+            this.navCtrl.pop();
+            this.loader.dismiss();
+        });
+     }
+
+     updateFormValuesRepo(){
+        this.saveFormFieldValues();
+        this.formFieldDtoIn = {
+            Id : this.formFieldId,
+            PlaceId : this.placeId,
+            FormId : this.formId,
+            FormFieldValues : JSON.stringify(this.formFieldValues),
+            ScheduleId : this.scheduleId,
+            IsSynched : 0
+        }
+        this.formValueRepoApi.updateRecord(this.formFieldDtoIn);
+        this.navCtrl.pop();
      }
 
      logActivityRepo() {
@@ -325,6 +355,28 @@ export class FormPage {
                     this.loader.dismiss();
                 });
         });
+     }
+
+     getFormFieldsRepo() {
+        this.formFieldValues = [];
+        this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {
+           console.log(res.results[0]);
+            this.formId = res.results[0].FormId;
+            this.getFormRepo();
+            let fields = JSON.parse(res.results[0].FormFieldValues);
+            for(var i=0; i < fields.length; i++) {
+                this.formFieldModel[fields[i].id] = this.parseModelAnswer(fields[i].answer);
+                console.log(this.formFieldModel[fields[i].id]);
+            }
+        });
+     }
+
+     parseModelAnswer(value) {
+        if(value===undefined) {
+            return "";
+        }else{
+            return value;
+        }
      }
 
      getFormApi() {
