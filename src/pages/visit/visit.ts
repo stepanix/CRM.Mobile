@@ -8,6 +8,8 @@ import { SchedulePage } from '../schedule/schedule';
 import { PhotoPage } from '../photo/photo';
 import { NotePage } from '../note/note';
 
+import {ActivityRepoApi} from '../../repos/activity-repo-api';
+
 @Component({
    selector: 'page-visit',
    templateUrl: 'visit.html',
@@ -26,7 +28,8 @@ export class VisitPage {
   visitStatus = "";
   repoId : any;
   
-  constructor(private scheduleRepoApi : ScheduleRepoApi,
+  constructor(
+    private scheduleRepoApi : ScheduleRepoApi,
     public alertCtrl : AlertController,
     public navCtrl : NavController, 
     public navParams : NavParams) {

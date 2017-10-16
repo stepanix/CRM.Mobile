@@ -55,8 +55,9 @@ logActivityRepo() {
       PlaceName : this.placeName,
       PlaceId: this.placeId,
       ActivityLog: 'Notes',
+      ActivityTypeId : this.noteId,
       IsSynched: 0,      
-      DateCreated : moment().format('YYYY-MM-DD').toString()
+      DateCreated : moment().format().toString()
    }
    this.activityRepoApi.insertRecord(ActivityDtoIn);
 }

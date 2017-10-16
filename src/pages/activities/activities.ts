@@ -46,7 +46,7 @@ export class ActivitiesPage {
               this.activities.push({
                   PlaceName : res.results[i].PlaceName,
                   ActivityLog : res.results[i].ActivityLog,
-                  DateCreated : moment(res.results[i].DateCreated).format("MMM Do YY")
+                  DateCreated : moment(res.results[i].DateCreated).format("lll")
               });
           }
       });

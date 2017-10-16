@@ -38,6 +38,7 @@ export class RetailAuditFormPage {
   stockLevel:number = 0;
   note:string = "";
   placeName : string;
+  retailAuditFormId : string;
 
 
   constructor(public activityRepoApi : ActivityRepoApi,
@@ -61,6 +62,7 @@ export class RetailAuditFormPage {
       this.formFieldValues = [];
       this.formFieldDtoIn = {};
 
+      this.retailAuditFormId = this.navParams.get('Id');
       this.placeName = this.navParams.get('placeName');
       this.formId = this.navParams.get('retailFormId');
       this.placeId = this.navParams.get('placeId');
@@ -195,8 +197,9 @@ selectPhoto(questionId) {
        PlaceName : this.placeName,
        PlaceId: this.placeId,
        ActivityLog: 'Product Retail',
-       IsSynched: 0,      
-       DateCreated : moment().format('YYYY-MM-DD').toString()
+       ActivityTypeId : this.retailAuditFormId,
+       IsSynched: 0,
+       DateCreated : moment().format().toString()
     }
     this.activityRepoApi.insertRecord(ActivityDtoIn);
  }

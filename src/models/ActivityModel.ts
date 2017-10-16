@@ -8,6 +8,7 @@ export class ActivityModel extends BaseModel {
         PlaceName : 'TEXT',
         PlaceId: 'TEXT',
         ActivityLog: 'TEXT',
+        ActivityTypeId : 'TEXT',
         IsSynched: 'INTEGER(1)',
         PlaceRepoId : 'TEXT',
         DateCreated : 'TEXT'

@@ -39,6 +39,7 @@ export class FormPage {
     formFieldModel:any[] = [];
     base64Image : string;
     placeName : string;
+    formFieldId : string;
 
     constructor(public activityRepoApi : ActivityRepoApi,
       private camera: Camera,
@@ -64,7 +65,8 @@ export class FormPage {
           
            this.formFieldValues = [];
            this.formFieldDtoIn = {};
-
+           
+           this.formFieldId = this.navParams.get('Id');
            this.placeName = this.navParams.get('placeName');
            this.formId = this.navParams.get('formId');
            this.placeId = this.navParams.get('placeId');
@@ -176,9 +178,10 @@ export class FormPage {
      }
 
      prepareRepoDtoData() {
-      this.saveFormFieldValues();    
+      this.saveFormFieldValues();
+      this.formFieldId = this.newGuid()
       this.formFieldDtoIn = {
-          id : this.newGuid(),
+          id : this.formFieldId,
           PlaceId : this.placeId,
           FormId : this.formId,
           FormFieldValues : JSON.stringify(this.formFieldValues),
@@ -229,8 +232,9 @@ export class FormPage {
            PlaceName : this.placeName,
            PlaceId: this.placeId,
            ActivityLog: 'Forms',
+           ActivityTypeId : this.formFieldId,
            IsSynched: 0,
-           DateCreated : moment().format('YYYY-MM-DD').toString()
+           DateCreated : moment().format().toString()
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
      }
