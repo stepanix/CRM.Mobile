@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi,PhotoServiceApi } from '../shared/shared';
 import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi} from '../shared/shared';
-import {NoteServiceApi,ProductRetailAuditServiceApi,FormValueServiceApi} from '../shared/shared';
+import {NoteServiceApi,ProductRetailAuditServiceApi,FormValueServiceApi,ActivityServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
@@ -14,6 +14,7 @@ import {FormValueRepoApi} from '../repos/formvalue-repo-api';
 import {PhotoRepoApi} from '../repos/photo-repo-api';
 import {NoteRepoApi} from '../repos/note-repo-api';
 import {ProductRetailRepoApi} from '../repos/productretailaudit-repo-api';
+import {ActivityRepoApi} from '../repos/activity-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
@@ -21,7 +22,9 @@ export class SyncServiceApi {
     placesTemp : any[] = [];
     scheduleTemp : any[] =[];
     
-    constructor(private productRetailAuditServiceApi:ProductRetailAuditServiceApi,
+    constructor(private activityServiceApi : ActivityServiceApi,
+        private activityRepoApi : ActivityRepoApi,
+        private productRetailAuditServiceApi:ProductRetailAuditServiceApi,
         private productRetailRepoApi : ProductRetailRepoApi,
         private noteRepoApi : NoteRepoApi,
         private noteServiceApi : NoteServiceApi,
@@ -201,6 +204,7 @@ export class SyncServiceApi {
                     this.uploadFormValuesToServer();
                     this.uploadNotesToServer();
                     this.uploadProductRetailAuditToServer();
+                    this.uploadActivityToServer();
                 }
             },err => {
             console.log(err);
@@ -362,6 +366,30 @@ export class SyncServiceApi {
             .subscribe(
               res => {
                 this.noteRepoApi.updateSynched(res);
+              },err => {
+                console.log(err);
+                return;
+           });
+        });
+    }
+
+    uploadActivityToServer() {
+        let activityValues = [];
+        this.activityRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length; i++) {
+                activityValues.push({
+                    id : 0,
+                        syncId : res.results[i].Id,
+                        placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
+                        activityLog : res.results[i].ActivityLog,
+                        dateCreated  : res.results[i].DateCreated
+                    });
+            }
+            console.log(JSON.stringify(activityValues));
+            this.activityServiceApi.addActivityList(activityValues)
+            .subscribe(
+              res => {
+                this.activityRepoApi.updateSynched(res);
               },err => {
                 console.log(err);
                 return;
