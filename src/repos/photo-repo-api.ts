@@ -68,5 +68,11 @@ export class PhotoRepoApi {
         var results = data.where("ServerId", "=", serverId).get();
         return results;
      }
+
+     listByNoteId(Id:any) : Promise<any> {
+        var data = new QueryBuilder(new PhotoModel());
+        var results = data.where("Id", "=", Id).get();
+        return results;
+     }
      
 }

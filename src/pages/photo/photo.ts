@@ -32,10 +32,24 @@ export class PhotoPage {
          this.placeId = this.navParams.get('placeId');
          this.scheduleId = this.navParams.get('scheduleId');
          this.photoModel.Note = "";
+
+         if(this.photoId !== undefined) {
+            this.getPhotoRepo();
+         }
   }
 
   ionViewDidLoad() {
   }
+
+  getPhotoRepo() {
+    this.photoRepoApi
+    .listById(this.photoId)
+    .then((res) => {
+          this.photoId = res.results[0].Id;
+          this.photoModel.Note = res.results[0].Note;
+          this.base64Image = res.results[0].PictureUrl;
+     });
+ }
 
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
