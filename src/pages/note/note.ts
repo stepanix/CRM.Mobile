@@ -28,9 +28,31 @@ export class NotePage {
       this.placeId = this.navParams.get('placeId');
       this.scheduleId = this.navParams.get('scheduleId');
       this.noteModel.Description = "";
+
+      if(this.noteId !== undefined) {
+        this.getNoteRepo();
+      }
   }
 
+  getNoteRepo() {
+      this.noteRepoApi
+      .listByNoteId(this.noteId)
+      .then((res) => {
+            this.noteId = res.results[0].Id;
+            this.noteModel.Description = res.results[0].Description;
+       });
+   }
+
   saveNoteRepo() {
+    if (this.noteId===undefined) {
+        this.insertNoteRepo();
+    }else{
+        this.updateNoteRepo();
+    }
+    this.navCtrl.pop();
+  }
+
+insertNoteRepo() {
     this.noteId = this.newGuid();
     let NoteDtoIn = {
         Id : this.noteId,
@@ -47,6 +69,18 @@ export class NotePage {
         duration: 3000
     });
     toast.present();
+}
+
+updateNoteRepo() {
+    let NoteDtoIn = {
+        Id : this.noteId,
+        ServerId: 0,
+        Description : this.noteModel.Description,
+        ScheduleId : this.scheduleId,
+        PlaceId : this.placeId,
+        IsSynched : 0
+    }
+    this.noteRepoApi.updateRecord(NoteDtoIn);
 }
 
 logActivityRepo() {

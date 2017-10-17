@@ -67,5 +67,11 @@ export class NoteRepoApi {
         var results = data.where("ServerId", "=", serverId).get();
         return results;
      }
+
+     listByNoteId(Id:any) : Promise<any> {
+        var data = new QueryBuilder(new NoteModel());
+        var results = data.where("Id", "=", Id).get();
+        return results;
+     }
      
 }
