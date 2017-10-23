@@ -3,38 +3,57 @@ import { NavController, NavParams } from 'ionic-angular';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
+import {OrderRepoApi} from '../../repos/order-repo-api';
 
 
 @Component({
    selector: 'page-orders',
    templateUrl: 'orders.html',
+   providers: [DatePicker]
 })
 export class OrdersPage {
 
   OrderModel : any;
+  dateSelected : string="";
   @ViewChild(SignaturePad) signaturePad: SignaturePad;
 
-  private signaturePadOptions: Object = {
+  scheduleId : any;
+  placeId : any;
+  placeName : string;
+  productId : any;
+  productName : any;
+
+  private signaturePadOptions : Object = {
       'minWidth': 3,
       'canvasWidth': 600,
       'canvasHeight': 100
   };
 
-  constructor(private calendarDate:DatePicker,
-     private calendarDueDate:DatePicker,
-     public navCtrl: NavController,
-     public navParams: NavParams) {
-     this.OrderModel = {};
+  constructor(private orderRepoApi : OrderRepoApi,
+              private calendar:DatePicker,
+              public navCtrl: NavController,
+              public navParams: NavParams) {
 
-     this.calendarDate.onDateSelected
-        .subscribe((date) => { 
-          this.OrderModel.Date = moment(date).format('YYYY-MM-DD').toString(); 
-     });
+      this.OrderModel = {};
 
-     this.calendarDueDate.onDateSelected
-      .subscribe((date) => {
-       this.OrderModel.DueDate = moment(date).format('YYYY-MM-DD').toString(); 
-     });
+      this.productId = this.navParams.get('productId');
+      this.productName = this.navParams.get('productName');
+      this.placeName = this.navParams.get('placeName');
+      this.scheduleId = this.navParams.get('scheduleId');
+      this.placeId = this.navParams.get('placeId');
+
+      this.calendar.onDateSelected
+          .subscribe((date) => { 
+            if(this.dateSelected==="date") {
+              this.OrderModel.Date = moment(date).format('YYYY-MM-DD').toString(); 
+            }else{
+              this.OrderModel.DueDate = moment(date).format('YYYY-MM-DD').toString(); 
+            }
+      });
+  }
+
+  saveOrderRepo() {
+
   }
 
   ngAfterViewInit() {
@@ -43,11 +62,13 @@ export class OrdersPage {
   }
 
   showCalendarDate() {
-    this.calendarDate.showCalendar();
+    this.dateSelected="date";
+    this.calendar.showCalendar();
   }
 
   showCalendarDueDate() {
-    this.calendarDueDate.showCalendar();
+    this.dateSelected="dueDate";
+    this.calendar.showCalendar();
   }
 
   drawComplete() {

@@ -11,10 +11,16 @@ import { OrdersPage } from '../orders/orders';
 export class ListProductPage {
 
   products : any[] = [];
+  scheduleId : any;
+  placeId : any;
+  placeName : string;
 
   constructor(public productRepoApi:ProductRepoApi,
               public navCtrl : NavController, 
               public navParams : NavParams) {
+      this.placeName = this.navParams.get('placeName');
+      this.scheduleId = this.navParams.get('scheduleId');
+      this.placeId = this.navParams.get('placeId');          
       this.getProductRepo();
   }
 
@@ -35,13 +41,13 @@ export class ListProductPage {
   }
 
   openOrder(item) {
-    this.navCtrl.push(OrdersPage);
-    //   this.navCtrl.push(OrdersPage, {
-    //     retailFormId : item.id,
-    //     placeId : this.placeId,
-    //     scheduleId : this.scheduleId,
-    //     placeName : this.placeName
-    // });
+      this.navCtrl.push(OrdersPage, {
+        productId : item.id,
+        productName : item.name,
+        placeId : this.placeId,
+        scheduleId : this.scheduleId,
+        placeName : this.placeName
+    });
   }
 
 }

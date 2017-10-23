@@ -34,11 +34,6 @@ export class ListFormsPage {
 
   listSchedule() {
     this.listFormsRepo();
-    //   if(localStorage.getItem("isOnline")==="true"){
-    //       this.listFormsApi();
-    //   }else{
-    //       this.listFormsRepo();
-    //   }
   }
 
   listFormsRepo() {

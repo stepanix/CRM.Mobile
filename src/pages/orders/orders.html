@@ -24,12 +24,11 @@
 
 </ion-header>
 
-
 <ion-content class="registerContainer">
 
-  <h1>
-    <strong>Order</strong>
-  </h1>
+  
+    <h1><ion-icon ios="ios-cube" md="ios-cube" item-left>    {{productName}}</ion-icon></h1>
+  
 
   <ion-list class="registerList">
 
@@ -103,26 +102,31 @@
     <strong>Additional</strong>
   </h1>
 
-  <ion-list class="registerList">
+  <ion-item>
+    <ion-icon item-left name="calendar" (click)="showCalendarDate()">
+      <span style="padding-left:10px;font-size: 20px!important">Date</span>
+      <b (click)="showCalendarDate()">
+        <span style="padding-left:10px;font-size: 18px!important">
+          {{OrderModel.Date}}
+        </span>
+      </b>
+    </ion-icon>
+  </ion-item>
 
-    <ion-item>
-      <ion-label floating>Date</ion-label>
-      <ion-icon item-left name="calendar" (click)="showCalendarDate()"></ion-icon>
-      <b (click)="showCalendarDate()">{{OrderModel.Date}}</b>
-    </ion-item>
+  <ion-item>
+     <ion-input type="text" [(ngModel)]="OrderModel.DueDays" placeholder="Due days"></ion-input>
+  </ion-item>
 
-    <ion-item>
-      <ion-label floating>Due days</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.DueDays" [disabled]="true"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label floating>Due date</ion-label>
-      <ion-icon item-left name="calendar" (click)="showCalendarDueDate()"></ion-icon>
-      <b (click)="showCalendarDueDate()">{{OrderModel.DueDate}}</b>
-    </ion-item>
-
-  </ion-list>
+  <ion-item>
+    <ion-icon item-left name="calendar" (click)="showCalendarDueDate()">
+      <span style="padding-right:5px;padding-left:10px;font-size: 20px!important">Due Date</span>
+      <b (click)="showCalendarDueDate()">
+        <span style="padding-left:10px;font-size: 18px!important">
+          {{OrderModel.DueDate}}
+        </span>
+      </b>
+    </ion-icon>
+  </ion-item>
 
   <ion-item>
     <ion-textarea [(ngModel)]="OrderModel.Note" placeholder="Note..."></ion-textarea>
