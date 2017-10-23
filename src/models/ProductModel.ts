@@ -7,7 +7,8 @@ export class ProductModel extends BaseModel {
     public schema: Object = {
         Id: 'TEXT',
         ServerId : 'INTEGER(11)',
-        Name : 'TEXT'
+        Name : 'TEXT',
+        Price : 'TEXT'
     }
 
 }

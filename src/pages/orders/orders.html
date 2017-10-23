@@ -10,7 +10,7 @@
 
     <ion-buttons end>
 
-      <button ion-button icon-only (click)="saveOrderRepo()">
+      <button ion-button icon-only (click)="saveOrderRepo()" [disabled]="OrderModel.Quantity==='0'">
         Save
       </button>
 
@@ -34,7 +34,7 @@
 
     <ion-item>
       <ion-label floating>Quantity</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.Quantity"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.Quantity" (change)="computeAmount()"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -52,12 +52,12 @@
 
     <ion-item>
       <ion-label floating>Discount rate %</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.DiscountRate"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountRate" (change)="computeDiscountAmount()" [disabled] = "OrderModel.Amount==='0'"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Discount amount</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.DiscountAmount"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountAmount" (change)="computeDiscountRate()" [disabled] = "OrderModel.Amount==='0'"></ion-input>
     </ion-item>
 
   </ion-list>
@@ -67,10 +67,12 @@
   </h1>
 
   <ion-list class="registerList">
+      
+    <h1><strong>Taxable subtotal: {{taxableSubTotal}}</strong></h1>
 
     <ion-item>
       <ion-label floating>Tax rate %</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.TaxRate"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.TaxRate" (change)="computeTaxAmount()"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -87,12 +89,12 @@
   <ion-list class="registerList">
 
     <ion-item>
-      <ion-label floating>Total discount amount</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.TotalDiscountAmount"></ion-input>
+      <ion-label floating><strong>Total discount amount</strong></ion-label>
+      <ion-input type="number" [(ngModel)]="OrderModel.TotalDiscountAmount" [disabled]="true"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label floating>Total amount</ion-label>
+      <ion-label floating><strong>Total amount</strong></ion-label>
       <ion-input type="number" [(ngModel)]="OrderModel.TotalAmount" [disabled]="true"></ion-input>
     </ion-item>
 

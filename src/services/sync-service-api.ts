@@ -68,7 +68,8 @@ export class SyncServiceApi {
                             products.push({
                                 Id: this.newGuid(),
                                 ServerId: res[i].id,
-                                Name: res[i].name
+                                Name: res[i].name,
+                                Price : res[i].price
                             });
                         }
                         this.productRepoApi.delete();

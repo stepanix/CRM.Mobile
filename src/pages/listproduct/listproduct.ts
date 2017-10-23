@@ -34,7 +34,8 @@ export class ListProductPage {
           for (var i = 0; i<res.results.length;i++) {
                 this.products.push({
                     id : res.results[i].ServerId,
-                    name : res.results[i].Name
+                    name : res.results[i].Name,
+                    price : res.results[i].Price
                  });
              }
         });
@@ -43,6 +44,7 @@ export class ListProductPage {
   openOrder(item) {
       this.navCtrl.push(OrdersPage, {
         productId : item.id,
+        price : item.price,
         productName : item.name,
         placeId : this.placeId,
         scheduleId : this.scheduleId,
