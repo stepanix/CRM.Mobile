@@ -10,7 +10,7 @@
 
     <ion-buttons end>
 
-      <button ion-button icon-only (click)="saveNoteRepo()">
+      <button ion-button icon-only (click)="saveOrderRepo()">
         Save
       </button>
 
@@ -35,12 +35,12 @@
 
     <ion-item>
       <ion-label floating>Quantity</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.Quantity"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.Quantity"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Amount</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.Amount" [disabled]="true"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.Amount" [disabled]="true"></ion-input>
     </ion-item>
 
   </ion-list>
@@ -53,16 +53,15 @@
 
     <ion-item>
       <ion-label floating>Discount rate %</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.DiscountRate"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountRate"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Discount amount</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.DiscountAmount"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountAmount"></ion-input>
     </ion-item>
 
   </ion-list>
-
 
   <h1>
     <strong>Tax</strong>
@@ -72,12 +71,12 @@
 
     <ion-item>
       <ion-label floating>Tax rate %</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.TaxRate"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.TaxRate"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Tax amount</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.TaxAmount" [disabled]="true"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.TaxAmount" [disabled]="true"></ion-input>
     </ion-item>
 
   </ion-list>
@@ -90,12 +89,12 @@
 
     <ion-item>
       <ion-label floating>Total discount amount</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.TotalDiscountAmount"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.TotalDiscountAmount"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Total amount</ion-label>
-      <ion-input type="text" [(ngModel)]="OrderModel.TotalAmount" [disabled]="true"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.TotalAmount" [disabled]="true"></ion-input>
     </ion-item>
 
   </ion-list>
@@ -124,5 +123,17 @@
     </ion-item>
 
   </ion-list>
+
+  <ion-item>
+    <ion-textarea [(ngModel)]="OrderModel.Note" placeholder="Note..."></ion-textarea>
+  </ion-item>
+
+  <h1>
+    <strong>Signature</strong>
+  </h1>
+
+  <ion-item>
+    <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+  </ion-item>
 
 </ion-content>

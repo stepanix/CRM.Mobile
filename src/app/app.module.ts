@@ -36,6 +36,7 @@ import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 import { AgmCoreModule } from "angular2-google-maps/core";
 import { Camera } from '@ionic-native/camera';
+import { SignaturePadModule } from 'angular2-signaturepad';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { Camera } from '@ionic-native/camera';
         apiKey: "AIzaSyC6UFj0VOyEzkqseKrklaDH8XOTJh_q6wk",
         libraries: ["places"]
     }),
+    SignaturePadModule ,
     HttpModule,
     BrowserModule,
     ReactiveFormsModule,
