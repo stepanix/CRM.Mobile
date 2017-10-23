@@ -55,6 +55,7 @@ export class SchedulePage {
                 for(var i = 0; i<res.results.length;i++) {
                      this.schedules.push({
                          id : res.results[i].ServerId,
+                         repoId : res.results[i].RepoId,
                          placeId : res.results[i].PlaceId,
                          place : res.results[i].PlaceName,
                          address : res.results[i].PlaceAddress,
@@ -70,43 +71,9 @@ export class SchedulePage {
          });
     }
 
-    
-
     parseRepoDate(date):string {
        return date + "T00:00:00";
-    }
-
-    listMySchedulesApi() {
-      this.loader = this.loading.create({
-        content: 'Busy please wait...',
-      });
-      this.loader.present().then(() => {
-          let scheduleDate =  moment(this.eventDate).format('YYYY-MM-DD').toString();
-          this.schedules = [];
-          this.scheduleServiceApi.getMySchedules(scheduleDate)
-          .subscribe(
-              res => {
-                for(var i=0; i< res.length; i++){
-                    this.schedules.push({
-                        id:res[i].id,
-                        placeId : res[i].place.id,
-                        place: res[i].place.name,
-                        address : res[i].place.streetAddress,
-                        time: this.parseScheduleTime(res[i].visitTime),
-                        status : res[i].visitStatus,
-                        latitude : res[i].latitude,
-                        longitude : res[i].longitude,
-                        isSynched : 1
-                    });
-                  }
-                  this.loader.dismiss();
-              },err => {
-                this.loader.dismiss();
-                console.log(err);
-                return;
-            });
-        });
-    }
+    }    
 
     parseScheduleTime(time) {
         if (time === null || time==="") {
@@ -121,33 +88,9 @@ export class SchedulePage {
     }
 
     openSchedule(item) {
-        this.scheduleRepoApi.checkOutVisit();
-        let ScheduleDto = {
-            Id: this.newGuid(),
-            RepoId : this.newGuid(),
-            ServerId :  item.id,
-            PlaceId : item.placeId,
-            PlaceName : item.place,
-            PlaceAddress : item.address,
-            UserId : localStorage.getItem('userid'),
-            VisitDate : moment().format('YYYY-MM-DD').toString() + "T00:00:00",
-            VisitTime : "",
-            VisitNote : "",
-            IsRecurring : false,
-            RepeatCycle : 0,
-            IsScheduled : false,
-            IsVisited : true,
-            IsMissed : false,
-            IsUnScheduled : true,
-            VisitStatus : 'In',
-            CheckInTime : moment().format("YYYY-MM-DD HH:mm"),
-            Latitude : item.latitude,
-            Longitude : item.longitude,
-            IsSynched: 0
-        };
-        this.scheduleRepoApi.checkInVisit(ScheduleDto);
         this.navCtrl.push(VisitPage, {
-            scheduleId : item.id,
+            scheduleId : item.repoId,
+            repoId : item.repoId,
             placeId : item.placeId,
             placeName : item.place,
             streetAddress : item.address,

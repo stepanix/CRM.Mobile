@@ -60,61 +60,23 @@ export class AddSchedulePage {
   }
 
   ionViewDidLoad() {
-   
   }
-
-  
 
   showCalendar() {
     this.datePicker.showCalendar();
   }
   
-  checkAutoCompleteInputsSelected() :boolean {
-     let selectedPlace = this.searchplace.getSelection();
-     let selectedRep = this.searchrep.getSelection();
-     if(selectedRep===undefined || selectedPlace===undefined || selectedRep==="undefined" || selectedPlace==="undefined"){
-        return false;
-     }else{
-        this.dtoPlaceId = selectedPlace.id;
-        this.dtoUserId = selectedRep.id;
-        this.streetAddress = selectedPlace.streetAddress;
-        return true;
-     }
-  }
-
-  saveScheduleApi() {
-        this.loader = this.loading.create({
-            content: 'Busy please wait...',
-        });
-        this.loader.present().then(() => {
-              let ScheduleDto = {
-                id: 1,
-                placeId: this.dtoPlaceId,
-                userId: this.dtoUserId,
-                visitDate: this.selectedDate,
-                visitTime: this.selectedTime,
-                visitNote: this.Note,
-                isRecurring: this.Recurring,
-                repeatCycle: this.Weeks,
-                isVisited: false,
-                isScheduled: true,
-                isMissed : false,
-                isUnScheduled: false,
-                visitStatus : "New visit"
-            };
-            //console.log(JSON.stringify(ScheduleDto));
-            this.scheduleServiceApi.addSchedule(ScheduleDto)
-            .subscribe(
-                res => {
-                  this.loader.dismiss();
-                  this.navCtrl.setRoot(SchedulePage);
-                },err => {
-                  console.log(err);
-                  this.loader.dismiss();
-                  return;
-              });
-      });
-    
+  checkAutoCompleteInputsSelected() : boolean {
+      let selectedPlace = this.searchplace.getSelection();
+      let selectedRep = this.searchrep.getSelection();
+      if(selectedRep===undefined || selectedPlace===undefined || selectedRep==="undefined" || selectedPlace==="undefined"){
+          return false;
+      }else{
+          this.dtoPlaceId = selectedPlace.id;
+          this.dtoUserId = selectedRep.id;
+          this.streetAddress = selectedPlace.streetAddress;
+          return true;
+      }
   }
 
   saveScheduleRepo() {
@@ -131,7 +93,7 @@ export class AddSchedulePage {
                 PlaceAddress : this.searchplace.getSelection().streetAddress,
                 UserId: this.dtoUserId,
                 VisitDate: this.selectedDate + "T00:00:00",
-                VisitTime: this.selectedDate + "T" + this.selectedTime,
+                VisitTime: null,
                 VisitNote: this.Note,
                 IsRecurring: this.Recurring,
                 RepeatCycle: this.Weeks,
@@ -149,11 +111,7 @@ export class AddSchedulePage {
   }
 
   saveSchedule() {
-     if(localStorage.getItem("isOnline")==="true"){
-        this.saveScheduleApi();
-     }else{
-        this.saveScheduleRepo();
-     }
+     this.saveScheduleRepo();
   }
 
   newGuid() : string {

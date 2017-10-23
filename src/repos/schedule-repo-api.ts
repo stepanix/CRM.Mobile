@@ -67,13 +67,19 @@ export class ScheduleRepoApi {
 
      listByDate(visitDate:string) : Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
-        var results = data.where("VisitDate", "=", visitDate).where("IsScheduled", "=", "true").get();
+        var results = data.where("VisitDate", "=", visitDate).get();
         return results;
      }
 
-     listById(serverId:string) : Promise<any> {
+     listById(Id:string) : Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
-        var results = data.where("RepoId", "=", serverId).orWhere("VisitStatus", "=", "In").get();
+        var results = data.where("RepoId", "=", Id).get();
+        return results;
+     }
+
+     listByScheduleId(Id:string) : Promise<any> {
+        var data = new QueryBuilder(new ScheduleModel());
+        var results = data.where("RepoId", "=", Id).get();
         return results;
      }
 
@@ -90,7 +96,7 @@ export class ScheduleRepoApi {
 
      checkInVisit(dataDto:any) {
         var data = new QueryBuilder(new ScheduleModel());
-        data.where("ServerId", "=", dataDto.Id).orWhere("Id", "=", dataDto.Id).update(dataDto);
+        data.where("RepoId", "=", dataDto.RepoId).update(dataDto);
      }
      
 }

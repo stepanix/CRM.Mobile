@@ -1,0 +1,28 @@
+<ion-header>
+  
+    <ion-navbar>
+
+        <ion-title>Orders</ion-title>
+  
+        <ion-buttons end>
+              
+            <page-network> </page-network>
+              
+        </ion-buttons>
+
+    </ion-navbar>
+  
+</ion-header>
+
+<ion-content class="signInList signIn">
+    <div *ngFor="let item of products">
+        <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="openOrder(item)">
+               <ion-icon ios="ios-cube" md="ios-cube" item-left>
+                    <span style="color:#666;font-size: 1.6rem; text-align: right;font-size: 18px; padding-left: 10px;">
+                        {{item.name}}
+                    </span>
+               </ion-icon>                
+              <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+        </button>
+    </div>
+</ion-content>
