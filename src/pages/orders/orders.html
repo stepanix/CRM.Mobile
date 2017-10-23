@@ -1,12 +1,128 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>orders</ion-title>
+
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Order</ion-title>
+
+    <ion-buttons end>
+
+      <button ion-button icon-only (click)="saveNoteRepo()">
+        Save
+      </button>
+
+    </ion-buttons>
+
+    <ion-buttons end>
+      <page-network></page-network>
+    </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="registerContainer">
+
+  <h1>
+    <strong>Order</strong>
+  </h1>
+
+  <ion-list class="registerList">
+
+    <ion-item>
+      <ion-label floating>Quantity</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.Quantity"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Amount</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.Amount" [disabled]="true"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <h1>
+    <strong>Discount</strong>
+  </h1>
+
+  <ion-list class="registerList">
+
+    <ion-item>
+      <ion-label floating>Discount rate %</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.DiscountRate"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Discount amount</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.DiscountAmount"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+
+  <h1>
+    <strong>Tax</strong>
+  </h1>
+
+  <ion-list class="registerList">
+
+    <ion-item>
+      <ion-label floating>Tax rate %</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.TaxRate"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Tax amount</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.TaxAmount" [disabled]="true"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <h1>
+    <strong>Total</strong>
+  </h1>
+
+  <ion-list class="registerList">
+
+    <ion-item>
+      <ion-label floating>Total discount amount</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.TotalDiscountAmount"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Total amount</ion-label>
+      <ion-input type="text" [(ngModel)]="OrderModel.TotalAmount" [disabled]="true"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <h1>
+      <strong>Additional</strong>
+    </h1>
+  
+    <ion-list class="registerList">
+  
+      <ion-item>
+        <ion-label floating>Date</ion-label>
+        <ion-icon item-left name="calendar" (click)="showCalendarDate()"></ion-icon>
+        <b (click)="showCalendarDate()">{{OrderModel.Date}}</b>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label floating>Due days</ion-label>
+        <ion-input type="text" [(ngModel)]="OrderModel.DueDays" [disabled]="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+          <ion-label floating>Due date</ion-label>
+          <ion-icon item-left name="calendar" (click)="showCalendarDueDate()"></ion-icon>
+          <b (click)="showCalendarDueDate()">{{OrderModel.DueDate}}</b>
+       </ion-item>
+  
+    </ion-list>
 
 </ion-content>

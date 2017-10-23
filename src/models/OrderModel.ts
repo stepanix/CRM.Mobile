@@ -1,0 +1,28 @@
+import { BaseModel } from '../services/query-builder';
+
+
+export class OrderModel extends BaseModel {
+    public database: string = 'crm.db';
+    public table: string = 'order';
+    public schema: Object = {
+        Id: 'TEXT',
+        ServerId: 'INTEGER(11)',
+        PlaceId: 'TEXT',
+        ScheduleId: 'TEXT',
+        ProductId: 'INTEGER(11)',
+        Quantity: 'TEXT',
+        Amount: 'TEXT',
+        DiscountRate: 'TEXT',
+        DiscountAmount: 'TEXT',
+        TaxRate: 'TEXT',
+        TaxAmount: 'TEXT',
+        TotalAmount: 'TEXT',
+        OrderDate: 'TEXT',
+        DueDays: 'TEXT',
+        DueDate: 'TEXT',
+        Note: 'TEXT',
+        Signature: 'TEXT',
+        IsSynched: 'INTEGER(1)'
+    }
+
+}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {ProductRepoApi} from '../../repos/product-repo-api';
+import { OrdersPage } from '../orders/orders';
 
 
 @Component({
@@ -34,7 +35,13 @@ export class ListProductPage {
   }
 
   openOrder(item) {
-
+    this.navCtrl.push(OrdersPage);
+    //   this.navCtrl.push(OrdersPage, {
+    //     retailFormId : item.id,
+    //     placeId : this.placeId,
+    //     scheduleId : this.scheduleId,
+    //     placeName : this.placeName
+    // });
   }
 
 }

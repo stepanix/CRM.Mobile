@@ -11,7 +11,7 @@ import { SchedulePage } from '../pages/schedule/schedule';
 import { PlacesPage } from '../pages/places/places';
 import { LoginPage } from '../pages/login/login';
 import {SyncServiceApi} from '../services/sync-service-api';
-import { LoginServiceApi,ScheduleServiceApi,UserServiceApi,NoteServiceApi } from '../shared/shared';
+import { LoginServiceApi,ScheduleServiceApi,UserServiceApi,NoteServiceApi,OrderServiceApi } from '../shared/shared';
 import { PlaceServiceApi,ProductServiceApi,FormServiceApi,PhotoServiceApi,ActivityServiceApi } from '../shared/shared';
 import { RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi,ProductRetailAuditServiceApi } from '../shared/shared';
 
@@ -29,11 +29,13 @@ import {PhotoRepoApi} from '../repos/photo-repo-api';
 import {NoteRepoApi} from '../repos/note-repo-api';
 import {ProductRetailRepoApi} from '../repos/productretailaudit-repo-api';
 import {ActivityRepoApi} from '../repos/activity-repo-api';
+import {OrderRepoApi} from '../repos/order-repo-api';
 
 @Component({
   templateUrl: 'app.html',
   providers:[
         Network,
+        OrderServiceApi,
         ActivityServiceApi,
         SyncServiceApi,
         StatusServiceApi,
@@ -61,7 +63,8 @@ import {ActivityRepoApi} from '../repos/activity-repo-api';
         NoteRepoApi,
         ProductRetailAuditServiceApi,
         ProductRetailRepoApi,
-        ActivityRepoApi
+        ActivityRepoApi,
+        OrderRepoApi
     ]
 })
 export class MyApp {
@@ -78,11 +81,10 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(
-    private network: Network,
+  constructor(private network: Network,
     private loading: LoadingController,
     private syncServiceApi : SyncServiceApi,
-    public platform: Platform, 
+    public platform: Platform,
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen) {
 

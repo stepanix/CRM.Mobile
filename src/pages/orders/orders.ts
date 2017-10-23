@@ -3,12 +3,16 @@ import { NavController, NavParams } from 'ionic-angular';
 
 
 @Component({
-  selector: 'page-orders',
-  templateUrl: 'orders.html',
+   selector: 'page-orders',
+   templateUrl: 'orders.html',
 })
 export class OrdersPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  OrderModel : any;
+
+  constructor(public navCtrl: NavController,
+     public navParams: NavParams) {
+     this.OrderModel = {};
   }
 
   ionViewDidLoad() {
