@@ -10,7 +10,7 @@
 
     <ion-buttons end>
 
-      <button ion-button icon-only (click)="saveOrderRepo()" [disabled]="OrderModel.Quantity==='0'">
+      <button ion-button icon-only (click)="saveOrderRepo()" [disabled]="OrderModel.Quantity==='0' || OrderModel.Signature ===''">
         Save
       </button>
 
@@ -27,7 +27,7 @@
 <ion-content class="registerContainer">
 
   
-    <h1><ion-icon ios="ios-cube" md="ios-cube" item-left>    {{productName}}</ion-icon></h1>
+    <h1><ion-icon ios="ios-cube" md="ios-cube" item-left>   {{productName}}</ion-icon></h1>
   
 
   <ion-list class="registerList">
@@ -116,7 +116,7 @@
   </ion-item>
 
   <ion-item>
-     <ion-input type="text" [(ngModel)]="OrderModel.DueDays" placeholder="Due days"></ion-input>
+     <ion-input type="number" [(ngModel)]="OrderModel.DueDays" placeholder="Due days"></ion-input>
   </ion-item>
 
   <ion-item>

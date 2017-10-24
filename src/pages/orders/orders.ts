@@ -4,6 +4,7 @@ import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 import {OrderRepoApi} from '../../repos/order-repo-api';
+import {ActivityRepoApi} from '../../repos/activity-repo-api';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class OrdersPage {
   productName : any;
   price : any;
   taxableSubTotal : any = "0";
+  orderId : any;
 
   private signaturePadOptions : Object = {
       'minWidth': 3,
@@ -31,7 +33,8 @@ export class OrdersPage {
       'canvasHeight': 100
   };
 
-  constructor(private orderRepoApi : OrderRepoApi,
+  constructor(private activityRepoApi : ActivityRepoApi,
+              private orderRepoApi : OrderRepoApi,
               private calendar : DatePicker,
               public navCtrl : NavController,
               public navParams : NavParams) {
@@ -41,6 +44,12 @@ export class OrdersPage {
       this.OrderModel.Amount = "0";
       this.OrderModel.DiscountRate = "0";
       this.OrderModel.DiscountAmount = "0";
+      this.OrderModel.TaxRate = "0";
+      this.OrderModel.TaxAmount = "0";
+      this.OrderModel.DueDays = "0";
+      this.OrderModel.Signature = "";
+      this.OrderModel.Date = moment().format('YYYY-MM-DD').toString();
+      this.OrderModel.DueDate = moment().format('YYYY-MM-DD').toString();
 
       this.price = parseFloat(this.navParams.get('price'));
       this.productId = this.navParams.get('productId');
@@ -58,16 +67,19 @@ export class OrdersPage {
       });
   }
 
-  computeAmount(){
+  computeAmount() {
     this.OrderModel.Amount = this.OrderModel.Quantity * this.price;
+    this.taxableSubTotal = this.OrderModel.Amount;
+    this.OrderModel.TotalAmount = this.taxableSubTotal;
   }
 
   computeDiscountAmount() {
     this.OrderModel.DiscountAmount = (this.OrderModel.DiscountRate/100) * this.OrderModel.Amount;
     this.taxableSubTotal = this.OrderModel.Amount - this.OrderModel.DiscountAmount;
+    this.OrderModel.TotalAmount = this.taxableSubTotal;
   }
 
-  computeDiscountRate(){
+  computeDiscountRate() {
     this.OrderModel.DiscountRate = (this.OrderModel.DiscountAmount/this.OrderModel.Amount) * 100;
     this.taxableSubTotal = this.OrderModel.Amount - this.OrderModel.DiscountAmount;    
   }
@@ -78,9 +90,55 @@ export class OrdersPage {
     this.OrderModel.TotalAmount =  this.OrderModel.TaxAmount + this.taxableSubTotal;
   }
 
-  saveOrderRepo() {
-
+  newGuid() : string {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
   }
+
+  saveOrderRepo() {
+        this.orderId = this.newGuid();
+        let OrderDto = {
+          Id: this.orderId,
+          ServerId: 0,
+          PlaceId: this.placeId,
+          ScheduleId: this.scheduleId,
+          ProductId: this.productId,
+          Quantity: this.OrderModel.Quantity,
+          Amount: this.OrderModel.Amount,
+          DiscountRate: this.OrderModel.DiscountRate,
+          DiscountAmount: this.OrderModel.DiscountAmount,
+          TaxRate: this.OrderModel.TaxRate,
+          TaxAmount: this.OrderModel.TaxAmount,
+          TotalAmount: this.OrderModel.TotalAmount,
+          OrderDate: this.OrderModel.Date,
+          DueDays: this.OrderModel.DueDays,
+          DueDate: this.OrderModel.DueDate,
+          Note: this.OrderModel.Note,
+          Signature: this.OrderModel.Signature,
+          IsSynched: 0
+      };
+      this.orderRepoApi.insertRecord(OrderDto);
+      this.logActivityRepo();
+      this.navCtrl.pop();
+  }
+
+  logActivityRepo() {
+    let ActivityDtoIn = {
+       Id: this.newGuid(),
+       PlaceName : this.placeName,
+       PlaceId: this.placeId,
+       ActivityLog: 'Orders',
+       ActivityTypeId : this.orderId,
+       IsSynched: 0,
+       DateCreated : moment().format().toString()
+    }
+    this.activityRepoApi.insertRecord(ActivityDtoIn);
+ }
 
   ngAfterViewInit() {
     this.signaturePad.set('minWidth', 3);
@@ -95,6 +153,9 @@ export class OrdersPage {
   showCalendarDueDate() {
     this.dateSelected="dueDate";
     this.calendar.showCalendar();
+  }
+
+  drawStart() {
   }
 
   drawComplete() {
