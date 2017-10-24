@@ -23,6 +23,8 @@ export class SchedulePage {
     eventDate: any = "";
     schedules: any[] = [];
     loader: any;
+    scheduleId : any;
+    repoId : any;
 
     options: CalendarModalOptions = {
         canBackwardsSelected: true
@@ -30,7 +32,6 @@ export class SchedulePage {
 
     constructor(private loading: LoadingController,
         private scheduleRepoApi: ScheduleRepoApi,
-        private scheduleServiceApi: ScheduleServiceApi,
         private navCtrl: NavController,
         private navParams: NavParams) {
         this.eventDate = new Date().toISOString();
@@ -87,10 +88,41 @@ export class SchedulePage {
         this.navCtrl.push(AddSchedulePage);
     }
 
+    createNewSchedule(item){
+        this.scheduleId = this.newGuid();
+        this.repoId =  this.newGuid();
+        let ScheduleDto = {
+            Id: this.scheduleId,
+            RepoId : this.repoId,
+            ServerId :  0,
+            PlaceId: item.placeId,
+            PlaceName : item.place,
+            PlaceAddress : item.address,
+            UserId:  localStorage.getItem('userid'),
+            VisitDate:  moment().format('YYYY-MM-DD').toString(),
+            VisitTime: null,
+            VisitNote: null,
+            IsRecurring: false,
+            RepeatCycle: 0,
+            IsScheduled: false,
+            IsVisited: false,
+            IsMissed: false,
+            IsUnScheduled: true,
+            VisitStatus: 'In',
+            IsSynched: 0
+        };
+        this.scheduleRepoApi.insertRecord(ScheduleDto);
+    }
+
     openSchedule(item) {
+        if(item.status==="Out") {
+            this.createNewSchedule(item);            
+        }else{
+            this.repoId = item.repoId;
+        }
         this.navCtrl.push(VisitPage, {
-            scheduleId: item.repoId,
-            repoId: item.repoId,
+            scheduleId: this.repoId,
+            repoId: this.repoId,
             placeId: item.placeId,
             placeName: item.place,
             streetAddress: item.address,

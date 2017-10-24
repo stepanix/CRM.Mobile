@@ -59,7 +59,7 @@ export class PlacesPage {
   }
 
   openVisit(item) {
-    this.scheduleRepoApi.checkOutVisit();
+    //this.scheduleRepoApi.checkOutVisit();
     this.navCtrl.push(VisitPage, {
         scheduleId : this.newGuid(),
         repoId : this.newGuid(),
