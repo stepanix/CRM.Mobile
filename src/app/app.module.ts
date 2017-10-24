@@ -30,6 +30,7 @@ import { ListRetailAuditFormPage } from '../pages/listretailauditform/listretail
 import { RetailAuditFormPage } from '../pages/retailauditform/retailauditform';
 import { ListProductPage } from '../pages/listproduct/listproduct';
 import { OrdersPage } from '../pages/orders/orders';
+import { SummaryPage } from '../pages/summary/summary';
 
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
@@ -42,6 +43,7 @@ import { SignaturePadModule } from 'angular2-signaturepad';
 @NgModule({
   declarations: [
       MyApp,
+      SummaryPage,
       HomePage,
       ListPage,
       ActivitiesPage,
@@ -79,6 +81,7 @@ import { SignaturePadModule } from 'angular2-signaturepad';
   bootstrap: [IonicApp],
   entryComponents: [
       MyApp,
+      SummaryPage,
       HomePage,
       ListPage,
       ActivitiesPage,

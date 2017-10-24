@@ -32,6 +32,12 @@ export class ActivityServiceApi {
           .catch((error:any) => Observable.throw(error.json() || 'Server error'));
      }
 
+     getActivitiesSummary(userid:any,dateFrom:any,dateTo:any) : Observable<any[]> {
+        return  this.http.get(crmBaseUrl + "Activity/Summary?userid=" + userid + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo  ,{headers: this.getHeader()})
+        .map((response: Response) => response.json())
+        .catch((error:any) => Observable.throw(error.json() || 'Server error'));
+     }
+
      addActivityList (activityModel: any[]): Observable<any[]> {
         return this.http.post(crmBaseUrl + "Activity/List", activityModel  ,{headers: this.getHeader()}) // ...using post request
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data

@@ -10,6 +10,7 @@ import { ActivitiesPage } from '../pages/activities/activities';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { PlacesPage } from '../pages/places/places';
 import { LoginPage } from '../pages/login/login';
+import { SummaryPage } from '../pages/summary/summary';
 import {SyncServiceApi} from '../services/sync-service-api';
 import { LoginServiceApi,ScheduleServiceApi,UserServiceApi,NoteServiceApi,OrderServiceApi } from '../shared/shared';
 import { PlaceServiceApi,ProductServiceApi,FormServiceApi,PhotoServiceApi,ActivityServiceApi } from '../shared/shared';
@@ -78,6 +79,7 @@ export class MyApp {
   private activitiesPage;
   private schedulePage;
   private placesPage;
+  private summaryPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -93,6 +95,7 @@ export class MyApp {
       this.activitiesPage = ActivitiesPage;
       this.schedulePage = SchedulePage;
       this.placesPage = PlacesPage;
+      this.summaryPage = SummaryPage;
 
       // used for an example of ngFor and navigation
       this.pages = [

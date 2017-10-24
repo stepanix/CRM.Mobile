@@ -1,21 +1,23 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import {ActivityServiceApi} from '../../shared/shared';
 
-/**
- * Generated class for the SummaryPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-summary',
   templateUrl: 'summary.html',
 })
 export class SummaryPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  formsCount : any = 0;
+  retailAuditCount : any = 0;
+  photosCount : any = 0;
+  placeNotesCount : any = 0;
+  ordersCount : any = 0;
+
+  constructor(public activityServiceApi : ActivityServiceApi,
+    public navCtrl: NavController, 
+    public navParams: NavParams) {
+
   }
 
   ionViewDidLoad() {
