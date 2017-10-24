@@ -100,15 +100,18 @@ export class SchedulePage {
             PlaceAddress : item.address,
             UserId:  localStorage.getItem('userid'),
             VisitDate:  moment().format('YYYY-MM-DD').toString(),
-            VisitTime: null,
+            VisitTime:  moment().toISOString(),
             VisitNote: null,
             IsRecurring: false,
             RepeatCycle: 0,
             IsScheduled: false,
-            IsVisited: false,
+            IsVisited: true,
             IsMissed: false,
             IsUnScheduled: true,
             VisitStatus: 'In',
+            Latitude : item.latitude,
+            Longitude : item.longitude,
+            CheckInTime : moment().toISOString(),
             IsSynched: 0
         };
         this.scheduleRepoApi.insertRecord(ScheduleDto);

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi,PhotoServiceApi } from '../shared/shared';
-import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi} from '../shared/shared';
+import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi,OrderServiceApi} from '../shared/shared';
 import {NoteServiceApi,ProductRetailAuditServiceApi,FormValueServiceApi,ActivityServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
@@ -15,6 +15,7 @@ import {PhotoRepoApi} from '../repos/photo-repo-api';
 import {NoteRepoApi} from '../repos/note-repo-api';
 import {ProductRetailRepoApi} from '../repos/productretailaudit-repo-api';
 import {ActivityRepoApi} from '../repos/activity-repo-api';
+import {OrderRepoApi} from '../repos/order-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
@@ -22,7 +23,9 @@ export class SyncServiceApi {
     placesTemp : any[] = [];
     scheduleTemp : any[] =[];
     
-    constructor(private activityServiceApi : ActivityServiceApi,
+    constructor(private orderServiceApi : OrderServiceApi,
+        private orderRepoApi : OrderRepoApi,
+        private activityServiceApi : ActivityServiceApi,
         private activityRepoApi : ActivityRepoApi,
         private productRetailAuditServiceApi:ProductRetailAuditServiceApi,
         private productRetailRepoApi : ProductRetailRepoApi,
@@ -206,6 +209,7 @@ export class SyncServiceApi {
                     this.uploadNotesToServer();
                     this.uploadProductRetailAuditToServer();
                     this.uploadActivityToServer();
+                    this.uploadOrdersToServer();
                 }
             },err => {
             console.log(err);
@@ -287,12 +291,10 @@ export class SyncServiceApi {
                     stockLevel : res.results[i].StockLevel,
                     note : res.results[i].Note
                 });
-            }
-            console.log(JSON.stringify(formValues));
+            }            
             this.productRetailAuditServiceApi.addProductRetailAuditList(formValues)
             .subscribe(
-              res => {
-                console.log(JSON.stringify(res));
+              res => {               
                 this.productRetailRepoApi.updateSynched(res);
               },err => {
                 console.log(err);
@@ -316,8 +318,7 @@ export class SyncServiceApi {
             }
             this.formValueServiceApi.addFormValueList(formValues)
             .subscribe(
-              res => {
-                console.log(JSON.stringify(res));
+              res => {                
                 this.formValueRepoApi.updateSynched(res);
               },err => {
                 console.log(err);
@@ -350,6 +351,42 @@ export class SyncServiceApi {
         });
     }
 
+    uploadOrdersToServer() {
+        let orderValues = [];
+        this.orderRepoApi.listUnSynched().then((res) => {
+            for(var i = 0; i<res.results.length; i++) {
+                    orderValues.push({
+                        id : 0,
+                        syncId : res.results[i].Id,
+                        placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
+                        scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId)),
+                        productId : res.results[i].ProductId,
+                        quantity : parseInt(res.results[i].Quantity),
+                        amount : parseFloat(res.results[i].Amount),
+                        discountRate : parseFloat(res.results[i].DiscountRate),
+                        discountAmount : parseFloat(res.results[i].DiscountAmount),
+                        taxRate : parseFloat(res.results[i].TaxRate),
+                        taxAmount : parseFloat(res.results[i].TaxAmount),
+                        totalAmount : parseFloat(res.results[i].TotalAmount),
+                        orderDate : res.results[i].OrderDate,
+                        dueDays : parseInt(res.results[i].DueDays),
+                        dueDate : res.results[i].DueDate,
+                        note : res.results[i].Note,
+                        signature : res.results[i].Signature
+                    });
+            }
+            console.log("OrderListValues ",JSON.stringify(orderValues));
+            this.orderServiceApi.addOrderList(orderValues)
+            .subscribe(
+              res => {
+                this.orderRepoApi.updateSynched(res);
+              },err => {
+                console.log(err);
+                return;
+           });
+        });
+    }
+
     uploadNotesToServer() {
         let noteValues = [];
         this.noteRepoApi.listUnSynched().then((res) => {
@@ -361,8 +398,7 @@ export class SyncServiceApi {
                         placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
                         scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId))
                     });
-            }
-            console.log(JSON.stringify(noteValues));
+            }            
             this.noteServiceApi.addNoteList(noteValues)
             .subscribe(
               res => {
