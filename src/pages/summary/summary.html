@@ -4,17 +4,21 @@
 
     <button ion-button menuToggle>
 
-       <ion-icon name="menu"></ion-icon>
+      <ion-icon name="menu"></ion-icon>
 
     </button>
 
     <ion-title>Summary</ion-title>
 
-      <ion-buttons end>
-        
-         <page-network> </page-network>
-        
-      </ion-buttons>
+    <ion-buttons end>
+
+      <button ion-button icon-only (click)="listSummary()" style="background-color: #fafafa;color:#000000">
+        <ion-icon ios="ios-search" md="ios-search"></ion-icon>
+      </button>
+
+      <page-network> </page-network>
+
+    </ion-buttons>
 
   </ion-navbar>
 
@@ -22,39 +26,70 @@
 
 <ion-content padding>
 
-    <h1><strong>ACTIVITIES BY TYPE</strong> </h1>
-    <ion-list class="signInList signIn">
+  <ion-item>
+    <ion-select [(ngModel)]="repModel">
+      <ion-option *ngFor="let item of reps" value="{{item.id}}">{{item.name}}</ion-option>
+    </ion-select>
+  </ion-item>
 
-        <ion-item style="text-align: left;">
-            <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
-              Forms
-             <span style="float:right;">{{formsCount}}</span>
-        </ion-item>
+  <ion-item>
+    <ion-icon item-left name="calendar" (click)="showCalendar('from')">
+      <span style="padding-left:10px;font-size: 15px!important">Date From</span>
+      <b (click)="showCalendar('from')">
+      </b>
+    </ion-icon>
+    <span style="float:right;padding-left:10px;font-size: 15px!important">
+      {{dateFrom}}
+    </span>
+  </ion-item>
 
-        <ion-item style="text-align: left;">
-            <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
-              Retail Audits
-             <span style="float:right;">{{retailAuditCount}}</span>
-        </ion-item>
+  <ion-item>
+    <ion-icon item-left name="calendar" (click)="showCalendar('to')">
+      <span style="padding-left:10px;font-size: 15px!important;">Date To</span>
+      <b (click)="showCalendar('to')">
+      </b>
+    </ion-icon>
+    <span style="float:right;padding-left:10px;font-size: 15px!important">
+      {{dateTo}}
+    </span>
+  </ion-item>
 
-        <ion-item style="text-align: left;">
-            <ion-icon ios="ios-image" md="ios-image" item-left></ion-icon>
-              Photos
-             <span style="float:right;">{{photosCount}}</span>
-        </ion-item>
+  <h1>
+    <strong>ACTIVITIES BY TYPE</strong>
+  </h1>
 
-        <ion-item style="text-align: left;">
-            <ion-icon ios="ios-document-outline" md="ios-document-outline" item-left></ion-icon>
-              Place notes
-             <span style="float:right;">{{placeNotesCount}}</span>
-        </ion-item>
+  <ion-list class="signInList signIn">
 
-        <ion-item style="text-align: left;">
-            <ion-icon ios="md-bookmarks" md="md-bookmarks" item-left></ion-icon>
-              Orders
-             <span style="float:right;">{{ordersCount}}</span>
-        </ion-item>
+    <ion-item style="text-align: left;">
+      <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
+      Forms
+      <span style="float:right;">{{formsCount}}</span>
+    </ion-item>
 
-      </ion-list>
+    <ion-item style="text-align: left;">
+      <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
+      Retail Audits
+      <span style="float:right;">{{retailAuditCount}}</span>
+    </ion-item>
+
+    <ion-item style="text-align: left;">
+      <ion-icon ios="ios-image" md="ios-image" item-left></ion-icon>
+      Photos
+      <span style="float:right;">{{photosCount}}</span>
+    </ion-item>
+
+    <ion-item style="text-align: left;">
+      <ion-icon ios="ios-document-outline" md="ios-document-outline" item-left></ion-icon>
+      Place notes
+      <span style="float:right;">{{placeNotesCount}}</span>
+    </ion-item>
+
+    <ion-item style="text-align: left;">
+      <ion-icon ios="md-bookmarks" md="md-bookmarks" item-left></ion-icon>
+      Orders
+      <span style="float:right;">{{ordersCount}}</span>
+    </ion-item>
+
+  </ion-list>
 
 </ion-content>
