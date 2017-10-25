@@ -6,9 +6,9 @@
         <ion-title>Visit Task</ion-title>
 
         <ion-buttons end [hidden]="hideCheckOutButton">
-           <button ion-button icon-only (click)="checkOutVisit()" style="background-color: #fafafa;color:#000000">
-               <ion-icon ios="ios-arrow-dropleft-circle" md="ios-arrow-dropleft-circle" id="iconNetwork" name="iconNetwork"></ion-icon>
-                  CHECK OUT
+           <button ion-button icon-only (click)="checkOutVisit()" style="background-color: #fafafa;color:#000000;padding:10px">
+               <ion-icon ios="ios-arrow-dropleft-circle" md="ios-arrow-dropleft-circle" id="iconNetwork" style="color:#2E86C1;!important" name="iconNetwork"></ion-icon>
+                 <span style="color:#2E86C1;!important"> CHECK OUT </span>
            </button>
         </ion-buttons>
 
@@ -35,10 +35,10 @@
 
       </ion-list>
 
-      <ion-list class="signInList signIn">
+      <ion-list>
 
             <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('photo')">
-                  <ion-icon ios="ios-camera" md="ios-camera" item-left></ion-icon>
+                  <ion-icon ios="ios-camera" md="ios-camera"  item-left></ion-icon>
                       Photo
                   <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
             </button>
@@ -62,7 +62,7 @@
             </button>
 
             <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('orders')">
-                <ion-icon ios="md-checkbox" md="md-checkbox" item-left></ion-icon>
+                <ion-icon ios="md-checkbox" md="md-checkbox"  item-left></ion-icon>
                    Orders
                 <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
             </button>

@@ -10,6 +10,7 @@ import { NotePage } from '../note/note';
 import { FormPage } from '../form/form';
 import { RetailAuditFormPage } from '../retailauditform/retailauditform';
 import { ListProductPage } from '../listproduct/listproduct';
+import { OrdersPage } from '../orders/orders';
 
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 
@@ -95,6 +96,14 @@ export class VisitPage {
     }
     if (type === "Notes") {
       this.navCtrl.push(NotePage, {
+        Id: logId,
+        placeName: this.placeName,
+        scheduleId: this.scheduleId,
+        placeId: this.placeId
+      });
+    }
+    if (type === "Orders") {
+      this.navCtrl.push(OrdersPage, {
         Id: logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,

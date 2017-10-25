@@ -47,7 +47,7 @@ export class ActivityRepoApi {
 
      list():Promise<any> {
         var data = new QueryBuilder(new ActivityModel());
-        var results = data.get("*");
+        var results = data.where("IsSynched","=","0").get("*");
         return results;
      }
 

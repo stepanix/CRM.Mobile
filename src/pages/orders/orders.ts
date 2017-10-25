@@ -57,6 +57,11 @@ export class OrdersPage {
       this.placeName = this.navParams.get('placeName');
       this.scheduleId = this.navParams.get('scheduleId');
       this.placeId = this.navParams.get('placeId');
+      this.orderId = this.navParams.get('Id');
+
+      if(this.orderId !== undefined) {
+         this.getOrdersRepo();
+      }
 
       this.calendar.onDateSelected.subscribe((date) => {
             if (this.dateSelected==="date") {
@@ -66,6 +71,25 @@ export class OrdersPage {
             }
       });
   }
+
+  getOrdersRepo() {
+    this.orderRepoApi
+    .listByOrderId(this.orderId)
+    .then((res) => {
+          this.OrderModel.Quantity = res.results[0].Quantity;
+          this.OrderModel.Amount = res.results[0].Amount;
+          this.OrderModel.DiscountRate = res.results[0].DiscountRate;
+          this.OrderModel.DiscountAmount = res.results[0].DiscountAmount;
+          this.OrderModel.TaxRate = res.results[0].TaxRate;
+          this.OrderModel.TaxAmount = res.results[0].TaxAmount;
+          this.OrderModel.TotalAmount = res.results[0].TotalAmount;
+          this.OrderModel.OrderDate = res.results[0].OrderDate;
+          this.OrderModel.DueDays = res.results[0].DueDays;
+          this.OrderModel.DueDate = res.results[0].DueDate;
+          this.OrderModel.Note = res.results[0].Note;
+          this.OrderModel.Signature = res.results[0].Signature;
+     });
+ }
 
   resetComputations() {
     this.OrderModel.DiscountRate = "0";
