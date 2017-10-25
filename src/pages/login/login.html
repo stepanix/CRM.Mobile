@@ -1,52 +1,52 @@
 <ion-header>
-    
-      <ion-navbar>
-    
-        <ion-title>Sign in</ion-title>
-    
-        <ion-buttons end>        
-    
-        </ion-buttons>
-    
-      </ion-navbar>
-    
-    </ion-header>
-    
-    
-    <ion-content class="signInContainer">
-           
-           <form  [formGroup]="frmLogin">
-    
-             <ion-list class="signInList signIn">
-               
-                <ion-item icon-left>
-                    <ion-icon ios="ios-person" md="ios-person" item-left></ion-icon>
-                    <ion-input type="text" formControlName="userName" maxlength="256" name="userName" placeholder="Email"></ion-input>
-                </ion-item>
-                 
-                <ion-item *ngIf="(!frmLogin.controls.userName.valid && (frmLogin.controls.userName.dirty || submitAttempt))">
-                    <p>Please type a valid username.</p>
-                </ion-item>
-    
-                <ion-item icon-left>
-                    <ion-icon ios="ios-lock" md="ios-lock" item-left></ion-icon>
-                    <ion-input type="password" formControlName="password" name="password" placeholder="Password"></ion-input>
-                </ion-item>
-                 <ion-item *ngIf="(!frmLogin.controls.password.valid && (frmLogin.controls.password.dirty || submitAttempt))">
-                    <p>Please type a valid password.</p>
-                </ion-item>
-    
-                 <br>
-                <button ion-item style="color:red; text-align: right;" class="signInBtn" type="button" [disabled]="!frmLogin.valid" (click)="onSubmit(frmLogin.value)">
-    
-                   Sign in
-    
-                  <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-    
-                </button>
-             
-             </ion-list>
 
-            </form>
-            
-    </ion-content>
+    <ion-navbar>
+
+        <ion-title>Sign in</ion-title>
+
+        <ion-buttons end>
+
+        </ion-buttons>
+
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="signInContainer">
+
+    <form [formGroup]="frmLogin">
+
+        <ion-list class="signInList signIn">
+
+            <ion-item icon-left>
+                <ion-icon ios="ios-person" md="ios-person" item-left></ion-icon>
+                <ion-input type="text" formControlName="userName" maxlength="256" name="userName" placeholder="Email"></ion-input>
+            </ion-item>
+
+            <ion-item *ngIf="(!frmLogin.controls.userName.valid && (frmLogin.controls.userName.dirty || submitAttempt))">
+                <p>Please type a valid username.</p>
+            </ion-item>
+
+            <ion-item icon-left>
+                <ion-icon ios="ios-lock" md="ios-lock" item-left></ion-icon>
+                <ion-input type="password" formControlName="password" name="password" placeholder="Password"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="(!frmLogin.controls.password.valid && (frmLogin.controls.password.dirty || submitAttempt))">
+                <p>Please type a valid password.</p>
+            </ion-item>
+
+            <br>
+            <button ion-item style="color:#2E86C1; text-align: right;" class="signInBtn" type="button" [disabled]="!frmLogin.valid" (click)="onSubmit(frmLogin.value)">
+
+                Sign in
+
+                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+
+            </button>
+
+        </ion-list>
+
+    </form>
+
+</ion-content>

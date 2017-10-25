@@ -26,7 +26,9 @@ export class OrdersPage {
   price : any;
   taxableSubTotal : any = "0";
   orderId : any;
-
+  OrderDto : any;
+  operation : any = "save";
+  
   private signaturePadOptions : Object = {
       'minWidth': 3,
       'canvasWidth': 600,
@@ -87,7 +89,8 @@ export class OrdersPage {
           this.OrderModel.DueDays = res.results[0].DueDays;
           this.OrderModel.DueDate = res.results[0].DueDate;
           this.OrderModel.Note = res.results[0].Note;
-          this.OrderModel.Signature = res.results[0].Signature;
+          this.OrderModel.Signature = res.results[0].Signature;    
+          this.operation = "update";
      });
  }
 
@@ -133,29 +136,39 @@ export class OrdersPage {
       s4() + '-' + s4() + s4() + s4();
   }
 
+  prepareOrderDto() {
+      if(this.operation === "save") {
+         this.orderId = this.newGuid();
+      }
+      this.OrderDto = {
+        Id: this.orderId,
+        ServerId: 0,
+        PlaceId: this.placeId,
+        ScheduleId: this.scheduleId,
+        ProductId: this.productId,
+        Quantity: this.OrderModel.Quantity,
+        Amount: this.OrderModel.Amount,
+        DiscountRate: this.OrderModel.DiscountRate,
+        DiscountAmount: this.OrderModel.DiscountAmount,
+        TaxRate: this.OrderModel.TaxRate,
+        TaxAmount: this.OrderModel.TaxAmount,
+        TotalAmount: this.OrderModel.TotalAmount,
+        OrderDate: this.OrderModel.Date,
+        DueDays: this.OrderModel.DueDays,
+        DueDate: this.OrderModel.DueDate,
+        Note: this.OrderModel.Note,
+        Signature: this.OrderModel.Signature,
+        IsSynched: 0
+    };
+  }
+
   saveOrderRepo() {
-        this.orderId = this.newGuid();
-        let OrderDto = {
-          Id: this.orderId,
-          ServerId: 0,
-          PlaceId: this.placeId,
-          ScheduleId: this.scheduleId,
-          ProductId: this.productId,
-          Quantity: this.OrderModel.Quantity,
-          Amount: this.OrderModel.Amount,
-          DiscountRate: this.OrderModel.DiscountRate,
-          DiscountAmount: this.OrderModel.DiscountAmount,
-          TaxRate: this.OrderModel.TaxRate,
-          TaxAmount: this.OrderModel.TaxAmount,
-          TotalAmount: this.OrderModel.TotalAmount,
-          OrderDate: this.OrderModel.Date,
-          DueDays: this.OrderModel.DueDays,
-          DueDate: this.OrderModel.DueDate,
-          Note: this.OrderModel.Note,
-          Signature: this.OrderModel.Signature,
-          IsSynched: 0
-      };
-      this.orderRepoApi.insertRecord(OrderDto);
+      this.prepareOrderDto();
+      if(this.operation === "save") {
+         this.orderRepoApi.insertRecord(this.OrderDto);
+      }else{
+         this.orderRepoApi.updateRecord(this.OrderDto);
+      }
       this.logActivityRepo();
       this.navCtrl.pop();
   }
