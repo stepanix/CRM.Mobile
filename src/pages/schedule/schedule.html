@@ -21,10 +21,8 @@
 <ion-content class="servicesContainer">
 
         <page-visitstatus></page-visitstatus>
-
-        <ion-item>
-            <ion-calendar [(ngModel)]="eventDate" [options]="options" (onChange)="listSchedule()" [format]="'YYYY-MM-DD'"></ion-calendar>
-        </ion-item>
+       
+        <ion-calendar [(ngModel)]="eventDate" [options]="options" (onChange)="listSchedule()" [format]="'YYYY-MM-DD'"></ion-calendar>
 
         <ion-list class="servicesList">
             <div *ngFor="let item of schedules">

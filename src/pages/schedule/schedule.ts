@@ -27,7 +27,9 @@ export class SchedulePage {
     repoId : any;
 
     options: CalendarModalOptions = {
-        canBackwardsSelected: true
+        canBackwardsSelected: true,
+        cssClass: 'my-class',
+        color: 'cal-color'
     };
 
     constructor(private loading: LoadingController,
