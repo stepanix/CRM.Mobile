@@ -67,7 +67,7 @@ export class OrdersPage {
             if (this.dateSelected==="date") {
                 this.OrderModel.Date = moment(date).format('YYYY-MM-DD').toString(); 
             } else {
-                this.OrderModel.DueDate = moment(date).format('YYYY-MM-DD').toString(); 
+                this.OrderModel.DueDate = moment(date).format('YYYY-MM-DD').toString();
             }
       });
   }
