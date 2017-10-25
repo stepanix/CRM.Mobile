@@ -1,88 +1,188 @@
-// Ionic Variables and Theming. For more info, please see:
-// http://ionicframework.com/docs/theming/
 
-// Font path is used to include ionicons,
-// roboto, and noto sans fonts
 $font-path: "../assets/fonts";
-
-
-// The app direction is used to include
-// rtl styles in your app. For more info, please see:
-// http://ionicframework.com/docs/theming/rtl-support/
-$app-direction: ltr;
-
 
 @import "ionic.globals";
 
-
-// Shared Variables
-// --------------------------------------------------
-// To customize the look and feel of this app, you can override
-// the Sass variables found in Ionic's source scss files.
-// To view all the possible Ionic variables, see:
-// http://ionicframework.com/docs/theming/overriding-ionic-variables/
-
-
-
-
 // Named Color Variables
-// --------------------------------------------------
-// Named colors makes it easy to reuse colors on various components.
-// It's highly recommended to change the default colors
-// to match your app's branding. Ionic uses a Sass map of
-// colors so you can add, rename and remove colors as needed.
-// The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
+  primary:    #387ef5,
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  white:      #fff,
+  elliesRed:  #d0171d,
+  mediumGrey: #444,
 );
-
-
-// App iOS Variables
-// --------------------------------------------------
-// iOS only Sass variables can go here
-
-
-
-
-// App Material Design Variables
-// --------------------------------------------------
-// Material Design only Sass variables can go here
-
-
-
-
-// App Windows Variables
-// --------------------------------------------------
-// Windows only Sass variables can go here
-
-
-
-
-// App Theme
-// --------------------------------------------------
-// Ionic apps can have different themes applied, which can
-// then be future customized. This import comes last
-// so that the above variables are used and Ionic's
-// default are overridden.
 
 @import "ionic.theme.default";
 
-
 // Ionicons
-// --------------------------------------------------
-// The premium icon font for Ionic. For more info, please see:
-// http://ionicframework.com/docs/ionicons/
 
-@import "ionic.ionicons";
-
+@import "ionicons";
 
 // Fonts
 // --------------------------------------------------
 
 @import "roboto";
 @import "noto-sans";
+
+ion-header {
+border-bottom: 1px solid #2E86C1 !important;
+}
+
+.toolbar-background {
+/*background: #2dbd9a !important;*/
+/*background: #d0171d !important;*/
+background: #2E86C1 !important;
+color: #fff !important;
+text-shadow: 0px 1px 1px #fff !important;
+}
+
+.toolbar-title {
+color: #fff !important;
+/*text-shadow: 0px 1px 1px #000 !important;*/
+font-weight: 400 !important;
+}
+
+.toolbar {
+
+  .back-button {
+  color: #fafafa !important;
+  text-shadow: 0px 1px 1px #000 !important;
+  font-weight: 400 !important;
+  }
+
+}
+
+.alert-title {
+font-weight: 300 !important;
+font-size: 20px !important;
+color: #333 !important;
+}
+
+.alert-message {
+color: #555 !important;
+font-size: 14px !important;
+}
+
+.alert-button {
+/*color: #FF3366 !important;*/
+}
+
+/*Menu*/
+
+ion-menu {
+
+  .toolbar-md {
+
+      .toolbar-background {
+      background: #2E86C1 !important;
+      }
+
+      .menuLogo {
+      width: 200px;
+      margin: 5px 0px 0px 10px;
+      }
+
+  }
+  
+
+  .toolbar-ios {
+
+      .toolbar-background {
+      background: #2E86C1 !important;
+      }
+
+      .menuLogo {
+      width: 140px;
+      margin: 5px 0px 0px 10px;
+      }
+
+  }
+
+}
+
+.menu-inner {
+
+  .item {
+  border-bottom: 1px solid #ccc;
+  }
+  
+  .item-inner {
+  border-bottom: none !important;
+  }
+
+}/*menu-inner ends*/
+
+ion-footer.footer-md {
+  
+  button {
+  text-transform: uppercase !important;
+  }
+
+}
+
+.searchbar {
+background: #eee !important;
+}
+
+.toolbar-title {
+font-weight: 400 !important;
+/*text-align: center;*/
+
+}
+
+.item-md.item-input.input-has-focus .item-inner {
+border-bottom-color: transparent !important;
+box-shadow: 0px 0px 0px !important;
+}
+
+.list-md .item-input.input-has-focus:last-child {
+border-bottom-color: #dedede !important;
+box-shadow: 0px 0px 0px !important;
+}
+
+ion-navbar, ion-toolbar {
+
+  ion-icon {
+  color: #2E86C1 !important;
+  text-shadow: 0px 1px 1px #fff;
+  }
+
+  .back-button {
+  color: #2E86C1 !important;
+  text-shadow: 0px 1px 1px #fff;
+  }
+
+  .headerRightBtnContainer {
+  margin-right: 10px;
+  }
+
+  .headerLogo {
+  max-width: 150px;
+  }
+
+  .button-inner {
+  color: #2E86C1 !important;
+  text-shadow: 0px 1px 1px #fff;
+  font-weight: 400;
+  }
+
+}/*ion-navbar ends*/
+
+.topBannerImg {
+border-bottom: 1px solid #ccc;
+box-shadow: 0px 0px 10px #aaa;
+}
+
+
+
+
+
+
+
+
+
+
