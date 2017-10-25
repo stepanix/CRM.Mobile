@@ -27,27 +27,23 @@
 <ion-content padding>
 
   <ion-item>
-    <ion-select [(ngModel)]="repModel">
+    <ion-select [(ngModel)]="repModel" (change)="listSummary()">
       <ion-option *ngFor="let item of reps" value="{{item.id}}">{{item.name}}</ion-option>
     </ion-select>
   </ion-item>
 
-  <ion-item>
-    <ion-icon item-left name="calendar" (click)="showCalendar('from')">
-      <span style="padding-left:10px;font-size: 15px!important">Date From</span>
-      <b (click)="showCalendar('from')">
-      </b>
+  <ion-item (click)="showCalendar('from')">
+    <ion-icon item-left name="calendar">
+      <span style="padding-left:10px;font-size: 15px!important">Date From</span>      
     </ion-icon>
     <span style="float:right;padding-left:10px;font-size: 15px!important">
       {{dateFrom}}
     </span>
   </ion-item>
 
-  <ion-item>
-    <ion-icon item-left name="calendar" (click)="showCalendar('to')">
+  <ion-item (click)="showCalendar('to')">
+    <ion-icon item-left name="calendar">
       <span style="padding-left:10px;font-size: 15px!important;">Date To</span>
-      <b (click)="showCalendar('to')">
-      </b>
     </ion-icon>
     <span style="float:right;padding-left:10px;font-size: 15px!important">
       {{dateTo}}
@@ -91,5 +87,61 @@
     </ion-item>
 
   </ion-list>
+
+  <h1>
+     <strong>SCHEDULE PLANNING</strong>
+  </h1>
+
+  <ion-list>
+      
+          <ion-item style="text-align: left;">
+            <ion-icon ios="ios-flag" md="ios-flag" style="color:yellow;" item-left></ion-icon>
+            Total visits done
+            <span style="float:right;">{{totalVisitsCount}}</span>
+          </ion-item>
+      
+          <ion-item style="text-align: left;">
+            <ion-icon ios="ios-flag" md="ios-flag" style="color:lightblue;" item-left></ion-icon>
+            Scheduled
+            <span style="float:right;">{{scheduledCount}}</span>
+          </ion-item>
+      
+          <ion-item style="text-align: left;">
+            <ion-icon ios="ios-flag" md="ios-flag" style="color:darkgreen;" item-left></ion-icon>
+            Visited as Scheduled
+            <span style="float:right;">{{visitedCount}}</span>
+          </ion-item>
+      
+          <ion-item style="text-align: left;">
+            <ion-icon ios="ios-flag" md="ios-flag" style="color:grey;" item-left></ion-icon>
+            Unscheduled visits
+            <span style="float:right;">{{unscheduledCount}}</span>
+          </ion-item>
+      
+          <ion-item style="text-align: left;">
+            <ion-icon ios="ios-flag" md="ios-flag" style="color:red;" item-left></ion-icon>
+            Missed Schedule
+            <span style="float:right;">{{missedCount}}</span>
+          </ion-item>
+      
+  </ion-list>
+
+   <h1>
+      <strong>SALES AND MERCHANDISING</strong>
+   </h1>
+
+   <ion-list class="signInList signIn">
+      <ion-item style="text-align: left;">
+          <ion-icon ios="md-bookmarks" md="md-bookmarks" item-left></ion-icon>
+           Orders
+          <span style="float:right;">{{ordersCount}}</span>
+      </ion-item>
+
+      <ion-item style="text-align: left;">         
+           Total amount
+          <span style="float:right;">{{ordersTotal}}</span>
+      </ion-item>
+    
+    </ion-list>
 
 </ion-content>

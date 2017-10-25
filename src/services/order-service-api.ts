@@ -37,4 +37,10 @@ export class OrderServiceApi {
             .catch((error: any) => Observable.throw(error.json() || 'Server error')); //...errors if any
     }
 
+    getOrderSummary(userid:any,dateFrom:any,dateTo:any) : Observable<any[]> {
+        return  this.http.get(crmBaseUrl + "Order/Rep?dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&rep=" + userid  ,{headers: this.getHeader()})
+        .map((response: Response) => response.json())
+        .catch((error:any) => Observable.throw(error.json() || 'Server error'));
+     }
+
 }

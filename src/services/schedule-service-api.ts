@@ -26,6 +26,12 @@ export class ScheduleServiceApi {
         return this.header;
      }
 
+     getScheduleSummary(userid:any,dateFrom:any,dateTo:any) : Observable<any[]> {
+        return  this.http.get(crmBaseUrl + "Schedule/Rep?dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&rep=" + userid  ,{headers: this.getHeader()})
+        .map((response: Response) => response.json())
+        .catch((error:any) => Observable.throw(error.json() || 'Server error'));
+     }
+
      getSchedulesDateRange(dateFrom,dateTo) : Observable<any[]> {
          console.log(crmBaseUrl + "Schedule/DateRange?dateFrom=" + dateFrom + "&dateTo=" + dateTo);
         return  this.http.get(crmBaseUrl + "Schedule/DateRange?dateFrom=" + dateFrom + "&dateTo=" + dateTo  ,{headers: this.getHeader()})
