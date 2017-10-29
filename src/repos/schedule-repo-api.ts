@@ -1,6 +1,7 @@
 import {Injectable }from '@angular/core';
 import {QueryBuilder} from '../services/query-builder';
 import {ScheduleModel} from '../models/ScheduleModel';
+import { Events } from 'ionic-angular';
 import * as moment from 'moment';
 
 @Injectable()
@@ -9,7 +10,7 @@ export class ScheduleRepoApi {
      private header:Headers;
      dtoScheduleIn : any[];
 
-     constructor() {
+     constructor(private events: Events) {
             
      }
 
@@ -45,6 +46,7 @@ export class ScheduleRepoApi {
                  });
                  data.where("VisitStatus", "=", "In").update(this.dtoScheduleIn[i]);
              }
+             this.events.publish('checkedInStatus');
          });
      }
 

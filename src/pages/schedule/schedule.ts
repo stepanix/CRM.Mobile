@@ -116,7 +116,7 @@ export class SchedulePage {
             CheckInTime : moment().toISOString(),
             IsSynched: 0
         };
-        this.scheduleRepoApi.insertRecord(ScheduleDto);
+        //this.scheduleRepoApi.insertRecord(ScheduleDto);
     }
 
     openSchedule(item) {

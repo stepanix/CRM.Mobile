@@ -90,7 +90,7 @@ export class OrdersPage {
           this.OrderModel.DueDate = res.results[0].DueDate;
           this.OrderModel.Note = res.results[0].Note;
           this.OrderModel.Signature = res.results[0].Signature;
-          this.signaturePad.fromDataURL(this.OrderModel.Signature)
+          this.signaturePad.fromDataURL(this.OrderModel.Signature);
           this.operation = "update";
      });
  }

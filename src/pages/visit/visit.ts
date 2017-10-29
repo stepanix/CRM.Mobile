@@ -53,6 +53,7 @@ export class VisitPage {
     this.lng = this.navParams.get('lng');
     this.getScheduleData();
     this.getActivityRepo();
+    console.log("street address",this.streetAddress);
   }
 
   getActivityRepo() {
@@ -113,7 +114,6 @@ export class VisitPage {
   }
 
   getScheduleData() {
-    console.log("RepoId  "  + JSON.stringify(this.repoId));
     this.scheduleRepoApi.listByScheduleId(this.repoId).then((res) => {
       console.log(JSON.stringify(res.results));
       if (res.results.length > 0) {
@@ -139,6 +139,23 @@ export class VisitPage {
       this.updateScheduleStatus();
     }
   }
+
+  checkInPlace() {
+    this.scheduleId = this.newGuid();
+    this.repoId = this.scheduleId;
+    this.createNewSchedule();
+    this.getScheduleData();
+  }
+
+  newGuid(): string {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+}
 
   updateScheduleStatus() {
     this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
@@ -167,6 +184,8 @@ export class VisitPage {
       IsMissed: false,
       IsUnScheduled: true,
       VisitStatus: 'In',
+      Latitude: this.lat,
+      Longitude : this.lng,
       IsSynched: 0
     };
     console.log(JSON.stringify(ScheduleDto));
@@ -176,6 +195,8 @@ export class VisitPage {
   parseStreetAddress(address) {
     if (address === undefined) {
       return "";
+    }else{
+      return address;
     }
   }
 
@@ -284,7 +305,5 @@ export class VisitPage {
     this.scheduleRepoApi.checkOutVisit();
     this.navCtrl.setRoot(SchedulePage);
   }
-
-
 
 }

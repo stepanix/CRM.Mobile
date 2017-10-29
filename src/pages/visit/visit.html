@@ -6,9 +6,8 @@
         <ion-title>Visit Task</ion-title>
 
         <ion-buttons end [hidden]="hideCheckOutButton">
-           <button ion-button icon-only (click)="checkOutVisit()" style="background-color: #fafafa;color:#000000;padding:10px">
-               <ion-icon ios="ios-arrow-dropleft-circle" md="ios-arrow-dropleft-circle" id="iconNetwork" style="color:#2E86C1;!important" name="iconNetwork"></ion-icon>
-                 <span style="color:#2E86C1;!important"> CHECK OUT </span>
+           <button ion-button icon-only (click)="checkOutVisit()" style="background-color: #b23000;color:#000000;padding:10px">               
+                 <span style="color:white!important"> CHECK OUT </span>
            </button>
         </ion-buttons>
 
@@ -81,7 +80,7 @@
 
    <ion-list>
         <div *ngFor="let item of activities">
-                <ion-card>
+               <ion-card>
                    <ion-card-header (click)="navigatePage(item.ActivityLog,item.ActivityTypeId)">
                        <ion-icon ios="ios-home" md="ios-home" item-left>
                            {{item.PlaceName}}
@@ -93,8 +92,11 @@
                    <ion-card-content (click)="navigatePage(item.ActivityLog,item.ActivityTypeId)">
                          {{item.ActivityLog}}
                    </ion-card-content>
-                </ion-card>
+               </ion-card>
           </div>
    </ion-list>
-
 </ion-content>
+
+<ion-fab right bottom color="#2E86C1" [hidden]="!hideCheckOutButton">
+    <button ion-fab color="#2E86C1" (click)="checkInPlace()"><ion-icon ios="ios-checkmark-circle" md="ios-checkmark-circle"></ion-icon></button>
+</ion-fab>

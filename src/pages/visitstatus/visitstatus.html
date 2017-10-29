@@ -1,7 +1,7 @@
-<ion-list *ngIf="placeCheckedIn!==''" class="signInList signIn">
-    <button ion-item icon-only (click)="openVisit()" style="background-color: #fafafa;color:#FFA500">
-        <ion-icon ios="ios-compass" md="ios-compass"></ion-icon>
-        {{placeCheckedIn}}
-        <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+<ion-list [hidden] = "placeCheckedIn ===''">
+    <button ion-item icon-only (click)="openVisit()" style="background-color: #FF8C00;color:#ffffff">
+        <ion-icon ios="ios-compass" md="ios-compass" style="color:#ffffff!important"></ion-icon>
+          <span style="color:#ffffff">{{placeCheckedIn}}</span>
+        <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" style="color:#ffffff!important" item-right></ion-icon>
     </button>
 </ion-list>

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Events } from 'ionic-angular';
 import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 import { VisitPage } from '../visit/visit';
+
 
 @Component({
   selector: 'page-visitstatus',
@@ -18,15 +19,18 @@ export class VisitStatusPage {
   lng : any;
   repoId : any;
 
-  constructor(private scheduleRepoApi : ScheduleRepoApi,
+  constructor(private events : Events,
+    private scheduleRepoApi : ScheduleRepoApi,
     public navCtrl : NavController,
     public navParams : NavParams) {
       this.getCheckedInVisit();
   }
 
-  ionViewDidEnter(){
-     this.getCheckedInVisit();
-   }
+  ngAfterViewInit() {
+      this.events.subscribe('checkedInStatus', (test) => {
+        this.getCheckedInVisit();
+      });
+  }
 
    getCheckedInVisit() {
       this.scheduleRepoApi.getChekedInVisit().then((res) => {
@@ -40,7 +44,6 @@ export class VisitStatusPage {
                 this.lat = res.results[0].Latitude;
                 this.lng = res.results[0].Longitude;
             }
-            console.log(res.results);
       });
    }
 
@@ -53,7 +56,7 @@ export class VisitStatusPage {
             streetAddress : this.streetAddress,
             lat : this.lat,
             lng : this.lng
-      });
+       });
    }
 
 }
