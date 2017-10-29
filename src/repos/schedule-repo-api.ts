@@ -40,6 +40,14 @@ export class ScheduleRepoApi {
         data.where("RepoId", "=", dtoScheduleIn.RepoId).update(dtoScheduleIn);
      }
 
+     checkInVisit(dataDto:any) {
+        var data = new QueryBuilder(new ScheduleModel());
+        dataDto.VisitStatus = "In";
+        dataDto.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
+        dataDto.IsSynched = 0;
+        data.where("RepoId", "=", dataDto.RepoId).update(dataDto);
+     }
+
      getChekedInVisit(){
         var data = new QueryBuilder(new ScheduleModel());
         var results = data.where("VisitStatus", "=", "In").get();
@@ -86,9 +94,6 @@ export class ScheduleRepoApi {
         data.where("ServerId", "=", dataDto.Id).orWhere("Id", "=", dataDto.Id).update(dataDto);
      }
 
-     checkInVisit(dataDto:any) {
-        var data = new QueryBuilder(new ScheduleModel());
-        data.where("RepoId", "=", dataDto.RepoId).update(dataDto);
-     }
+    
      
 }

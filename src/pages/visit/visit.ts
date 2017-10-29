@@ -151,24 +151,24 @@ export class VisitPage {
   }
 
   addNotifications() {
-      let checkedInData = {
-        repoId : this.repoId,
-        scheduleId : this.scheduleId,
-        placeId : this.placeId,
-        placeName : this.placeName,
-        streetAddress : this.streetAddress,
-        lat : this.lat,
-        lng : this.lng
-      }
+    let checkedInData = {
+      repoId: this.repoId,
+      scheduleId: this.scheduleId,
+      placeId: this.placeId,
+      placeName: this.placeName,
+      streetAddress: this.streetAddress,
+      lat: this.lat,
+      lng: this.lng
+    }
 
-      this.localNotifications.schedule({
-        id: 1,
-        title: 'Checked in at ' + this.placeName,
-        ongoing: true,
-        data : checkedInData,
-        every: 'second',
-        sound : null
-      });
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Checked in at ' + this.placeName,
+      ongoing: true,
+      data: checkedInData,
+      every: 'second',
+      sound: null
+    });
   }
 
   cancelAllNotifications() {
@@ -217,7 +217,6 @@ export class VisitPage {
       Longitude: this.lng,
       IsSynched: 0
     };
-    console.log(JSON.stringify(ScheduleDto));
     this.scheduleRepoApi.insertRecord(ScheduleDto);
   }
 
