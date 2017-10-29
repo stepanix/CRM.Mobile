@@ -151,12 +151,24 @@ export class VisitPage {
   }
 
   addNotifications() {
-    this.localNotifications.schedule({
-      id: 1,
-      title: 'Checked in at ' + this.placeName,
-      ongoing: true,
-      every: 'second'
-    });
+      let checkedInData = {
+        repoId : this.repoId,
+        scheduleId : this.scheduleId,
+        placeId : this.placeId,
+        placeName : this.placeName,
+        streetAddress : this.streetAddress,
+        lat : this.lat,
+        lng : this.lng
+      }
+
+      this.localNotifications.schedule({
+        id: 1,
+        title: 'Checked in at ' + this.placeName,
+        ongoing: true,
+        data : checkedInData,
+        every: 'second',
+        sound : null
+      });
   }
 
   cancelAllNotifications() {
