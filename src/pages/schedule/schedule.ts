@@ -25,10 +25,10 @@ export class SchedulePage {
     loader: any;
     scheduleId : any;
     repoId : any;
+    isDataAvailable :boolean = false;
 
     options: CalendarModalOptions = {
-        canBackwardsSelected: true,        
-        color: 'cal-color'
+        canBackwardsSelected: true
     };
 
     constructor(private loading : LoadingController,
@@ -36,6 +36,10 @@ export class SchedulePage {
         private navCtrl : NavController,
         private navParams : NavParams) {
         this.eventDate = new Date().toISOString();
+        
+    }
+
+    ngOnInit(){
         this.listSheduleDates();
     }
 
@@ -44,25 +48,26 @@ export class SchedulePage {
     }
 
     listSheduleDates() {
-        this.scheduleRepoApi.listScheduleDates().then((res) => {
-             //console.log("Schedule Dates",res[0].VisitDate);
-        });
         let _daysConfig: DayConfig[] = [];
-        for (let i = 0; i < 31; i++) {
-          _daysConfig.push({
-            date: new Date(2017, 0, i + 1),
-            subTitle: `$${i + 1}`,
-            marked : true
-          })
-        }
-        this.options.daysConfig = _daysConfig;
-        // // console.log("Schedule Dates",this.options.daysConfig);
-        // this.options = {
-        //     canBackwardsSelected: true,
-        //     cssClass: 'my-class',
-        //     color: 'cal-color',
-        //     defaultDates : _daysConfig
-        // };
+        this.scheduleRepoApi.listScheduleDates().then((res) => {
+             for(let i = 0; i < res.length; i++) {
+                _daysConfig.push({
+                    date: new Date(res[i].VisitDate),
+                    subTitle: ".",
+                  });
+             }
+             this.options.daysConfig = _daysConfig;
+             this.isDataAvailable = true;
+             console.log("Dates 1",this.options.daysConfig);
+        });
+        // for (let i = 0; i < 31; i++) {
+        //   _daysConfig2.push({
+        //      date: new Date(2017, 9, i + 1),
+        //      subTitle: "S",
+        //   })
+        // }
+        // console.log("Dates 2",_daysConfig2);
+        // this.options.daysConfig = _daysConfig2;
     }
 
     listSchedule() {
