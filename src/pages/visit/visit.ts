@@ -13,6 +13,7 @@ import { ListProductPage } from '../listproduct/listproduct';
 import { OrdersPage } from '../orders/orders';
 
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
   selector: 'page-visit',
@@ -33,7 +34,8 @@ export class VisitPage {
   repoId: any;
   activities: any[] = [];
 
-  constructor(private activityRepoApi: ActivityRepoApi,
+  constructor(private localNotifications: LocalNotifications,
+    private activityRepoApi: ActivityRepoApi,
     private scheduleRepoApi: ScheduleRepoApi,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
@@ -53,7 +55,7 @@ export class VisitPage {
     this.lng = this.navParams.get('lng');
     this.getScheduleData();
     this.getActivityRepo();
-    console.log("street address",this.streetAddress);
+    console.log("street address", this.streetAddress);
   }
 
   getActivityRepo() {
@@ -144,18 +146,32 @@ export class VisitPage {
     this.scheduleId = this.newGuid();
     this.repoId = this.scheduleId;
     this.createNewSchedule();
+    this.addNotifications();
     this.getScheduleData();
+  }
+
+  addNotifications() {
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Checked in at ' + this.placeName,
+      ongoing: true,
+      every: 'second'
+    });
+  }
+
+  cancelAllNotifications() {
+    this.localNotifications.cancelAll();
   }
 
   newGuid(): string {
     function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-        s4() + '-' + s4() + s4() + s4();
-}
+      s4() + '-' + s4() + s4() + s4();
+  }
 
   updateScheduleStatus() {
     this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
@@ -185,7 +201,7 @@ export class VisitPage {
       IsUnScheduled: true,
       VisitStatus: 'In',
       Latitude: this.lat,
-      Longitude : this.lng,
+      Longitude: this.lng,
       IsSynched: 0
     };
     console.log(JSON.stringify(ScheduleDto));
@@ -195,7 +211,7 @@ export class VisitPage {
   parseStreetAddress(address) {
     if (address === undefined) {
       return "";
-    }else{
+    } else {
       return address;
     }
   }
@@ -303,6 +319,7 @@ export class VisitPage {
 
   checkOutVisit() {
     this.scheduleRepoApi.checkOutVisit();
+    this.cancelAllNotifications();
     this.navCtrl.setRoot(SchedulePage);
   }
 

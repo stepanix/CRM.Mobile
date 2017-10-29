@@ -39,6 +39,8 @@ import { AgmCoreModule } from "angular2-google-maps/core";
 import { Camera } from '@ionic-native/camera';
 import { SignaturePadModule } from 'angular2-signaturepad';
 
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 
 @NgModule({
   declarations: [
@@ -107,6 +109,7 @@ import { SignaturePadModule } from 'angular2-signaturepad';
     Camera,
     StatusBar,
     SplashScreen,
+    LocalNotifications,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
