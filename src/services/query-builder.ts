@@ -103,6 +103,7 @@ export class QueryBuilder {
             var total = `SELECT ${items} FROM ${this._table} ${this._buildWhereQuery()}`;
             this._query(total, []).then((total: any)=> {
                 var query = `SELECT ${items} FROM ${this._table} ${this._buildWhereQuery()} ${this._buildOrderByQuery()} ${this._buildTakeQuery()}`;
+                //console.log("get query",query);
                 this._query(query, []).then((response: any)=> {
                     resolve({
                         total: total.rows.length,
@@ -161,7 +162,7 @@ export class QueryBuilder {
 
         var condition = `${type} ${key} ${seperator} '${value}'`;
         this._where.push(condition);
-
+        
         return this;
     }
 

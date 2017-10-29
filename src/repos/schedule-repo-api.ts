@@ -71,6 +71,12 @@ export class ScheduleRepoApi {
         return results;
      }
 
+     listScheduleDates() : Promise<any> {
+        var data = new QueryBuilder(new ScheduleModel());
+        var results = data.rawQuery("SELECT DISTINCT VisitDate FROM schedule ", null);
+        return results;
+     }
+
      listById(Id:string) : Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
         var results = data.where("RepoId", "=", Id).get();

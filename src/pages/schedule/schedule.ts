@@ -27,20 +27,42 @@ export class SchedulePage {
     repoId : any;
 
     options: CalendarModalOptions = {
-        canBackwardsSelected: true,
-        cssClass: 'my-class',
+        canBackwardsSelected: true,        
         color: 'cal-color'
     };
 
-    constructor(private loading: LoadingController,
-        private scheduleRepoApi: ScheduleRepoApi,
-        private navCtrl: NavController,
-        private navParams: NavParams) {
+    constructor(private loading : LoadingController,
+        private scheduleRepoApi : ScheduleRepoApi,
+        private navCtrl : NavController,
+        private navParams : NavParams) {
         this.eventDate = new Date().toISOString();
+        this.listSheduleDates();
     }
 
     ionViewDidLoad() {
         this.listMyScheduleRepo();
+    }
+
+    listSheduleDates() {
+        this.scheduleRepoApi.listScheduleDates().then((res) => {
+             //console.log("Schedule Dates",res[0].VisitDate);
+        });
+        let _daysConfig: DayConfig[] = [];
+        for (let i = 0; i < 31; i++) {
+          _daysConfig.push({
+            date: new Date(2017, 0, i + 1),
+            subTitle: `$${i + 1}`,
+            marked : true
+          })
+        }
+        this.options.daysConfig = _daysConfig;
+        // // console.log("Schedule Dates",this.options.daysConfig);
+        // this.options = {
+        //     canBackwardsSelected: true,
+        //     cssClass: 'my-class',
+        //     color: 'cal-color',
+        //     defaultDates : _daysConfig
+        // };
     }
 
     listSchedule() {
