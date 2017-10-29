@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform,LoadingController } from 'ionic-angular';
+import { Nav, Platform, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Network } from '@ionic-native/network';
@@ -11,30 +11,31 @@ import { SchedulePage } from '../pages/schedule/schedule';
 import { PlacesPage } from '../pages/places/places';
 import { LoginPage } from '../pages/login/login';
 import { SummaryPage } from '../pages/summary/summary';
-import {SyncServiceApi} from '../services/sync-service-api';
-import { LoginServiceApi,ScheduleServiceApi,UserServiceApi,NoteServiceApi,OrderServiceApi } from '../shared/shared';
-import { PlaceServiceApi,ProductServiceApi,FormServiceApi,PhotoServiceApi,ActivityServiceApi } from '../shared/shared';
-import { RetailAuditFormServiceApi,StatusServiceApi,FormValueServiceApi,ProductRetailAuditServiceApi } from '../shared/shared';
+import { VisitPage } from '../pages/visit/visit';
+import { SyncServiceApi } from '../services/sync-service-api';
+import { LoginServiceApi, ScheduleServiceApi, UserServiceApi, NoteServiceApi, OrderServiceApi } from '../shared/shared';
+import { PlaceServiceApi, ProductServiceApi, FormServiceApi, PhotoServiceApi, ActivityServiceApi } from '../shared/shared';
+import { RetailAuditFormServiceApi, StatusServiceApi, FormValueServiceApi, ProductRetailAuditServiceApi } from '../shared/shared';
 
-import {RepsAutoCompleteService} from '../services/reps-autocomplete-service-api';
-import {PlacesAutoCompleteService} from '../services/place-autocomplete-service-api';
-import {ProductRepoApi} from '../repos/product-repo-api';
-import {FormRepoApi} from '../repos/form-repo-api';
-import {PlaceRepoApi} from '../repos/place-repo-api';
-import {RetailAuditFormRepoApi} from '../repos/retailauditform-repo-api';
-import {ScheduleRepoApi} from '../repos/schedule-repo-api';
-import {StatusRepoApi} from '../repos/status-repo-api';
-import {UserRepoApi} from '../repos/user-repo-api';
-import {FormValueRepoApi} from '../repos/formvalue-repo-api';
-import {PhotoRepoApi} from '../repos/photo-repo-api';
-import {NoteRepoApi} from '../repos/note-repo-api';
-import {ProductRetailRepoApi} from '../repos/productretailaudit-repo-api';
-import {ActivityRepoApi} from '../repos/activity-repo-api';
-import {OrderRepoApi} from '../repos/order-repo-api';
+import { RepsAutoCompleteService } from '../services/reps-autocomplete-service-api';
+import { PlacesAutoCompleteService } from '../services/place-autocomplete-service-api';
+import { ProductRepoApi } from '../repos/product-repo-api';
+import { FormRepoApi } from '../repos/form-repo-api';
+import { PlaceRepoApi } from '../repos/place-repo-api';
+import { RetailAuditFormRepoApi } from '../repos/retailauditform-repo-api';
+import { ScheduleRepoApi } from '../repos/schedule-repo-api';
+import { StatusRepoApi } from '../repos/status-repo-api';
+import { UserRepoApi } from '../repos/user-repo-api';
+import { FormValueRepoApi } from '../repos/formvalue-repo-api';
+import { PhotoRepoApi } from '../repos/photo-repo-api';
+import { NoteRepoApi } from '../repos/note-repo-api';
+import { ProductRetailRepoApi } from '../repos/productretailaudit-repo-api';
+import { ActivityRepoApi } from '../repos/activity-repo-api';
+import { OrderRepoApi } from '../repos/order-repo-api';
 
 @Component({
-  templateUrl: 'app.html',
-  providers:[
+    templateUrl: 'app.html',
+    providers: [
         Network,
         OrderServiceApi,
         ActivityServiceApi,
@@ -69,78 +70,100 @@ import {OrderRepoApi} from '../repos/order-repo-api';
     ]
 })
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
+    @ViewChild(Nav) nav: Nav;
 
-  loader : any;
+    loader: any;
 
-  rootPage: any = ActivitiesPage;
-  
-  private loginPage;
-  private activitiesPage;
-  private schedulePage;
-  private placesPage;
-  private summaryPage;
+    rootPage: any = ActivitiesPage;
 
-  pages: Array<{title: string, component: any}>;
+    private loginPage;
+    private activitiesPage;
+    private schedulePage;
+    private placesPage;
+    private summaryPage;
+    private visitPage;
 
-  constructor(private network: Network,
-    private loading: LoadingController,
-    private syncServiceApi : SyncServiceApi,
-    public platform: Platform,
-    public statusBar: StatusBar, 
-    public splashScreen: SplashScreen) {
+    pages: Array<{ title: string, component: any }>;
 
-      this.initializeApp();
-      this.loginPage = LoginPage;
-      this.activitiesPage = ActivitiesPage;
-      this.schedulePage = SchedulePage;
-      this.placesPage = PlacesPage;
-      this.summaryPage = SummaryPage;
+    constructor(private scheduleRepoApi: ScheduleRepoApi,
+        private network: Network,
+        private loading: LoadingController,
+        private syncServiceApi: SyncServiceApi,
+        public platform: Platform,
+        public statusBar: StatusBar,
+        public splashScreen: SplashScreen) {
 
-      // used for an example of ngFor and navigation
-      this.pages = [
-      ];
-  }
+        this.initializeApp();
+        this.loginPage = LoginPage;
+        this.activitiesPage = ActivitiesPage;
+        this.schedulePage = SchedulePage;
+        this.placesPage = PlacesPage;
+        this.summaryPage = SummaryPage;
+        this.visitPage = VisitPage;
+        // used for an example of ngFor and navigation
+        this.pages = [
+        ];
+    }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-          // Okay, so the platform is ready and our plugins are available.
-          // Here you can do any higher level native things you might need.
-          this.statusBar.styleDefault();
-          this.splashScreen.hide();
+    initializeApp() {
+        this.platform.ready().then(() => {
+            // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            this.statusBar.styleDefault();
+            this.splashScreen.hide();
 
-          let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-              localStorage.setItem("isOnline","false");
-              console.log("isOnline = false");
-          });
+            let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+                localStorage.setItem("isOnline", "false");
+                console.log("isOnline = false");
+            });
 
-          let connectSubscription = this.network.onConnect().subscribe(() => {
-              localStorage.setItem("isOnline","true");
-              console.log("isOnline = true");
-          });
-    });
-  }
+            let connectSubscription = this.network.onConnect().subscribe(() => {
+                localStorage.setItem("isOnline", "true");
+                console.log("isOnline = true");
+            });
+        });
+    }
 
-  openPage(page) {
-      // Reset the content nav to have just this page
-      // we wouldn't want the back button to show in this scenario
-      this.nav.setRoot(page.component);
-  }
+    ngAfterViewInit() {
+        this.getCheckedInVisit();
+    }
 
-  navigatePage(p) {
-    this.nav.setRoot(p)
-  }
+    getCheckedInVisit() {
+        this.scheduleRepoApi.getChekedInVisit().then((res) => {
+            if (res.results.length > 0) {
+                this.nav.setRoot(this.visitPage, {
+                    scheduleId: res.results[0].Id,
+                    repoId: res.results[0].RepoId,
+                    placeId: res.results[0].PlaceId,
+                    placeName: res.results[0].PlaceName,
+                    streetAddress: res.results[0].PlaceAddress,
+                    lat: res.results[0].Latitude,
+                    lng: res.results[0].Longitude
+                });
+            }
+        });
+    }
 
-  syncData() {
-      this.loader = this.loading.create({
-        content: 'Syncing data, please wait...',
-      });
+    openPage(page) {
+        // Reset the content nav to have just this page
+        // we wouldn't want the back button to show in this scenario
+        this.nav.setRoot(page.component);
+    }
 
-      this.loader.present().then(() => {
-          //Download data from remote server
-          this.syncServiceApi.downloadServerData();
-          this.loader.dismiss();
-      });
-  }
+    navigatePage(p) {
+        this.nav.setRoot(p)
+    }
+
+    syncData() {
+        this.loader = this.loading.create({
+            content: 'Syncing data, please wait...',
+        });
+
+        this.loader.present().then(() => {
+            //Download data from remote server
+            this.syncServiceApi.downloadServerData();
+            this.loader.dismiss();
+        });
+    }
 
 }
