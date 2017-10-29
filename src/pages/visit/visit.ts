@@ -173,6 +173,7 @@ export class VisitPage {
 
   cancelAllNotifications() {
     this.localNotifications.cancelAll();
+    this.navCtrl.setRoot(SchedulePage);
   }
 
   newGuid(): string {
@@ -330,9 +331,8 @@ export class VisitPage {
   }
 
   checkOutVisit() {
-    this.scheduleRepoApi.checkOutVisit();
+    this.scheduleRepoApi.checkOutVisit(this.dataDtoIn);
     this.cancelAllNotifications();
-    this.navCtrl.setRoot(SchedulePage);
   }
 
 }

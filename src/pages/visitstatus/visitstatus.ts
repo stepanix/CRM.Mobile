@@ -26,12 +26,6 @@ export class VisitStatusPage {
       this.getCheckedInVisit();
   }
 
-  ngAfterViewInit() {
-      this.events.subscribe('checkedInStatus', (test) => {
-        this.getCheckedInVisit();
-      });
-  }
-
    getCheckedInVisit() {
       this.scheduleRepoApi.getChekedInVisit().then((res) => {
             if (res.results.length > 0) {
@@ -43,12 +37,14 @@ export class VisitStatusPage {
                 this.streetAddress = res.results[0].PlaceAddress;
                 this.lat = res.results[0].Latitude;
                 this.lng = res.results[0].Longitude;
+            }else{
+                this.placeCheckedIn = "";
             }
       });
    }
 
    openVisit() {
-        this.navCtrl.push(VisitPage, {
+        this.navCtrl.setRoot(VisitPage, {
             repoId : this.repoId,
             scheduleId : this.scheduleId,
             placeId : this.placeId,

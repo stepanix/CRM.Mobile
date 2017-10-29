@@ -116,7 +116,6 @@ export class SchedulePage {
             CheckInTime : moment().toISOString(),
             IsSynched: 0
         };
-        //this.scheduleRepoApi.insertRecord(ScheduleDto);
     }
 
     openSchedule(item) {
@@ -125,7 +124,7 @@ export class SchedulePage {
         }else{
             this.repoId = item.repoId;
         }
-        this.navCtrl.push(VisitPage, {
+        this.navCtrl.setRoot(VisitPage, {
             scheduleId: this.repoId,
             repoId: this.repoId,
             placeId: item.placeId,

@@ -1,17 +1,15 @@
 import {Injectable }from '@angular/core';
 import {QueryBuilder} from '../services/query-builder';
 import {ScheduleModel} from '../models/ScheduleModel';
-import { Events } from 'ionic-angular';
+
 import * as moment from 'moment';
 
 @Injectable()
 export class ScheduleRepoApi {
       
      private header:Headers;
-     dtoScheduleIn : any[];
 
-     constructor(private events: Events) {
-            
+     constructor() {
      }
 
      delete() {
@@ -33,21 +31,13 @@ export class ScheduleRepoApi {
         }
      }
 
-     checkOutVisit() {
-        this.dtoScheduleIn = [];
+     checkOutVisit(dtoScheduleIn : any) {
         var data = new QueryBuilder(new ScheduleModel());
-        this.list().then((res) => {
-            for(var i = 0; i<res.results.length;i++) {
-                 this.dtoScheduleIn.push({                    
-                        VisitStatus : 'Out',
-                        IsVisited : true,
-                        CheckOutTime : moment().format("YYYY-MM-DD HH:mm"),
-                        IsSynched : 0
-                 });
-                 data.where("VisitStatus", "=", "In").update(this.dtoScheduleIn[i]);
-             }
-             this.events.publish('checkedInStatus');
-         });
+        dtoScheduleIn.VisitStatus = "Out";
+        dtoScheduleIn.CheckOutTime = moment().format("YYYY-MM-DD HH:mm");
+        dtoScheduleIn.IsSynched = 0;
+        console.log("checkoutdata",JSON.stringify(dtoScheduleIn));
+        data.where("RepoId", "=", dtoScheduleIn.RepoId).update(dtoScheduleIn);
      }
 
      getChekedInVisit(){
