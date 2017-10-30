@@ -1,29 +1,28 @@
 <ion-header>
-
     <ion-navbar>
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>Orders</ion-title>
-
         <ion-buttons end>
-
-            <page-network> </page-network>
-
+            <page-network></page-network>
         </ion-buttons>
     </ion-navbar>
-
 </ion-header>
 
 <ion-content class="signInList signIn">
     <div *ngFor="let item of products">
-        <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="openOrder(item)">
-            <ion-icon ios="ios-cube" md="ios-cube" item-left>
+        <button ion-item style="text-align: right;" class="signInBtn" type="button">
+            <ion-icon ios="md-add" md="md-add" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;">
+            </ion-icon>
+            <ion-icon ios="md-remove" md="md-remove" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;">
+            </ion-icon>
+            <ion-icon ios="ios-cube" md="ios-cube" item-left (click)="openOrder(item)">
                 <span style="color:#666;font-size: 1.6rem; text-align: right;font-size: 18px; padding-left: 10px;">
                     {{item.name}}
                 </span>
             </ion-icon>
-            <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+            <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right (click)="openOrder(item)"></ion-icon>
         </button>
     </div>
 </ion-content>
