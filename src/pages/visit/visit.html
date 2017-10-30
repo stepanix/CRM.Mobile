@@ -21,16 +21,21 @@
 
       <ion-list class="signInList signIn">        
 
-         <button ion-item style="text-align: left;">
-                <ion-icon ios="ios-compass" md="ios-compass" item-left></ion-icon>
-                  {{placeName}}
+          <button ion-item style="text-align: left;">
+              <ion-icon ios="ios-home" md="ios-home" item-left></ion-icon>
+              {{placeName}}
           </button>
 
           <button ion-item style="text-align: left;">
+              <ion-icon ios="ios-navigate" md="ios-navigate" item-left></ion-icon>
               {{streetAddress}}
-              <ion-icon ios="ios-navigate" md="ios-navigate" item-right></ion-icon>
               <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
           </button>
+
+          <button ion-item style="text-align: left;" (click)="openSchedule()">
+             <ion-icon ios="ios-calendar" md="ios-calendar" item-left></ion-icon>
+             Schedule
+         </button>
 
       </ion-list>
 

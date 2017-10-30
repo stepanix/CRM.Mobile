@@ -160,8 +160,9 @@ export class QueryBuilder {
     where(key: string, seperator: string, value: any): any {
         var type = (this._where.length) ? " AND" : "";
 
-        var condition = `${type} ${key} ${seperator} '${value}'`;
+        var condition = `${type} ${key} ${seperator} '${value}'`;        
         this._where.push(condition);
+        
         
         return this;
     }

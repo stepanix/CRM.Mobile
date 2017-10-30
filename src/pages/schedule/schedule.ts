@@ -23,51 +23,42 @@ export class SchedulePage {
     eventDate: any = "";
     schedules: any[] = [];
     loader: any;
-    scheduleId : any;
-    repoId : any;
-    isDataAvailable :boolean = false;
+    scheduleId: any;
+    repoId: any;
+    isDataAvailable: boolean = false;
+    placeId : any;
 
     options: CalendarModalOptions = {
         canBackwardsSelected: true
     };
 
-    constructor(private loading : LoadingController,
-        private scheduleRepoApi : ScheduleRepoApi,
-        private navCtrl : NavController,
-        private navParams : NavParams) {
+    constructor(private loading: LoadingController,
+        private scheduleRepoApi: ScheduleRepoApi,
+        private navCtrl: NavController,
+        private navParams: NavParams) {
         this.eventDate = new Date().toISOString();
-        
     }
 
-    ngOnInit(){
-        this.listSheduleDates();
-    }
-
-    ionViewDidLoad() {
+    ngOnInit() {
+        this.placeId = this.navParams.get('placeId');
         this.listMyScheduleRepo();
-    }
+        this.listSheduleDates();
+    }    
 
     listSheduleDates() {
         let _daysConfig: DayConfig[] = [];
-        this.scheduleRepoApi.listScheduleDates().then((res) => {
-             for(let i = 0; i < res.length; i++) {
-                _daysConfig.push({
-                    date: new Date(res[i].VisitDate),
-                    subTitle: ".",
-                  });
-             }
-             this.options.daysConfig = _daysConfig;
-             this.isDataAvailable = true;
-             console.log("Dates 1",this.options.daysConfig);
+        this.scheduleRepoApi.listScheduleDates(this.placeId).then((res) => {
+            if(res.length>0){
+                for (let i = 0; i < res.length; i++) {
+                    _daysConfig.push({
+                        date: new Date(res[i].VisitDate),
+                        subTitle: ".",
+                    });
+                }
+                this.options.daysConfig = _daysConfig;
+            }
+            this.isDataAvailable = true;
         });
-        // for (let i = 0; i < 31; i++) {
-        //   _daysConfig2.push({
-        //      date: new Date(2017, 9, i + 1),
-        //      subTitle: "S",
-        //   })
-        // }
-        // console.log("Dates 2",_daysConfig2);
-        // this.options.daysConfig = _daysConfig2;
     }
 
     listSchedule() {
@@ -81,7 +72,7 @@ export class SchedulePage {
         this.loader.present().then(() => {
             let scheduleDate = moment(this.eventDate).format('YYYY-MM-DD').toString();
             this.schedules = [];
-            this.scheduleRepoApi.listByDate(this.parseRepoDate(scheduleDate)).then((res) => {
+            this.scheduleRepoApi.listByDate(this.placeId,this.parseRepoDate(scheduleDate)).then((res) => {
                 for (var i = 0; i < res.results.length; i++) {
                     this.schedules.push({
                         id: res.results[i].ServerId,
@@ -117,19 +108,19 @@ export class SchedulePage {
         this.navCtrl.push(AddSchedulePage);
     }
 
-    createNewSchedule(item){
+    createNewSchedule(item) {
         this.scheduleId = this.newGuid();
-        this.repoId =  this.newGuid();
+        this.repoId = this.newGuid();
         let ScheduleDto = {
             Id: this.scheduleId,
-            RepoId : this.repoId,
-            ServerId :  0,
+            RepoId: this.repoId,
+            ServerId: 0,
             PlaceId: item.placeId,
-            PlaceName : item.place,
-            PlaceAddress : item.address,
-            UserId:  localStorage.getItem('userid'),
-            VisitDate:  moment().format('YYYY-MM-DD').toString(),
-            VisitTime:  moment().toISOString(),
+            PlaceName: item.place,
+            PlaceAddress: item.address,
+            UserId: localStorage.getItem('userid'),
+            VisitDate: moment().format('YYYY-MM-DD').toString(),
+            VisitTime: moment().toISOString(),
             VisitNote: null,
             IsRecurring: false,
             RepeatCycle: 0,
@@ -138,17 +129,17 @@ export class SchedulePage {
             IsMissed: false,
             IsUnScheduled: true,
             VisitStatus: 'In',
-            Latitude : item.latitude,
-            Longitude : item.longitude,
-            CheckInTime : moment().toISOString(),
+            Latitude: item.latitude,
+            Longitude: item.longitude,
+            CheckInTime: moment().toISOString(),
             IsSynched: 0
         };
     }
 
     openSchedule(item) {
-        if(item.status==="Out") {
-            this.createNewSchedule(item);            
-        }else{
+        if (item.status === "Out") {
+            this.createNewSchedule(item);
+        } else {
             this.repoId = item.repoId;
         }
         this.navCtrl.setRoot(VisitPage, {

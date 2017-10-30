@@ -45,6 +45,12 @@ export class VisitPage {
   ionViewDidLoad() {
   }
 
+  openSchedule() {
+    this.navCtrl.setRoot(SchedulePage, {
+      placeId: this.placeId
+    });
+  }
+
   ionViewWillEnter() {
     this.repoId = this.navParams.get('repoId');
     this.scheduleId = this.navParams.get('scheduleId');
