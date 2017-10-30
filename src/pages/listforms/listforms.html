@@ -1,21 +1,23 @@
-
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Form</ion-title>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Form</ion-title>
 
-    <ion-buttons end>
-            
-          <page-network> </page-network>
-            
-      </ion-buttons>
-  </ion-navbar>
+        <ion-buttons end>
+
+            <page-network> </page-network>
+
+        </ion-buttons>
+    </ion-navbar>
 
 </ion-header>
 
 <ion-content class="signInList signIn">
 
-    <div  *ngFor="let item of forms">
+    <div *ngFor="let item of forms">
 
         <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="openForm(item)">
 
@@ -26,11 +28,11 @@
                 </span>
 
             </ion-icon>
-                
+
             <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
 
         </button>
-        
-   </div>
+
+    </div>
 
 </ion-content>

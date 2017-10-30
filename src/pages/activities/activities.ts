@@ -41,11 +41,11 @@ export class ActivitiesPage {
         }
     }
 
-    
+
 
     getActivityLog() {
         this.activities = [];
-        this.activityRepoApi.list().then((res) => {
+        this.activityRepoApi.listAll().then((res) => {
             for (var i = 0; i < res.results.length; i++) {
                 this.activities.push({
                     PlaceName: res.results[i].PlaceName,
@@ -60,8 +60,8 @@ export class ActivitiesPage {
 
     }
 
-    navigateToPlaces(){
-        this.navCtrl.push(PlacesPage);
+    navigateToPlaces() {
+        this.navCtrl.setRoot(PlacesPage);
     }
 
 }

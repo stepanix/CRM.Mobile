@@ -45,9 +45,15 @@ export class ActivityRepoApi {
         data.create(dataDto);
      }
 
-     list():Promise<any> {
+     list(placeId:string):Promise<any> {
         var data = new QueryBuilder(new ActivityModel());
-        var results = data.where("IsSynched","=","0").get("*");
+        var results = data.where("PlaceId", "=", placeId).get();
+        return results;
+     }
+
+     listAll():Promise<any> {
+        var data = new QueryBuilder(new ActivityModel());
+        var results = data.get();
         return results;
      }
 

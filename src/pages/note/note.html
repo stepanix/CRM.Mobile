@@ -1,28 +1,28 @@
 <ion-header>
-    
-      <ion-navbar>
-    
-            <button ion-button menuToggle>
-                <ion-icon name="menu"></ion-icon>
+
+    <ion-navbar>
+
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Note</ion-title>
+
+        <ion-buttons end>
+
+            <button ion-button icon-only (click)="saveNoteRepo()" [disabled]="noteModel.Description===''">
+                Save
             </button>
-  
-            <ion-title>Note</ion-title>
-  
-            <ion-buttons end>
-                  
-                      <button ion-button icon-only (click)="saveNoteRepo()" [disabled]="noteModel.Description===''">
-                          Save
-                      </button>
-                  
-               </ion-buttons>
-  
-            <ion-buttons end>
-                <page-network></page-network>
-            </ion-buttons>
-    
-      </ion-navbar>
-    
-  </ion-header>
+
+        </ion-buttons>
+
+        <ion-buttons end>
+            <page-network></page-network>
+        </ion-buttons>
+
+    </ion-navbar>
+
+</ion-header>
 
 
 <ion-content class="registerContainer">

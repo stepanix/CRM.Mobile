@@ -66,21 +66,23 @@ export class VisitPage {
 
   getActivityRepo() {
     this.activities = [];
-    this.activityRepoApi.list().then((res) => {
-      for (var i = 0; i < res.results.length; i++) {
-        this.activities.push({
-          PlaceName: res.results[i].PlaceName,
-          ActivityTypeId: res.results[i].ActivityTypeId,
-          ActivityLog: res.results[i].ActivityLog,
-          DateCreated: moment(res.results[i].DateCreated).format("lll")
-        });
+    this.activityRepoApi.list(this.placeId).then((res) => {
+      if(res.results.length>0){
+        for (var i = 0; i < res.results.length; i++) {
+          this.activities.push({
+            PlaceName: res.results[i].PlaceName,
+            ActivityTypeId: res.results[i].ActivityTypeId,
+            ActivityLog: res.results[i].ActivityLog,
+            DateCreated: moment(res.results[i].DateCreated).format("lll")
+          });
+        }
       }
     });
   }
 
   navigatePage(type, logId) {
     if (type === "Forms") {
-      this.navCtrl.push(FormPage, {
+      this.navCtrl.setRoot(FormPage, {
         Id: logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,
@@ -88,7 +90,7 @@ export class VisitPage {
       });
     }
     if (type === "Product Retail Audit") {
-      this.navCtrl.push(RetailAuditFormPage, {
+      this.navCtrl.setRoot(RetailAuditFormPage, {
         Id: logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,
@@ -96,7 +98,7 @@ export class VisitPage {
       });
     }
     if (type === "Photos") {
-      this.navCtrl.push(PhotoPage, {
+      this.navCtrl.setRoot(PhotoPage, {
         Id: logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,
@@ -104,7 +106,7 @@ export class VisitPage {
       });
     }
     if (type === "Notes") {
-      this.navCtrl.push(NotePage, {
+      this.navCtrl.setRoot(NotePage, {
         Id: logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,
@@ -112,7 +114,7 @@ export class VisitPage {
       });
     }
     if (type === "Orders") {
-      this.navCtrl.push(OrdersPage, {
+      this.navCtrl.setRoot(OrdersPage, {
         Id: logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,
@@ -245,35 +247,35 @@ export class VisitPage {
               this.hideCheckOutButton = false;
               this.enterSchedule();
               if (type === "form") {
-                this.navCtrl.push(ListFormsPage, {
+                this.navCtrl.setRoot(ListFormsPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
                 });
               }
               if (type === "audits") {
-                this.navCtrl.push(ListRetailAuditFormPage, {
+                this.navCtrl.setRoot(ListRetailAuditFormPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
                 });
               }
               if (type === "photo") {
-                this.navCtrl.push(PhotoPage, {
+                this.navCtrl.setRoot(PhotoPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
                 });
               }
               if (type === "note") {
-                this.navCtrl.push(NotePage, {
+                this.navCtrl.setRoot(NotePage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
                 });
               }
               if (type === "orders") {
-                this.navCtrl.push(ListProductPage, {
+                this.navCtrl.setRoot(ListProductPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
@@ -298,35 +300,35 @@ export class VisitPage {
       confirm.present();
     } else {
       if (type === "form") {
-        this.navCtrl.push(ListFormsPage, {
+        this.navCtrl.setRoot(ListFormsPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
         });
       }
       if (type === "audits") {
-        this.navCtrl.push(ListRetailAuditFormPage, {
+        this.navCtrl.setRoot(ListRetailAuditFormPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
         });
       }
       if (type === "photo") {
-        this.navCtrl.push(PhotoPage, {
+        this.navCtrl.setRoot(PhotoPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
         });
       }
       if (type === "note") {
-        this.navCtrl.push(NotePage, {
+        this.navCtrl.setRoot(NotePage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
         });
       }
       if (type === "orders") {
-        this.navCtrl.push(ListProductPage, {
+        this.navCtrl.setRoot(ListProductPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
