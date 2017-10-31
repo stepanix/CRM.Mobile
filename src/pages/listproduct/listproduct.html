@@ -12,17 +12,21 @@
 
 <ion-content class="signInList signIn">
     <div *ngFor="let item of products">
-        <button ion-item style="text-align: right;" class="signInBtn" type="button">
-            <ion-icon ios="md-add" md="md-add" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;">
-            </ion-icon>
-            <ion-icon ios="md-remove" md="md-remove" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;">
-            </ion-icon>
-            <ion-icon ios="ios-cube" md="ios-cube" item-left (click)="openOrder(item)">
-                <span style="color:#666;font-size: 1.6rem; text-align: right;font-size: 18px; padding-left: 10px;">
+        <ion-item>
+            <ion-icon (click)="addProduct()" ios="md-add" md="md-add" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important"></ion-icon>
+            <ion-icon (click)="removeProduct()" ios="md-remove" md="md-remove" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important"></ion-icon>
+            <button ion-item no-lines (click)="openOrder(item)" item-right style="width:100%;background-color:white">
+                <span style="color:#666;font-size: 1.5rem; float: left;font-size: 18px; padding-left: 10px;">
                     {{item.name}}
                 </span>
-            </ion-icon>
-            <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right (click)="openOrder(item)"></ion-icon>
-        </button>
+                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right (click)="openOrder(item)"></ion-icon>
+            </button>
+        </ion-item>
     </div>
 </ion-content>
+
+<ion-footer>
+    <span style="padding-top:10px!important; font-size:20px!important">
+        <strong>$ {{itemsOrdered}} / {{totalItems}}</strong>
+    </span>
+</ion-footer>

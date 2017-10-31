@@ -14,6 +14,8 @@ export class ListProductPage {
   scheduleId : any;
   placeId : any;
   placeName : string;
+  itemsOrdered : number = 0;
+  totalItems : number = 0;
 
   constructor(public productRepoApi:ProductRepoApi,
               public navCtrl : NavController, 
@@ -27,6 +29,8 @@ export class ListProductPage {
   ionViewDidLoad() {
 
   }
+  
+  
 
   getProductRepo() {
        this.products = [];
