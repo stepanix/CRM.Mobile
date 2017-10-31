@@ -80,6 +80,12 @@ export class OrderItemRepoApi {
         return results;
      }
 
+     listByOrderId(OrderId:any) : Promise<any> {
+        var data = new QueryBuilder(new OrderItemModel());
+        var results = data.where("OrderId", "=", OrderId).get();
+        return results;
+     }
+
      listByProductAndScheduleId(orderId:any,productId:any) : Promise<any> {
         var data = new QueryBuilder(new OrderItemModel());
         var results = data.rawQuery("SELECT * FROM orderitems WHERE OrderId =? AND ProductId=?", [orderId,productId]);

@@ -112,19 +112,19 @@ export class OrdersPage {
   }
 
   computeDiscountAmount() {
-    this.OrderModel.DiscountAmount = parseFloat(((this.OrderModel.DiscountRate/100) * this.OrderModel.Amount).toString()).toFixed(2);;
-    this.taxableSubTotal = parseFloat((this.OrderModel.Amount - this.OrderModel.DiscountAmount).toString()).toFixed(2);;    
+    this.OrderModel.DiscountAmount = parseFloat(((this.OrderModel.DiscountRate/100) * this.OrderModel.Amount).toString()).toFixed(2);
+    this.taxableSubTotal = parseFloat((this.OrderModel.Amount - this.OrderModel.DiscountAmount).toString()).toFixed(2);    
   }
 
   computeDiscountRate() {
-    this.OrderModel.DiscountRate = parseFloat(((this.OrderModel.DiscountAmount/this.OrderModel.Amount) * 100).toString()).toFixed(2);;
-    this.taxableSubTotal = parseFloat((this.OrderModel.Amount - this.OrderModel.DiscountAmount).toString()).toFixed(2);;    
+    this.OrderModel.DiscountRate = parseFloat(((this.OrderModel.DiscountAmount/this.OrderModel.Amount) * 100).toString()).toFixed(2);
+    this.taxableSubTotal = parseFloat((this.OrderModel.Amount - this.OrderModel.DiscountAmount).toString()).toFixed(2);  
   }
 
   computeTaxAmount() {
-    this.OrderModel.TaxAmount = parseFloat(((this.OrderModel.TaxRate/100) * this.taxableSubTotal).toString()).toFixed(2);;
-    this.OrderModel.TotalDiscountAmount = parseFloat(this.OrderModel.DiscountAmount.toString()).toFixed(2);;
-    this.OrderModel.TotalAmount = parseFloat((this.OrderModel.TaxAmount + this.taxableSubTotal).toString()).toFixed(2);;    
+    this.OrderModel.TaxAmount = parseFloat(((this.OrderModel.TaxRate/100) * this.taxableSubTotal).toString()).toFixed(2);
+    this.OrderModel.TotalDiscountAmount = parseFloat(this.OrderModel.DiscountAmount.toString()).toFixed(2);
+    this.OrderModel.TotalAmount = parseFloat((this.OrderModel.TaxAmount + this.taxableSubTotal).toString()).toFixed(2);  
   }
 
   newGuid() : string {

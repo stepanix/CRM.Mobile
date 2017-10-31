@@ -50,6 +50,7 @@ export class OrderItemPage {
     if (this.operation === "save") {
       this.orderItemRepoApi.insertRecord(this.OrderItemDto);
     } else {
+      console.log("orderitemdto",this.OrderItemDto);
       this.orderItemRepoApi.updateRecord(this.OrderItemDto);
     }
   }
@@ -59,6 +60,7 @@ export class OrderItemPage {
       .listByProductAndScheduleId(this.orderId, this.productId)
       .then((res) => {
         if (res.length > 0) {
+          this.orderItemId = res[0].Id;
           this.OrderItemModel.Quantity = res[0].Quantity;
           this.OrderItemModel.Amount = res[0].Amount;
           this.operation = "update";
