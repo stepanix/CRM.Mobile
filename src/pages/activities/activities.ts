@@ -34,10 +34,10 @@ export class ActivitiesPage {
                 content: 'Synching data, please wait...',
             });
 
-            this.loader.present().then(() => {
-                this.syncServiceApi.downloadServerData();
-                this.loader.dismiss();
-            });
+            // this.loader.present().then(() => {
+            //     this.syncServiceApi.downloadServerData();
+            //     this.loader.dismiss();
+            // });
         }
     }
 

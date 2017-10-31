@@ -13,7 +13,7 @@ import { LoginPage } from '../pages/login/login';
 import { SummaryPage } from '../pages/summary/summary';
 import { VisitPage } from '../pages/visit/visit';
 import { SyncServiceApi } from '../services/sync-service-api';
-import { LoginServiceApi, ScheduleServiceApi, UserServiceApi, NoteServiceApi, OrderServiceApi } from '../shared/shared';
+import { LoginServiceApi, ScheduleServiceApi, UserServiceApi, NoteServiceApi, OrderServiceApi,OrderItemServiceApi } from '../shared/shared';
 import { PlaceServiceApi, ProductServiceApi, FormServiceApi, PhotoServiceApi, ActivityServiceApi } from '../shared/shared';
 import { RetailAuditFormServiceApi, StatusServiceApi, FormValueServiceApi, ProductRetailAuditServiceApi } from '../shared/shared';
 
@@ -32,11 +32,13 @@ import { NoteRepoApi } from '../repos/note-repo-api';
 import { ProductRetailRepoApi } from '../repos/productretailaudit-repo-api';
 import { ActivityRepoApi } from '../repos/activity-repo-api';
 import { OrderRepoApi } from '../repos/order-repo-api';
+import { OrderItemRepoApi } from '../repos/orderitem-repo-api';
 
 @Component({
     templateUrl: 'app.html',
     providers: [
         Network,
+        OrderItemServiceApi,
         OrderServiceApi,
         ActivityServiceApi,
         SyncServiceApi,
@@ -66,7 +68,8 @@ import { OrderRepoApi } from '../repos/order-repo-api';
         ProductRetailAuditServiceApi,
         ProductRetailRepoApi,
         ActivityRepoApi,
-        OrderRepoApi
+        OrderRepoApi,
+        OrderItemRepoApi
     ]
 })
 export class MyApp {
@@ -100,7 +103,7 @@ export class MyApp {
         this.placesPage = PlacesPage;
         this.summaryPage = SummaryPage;
         this.visitPage = VisitPage;
-        // used for an example of ngFor and navigation
+        
         this.pages = [
         ];
     }
@@ -132,7 +135,7 @@ export class MyApp {
         this.scheduleRepoApi.getChekedInVisit().then((res) => {
             if (res.results.length > 0) {
                 this.nav.setRoot(this.visitPage, {
-                    scheduleId: res.results[0].Id,
+                    scheduleId: res.results[0].RepoId,
                     repoId: res.results[0].RepoId,
                     placeId: res.results[0].PlaceId,
                     placeName: res.results[0].PlaceName,

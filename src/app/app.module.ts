@@ -31,6 +31,7 @@ import { RetailAuditFormPage } from '../pages/retailauditform/retailauditform';
 import { ListProductPage } from '../pages/listproduct/listproduct';
 import { OrdersPage } from '../pages/orders/orders';
 import { SummaryPage } from '../pages/summary/summary';
+import { OrderItemPage } from '../pages/orderitem/orderitem';
 
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
@@ -65,7 +66,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
       ListRetailAuditFormPage,
       RetailAuditFormPage,
       ListProductPage,
-      OrdersPage
+      OrdersPage,
+      OrderItemPage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -103,7 +105,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
       ListRetailAuditFormPage,
       RetailAuditFormPage,
       ListProductPage,
-      OrdersPage
+      OrdersPage,
+      OrderItemPage
   ],
   providers: [
     Camera,

@@ -57,7 +57,6 @@ export class LoginPage {
                 localStorage.setItem('userid',res.userid);
                 this.navCtrl.setRoot(ActivitiesPage);
                 this.loader.dismiss();
-
             }, err => {
                 console.log(JSON.stringify(err));
                 this.loader.dismiss();

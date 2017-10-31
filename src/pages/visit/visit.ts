@@ -61,7 +61,7 @@ export class VisitPage {
     this.lng = this.navParams.get('lng');
     this.getScheduleData();
     this.getActivityRepo();
-    console.log("street address", this.streetAddress);
+    console.log("scheduleid", this.scheduleId);
   }
 
   getActivityRepo() {
@@ -114,7 +114,7 @@ export class VisitPage {
       });
     }
     if (type === "Orders") {
-      this.navCtrl.setRoot(OrdersPage, {
+      this.navCtrl.push(OrdersPage, {
         Id: logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,
@@ -275,7 +275,7 @@ export class VisitPage {
                 });
               }
               if (type === "orders") {
-                this.navCtrl.setRoot(ListProductPage, {
+                this.navCtrl.push(ListProductPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
@@ -328,7 +328,7 @@ export class VisitPage {
         });
       }
       if (type === "orders") {
-        this.navCtrl.setRoot(ListProductPage, {
+        this.navCtrl.push(ListProductPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId

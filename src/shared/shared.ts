@@ -13,3 +13,4 @@ export * from '../services/note-service-api';
 export * from '../services/productretailaudit-service-api';
 export * from '../services/activity-service-api';
 export * from '../services/order-service-api';
+export * from '../services/orderitem-service-api'

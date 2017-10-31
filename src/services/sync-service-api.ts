@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi,FormServiceApi,ScheduleServiceApi,UserServiceApi,PhotoServiceApi } from '../shared/shared';
-import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi,OrderServiceApi} from '../shared/shared';
+import {PlaceServiceApi,RetailAuditFormServiceApi,StatusServiceApi,OrderServiceApi,OrderItemServiceApi} from '../shared/shared';
 import {NoteServiceApi,ProductRetailAuditServiceApi,FormValueServiceApi,ActivityServiceApi} from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
@@ -16,14 +16,17 @@ import {NoteRepoApi} from '../repos/note-repo-api';
 import {ProductRetailRepoApi} from '../repos/productretailaudit-repo-api';
 import {ActivityRepoApi} from '../repos/activity-repo-api';
 import {OrderRepoApi} from '../repos/order-repo-api';
+import {OrderItemRepoApi} from '../repos/orderitem-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
   
     placesTemp : any[] = [];
-    scheduleTemp : any[] =[];
+    scheduleTemp : any[] = [];
     
-    constructor(private orderServiceApi : OrderServiceApi,
+    constructor(private orderItemServiceApi : OrderItemServiceApi,
+        private orderItemRepoApi : OrderItemRepoApi,
+        private orderServiceApi : OrderServiceApi,
         private orderRepoApi : OrderRepoApi,
         private activityServiceApi : ActivityServiceApi,
         private activityRepoApi : ActivityRepoApi,
@@ -359,8 +362,7 @@ export class SyncServiceApi {
                         id : 0,
                         syncId : res.results[i].Id,
                         placeId : parseInt(this.parsePlaceId(res.results[i].PlaceId)),
-                        scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId)),
-                        productId : res.results[i].ProductId,
+                        scheduleId : parseInt(this.parseScheduleId(res.results[i].ScheduleId)),                       
                         quantity : parseInt(res.results[i].Quantity),
                         amount : parseFloat(res.results[i].Amount),
                         discountRate : parseFloat(res.results[i].DiscountRate),

@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Order Item</ion-title>
+
+    <ion-buttons end>
+
+      <button ion-button icon-only (click)="saveOrderItemRepo()" [disabled]="OrderItemModel.Quantity==='0'">
+        Save
+      </button>
+
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <h1>
+    <ion-icon ios="ios-cube" md="ios-cube" item-left> {{productName}}</ion-icon>
+  </h1>
+
+
+
+  <ion-item>
+    <ion-label floating>Quantity</ion-label>
+    <ion-input type="number" [(ngModel)]="OrderItemModel.Quantity" (change)="computeAmount()"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Price</ion-label>
+    <ion-input type="number" [(ngModel)]="price" [disabled]="true"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Amount</ion-label>
+    <ion-input type="number" [(ngModel)]="OrderItemModel.Amount" [disabled]="true"></ion-input>
+  </ion-item>
+
+
+
+</ion-content>

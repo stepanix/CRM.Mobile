@@ -9,7 +9,6 @@ export class OrderModel extends BaseModel {
         ServerId: 'INTEGER(11)',
         PlaceId: 'TEXT',
         ScheduleId: 'TEXT',
-        ProductId: 'INTEGER(11)',
         Quantity: 'INTEGER(11)',
         Amount: 'TEXT',
         DiscountRate: 'TEXT',
