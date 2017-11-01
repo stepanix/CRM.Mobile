@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
 
 @Component({
@@ -17,7 +17,8 @@ export class OrderItemPage {
   operation: any = "save";
   OrderItemDto: any;
 
-  constructor(public orderItemRepoApi: OrderItemRepoApi,
+  constructor(public toastCtrl: ToastController,
+    public orderItemRepoApi: OrderItemRepoApi,
     public navCtrl: NavController, public navParams: NavParams) {
     this.OrderItemModel = {};
     this.orderId = this.navParams.get('orderId');
@@ -50,9 +51,14 @@ export class OrderItemPage {
     if (this.operation === "save") {
       this.orderItemRepoApi.insertRecord(this.OrderItemDto);
     } else {
-      console.log("orderitemdto",this.OrderItemDto);
+      console.log("orderitemdto", this.OrderItemDto);
       this.orderItemRepoApi.updateRecord(this.OrderItemDto);
     }
+    let toast = this.toastCtrl.create({
+      message: 'Item saved successfully',
+      duration: 3000
+    });
+    toast.present();
   }
 
   getOrderItemsRepo() {

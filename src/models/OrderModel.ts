@@ -21,7 +21,7 @@ export class OrderModel extends BaseModel {
         DueDate: 'TEXT',
         Note: 'TEXT',
         Signature: 'TEXT',
-        IsSynched: 'INTEGER(1)'
+        IsSynched: 'INTEGER(1)',
+        RepoId : 'TEXT'
     }
-
 }

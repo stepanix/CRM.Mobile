@@ -116,6 +116,7 @@ export class ListProductPage {
     this.orderId = this.newGuid();
     let NewOrderModel = {
       Id: this.orderId,
+      RepoId : this.orderId,
       PlaceId: this.placeId,
       ScheduleId: this.scheduleId,
       ServerId: 0,
