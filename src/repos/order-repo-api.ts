@@ -33,6 +33,11 @@ export class OrderRepoApi {
         }
      }
 
+     deleteOrder(orderId:any) {
+        var data = new QueryBuilder(new OrderModel());
+        data.where("Id","=",orderId).delete();
+     }
+
      insert(dataDto:any[]) {
         var data = new QueryBuilder(new OrderModel());
         for(var i=0; i<dataDto.length;i++){

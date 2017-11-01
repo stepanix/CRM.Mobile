@@ -17,7 +17,7 @@
             <ion-icon item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important">
                     {{checkItemQty(item)}}
             </ion-icon>
-            <ion-icon *ngIf="checkItemQty(item) > '1'" (click)="removeQty(item)" ios="md-remove" md="md-remove" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important"></ion-icon>
+            <ion-icon *ngIf="checkItemQty(item) > '0'" (click)="removeQty(item)" ios="md-remove" md="md-remove" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important"></ion-icon>
             <button ion-item no-lines (click)="openOrder(item)" item-right style="width:100%;background-color:white">
                 <span style="color:#666;font-size: 1.5rem; float: left;font-size: 18px; padding-left: 10px;">
                     {{item.name}}
@@ -31,5 +31,8 @@
 <ion-footer>
     <span style="padding-top:10px!important; font-size:20px!important">
         <strong>$ {{valueOfItemsOrdered}} / {{totalItems}}</strong>
+    </span>
+    <span style="float:right;padding-right:50px!important; font-size:25px!important">
+        <ion-icon ios="md-trash" md="md-trash" item-right (click)="deleteOrder()"></ion-icon>
     </span>
 </ion-footer>

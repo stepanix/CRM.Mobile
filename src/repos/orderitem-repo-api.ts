@@ -80,6 +80,11 @@ export class OrderItemRepoApi {
         return results;
      }
 
+     deleteOrderItems(orderId:any) {
+        var data = new QueryBuilder(new OrderItemModel());
+        data.where("OrderId","=",orderId).delete();
+     }
+
      listByOrderId(OrderId:any) : Promise<any> {
         var data = new QueryBuilder(new OrderItemModel());
         var results = data.where("OrderId", "=", OrderId).get();

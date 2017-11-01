@@ -99,12 +99,20 @@ export class ListProductPage {
         this.valueOfItemsOrdered = parseFloat(totalValue.toString()).toFixed(2);
       } else {
         this.valueOfItemsOrdered = "0";
-        this.totalItems = 1;
+        this.totalItems = 0;
       }
     });
   }
 
+  deleteOrder() {
+    this.orderItemRepoApi.deleteOrderItems(this.orderId);
+    this.orderRepoApi.deleteOrder(this.orderId);
+    this.navCtrl.pop();
+  }
+
   createNewOrder() {
+    this.valueOfItemsOrdered = "0";
+    this.totalItems = 0;
     this.orderId = this.newGuid();
     let NewOrderModel = {
       Id: this.orderId,
