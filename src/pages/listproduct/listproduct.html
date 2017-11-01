@@ -4,6 +4,11 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>Orders</ion-title>
+        <ion-buttons end (click)="saveOrderRepo()">
+                <button ion-button icon-only  [disabled]="valueOfItemsOrdered==='0'" style="color:#000000;padding:10px">               
+                        <span style="color:white!important"> SUMMARY </span>
+                  </button>
+        </ion-buttons>
         <ion-buttons end>
             <page-network></page-network>
         </ion-buttons>
