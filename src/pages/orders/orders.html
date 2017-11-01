@@ -35,7 +35,7 @@
 
     <ion-item>
       <ion-label floating>Quantity</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.Quantity" (change)="computeAmount()"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.Quantity" (change)="computeAmount()" [disabled]="true"></ion-input>
     </ion-item>
 
     <ion-item>

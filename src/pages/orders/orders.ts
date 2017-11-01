@@ -21,13 +21,12 @@ export class OrdersPage {
   scheduleId : any;
   placeId : any;
   placeName : string;
-  productId : any;
-  productName : any;
   price : any;
   taxableSubTotal : any = "0";
   orderId : any;
   OrderDto : any;
   operation : any = "save";
+  totalItems : number = 0;
   
   private signaturePadOptions : Object = {
       'minWidth': 3,
@@ -52,15 +51,13 @@ export class OrdersPage {
       this.OrderModel.Signature = "";
       this.OrderModel.Date = moment().format('YYYY-MM-DD').toString();
       this.OrderModel.DueDate = moment().format('YYYY-MM-DD').toString();
-
-      this.price = parseFloat(this.navParams.get('price'));
-      this.productId = this.navParams.get('productId');
-      this.productName = this.navParams.get('productName');
+      
       this.placeName = this.navParams.get('placeName');
       this.scheduleId = this.navParams.get('scheduleId');
       this.placeId = this.navParams.get('placeId');
-      this.orderId = this.navParams.get('Id');
-
+      this.orderId = this.navParams.get('orderId');
+      this.totalItems = this.navParams.get('totalItems');
+      
       if(this.orderId !== undefined) {
          this.getOrdersRepo();
       }
@@ -146,7 +143,6 @@ export class OrdersPage {
         ServerId: 0,
         PlaceId: this.placeId,
         ScheduleId: this.scheduleId,
-        ProductId: this.productId,
         Quantity: this.OrderModel.Quantity,
         Amount: this.OrderModel.Amount,
         DiscountRate: this.OrderModel.DiscountRate,

@@ -20,11 +20,11 @@ export class ListProductPage {
   placeName: string;
   valueOfItemsOrdered: string = "";
   totalItems: number = 0;
-  orderModel: any[] = [];
+  orderModel: any = {};
   orderItemModel: any = {};
   orderItemsTemp: any[] = [];
   orderId: any;
-  itemQty : number = 0;
+  orderQty : number = 0;
 
   constructor(public orderItemRepoApi: OrderItemRepoApi,
     public orderRepoApi: OrderRepoApi,
@@ -47,31 +47,29 @@ export class ListProductPage {
       if (res.results.length > 0) {
         for (let i = 0; i < res.results.length; i++) {
           this.orderId = res.results[0].Id;
-          // this.orderModel.push({
-          //   Id: res.results[i].Id,
-          //   Quantity: res.results[i].Quantity,
-          //   DiscountRate: res.results[i].DiscountRate,
-          //   DiscountAmount: res.results[i].DiscountAmount,
-          //   TaxRate: res.results[i].TaxRate,
-          //   TaxAmount: res.results[i].TaxAmount,
-          //   TotalAmount: res.results[i].TotalAmount,
-          //   Amount: res.results[i].Amount,
-          //   OrderDate: res.results[i].OrderDate,
-          //   DueDate: res.results[i].DueDate,
-          //   DueDays: res.results[i].DueDays,
-          //   ServerId: 0,
-          //   PlaceId: res.results[i].PlaceId,
-          //   ScheduleId: res.results[i].ScheduleId,
-          //   Note: res.results[i].Note,
-          //   Signature: res.results[i].Signature,
-          //   IsSynched: 0
-          // });
-          // this.totalItems += res.results[i].Quantity;
+          this.orderModel = {
+              Id: res.results[i].Id,
+              Quantity: res.results[i].Quantity,
+              DiscountRate: res.results[i].DiscountRate,
+              DiscountAmount: res.results[i].DiscountAmount,
+              TaxRate: res.results[i].TaxRate,
+              TaxAmount: res.results[i].TaxAmount,
+              TotalAmount: res.results[i].TotalAmount,
+              Amount: res.results[i].Amount,
+              OrderDate: res.results[i].OrderDate,
+              DueDate: res.results[i].DueDate,
+              DueDays: res.results[i].DueDays,
+              ServerId: 0,
+              PlaceId: res.results[i].PlaceId,
+              ScheduleId: res.results[i].ScheduleId,
+              Note: res.results[i].Note,
+              Signature: res.results[i].Signature,
+              IsSynched: 0
+          };
         }
         this.getOrderItemsRepo();
       } else {
         this.createNewOrder();
-        //this.totalItems =  1;
       }
     });
   }
@@ -79,7 +77,7 @@ export class ListProductPage {
   getOrderItemsRepo() {
     this.valueOfItemsOrdered = "";
     this.orderItemsTemp = [];
-    this.totalItems = 0;    
+    this.totalItems = 0;
     let totalValue : number = 0;
     this.orderItemRepoApi.listByOrderId(this.orderId).then((res) => {
       if (res.results.length > 0) {
@@ -93,8 +91,11 @@ export class ListProductPage {
             Amount: res.results[i].Amount,
             IsSynched: 0
           });
-          this.totalItems += parseInt(res.results[i].Quantity);
+          this.orderQty +=  parseInt(res.results[i].Quantity);
+          this.totalItems += (i + 1);
           totalValue +=  parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));
+          this.orderModel.Quantity = this.orderQty;
+          this.orderRepoApi.updateRecord(this.orderModel);
         }
         this.valueOfItemsOrdered = parseFloat(totalValue.toString()).toFixed(2);
       } else {
@@ -207,6 +208,16 @@ export class ListProductPage {
       placeId: this.placeId,
       scheduleId: this.scheduleId,
       placeName: this.placeName
+    });
+  }
+
+  navigateSummary(){
+    this.navCtrl.push(OrdersPage, {      
+      orderId: this.orderId,
+      placeId: this.placeId,
+      scheduleId: this.scheduleId,
+      placeName: this.placeName,
+      totalItems : this.totalItems
     });
   }
 
