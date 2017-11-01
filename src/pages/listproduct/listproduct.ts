@@ -127,7 +127,7 @@ export class ListProductPage {
             IsSynched: 0
           });
           this.orderQty += parseInt(res.results[i].Quantity);
-          this.totalItems += (i + 1);
+          this.totalItems += 1;
           totalValue += parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));
         }
         this.valueOfItemsOrdered = parseFloat(totalValue.toString()).toFixed(2);
