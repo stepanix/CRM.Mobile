@@ -53,7 +53,6 @@ export class ListProductPage {
   }
 
   scanProductBarCode() {
-    alert("starting barcode");
     this.barcodeScanner.scan().then((barcode) => {
       this.searchProduct(barcode);
     }, (err) => {
