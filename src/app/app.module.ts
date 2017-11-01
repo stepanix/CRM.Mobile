@@ -41,6 +41,7 @@ import { Camera } from '@ionic-native/camera';
 import { SignaturePadModule } from 'angular2-signaturepad';
 
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 
 @NgModule({
@@ -113,6 +114,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     StatusBar,
     SplashScreen,
     LocalNotifications,
+    BarcodeScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

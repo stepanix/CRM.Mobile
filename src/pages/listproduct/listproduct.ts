@@ -5,6 +5,7 @@ import { OrderRepoApi } from '../../repos/order-repo-api';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
 import { OrdersPage } from '../orders/orders';
 import { OrderItemPage } from '../orderitem/orderitem';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import * as moment from 'moment';
 
 
@@ -24,9 +25,10 @@ export class ListProductPage {
   orderItemModel: any = {};
   orderItemsTemp: any[] = [];
   orderId: any;
-  orderQty : number = 0;
+  orderQty: number = 0;
 
-  constructor(public orderItemRepoApi: OrderItemRepoApi,
+  constructor(private barcodeScanner: BarcodeScanner,
+    public orderItemRepoApi: OrderItemRepoApi,
     public orderRepoApi: OrderRepoApi,
     public productRepoApi: ProductRepoApi,
     public navCtrl: NavController,
@@ -42,29 +44,41 @@ export class ListProductPage {
 
   }
 
+  getItems(event){
+
+  }
+
+  scanProductBarCode() {
+    this.barcodeScanner.scan().then((barcodeData) => {
+      // Success! Barcode data is here
+    }, (err) => {
+      console.log("barcode error", err);
+    });
+  }
+
   getOrderRepo() {
     this.orderRepoApi.listByScheduleId(this.scheduleId).then((res) => {
       if (res.results.length > 0) {
         for (let i = 0; i < res.results.length; i++) {
           this.orderId = res.results[0].Id;
           this.orderModel = {
-              Id: res.results[i].Id,
-              Quantity: res.results[i].Quantity,
-              DiscountRate: res.results[i].DiscountRate,
-              DiscountAmount: res.results[i].DiscountAmount,
-              TaxRate: res.results[i].TaxRate,
-              TaxAmount: res.results[i].TaxAmount,
-              TotalAmount: res.results[i].TotalAmount,
-              Amount: res.results[i].Amount,
-              OrderDate: res.results[i].OrderDate,
-              DueDate: res.results[i].DueDate,
-              DueDays: res.results[i].DueDays,
-              ServerId: 0,
-              PlaceId: res.results[i].PlaceId,
-              ScheduleId: res.results[i].ScheduleId,
-              Note: res.results[i].Note,
-              Signature: res.results[i].Signature,
-              IsSynched: 0
+            Id: res.results[i].Id,
+            Quantity: res.results[i].Quantity,
+            DiscountRate: res.results[i].DiscountRate,
+            DiscountAmount: res.results[i].DiscountAmount,
+            TaxRate: res.results[i].TaxRate,
+            TaxAmount: res.results[i].TaxAmount,
+            TotalAmount: res.results[i].TotalAmount,
+            Amount: res.results[i].Amount,
+            OrderDate: res.results[i].OrderDate,
+            DueDate: res.results[i].DueDate,
+            DueDays: res.results[i].DueDays,
+            ServerId: 0,
+            PlaceId: res.results[i].PlaceId,
+            ScheduleId: res.results[i].ScheduleId,
+            Note: res.results[i].Note,
+            Signature: res.results[i].Signature,
+            IsSynched: 0
           };
         }
         this.getOrderItemsRepo();
@@ -78,7 +92,7 @@ export class ListProductPage {
     this.valueOfItemsOrdered = "";
     this.orderItemsTemp = [];
     this.totalItems = 0;
-    let totalValue : number = 0;
+    let totalValue: number = 0;
     this.orderQty = 0;
     this.orderItemRepoApi.listByOrderId(this.orderId).then((res) => {
       if (res.results.length > 0) {
@@ -92,9 +106,9 @@ export class ListProductPage {
             Amount: res.results[i].Amount,
             IsSynched: 0
           });
-          this.orderQty +=  parseInt(res.results[i].Quantity);
+          this.orderQty += parseInt(res.results[i].Quantity);
           this.totalItems += (i + 1);
-          totalValue +=  parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));          
+          totalValue += parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));
         }
         this.valueOfItemsOrdered = parseFloat(totalValue.toString()).toFixed(2);
         this.orderModel.Quantity = this.orderQty;
@@ -119,7 +133,7 @@ export class ListProductPage {
     this.orderId = this.newGuid();
     let NewOrderModel = {
       Id: this.orderId,
-      RepoId : this.orderId,
+      RepoId: this.orderId,
       PlaceId: this.placeId,
       ScheduleId: this.scheduleId,
       ServerId: 0,
@@ -213,13 +227,13 @@ export class ListProductPage {
     });
   }
 
-  navigateSummary(){
-    this.navCtrl.push(OrdersPage, {      
+  navigateSummary() {
+    this.navCtrl.push(OrdersPage, {
       orderId: this.orderId,
       placeId: this.placeId,
       scheduleId: this.scheduleId,
       placeName: this.placeName,
-      totalItems : this.totalItems
+      totalItems: this.totalItems
     });
   }
 
