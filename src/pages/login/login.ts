@@ -52,9 +52,9 @@ export class LoginPage {
             this.loginData = 'username=' + this.frmData.userName + '&password=' + this.frmData.password + '&grant_type=password';
 
             this.loginApi.postLogin(this.loginData).subscribe(res => {
-                this.syncServiceApi.downloadServerData();
                 localStorage.setItem('token', res.access_token);
                 localStorage.setItem('userid',res.userid);
+                this.syncServiceApi.downloadServerData();
                 this.navCtrl.setRoot(ActivitiesPage);
                 this.loader.dismiss();
             }, err => {

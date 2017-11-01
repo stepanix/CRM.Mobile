@@ -82,7 +82,7 @@ export class SyncServiceApi {
                         this.productRepoApi.insert(products);
                     }
                 },err => {
-                console.log(err);
+                //console.log(err);
                 return;
             });
     }
@@ -106,7 +106,7 @@ export class SyncServiceApi {
                     this.formRepoApi.insert(forms);
                 }
             },err => {
-            console.log(err);
+            //console.log(err);
             return;
         });
     }
@@ -140,7 +140,7 @@ export class SyncServiceApi {
                         this.placeRepoApi.insert(this.placesTemp);
                 }
             },err => {
-            console.log(err);
+            //console.log(err);
             return;
         });
     }
@@ -169,7 +169,7 @@ export class SyncServiceApi {
                     this.retailAuditFormRepApi.insert(retailAuditForms);
                 }
             },err => {
-            console.log(err);
+            //console.log(err);
             return;
         });
     }
@@ -215,7 +215,7 @@ export class SyncServiceApi {
                     this.uploadOrdersToServer();
                 }
             },err => {
-            console.log(err);
+            //console.log(err);
             return;
         });
     }
@@ -238,7 +238,7 @@ export class SyncServiceApi {
                     this.statusRepoApi.insert(status);
                 }
             },err => {
-            console.log(err);
+            //console.log(err);
             return;
         });
     }
@@ -262,7 +262,7 @@ export class SyncServiceApi {
                 }
                
             },err => {
-            console.log(err);
+            //console.log(err);
             return;
         });
     }
@@ -300,7 +300,7 @@ export class SyncServiceApi {
               res => {               
                 this.productRetailRepoApi.updateSynched(res);
               },err => {
-                console.log(err);
+                //console.log(err);
                 return;
            });
         });
@@ -324,7 +324,7 @@ export class SyncServiceApi {
               res => {                
                 this.formValueRepoApi.updateSynched(res);
               },err => {
-                console.log(err);
+                //console.log(err);
                 return;
            });
         });
@@ -348,7 +348,7 @@ export class SyncServiceApi {
               res => {
                 this.photoRepoApi.updateSynched(res);
               },err => {
-                console.log(err);
+                //console.log(err);
                 return;
            });
         });
@@ -377,13 +377,13 @@ export class SyncServiceApi {
                         signature : res.results[i].Signature
                     });
             }
-            console.log("OrderListValues ",JSON.stringify(orderValues));
+            //console.log("OrderListValues ",JSON.stringify(orderValues));
             this.orderServiceApi.addOrderList(orderValues)
             .subscribe(
               res => {
                 this.orderRepoApi.updateSynched(res);
               },err => {
-                console.log(err);
+                //console.log(err);
                 return;
            });
         });
@@ -406,7 +406,7 @@ export class SyncServiceApi {
               res => {
                 this.noteRepoApi.updateSynched(res);
               },err => {
-                console.log(err);
+                //console.log(err);
                 return;
            });
         });
@@ -424,7 +424,7 @@ export class SyncServiceApi {
                         dateCreated  : res.results[i].DateCreated
                     });
             }
-            console.log(JSON.stringify(activityValues));
+            //console.log(JSON.stringify(activityValues));
             this.activityServiceApi.addActivityList(activityValues)
             .subscribe(
               res => {
@@ -494,7 +494,7 @@ export class SyncServiceApi {
                     repoId : res.results[i].RepoId
                 });
             }
-            console.log(JSON.stringify(schedules));
+            //console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
             .subscribe(
               res => {

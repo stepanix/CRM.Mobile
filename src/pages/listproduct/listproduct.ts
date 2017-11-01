@@ -24,6 +24,7 @@ export class ListProductPage {
   orderItemModel: any = {};
   orderItemsTemp: any[] = [];
   orderId: any;
+  itemQty : number = 0;
 
   constructor(public orderItemRepoApi: OrderItemRepoApi,
     public orderRepoApi: OrderRepoApi,
@@ -74,25 +75,28 @@ export class ListProductPage {
       }
     });
   }
-  
+
   getOrderItemsRepo() {
     this.valueOfItemsOrdered = "";
     this.orderItemsTemp = [];
+    this.totalItems = 0;    
+    let totalValue : number = 0;
     this.orderItemRepoApi.listByOrderId(this.orderId).then((res) => {
       if (res.results.length > 0) {
         for (let i = 0; i < res.results.length; i++) {
           this.orderItemsTemp.push({
-              Id: res.results[i].Id,
-              ServerId:res.results[i].ServerId,
-              OrderId: res.results[i].OrderId,
-              ProductId: res.results[i].ProductId,
-              Quantity: res.results[i].Quantity,
-              Amount: res.results[i].Amount,
-              IsSynched: 0
+            Id: res.results[i].Id,
+            ServerId: res.results[i].ServerId,
+            OrderId: res.results[i].OrderId,
+            ProductId: res.results[i].ProductId,
+            Quantity: res.results[i].Quantity,
+            Amount: res.results[i].Amount,
+            IsSynched: 0
           });
-          this.totalItems = res.results[i].Quantity;
-          this.valueOfItemsOrdered += parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2);
+          this.totalItems += parseInt(res.results[i].Quantity);
+          totalValue +=  parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));
         }
+        this.valueOfItemsOrdered = parseFloat(totalValue.toString()).toFixed(2);
       } else {
         this.valueOfItemsOrdered = "0";
         this.totalItems = 1;
@@ -125,16 +129,19 @@ export class ListProductPage {
   }
 
   addQty(item) {
-     this.orderItemModel = this.orderItemsTemp.find(x => x.ProductId === item.id);
+    this.orderItemModel = this.orderItemsTemp.find(x => x.ProductId === item.id);
     if (this.orderItemModel === undefined) {
       this.orderItemModel = {};
       this.orderItemModel.Id = this.newGuid();
       this.orderItemModel.Quantity = 1;
+      this.orderItemModel.ProductId = item.id;
+      this.orderItemModel.ServerId = 0;
+      this.orderItemModel.IsSynched = 0
+      this.orderItemModel.OrderId = this.orderId;
       this.orderItemModel.Amount = item.price;
-      this.valueOfItemsOrdered = item.price;
       this.orderItemRepoApi.insertRecord(this.orderItemModel);
       this.getOrderItemsRepo();
-    }else{
+    } else {
       this.orderItemModel.Quantity += 1;
       this.orderItemModel.Amount = parseFloat((item.price * this.orderItemModel.Quantity).toString()).toFixed(2);
       this.orderItemRepoApi.updateRecord(this.orderItemModel);
@@ -142,8 +149,21 @@ export class ListProductPage {
     }
   }
 
-  removeQty() {
+  removeQty(item) {
+    this.orderItemModel = this.orderItemsTemp.find(x => x.ProductId === item.id);
+    this.orderItemModel.Quantity -= 1;
+    this.orderItemModel.Amount = parseFloat((item.price * this.orderItemModel.Quantity).toString()).toFixed(2);
+    this.orderItemRepoApi.updateRecord(this.orderItemModel);
+    this.getOrderItemsRepo();
+  }
 
+  checkItemQty(item) {
+    this.orderItemModel = this.orderItemsTemp.find(x => x.ProductId === item.id);
+    if (this.orderItemModel === undefined) {
+      return 0;
+    } else {
+      return this.orderItemModel.Quantity;
+    }
   }
 
   newGuid(): string {
