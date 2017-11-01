@@ -8,7 +8,8 @@ export class ProductModel extends BaseModel {
         Id: 'TEXT',
         ServerId : 'INTEGER(11)',
         Name : 'TEXT',
-        Price : 'TEXT'
+        Price : 'TEXT',
+        EanCode : 'TEXT'
     }
 
 }
