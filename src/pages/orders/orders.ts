@@ -188,6 +188,11 @@ export class OrdersPage {
     this.signaturePad.clear();
   }
 
+  clearSignature() {
+    this.signaturePad.clear();
+    this.OrderModel.Signature = "";
+  }
+
   showCalendarDate() {
     this.dateSelected="date";
     this.calendar.showCalendar();

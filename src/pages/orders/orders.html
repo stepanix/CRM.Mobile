@@ -149,4 +149,6 @@
     <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
   </ion-item>
 
+  <div style="text-align: center;"><button ion-button [hidden]="OrderModel.Signature===''" (click)="clearSignature()" style="width:60%!important">Clear</button> </div>
+
 </ion-content>

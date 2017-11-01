@@ -4,10 +4,10 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>Orders</ion-title>
-        <ion-buttons end (click)="saveOrderRepo()">
-                <button ion-button icon-only (click)="navigateSummary()" [disabled]="valueOfItemsOrdered==='0'" style="color:#000000;padding:10px">               
-                        <span style="color:white!important"> SUMMARY </span>
-                  </button>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="navigateSummary()" [disabled]="valueOfItemsOrdered==='0'" style="color:#000000;padding:10px">
+                <span style="color:white!important"> SUMMARY </span>
+            </button>
         </ion-buttons>
         <ion-buttons end>
             <page-network></page-network>
@@ -20,7 +20,7 @@
         <ion-item>
             <ion-icon (click)="addQty(item)" ios="md-add" md="md-add" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important"></ion-icon>
             <ion-icon item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important">
-                    {{checkItemQty(item)}}
+                {{checkItemQty(item)}}
             </ion-icon>
             <ion-icon *ngIf="checkItemQty(item) > '0'" (click)="removeQty(item)" ios="md-remove" md="md-remove" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important"></ion-icon>
             <button ion-item no-lines (click)="openOrder(item)" item-right style="width:100%;background-color:white">

@@ -79,6 +79,7 @@ export class ListProductPage {
     this.orderItemsTemp = [];
     this.totalItems = 0;
     let totalValue : number = 0;
+    this.orderQty = 0;
     this.orderItemRepoApi.listByOrderId(this.orderId).then((res) => {
       if (res.results.length > 0) {
         for (let i = 0; i < res.results.length; i++) {
@@ -93,11 +94,12 @@ export class ListProductPage {
           });
           this.orderQty +=  parseInt(res.results[i].Quantity);
           this.totalItems += (i + 1);
-          totalValue +=  parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));
-          this.orderModel.Quantity = this.orderQty;
-          this.orderRepoApi.updateRecord(this.orderModel);
+          totalValue +=  parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));          
         }
         this.valueOfItemsOrdered = parseFloat(totalValue.toString()).toFixed(2);
+        this.orderModel.Quantity = this.orderQty;
+        this.orderModel.Amount = this.valueOfItemsOrdered;
+        this.orderRepoApi.updateRecord(this.orderModel);
       } else {
         this.valueOfItemsOrdered = "0";
         this.totalItems = 0;
