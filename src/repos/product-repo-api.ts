@@ -28,5 +28,11 @@ export class ProductRepoApi {
         var results = data.get("*");
         return results;
      }
+
+     searchProduct(searchVar) : Promise<any>{
+        var data = new QueryBuilder(new ProductModel());
+        var results = data.rawQuery("SELECT * FROM product WHERE UPPER(Name) = UPPER(?) OR EanCode = ?", [searchVar,searchVar]);
+        return results;
+     }
      
 }

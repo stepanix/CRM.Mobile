@@ -26,6 +26,7 @@ export class ListProductPage {
   orderItemsTemp: any[] = [];
   orderId: any;
   orderQty: number = 0;
+ 
 
   constructor(private barcodeScanner: BarcodeScanner,
     public orderItemRepoApi: OrderItemRepoApi,
@@ -41,18 +42,38 @@ export class ListProductPage {
   }
 
   ionViewDidLoad() {
-
   }
 
-  getItems(event){
-
+  getItems(ev: any) {
+    if (ev.target.value === "") {
+      this.getProductRepo();
+    } else {
+      this.searchProduct(ev.target.value);
+    }
   }
 
   scanProductBarCode() {
-    this.barcodeScanner.scan().then((barcodeData) => {
-      // Success! Barcode data is here
+    alert("starting barcode");
+    this.barcodeScanner.scan().then((barcode) => {
+      this.searchProduct(barcode);
     }, (err) => {
-      console.log("barcode error", err);
+        console.log("barcode error", err);
+    });
+  }
+
+  searchProduct(barcode) {
+    this.products = [];
+    console.log("barcode", barcode);
+    this.productRepoApi.searchProduct(barcode).then((res) => {
+      if (res.length > 0) {
+        for (var i = 0; i < res.length; i++) {
+          this.products.push({
+            id: res[i].ServerId,
+            name: res[i].Name,
+            price: res[i].Price
+          });
+        }
+      }
     });
   }
 
@@ -162,7 +183,7 @@ export class ListProductPage {
       this.orderItemModel.Quantity = 1;
       this.orderItemModel.ProductId = item.id;
       this.orderItemModel.ServerId = 0;
-      this.orderItemModel.IsSynched = 0
+      this.orderItemModel.IsSynched = 0;
       this.orderItemModel.OrderId = this.orderId;
       this.orderItemModel.Amount = item.price;
       this.orderItemRepoApi.insertRecord(this.orderItemModel);

@@ -5,6 +5,11 @@
         </button>
         <ion-title>Orders</ion-title>
         <ion-buttons end>
+             <button ion-button icon-only (click)="scanProductBarCode()" style="color:#000000;padding:10px">
+               <ion-icon ios="md-barcode" md="md-barcode" style="font-size:20px!important;color:#000000!important"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
             <button ion-button icon-only (click)="navigateSummary()" [disabled]="valueOfItemsOrdered==='0'" style="color:#000000;padding:10px">
                 <span style="color:white!important"> SUMMARY </span>
             </button>
@@ -16,7 +21,7 @@
 </ion-header>
 
 <ion-content class="signInList signIn">
-   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
     <div *ngFor="let item of products">
         <ion-item>
             <ion-icon (click)="addQty(item)" ios="md-add" md="md-add" item-left style="background-color:#2E86C1!important;color:white!important;padding:8px;font-size:15px!important"></ion-icon>
