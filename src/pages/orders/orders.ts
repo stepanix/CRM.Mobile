@@ -89,6 +89,10 @@ export class OrdersPage {
           this.OrderModel.Signature = res.results[0].Signature;
           this.signaturePad.fromDataURL(this.OrderModel.Signature);
           this.operation = "update";
+          //this.computeAmount();
+           this.computeDiscountAmount();
+           this.computeDiscountRate();
+           this.computeTaxAmount();
      });
  }
 
@@ -102,15 +106,15 @@ export class OrdersPage {
     this.taxableSubTotal = "0";
   }
 
-  computeAmount() {
-    this.OrderModel.Amount = parseFloat((this.OrderModel.Quantity * this.price).toString()).toFixed(2);
-    this.taxableSubTotal = parseFloat(this.OrderModel.Amount).toFixed(2);
-    this.resetComputations();
-  }
+  // computeAmount() {
+  //   this.OrderModel.Amount = parseFloat((this.OrderModel.Quantity * this.price).toString()).toFixed(2);
+  //   this.taxableSubTotal = parseFloat(this.OrderModel.Amount).toFixed(2);
+  //   // this.resetComputations();
+  // }
 
   computeDiscountAmount() {
     this.OrderModel.DiscountAmount = parseFloat(((this.OrderModel.DiscountRate/100) * this.OrderModel.Amount).toString()).toFixed(2);
-    this.taxableSubTotal = parseFloat((this.OrderModel.Amount - this.OrderModel.DiscountAmount).toString()).toFixed(2);    
+    this.taxableSubTotal = parseFloat((this.OrderModel.Amount - this.OrderModel.DiscountAmount).toString()).toFixed(2);
   }
 
   computeDiscountRate() {
@@ -120,8 +124,8 @@ export class OrdersPage {
 
   computeTaxAmount() {
     this.OrderModel.TaxAmount = parseFloat(((this.OrderModel.TaxRate/100) * this.taxableSubTotal).toString()).toFixed(2);
-    this.OrderModel.TotalDiscountAmount = parseFloat(this.OrderModel.DiscountAmount.toString()).toFixed(2);
-    this.OrderModel.TotalAmount = parseFloat((this.OrderModel.TaxAmount + this.taxableSubTotal).toString()).toFixed(2);  
+    this.OrderModel.TotalDiscountAmount = this.OrderModel.DiscountAmount;
+    this.OrderModel.TotalAmount =  parseFloat((parseFloat(this.OrderModel.TaxAmount) + parseFloat(this.taxableSubTotal)).toString()).toFixed(2);
   }
 
   newGuid() : string {
