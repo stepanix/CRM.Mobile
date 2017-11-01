@@ -46,7 +46,7 @@ export class VisitStatusPage {
    openVisit() {
         this.navCtrl.setRoot(VisitPage, {
             repoId : this.repoId,
-            scheduleId : this.scheduleId,
+            scheduleId : this.repoId,
             placeId : this.placeId,
             placeName : this.placeName,
             streetAddress : this.streetAddress,
