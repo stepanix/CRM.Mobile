@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController,AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { PlacesPage } from '../places/places';
 import { SyncServiceApi } from '../../services/sync-service-api';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
+import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import * as moment from 'moment';
 
 
@@ -15,12 +16,100 @@ export class ActivitiesPage {
 
     loader: any;
     activities: any[] = [];
+    start :boolean = true;
+    pause : boolean = false;
+    stop : boolean = false;
 
-    constructor(private activityRepoApi: ActivityRepoApi,
+    constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
+        public alertCtrl: AlertController,
+        private activityRepoApi: ActivityRepoApi,
         private syncServiceApi: SyncServiceApi,
         private loading: LoadingController,
         public navCtrl: NavController,
         public navParams: NavParams) {
+        this.checkWorkStatus();
+    }
+
+    checkWorkStatus(){
+        if(localStorage.getItem('workStatus')==="started") {
+            this.start = false;
+            this.pause = true;
+            this.stop = true;
+        }
+        if(localStorage.getItem('workStatus')==="stopped") {
+            this.start = true;
+            this.pause = false;
+            this.stop = false;
+        }
+        if(localStorage.getItem('workStatus')==="paused") {
+            this.start = true;
+            this.pause = false;
+            this.stop = true;
+        }
+        if(localStorage.getItem('mileageDate') === moment().format("YYYY-MM-DD").toString()){
+            this.start = false;
+            this.pause = false;
+            this.stop = false;
+        } 
+    }
+
+    startWork(){
+        let alertConfirm = this.alertCtrl.create({
+            title: '',
+            message: 'Are you sure you want to start your day ?',
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => {
+                  console.log('No clicked');
+                }
+              },
+              {
+                text: 'Start day',
+                handler: () => {
+                  let TimeMileageModel = {
+                    Id: this.newGuid(),
+                    ServerId : 0,
+                    UserId: localStorage.getItem('userid'),
+                    PlaceId: null,
+                    PlaceName: null,
+                    StartTime : moment().format("YYYY-MM-DD HH:mm"),
+                    EndTime: null,
+                    Duration: "0",
+                    Mileage: "0",
+                    IsSynched: 0,
+                    DateCreated : moment().format("YYYY-MM-DD HH:mm")
+                  }
+                  this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
+                  localStorage.setItem('mileageDate',moment().format("YYYY-MM-DD"));
+                  localStorage.setItem('workStatus',"started");
+                  this.checkWorkStatus();
+                }
+              }
+            ]
+          });
+          alertConfirm.present();
+    }
+
+    newGuid(): string {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+      }
+
+    stopWork(){
+        localStorage.setItem('workStatus',"stopped");
+        this.checkWorkStatus();
+    }
+
+    pauseWork(){
+        localStorage.setItem('workStatus',"paused");
+        this.checkWorkStatus();
     }
 
     ngAfterContentInit() {
@@ -33,11 +122,10 @@ export class ActivitiesPage {
             this.loader = this.loading.create({
                 content: 'Synching data, please wait...',
             });
-
-            // this.loader.present().then(() => {
-            //     this.syncServiceApi.downloadServerData();
-            //     this.loader.dismiss();
-            // });
+            this.loader.present().then(() => {
+                this.syncServiceApi.downloadServerData();
+                this.loader.dismiss();
+            });
         }
     }
 

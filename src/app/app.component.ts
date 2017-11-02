@@ -14,7 +14,7 @@ import { SummaryPage } from '../pages/summary/summary';
 import { VisitPage } from '../pages/visit/visit';
 import { SyncServiceApi } from '../services/sync-service-api';
 import { LoginServiceApi, ScheduleServiceApi, UserServiceApi, NoteServiceApi, OrderServiceApi,OrderItemServiceApi } from '../shared/shared';
-import { PlaceServiceApi, ProductServiceApi, FormServiceApi, PhotoServiceApi, ActivityServiceApi } from '../shared/shared';
+import { PlaceServiceApi, ProductServiceApi, FormServiceApi, PhotoServiceApi, ActivityServiceApi,TimeMileageServiceApi } from '../shared/shared';
 import { RetailAuditFormServiceApi, StatusServiceApi, FormValueServiceApi, ProductRetailAuditServiceApi } from '../shared/shared';
 
 import { RepsAutoCompleteService } from '../services/reps-autocomplete-service-api';
@@ -33,11 +33,13 @@ import { ProductRetailRepoApi } from '../repos/productretailaudit-repo-api';
 import { ActivityRepoApi } from '../repos/activity-repo-api';
 import { OrderRepoApi } from '../repos/order-repo-api';
 import { OrderItemRepoApi } from '../repos/orderitem-repo-api';
+import { TimeMileageRepoApi } from '../repos/timemileage-repo-api';
 
 @Component({
     templateUrl: 'app.html',
     providers: [
         Network,
+        TimeMileageServiceApi,
         OrderItemServiceApi,
         OrderServiceApi,
         ActivityServiceApi,
@@ -69,7 +71,8 @@ import { OrderItemRepoApi } from '../repos/orderitem-repo-api';
         ProductRetailRepoApi,
         ActivityRepoApi,
         OrderRepoApi,
-        OrderItemRepoApi
+        OrderItemRepoApi,
+        TimeMileageRepoApi
     ]
 })
 export class MyApp {

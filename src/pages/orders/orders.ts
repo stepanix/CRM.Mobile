@@ -135,12 +135,6 @@ export class OrdersPage {
     this.taxableSubTotal = "0";
   }
 
-  // computeAmount() {
-  //   this.OrderModel.Amount = parseFloat((this.OrderModel.Quantity * this.price).toString()).toFixed(2);
-  //   this.taxableSubTotal = parseFloat(this.OrderModel.Amount).toFixed(2);
-  //   // this.resetComputations();
-  // }
-
   computeDiscountAmount() {
     this.OrderModel.DiscountAmount = parseFloat(((this.OrderModel.DiscountRate/100) * this.OrderModel.Amount).toString()).toFixed(2);
     this.taxableSubTotal = parseFloat((this.OrderModel.Amount - this.OrderModel.DiscountAmount).toString()).toFixed(2);

@@ -33,7 +33,26 @@
       </div>
   </ion-content>
 
- <ion-fab right bottom color="#2E86C1">
+ <ion-fab right bottom color="#2E86C1" style="float:right;padding-bottom:50px!important;" >
     <button ion-fab color="#2E86C1" (click)="navigateToPlaces()"><ion-icon ios="md-compass" md="md-compass"></ion-icon></button>
  </ion-fab>
+
+ <ion-footer>
+        <span style="padding-top:10px!important; font-size:20px!important">
+            <strong></strong>
+        </span>
+
+        <span *ngIf="stop" style="float:right;padding-right:100px!important; font-size:25px!important">
+            <ion-icon ios="md-square" md="md-square" item-right (click)="stopWork()"></ion-icon>
+         </span>
+
+        <span *ngIf="pause" style="float:right;padding-right:50px!important; font-size:25px!important">
+            <ion-icon ios="md-pause" md="md-pause" item-right (click)="pauseWork()"></ion-icon>
+        </span>
+
+        <span *ngIf="start" style="float:right;padding-right:100px!important; font-size:25px!important">
+           <ion-icon ios="md-play" md="md-play" item-right (click)="startWork()"></ion-icon>
+        </span>
+       
+  </ion-footer>
   

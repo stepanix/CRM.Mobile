@@ -13,6 +13,7 @@ import { ListProductPage } from '../listproduct/listproduct';
 import { OrdersPage } from '../orders/orders';
 
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
+import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
@@ -34,7 +35,8 @@ export class VisitPage {
   repoId: any;
   activities: any[] = [];
 
-  constructor(private localNotifications: LocalNotifications,
+  constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
+    private localNotifications: LocalNotifications,
     private activityRepoApi: ActivityRepoApi,
     private scheduleRepoApi: ScheduleRepoApi,
     public alertCtrl: AlertController,
@@ -67,7 +69,7 @@ export class VisitPage {
   getActivityRepo() {
     this.activities = [];
     this.activityRepoApi.list(this.placeId).then((res) => {
-      if(res.results.length>0){
+      if (res.results.length > 0) {
         for (var i = 0; i < res.results.length; i++) {
           this.activities.push({
             PlaceName: res.results[i].PlaceName,
@@ -286,7 +288,6 @@ export class VisitPage {
           {
             text: 'Proceed without check in',
             handler: () => {
-              // console.log('Agree clicked');
             }
           },
           {
@@ -340,6 +341,50 @@ export class VisitPage {
   checkOutVisit() {
     this.scheduleRepoApi.checkOutVisit(this.dataDtoIn);
     this.cancelAllNotifications();
+  }
+
+  startDay() {
+    if(localStorage.getItem('mileageDate') === moment().format("YYYY-MM-DD").toString() 
+    || localStorage.getItem('workStatus')==="started"){
+        return;
+    }else{
+      let alertConfirm = this.alertCtrl.create({
+        title: '',
+        message: 'Are you sure you want to start your day ?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('No clicked');
+            }
+          },
+          {
+            text: 'Start day',
+            handler: () => {
+              let TimeMileageModel = {
+                Id: this.newGuid(),
+                ServerId : 0,
+                UserId: localStorage.getItem('userid'),
+                PlaceId: this.placeId,
+                PlaceName: this.placeName,
+                StartTime : moment().format("YYYY-MM-DD HH:mm"),
+                EndTime: null,
+                Duration: "0",
+                Mileage: "0",
+                IsSynched: 0,
+                DateCreated : moment().format("YYYY-MM-DD HH:mm")
+              }
+              localStorage.setItem('mileageDate',moment().format("YYYY-MM-DD"));
+              localStorage.setItem('workStatus',"started");
+              this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
+            }
+          }
+        ]
+      });
+      alertConfirm.present();
+    }
+    
   }
 
 }
