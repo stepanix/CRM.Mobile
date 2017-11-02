@@ -158,6 +158,7 @@ export class VisitPage {
     this.createNewSchedule();
     this.addNotifications();
     this.getScheduleData();
+    this.startDay();
   }
 
   addNotifications() {
@@ -283,6 +284,8 @@ export class VisitPage {
                   placeId: this.placeId
                 });
               }
+              this.startDay();
+              this.addNotifications();
             }
           },
           {
@@ -363,6 +366,7 @@ export class VisitPage {
             text: 'Start day',
             handler: () => {
               let startTime =  moment().format("YYYY-MM-DD HH:mm");
+              let workDay : any = "Workday : 0 hrs";
               let TimeMileageModel = {
                 Id: this.newGuid(),
                 ServerId : 0,
@@ -371,7 +375,7 @@ export class VisitPage {
                 PlaceName: this.placeName,
                 StartTime : startTime,
                 EndTime: null,
-                Duration: "0",
+                Duration: workDay,
                 Mileage: "0",
                 IsSynched: 0,
                 DateCreated : moment().format("YYYY-MM-DD")
