@@ -32,15 +32,39 @@ export class ActivitiesPage {
         this.checkWorkStatus();
     }
 
-    checkWorkStatus() {
-        let startTime :any = Date.parse(localStorage.getItem('startTime'));
-        let endTime : any = Date.parse(moment().format("YYYY-MM-DD HH:mm"));
-        let duration : number = (endTime - startTime);
-        if(Number.isNaN(duration)) {
-            duration = 0;
-        }
-        this.workDay = "Workday: " + duration + " hrs";
+    parseMillisecondsIntoReadableTime(milliseconds){
+        //Get hours from milliseconds
+        var hours = milliseconds / (1000*60*60);
+        var absoluteHours = Math.floor(hours);
+        var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+      
+        //Get remainder from hours and convert to minutes
+        var minutes = (hours - absoluteHours) * 60;
+        var absoluteMinutes = Math.floor(minutes);
+        var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+      
+        //Get remainder from minutes and convert to seconds
+        var seconds = (minutes - absoluteMinutes) * 60;
+        var absoluteSeconds = Math.floor(seconds);
+        var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+      
+      
+        return h + ':' + m + ':' + s;
+      }
 
+    checkWorkStatus() {
+        let startTime :any = new Date(localStorage.getItem('startTime')).getTime();
+        let endTime : any =  new Date(moment().format()).getTime();
+        let duration : number = (endTime - startTime);
+        // console.log("starttime",startTime);
+        // console.log("endTime",endTime);
+        // console.log("duration",this.parseMillisecondsIntoReadableTime(duration));
+        if(Number.isNaN(duration) || startTime===0 || startTime==="0") {
+            duration = 0;
+            this.workDay = "Workday: 0:00 hrs";
+        }else{
+            this.workDay = "Workday: " + this.parseMillisecondsIntoReadableTime(duration) + " hrs";
+        }
         if(localStorage.getItem('workStatus')==="started") {
             this.start = false;
             this.pause = true;
@@ -79,13 +103,14 @@ export class ActivitiesPage {
               {
                 text: 'Start day',
                 handler: () => {
+                  let startTime =  moment().format();
                   let TimeMileageModel = {
                     Id: this.newGuid(),
                     ServerId : 0,
                     UserId: localStorage.getItem('userid'),
                     PlaceId: null,
                     PlaceName: null,
-                    StartTime : moment().format("YYYY-MM-DD HH:mm"),
+                    StartTime : startTime,
                     EndTime: null,
                     Duration: "0",
                     Mileage: "0",
@@ -93,6 +118,7 @@ export class ActivitiesPage {
                     DateCreated : moment().format("YYYY-MM-DD")
                   }
                   this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
+                  localStorage.setItem('startTime',startTime);
                   localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
                   localStorage.setItem('workStatus',"started");
                   this.checkWorkStatus();
