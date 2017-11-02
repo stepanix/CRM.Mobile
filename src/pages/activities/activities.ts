@@ -36,7 +36,7 @@ export class ActivitiesPage {
         let startTime :any = Date.parse(localStorage.getItem('startTime'));
         let endTime : any = Date.parse(moment().format("YYYY-MM-DD HH:mm"));
         let duration : number = (endTime - startTime);
-        if(Number.isNaN(duration)){
+        if(Number.isNaN(duration)) {
             duration = 0;
         }
         this.workDay = "Workday: " + duration + " hrs";
