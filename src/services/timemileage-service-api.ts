@@ -32,8 +32,8 @@ export class TimeMileageServiceApi {
           .catch((error:any) => Observable.throw(error.json() || 'Server error'));
      }
 
-     getTimeMileageSummary(userid:any,dateFrom:any,dateTo:any) : Observable<any[]> {
-        return  this.http.get(crmBaseUrl + "TimeMileage/Summary?userid=" + userid + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo  ,{headers: this.getHeader()})
+     getMileageRep(userid:any,dateFrom:any,dateTo:any) : Observable<any[]> {
+        return  this.http.get(crmBaseUrl + "TimeMileage/Rep?dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&rep=" + userid  ,{headers: this.getHeader()})
         .map((response: Response) => response.json())
         .catch((error:any) => Observable.throw(error.json() || 'Server error'));
      }

@@ -32,6 +32,8 @@ import { ListProductPage } from '../pages/listproduct/listproduct';
 import { OrdersPage } from '../pages/orders/orders';
 import { SummaryPage } from '../pages/summary/summary';
 import { OrderItemPage } from '../pages/orderitem/orderitem';
+import { TimeMileagePage } from '../pages/timemileage/timemileage';
+
 
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
@@ -69,7 +71,8 @@ import { Geolocation } from '@ionic-native/geolocation';
       RetailAuditFormPage,
       ListProductPage,
       OrdersPage,
-      OrderItemPage
+      OrderItemPage,
+      TimeMileagePage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -108,7 +111,8 @@ import { Geolocation } from '@ionic-native/geolocation';
       RetailAuditFormPage,
       ListProductPage,
       OrdersPage,
-      OrderItemPage
+      OrderItemPage,
+      TimeMileagePage
   ],
   providers: [
     Camera,

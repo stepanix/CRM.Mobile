@@ -1,0 +1,72 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <button ion-button menuToggle>
+
+      <ion-icon name="menu"></ion-icon>
+
+    </button>
+
+    <ion-title>Time & Mileage History</ion-title>
+
+    <ion-buttons end>
+
+      <button ion-button icon-only (click)="listReport()" style="background-color: #fafafa;color:#000000">
+        <ion-icon ios="ios-search" md="ios-search" style="color:#2E86C1!important"></ion-icon>
+      </button>
+
+      <page-network> </page-network>
+
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-select [(ngModel)]="repModel" (change)="listReport()">
+      <ion-option *ngFor="let item of reps" value="{{item.id}}">{{item.name}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item (click)="showCalendar('from')">
+    <ion-icon item-left name="calendar">
+      <span style="padding-left:10px;font-size: 15px!important">Date From</span>
+    </ion-icon>
+    <span style="float:right;padding-left:10px;font-size: 15px!important">
+      {{dateFrom}}
+    </span>
+  </ion-item>
+
+  <ion-item (click)="showCalendar('to')">
+    <ion-icon item-left name="calendar">
+      <span style="padding-left:10px;font-size: 15px!important;">Date To</span>
+    </ion-icon>
+    <span style="float:right;padding-left:10px;font-size: 15px!important">
+      {{dateTo}}
+    </span>
+  </ion-item>
+
+  <div *ngFor="let item of records">
+    <ion-card>
+      <ion-card-header>
+        <span style="color:#2E86C1!important">
+          <strong>{{item.date}}</strong>
+        </span>
+      </ion-card-header>
+      <ion-card-content>
+        <span style="float:left">Duration</span>
+        <span style="float:right">{{item.duration}}</span>
+      </ion-card-content>
+      <ion-card-content>
+        <span style="float:left">Mileage</span>
+        <span style="float:right">{{item.mileage}} km</span>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

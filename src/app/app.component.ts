@@ -17,6 +17,8 @@ import { LoginServiceApi, ScheduleServiceApi, UserServiceApi, NoteServiceApi, Or
 import { PlaceServiceApi, ProductServiceApi, FormServiceApi, PhotoServiceApi, ActivityServiceApi,TimeMileageServiceApi } from '../shared/shared';
 import { RetailAuditFormServiceApi, StatusServiceApi, FormValueServiceApi, ProductRetailAuditServiceApi } from '../shared/shared';
 
+import { TimeMileagePage } from '../pages/timemileage/timemileage';
+
 import { RepsAutoCompleteService } from '../services/reps-autocomplete-service-api';
 import { PlacesAutoCompleteService } from '../services/place-autocomplete-service-api';
 import { ProductRepoApi } from '../repos/product-repo-api';
@@ -90,6 +92,7 @@ export class MyApp {
     private placesPage;
     private summaryPage;
     private visitPage;
+    private timeMileage;
 
     pages: Array<{ title: string, component: any }>;
 
@@ -109,7 +112,7 @@ export class MyApp {
         this.placesPage = PlacesPage;
         this.summaryPage = SummaryPage;
         this.visitPage = VisitPage;
-        
+        this.timeMileage = TimeMileagePage;
         this.pages = [
         ];
     }
