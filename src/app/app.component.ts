@@ -133,13 +133,20 @@ export class MyApp {
 
             let watch = this.geolocation.watchPosition();
             watch.subscribe((data) => {
-                localStorage.setItem("lat", data.coords.latitude.toString());
-                localStorage.setItem("lng", data.coords.longitude.toString());
+                let prevLat : number = parseFloat(localStorage.getItem("lat"));
+                let prevLng : number = parseFloat(localStorage.getItem("lng"));
+                if(Number.isNaN(prevLat) ||Number.isNaN(prevLng)){
+                    localStorage.setItem("lat", data.coords.latitude.toString());
+                    localStorage.setItem("lng", data.coords.longitude.toString());
+                    localStorage.setItem("mileage","0");
+                }else{
+                    localStorage.setItem("mileage",this.computeMileage(prevLat,prevLng,data.coords.latitude,data.coords.longitude,"K").toString());
+                }
             });
         });
     }
 
-    distance(lat1, lon1, lat2, lon2, unit) {
+    computeMileage(lat1, lon1, lat2, lon2, unit) : number {
         var radlat1 = Math.PI * lat1/180
         var radlat2 = Math.PI * lat2/180
         var theta = lon1-lon2

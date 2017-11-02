@@ -178,7 +178,7 @@ export class ActivitiesPage {
                     StartTime : res.results[0].StartTime,
                     EndTime: moment().format("YYYY-MM-DD HH:mm"),
                     Duration: duration,
-                    Mileage: "0",
+                    Mileage: localStorage.getItem("mileage"),
                     IsSynched: 0,
                     DateCreated : res.results[0].DateCreated
                   };
