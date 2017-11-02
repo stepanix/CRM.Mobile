@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import 'rxjs/add/operator/map'
 import { ProductServiceApi, FormServiceApi, ScheduleServiceApi, UserServiceApi, PhotoServiceApi } from '../shared/shared';
 import { PlaceServiceApi, RetailAuditFormServiceApi, StatusServiceApi, OrderServiceApi, OrderItemServiceApi } from '../shared/shared';
-import { NoteServiceApi, ProductRetailAuditServiceApi, FormValueServiceApi, ActivityServiceApi } from '../shared/shared';
+import { NoteServiceApi, ProductRetailAuditServiceApi, FormValueServiceApi, ActivityServiceApi,TimeMileageServiceApi } from '../shared/shared';
 import { ProductRepoApi } from '../repos/product-repo-api';
 import { FormRepoApi } from '../repos/form-repo-api';
 import { PlaceRepoApi } from '../repos/place-repo-api';
@@ -17,6 +17,7 @@ import { ProductRetailRepoApi } from '../repos/productretailaudit-repo-api';
 import { ActivityRepoApi } from '../repos/activity-repo-api';
 import { OrderRepoApi } from '../repos/order-repo-api';
 import { OrderItemRepoApi } from '../repos/orderitem-repo-api';
+import { TimeMileageRepoApi } from '../repos/timemileage-repo-api';
 
 @Injectable()
 export class SyncServiceApi {
@@ -25,7 +26,9 @@ export class SyncServiceApi {
     scheduleTemp: any[] = [];
     ordersTemp: any[];
 
-    constructor(private orderItemServiceApi: OrderItemServiceApi,
+    constructor(private timeMileageServiceApi : TimeMileageServiceApi,
+        private timeMileageRepoApi : TimeMileageRepoApi,
+        private orderItemServiceApi: OrderItemServiceApi,
         private orderItemRepoApi: OrderItemRepoApi,
         private orderServiceApi: OrderServiceApi,
         private orderRepoApi: OrderRepoApi,
@@ -315,6 +318,7 @@ export class SyncServiceApi {
         this.downloadProductsApi();
         this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
+        this.uploadTimeMileageToServer();
     }
 
     uploadProductRetailAuditToServer() {
@@ -364,6 +368,32 @@ export class SyncServiceApi {
                 .subscribe(
                 res => {
                     this.formValueRepoApi.updateSynched(res);
+                }, err => {
+                    //console.log(err);
+                    return;
+                });
+        });
+    }
+
+    uploadTimeMileageToServer() {
+        let timeMileagevalues = [];
+        this.timeMileageRepoApi.listUnSynched().then((res) => {
+            for (var i = 0; i < res.results.length; i++) {
+                timeMileagevalues.push({
+                    id: 0,
+                    syncId: res.results[i].Id,
+                    userId: res.results[i].UserId,
+                    startTime: res.results[i].StartTime,
+                    endTime: res.results[i].EndTime,
+                    duration : res.results[i].Duration,
+                    mileage : res.results[i].Mileage,
+                    dateCreated : res.results[i].DateCreated
+                });
+            }
+            this.timeMileageServiceApi.addTimeMileageList(timeMileagevalues)
+                .subscribe(
+                res => {
+                    this.timeMileageRepoApi.updateSynched(res);
                 }, err => {
                     //console.log(err);
                     return;

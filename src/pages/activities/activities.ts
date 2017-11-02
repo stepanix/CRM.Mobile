@@ -165,10 +165,9 @@ export class ActivitiesPage {
     setEndTimeMileage() {
         this.timeMileageRepoAPi.searchByDate(localStorage.getItem('lastMileageDate')).then((res) => {
             if (res.results.length > 0) {
-                let startTime :any = Date.parse(res.results[0].StartTime);
-                let endTime : any = moment().format("YYYY-MM-DD HH:mm");
-                let endTimeConverted : any = Date.parse(moment().format("YYYY-MM-DD HH:mm"));
-                let duration : number = (endTimeConverted - startTime);
+                let startTime :any = new Date(localStorage.getItem('startTime')).getTime();
+                let endTime : any =  new Date(moment().format()).getTime();
+                let duration : number = (endTime - startTime);
                 this.TimeMileageModel = {
                     Id: res.results[0].Id,
                     ServerId : res.results[0].Id,
