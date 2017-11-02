@@ -256,6 +256,7 @@ export class ListProductPage {
       }
     });
   }
+  
 
   openOrder(item) {
     this.navCtrl.push(OrderItemPage, {

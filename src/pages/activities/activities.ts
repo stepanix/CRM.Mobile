@@ -29,7 +29,7 @@ export class ActivitiesPage {
         private loading: LoadingController,
         public navCtrl: NavController,
         public navParams: NavParams) {
-        //this.getWorkDuration();
+        this.getWorkDuration();
         this.checkWorkStatus();
     }
 

@@ -32,6 +32,10 @@
             <button ion-item no-lines (click)="openOrder(item)" item-right style="width:100%;background-color:white">
                 <span style="color:#666;font-size: 1.5rem; float: left;font-size: 18px; padding-left: 10px;">
                     {{item.name}}
+                    <br>
+                    <span style="color:#2E86C1;font-size: 1.5rem; float: left;font-size: 14px;">
+                        $ {{item.price}}
+                    </span>
                 </span>
                 <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right (click)="openOrder(item)"></ion-icon>
             </button>

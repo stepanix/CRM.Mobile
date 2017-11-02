@@ -161,24 +161,24 @@ export class MyApp {
     }
 
     ngOnInit() {
-        this.getCheckedInVisit();
+        //this.getCheckedInVisit();
     }
 
-    getCheckedInVisit() {
-        this.scheduleRepoApi.getChekedInVisit().then((res) => {
-            if (res.results.length > 0) {
-                this.nav.setRoot(this.visitPage, {
-                    scheduleId: res.results[0].RepoId,
-                    repoId: res.results[0].RepoId,
-                    placeId: res.results[0].PlaceId,
-                    placeName: res.results[0].PlaceName,
-                    streetAddress: res.results[0].PlaceAddress,
-                    lat: res.results[0].Latitude,
-                    lng: res.results[0].Longitude
-                });
-            }
-        });
-    }
+    // getCheckedInVisit() {
+    //     this.scheduleRepoApi.getChekedInVisit().then((res) => {
+    //         if (res.results.length > 0) {
+    //             this.nav.setRoot(this.visitPage, {
+    //                 scheduleId: res.results[0].RepoId,
+    //                 repoId: res.results[0].RepoId,
+    //                 placeId: res.results[0].PlaceId,
+    //                 placeName: res.results[0].PlaceName,
+    //                 streetAddress: res.results[0].PlaceAddress,
+    //                 lat: res.results[0].Latitude,
+    //                 lng: res.results[0].Longitude
+    //             });
+    //         }
+    //     });
+    // }
 
     openPage(page) {
         this.nav.setRoot(page.component);
