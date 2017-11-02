@@ -26,7 +26,7 @@ export class TimeMileageRepoApi {
         }
      }
 
-     updateMileage(dtoData:any) {        
+     updateMileage(dtoData:any) {
         var data = new QueryBuilder(new TimeMileageModel());
         data.where("DateCreated","=",dtoData.DateCreated).update(dtoData);
      }
