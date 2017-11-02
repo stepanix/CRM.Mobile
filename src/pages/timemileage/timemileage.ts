@@ -70,7 +70,6 @@ export class TimeMileagePage {
                 }); 
             }
           }
-          //this.records = res;
           this.loader.dismiss();
         }, err => {
           this.loader.dismiss();
