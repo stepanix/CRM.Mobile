@@ -208,8 +208,8 @@ export class VisitPage {
       Id: this.scheduleId,
       RepoId: this.scheduleId,
       ServerId: 0,
-      PlaceId: this.placeId,
-      PlaceName: this.placeName,
+      PlaceId: null,
+      PlaceName: null,
       PlaceAddress: this.parseStreetAddress(this.streetAddress),
       UserId: localStorage.getItem('userid'),
       VisitDate: moment().format("YYYY-MM-DD") + "T00:00:00",
@@ -344,8 +344,8 @@ export class VisitPage {
   }
 
   startDay() {
-    if(localStorage.getItem('mileageDate') === moment().format("YYYY-MM-DD").toString() 
-    || localStorage.getItem('workStatus')==="started"){
+    if(localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString() 
+    || localStorage.getItem('workStatus')==="started") {
         return;
     }else{
       let alertConfirm = this.alertCtrl.create({
@@ -375,7 +375,7 @@ export class VisitPage {
                 IsSynched: 0,
                 DateCreated : moment().format("YYYY-MM-DD HH:mm")
               }
-              localStorage.setItem('mileageDate',moment().format("YYYY-MM-DD"));
+              localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
               localStorage.setItem('workStatus',"started");
               this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
             }

@@ -46,7 +46,7 @@ export class ActivitiesPage {
             this.pause = false;
             this.stop = true;
         }
-        if(localStorage.getItem('mileageDate') === moment().format("YYYY-MM-DD").toString()){
+        if(localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString()){
             this.start = false;
             this.pause = false;
             this.stop = false;
