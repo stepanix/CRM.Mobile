@@ -19,6 +19,7 @@ export class ActivitiesPage {
     start :boolean = true;
     pause : boolean = false;
     stop : boolean = false;
+    workDay : any = "Workday : 0 hrs";
     TimeMileageModel : any = {};
 
     constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
@@ -127,12 +128,13 @@ export class ActivitiesPage {
           alertConfirm.present();
     }
 
-    setEndTimeMileage(){
+    setEndTimeMileage() {
         this.timeMileageRepoAPi.searchByDate(localStorage.getItem('lastMileageDate')).then((res) => {
             if (res.results.length > 0) {
                 let startTime :any = Date.parse(res.results[0].StartTime);
-                let endTime : any = Date.parse(moment().format("YYYY-MM-DD HH:mm"));
-                let duration : number = (endTime - startTime);
+                let endTime : any = moment().format("YYYY-MM-DD HH:mm");
+                let endTimeConverted : any = Date.parse(moment().format("YYYY-MM-DD HH:mm"));
+                let duration : number = (endTimeConverted - startTime);
                 this.TimeMileageModel = {
                     Id: res.results[0].Id,
                     ServerId : res.results[0].Id,
@@ -140,12 +142,13 @@ export class ActivitiesPage {
                     PlaceId: null,
                     PlaceName: null,
                     StartTime : res.results[0].StartTime,
-                    EndTime: endTime,
+                    EndTime: moment().format("YYYY-MM-DD HH:mm"),
                     Duration: duration,
                     Mileage: "0",
                     IsSynched: 0,
                     DateCreated : res.results[0].DateCreated
                   };
+                  this.workDay = "Workday: " + duration + " hrs";
                   this.timeMileageRepoAPi.updateMileage(this.TimeMileageModel);
                   localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
                   localStorage.setItem('workStatus',"stopped");
