@@ -1,9 +1,10 @@
 import { Component,ViewChild  } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 import {OrderRepoApi} from '../../repos/order-repo-api';
+import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
 import {ActivityRepoApi} from '../../repos/activity-repo-api';
 
 
@@ -34,7 +35,9 @@ export class OrdersPage {
       'canvasHeight': 100
   };
 
-  constructor(private activityRepoApi : ActivityRepoApi,
+  constructor(public orderItemRepoApi: OrderItemRepoApi,
+              public atrCtrl: AlertController,
+              private activityRepoApi : ActivityRepoApi,
               private orderRepoApi : OrderRepoApi,
               private calendar : DatePicker,
               public navCtrl : NavController,
@@ -70,6 +73,32 @@ export class OrdersPage {
             }
       });
   }
+
+  deleteOrder() {
+    let alertConfirm = this.atrCtrl.create({
+      title: 'Delete Order',
+      message: 'Are you sure you want to delete this order ?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.orderItemRepoApi.deleteOrderItems(this.orderId);
+            this.orderRepoApi.deleteOrder(this.orderId);
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alertConfirm.present();
+}
+
 
   getOrdersRepo() {
     this.orderRepoApi

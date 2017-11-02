@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams,AlertController } from 'ionic-angular';
 import { ProductRepoApi } from '../../repos/product-repo-api';
 import { OrderRepoApi } from '../../repos/order-repo-api';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
@@ -28,7 +28,8 @@ export class ListProductPage {
   orderQty: number = 0;
  
 
-  constructor(private barcodeScanner: BarcodeScanner,
+  constructor(public atrCtrl: AlertController,
+    private barcodeScanner: BarcodeScanner,
     public orderItemRepoApi: OrderItemRepoApi,
     public orderRepoApi: OrderRepoApi,
     public productRepoApi: ProductRepoApi,
@@ -133,7 +134,9 @@ export class ListProductPage {
         this.valueOfItemsOrdered = parseFloat(totalValue.toString()).toFixed(2);
         this.orderModel.Quantity = this.orderQty;
         this.orderModel.Amount = this.valueOfItemsOrdered;
+        this.orderModel.Id = this.orderId;
         this.orderRepoApi.updateRecord(this.orderModel);
+        console.log("order",this.orderModel);
       } else {
         this.valueOfItemsOrdered = "0";
         this.totalItems = 0;
@@ -142,9 +145,28 @@ export class ListProductPage {
   }
 
   deleteOrder() {
-    this.orderItemRepoApi.deleteOrderItems(this.orderId);
-    this.orderRepoApi.deleteOrder(this.orderId);
-    this.navCtrl.pop();
+      let alertConfirm = this.atrCtrl.create({
+        title: 'Delete Order',
+        message: 'Are you sure you want to delete this order ?',
+        buttons: [
+          {
+            text: 'No',
+            role: 'cancel',
+            handler: () => {
+              console.log('No clicked');
+            }
+          },
+          {
+            text: 'Yes',
+            handler: () => {
+              this.orderItemRepoApi.deleteOrderItems(this.orderId);
+              this.orderRepoApi.deleteOrder(this.orderId);
+              this.navCtrl.pop();
+            }
+          }
+        ]
+      });
+      alertConfirm.present();
   }
 
   createNewOrder() {

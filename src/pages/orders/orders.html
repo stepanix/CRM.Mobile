@@ -147,3 +147,12 @@
   <div style="text-align: center;"><button ion-button [hidden]="OrderModel.Signature===''" (click)="clearSignature()" style="width:60%!important">Clear</button> </div>
 
 </ion-content>
+
+<ion-footer>
+    <span style="padding-top:10px!important; font-size:20px!important">
+        <strong>$ {{OrderModel.TotalAmount}} / {{totalItems}} items</strong>
+    </span>
+    <span style="float:right;padding-right:50px!important; font-size:25px!important">
+        <ion-icon ios="md-trash" md="md-trash" item-right (click)="deleteOrder()"></ion-icon>
+    </span>
+</ion-footer>
