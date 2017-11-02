@@ -32,7 +32,13 @@ export class ActivitiesPage {
         this.checkWorkStatus();
     }
 
-    checkWorkStatus(){
+    checkWorkStatus() {
+        let startTime :any = Date.parse(localStorage.getItem('startTime'));
+        let endTime : any = Date.parse(moment().format("YYYY-MM-DD HH:mm"));
+        let duration : number = (endTime - startTime);
+
+        this.workDay = "Workday: " + duration + " hrs";
+
         if(localStorage.getItem('workStatus')==="started") {
             this.start = false;
             this.pause = true;

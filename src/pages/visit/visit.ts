@@ -362,19 +362,21 @@ export class VisitPage {
           {
             text: 'Start day',
             handler: () => {
+              let startTime =  moment().format("YYYY-MM-DD HH:mm");
               let TimeMileageModel = {
                 Id: this.newGuid(),
                 ServerId : 0,
                 UserId: localStorage.getItem('userid'),
                 PlaceId: this.placeId,
                 PlaceName: this.placeName,
-                StartTime : moment().format("YYYY-MM-DD HH:mm"),
+                StartTime : startTime,
                 EndTime: null,
                 Duration: "0",
                 Mileage: "0",
                 IsSynched: 0,
                 DateCreated : moment().format("YYYY-MM-DD")
               }
+              localStorage.setItem('startTime',startTime);
               localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
               localStorage.setItem('workStatus',"started");
               this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
