@@ -29,7 +29,20 @@ export class ActivitiesPage {
         private loading: LoadingController,
         public navCtrl: NavController,
         public navParams: NavParams) {
+        //this.getWorkDuration();
         this.checkWorkStatus();
+    }
+
+    getWorkDuration(){
+        if(localStorage.getItem('workStatus') === "stopped"){
+            this.timeMileageRepoAPi
+            .searchByDate(moment().format("YYYY-MM-DD"))
+            .then((res) => {
+                if(res.results.length > 0){
+                    this.workDay = res.results[0].Duration;
+                }
+            });
+        }
     }
 
     parseMillisecondsIntoReadableTime(milliseconds){
@@ -56,14 +69,16 @@ export class ActivitiesPage {
         let startTime :any = new Date(localStorage.getItem('startTime')).getTime();
         let endTime : any =  new Date(moment().format()).getTime();
         let duration : number = (endTime - startTime);
-        // console.log("starttime",startTime);
-        // console.log("endTime",endTime);
-        // console.log("duration",this.parseMillisecondsIntoReadableTime(duration));
+        console.log("starttime",startTime);
+        console.log("endTime",endTime);
+        console.log("duration",this.parseMillisecondsIntoReadableTime(duration));
         if(Number.isNaN(duration) || startTime===0 || startTime==="0") {
             duration = 0;
             this.workDay = "Workday: 0:00 hrs";
         }else{
-            this.workDay = "Workday: " + this.parseMillisecondsIntoReadableTime(duration) + " hrs";
+            if(localStorage.getItem('workStatus') !== "stopped"){
+                this.workDay = "Workday: " + this.parseMillisecondsIntoReadableTime(duration) + " hrs";
+            }
         }
         if(localStorage.getItem('workStatus')==="started") {
             this.start = false;
@@ -112,7 +127,7 @@ export class ActivitiesPage {
                     PlaceName: null,
                     StartTime : startTime,
                     EndTime: null,
-                    Duration: "0",
+                    Duration: this.workDay,
                     Mileage: "0",
                     IsSynched: 0,
                     DateCreated : moment().format("YYYY-MM-DD")
@@ -168,6 +183,7 @@ export class ActivitiesPage {
                 let startTime :any = new Date(localStorage.getItem('startTime')).getTime();
                 let endTime : any =  new Date(moment().format()).getTime();
                 let duration : number = (endTime - startTime);
+                this.workDay = "Workday: " + this.parseMillisecondsIntoReadableTime(duration) + " hrs";
                 this.TimeMileageModel = {
                     Id: res.results[0].Id,
                     ServerId : res.results[0].Id,
@@ -176,12 +192,12 @@ export class ActivitiesPage {
                     PlaceName: null,
                     StartTime : res.results[0].StartTime,
                     EndTime: moment().format("YYYY-MM-DD HH:mm"),
-                    Duration: duration,
+                    Duration: this.workDay,
                     Mileage: localStorage.getItem("mileage"),
                     IsSynched: 0,
                     DateCreated : res.results[0].DateCreated
                   };
-                  this.workDay = "Workday: " + duration + " hrs";
+                  //this.workDay = "Workday: " + duration + " hrs";
                   this.timeMileageRepoAPi.updateMileage(this.TimeMileageModel);
                   localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
                   localStorage.setItem('workStatus',"stopped");
