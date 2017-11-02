@@ -63,8 +63,9 @@ export class OrderRepoApi {
      }
 
      listByScheduleId(scheduleId):Promise<any> {
+         console.log("orderscheduleid",scheduleId);
         var data = new QueryBuilder(new OrderModel());
-        var results = data.where("ScheduleId", "=", scheduleId).get();
+        var results = data.where("ScheduleRepoId", "=", scheduleId).get();
         return results;
      }
 

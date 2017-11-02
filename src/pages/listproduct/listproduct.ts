@@ -178,6 +178,7 @@ export class ListProductPage {
       RepoId: this.orderId,
       PlaceId: this.placeId,
       ScheduleId: this.scheduleId,
+      ScheduleRepoId : this.scheduleId,
       ServerId: 0,
       Quantity: 0,
       Amount: "0",
@@ -256,7 +257,7 @@ export class ListProductPage {
       }
     });
   }
-  
+
 
   openOrder(item) {
     this.navCtrl.push(OrderItemPage, {

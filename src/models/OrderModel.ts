@@ -22,6 +22,7 @@ export class OrderModel extends BaseModel {
         Note: 'TEXT',
         Signature: 'TEXT',
         IsSynched: 'INTEGER(1)',
-        RepoId : 'TEXT'
+        RepoId : 'TEXT',
+        ScheduleRepoId : 'TEXT'
     }
 }
