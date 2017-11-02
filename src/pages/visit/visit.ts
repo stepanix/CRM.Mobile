@@ -373,7 +373,7 @@ export class VisitPage {
                 Duration: "0",
                 Mileage: "0",
                 IsSynched: 0,
-                DateCreated : moment().format("YYYY-MM-DD HH:mm")
+                DateCreated : moment().format("YYYY-MM-DD")
               }
               localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
               localStorage.setItem('workStatus',"started");

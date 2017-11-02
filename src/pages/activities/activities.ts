@@ -19,6 +19,7 @@ export class ActivitiesPage {
     start :boolean = true;
     pause : boolean = false;
     stop : boolean = false;
+    TimeMileageModel : any = {};
 
     constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
         public alertCtrl: AlertController,
@@ -46,7 +47,8 @@ export class ActivitiesPage {
             this.pause = false;
             this.stop = true;
         }
-        if(localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString()){
+        if(localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString() 
+        && localStorage.getItem('workStatus') !== "started"){
             this.start = false;
             this.pause = false;
             this.stop = false;
@@ -79,10 +81,10 @@ export class ActivitiesPage {
                     Duration: "0",
                     Mileage: "0",
                     IsSynched: 0,
-                    DateCreated : moment().format("YYYY-MM-DD HH:mm")
+                    DateCreated : moment().format("YYYY-MM-DD")
                   }
                   this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
-                  localStorage.setItem('mileageDate',moment().format("YYYY-MM-DD"));
+                  localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
                   localStorage.setItem('workStatus',"started");
                   this.checkWorkStatus();
                 }
@@ -103,8 +105,53 @@ export class ActivitiesPage {
       }
 
     stopWork(){
-        localStorage.setItem('workStatus',"stopped");
-        this.checkWorkStatus();
+        let alertConfirm = this.alertCtrl.create({
+            title: '',
+            message: 'Are you sure you want to end your day ?',
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => {
+                  console.log('No clicked');
+                }
+              },
+              {
+                text: 'End day',
+                handler: () => {
+                  this.setEndTimeMileage();
+                }
+              }
+            ]
+          });
+          alertConfirm.present();
+    }
+
+    setEndTimeMileage(){
+        this.timeMileageRepoAPi.searchByDate(localStorage.getItem('lastMileageDate')).then((res) => {
+            if (res.results.length > 0) {
+                let startTime :any = Date.parse(res.results[0].StartTime);
+                let endTime : any = Date.parse(moment().format("YYYY-MM-DD HH:mm"));
+                let duration : number = (endTime - startTime);
+                this.TimeMileageModel = {
+                    Id: res.results[0].Id,
+                    ServerId : res.results[0].Id,
+                    UserId: localStorage.getItem('userid'),
+                    PlaceId: null,
+                    PlaceName: null,
+                    StartTime : res.results[0].StartTime,
+                    EndTime: endTime,
+                    Duration: duration,
+                    Mileage: "0",
+                    IsSynched: 0,
+                    DateCreated : res.results[0].DateCreated
+                  };
+                  this.timeMileageRepoAPi.updateMileage(this.TimeMileageModel);
+                  localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
+                  localStorage.setItem('workStatus',"stopped");
+                  this.checkWorkStatus();
+              }
+          });
     }
 
     pauseWork(){

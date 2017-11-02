@@ -43,9 +43,9 @@ export class TimeMileageRepoApi {
         data.create(dataDto);
      }
 
-     list(placeId:string):Promise<any> {
+     searchByDate(dateCreated:any):Promise<any> {
         var data = new QueryBuilder(new TimeMileageModel());
-        var results = data.where("PlaceId", "=", placeId).get();
+        var results = data.where("DateCreated", "=", dateCreated).get();
         return results;
      }
 
