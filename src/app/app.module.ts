@@ -42,6 +42,7 @@ import { SignaturePadModule } from 'angular2-signaturepad';
 
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { Geolocation } from '@ionic-native/geolocation';
 
 
 @NgModule({
@@ -115,6 +116,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     SplashScreen,
     LocalNotifications,
     BarcodeScanner,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

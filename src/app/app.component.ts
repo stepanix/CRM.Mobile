@@ -35,6 +35,8 @@ import { OrderRepoApi } from '../repos/order-repo-api';
 import { OrderItemRepoApi } from '../repos/orderitem-repo-api';
 import { TimeMileageRepoApi } from '../repos/timemileage-repo-api';
 
+import { Geolocation } from '@ionic-native/geolocation';
+
 @Component({
     templateUrl: 'app.html',
     providers: [
@@ -91,7 +93,8 @@ export class MyApp {
 
     pages: Array<{ title: string, component: any }>;
 
-    constructor(private scheduleRepoApi: ScheduleRepoApi,
+    constructor(private geolocation: Geolocation,
+        private scheduleRepoApi: ScheduleRepoApi,
         private network: Network,
         private loading: LoadingController,
         private syncServiceApi: SyncServiceApi,
@@ -127,7 +130,27 @@ export class MyApp {
                 localStorage.setItem("isOnline", "true");
                 console.log("isOnline = true");
             });
+
+            let watch = this.geolocation.watchPosition();
+            watch.subscribe((data) => {
+                localStorage.setItem("lat", data.coords.latitude.toString());
+                localStorage.setItem("lng", data.coords.longitude.toString());
+            });
         });
+    }
+
+    distance(lat1, lon1, lat2, lon2, unit) {
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180/Math.PI
+        dist = dist * 60 * 1.1515
+        if (unit=="K") { dist = dist * 1.609344 }
+        if (unit=="N") { dist = dist * 0.8684 }
+        return dist
     }
 
     ngOnInit() {
