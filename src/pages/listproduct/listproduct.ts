@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams,AlertController,LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { ProductRepoApi } from '../../repos/product-repo-api';
 import { OrderRepoApi } from '../../repos/order-repo-api';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
@@ -27,11 +27,11 @@ export class ListProductPage {
   orderItemsTemp: any[] = [];
   orderId: any;
   orderQty: number = 0;
-  loader : any;
- 
+  loader: any;
 
-  constructor(private syncServiceApi: SyncServiceApi,
-    private loading: LoadingController,public atrCtrl: AlertController,
+
+  constructor(private alertCtrl: AlertController, private syncServiceApi: SyncServiceApi,
+    private loading: LoadingController, public atrCtrl: AlertController,
     private barcodeScanner: BarcodeScanner,
     public orderItemRepoApi: OrderItemRepoApi,
     public orderRepoApi: OrderRepoApi,
@@ -48,19 +48,37 @@ export class ListProductPage {
   ionViewDidLoad() {
   }
 
-  syncData(){
-    this.loader = this.loading.create({
-      content: 'Synching data, please wait...',
+  submitOrder() {
+    let alertConfirm = this.alertCtrl.create({
+      title: '',
+      message: 'Are you sure you want to submit this order ? you will not be able to make changes after submitting',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
+          }
+        },
+        {
+          text: 'Submit Order',
+          handler: () => {
+            this.orderRepoApi.submit(this.scheduleId);
+            this.orderItemRepoApi.submit(this.orderId);
+            this.loader = this.loading.create({
+              content: 'Submitting orders, please wait...',
+            });
+            this.loader.present().then(() => {
+              this.syncServiceApi.downloadServerData();
+              this.navCtrl.pop();
+              this.loader.dismiss();
+            });
+          }
+        }
+      ]
     });
-    this.loader.present().then(() => {
-        this.syncServiceApi.downloadServerData();
-        this.loader.dismiss();
-    });
-  }
+    alertConfirm.present();
 
-  submitOrder(){    
-    this.orderRepoApi.submit(this.scheduleId);
-    this.orderItemRepoApi.submit(this.orderId);
   }
 
   getItems(ev: any) {
@@ -75,7 +93,7 @@ export class ListProductPage {
     this.barcodeScanner.scan().then((barcode) => {
       this.searchProduct(barcode);
     }, (err) => {
-        console.log("barcode error", err);
+      console.log("barcode error", err);
     });
   }
 
@@ -146,7 +164,7 @@ export class ListProductPage {
             IsSynched: 0
           });
           this.orderQty += parseInt(res.results[i].Quantity);
-          if(parseInt(res.results[i].Quantity)>0){
+          if (parseInt(res.results[i].Quantity) > 0) {
             this.totalItems += 1;
           }
           totalValue += parseFloat(parseFloat((res.results[i].Quantity * res.results[i].Amount).toString()).toFixed(2));
@@ -156,7 +174,7 @@ export class ListProductPage {
         this.orderModel.Amount = this.valueOfItemsOrdered;
         this.orderModel.Id = this.orderId;
         this.orderRepoApi.updateRecord(this.orderModel);
-        console.log("order",this.orderModel);
+        console.log("order", this.orderModel);
       } else {
         this.valueOfItemsOrdered = "0";
         this.totalItems = 0;
@@ -165,28 +183,28 @@ export class ListProductPage {
   }
 
   deleteOrder() {
-      let alertConfirm = this.atrCtrl.create({
-        title: 'Delete Order',
-        message: 'Are you sure you want to delete this order ?',
-        buttons: [
-          {
-            text: 'No',
-            role: 'cancel',
-            handler: () => {
-              console.log('No clicked');
-            }
-          },
-          {
-            text: 'Yes',
-            handler: () => {
-              this.orderItemRepoApi.deleteOrderItems(this.orderId);
-              this.orderRepoApi.deleteOrder(this.orderId);
-              this.navCtrl.pop();
-            }
+    let alertConfirm = this.atrCtrl.create({
+      title: 'Delete Order',
+      message: 'Are you sure you want to delete this order ?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('No clicked');
           }
-        ]
-      });
-      alertConfirm.present();
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.orderItemRepoApi.deleteOrderItems(this.orderId);
+            this.orderRepoApi.deleteOrder(this.orderId);
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    alertConfirm.present();
   }
 
   createNewOrder() {
@@ -198,7 +216,7 @@ export class ListProductPage {
       RepoId: this.orderId,
       PlaceId: this.placeId,
       ScheduleId: this.scheduleId,
-      ScheduleRepoId : this.orderId,
+      ScheduleRepoId: this.orderId,
       ServerId: 0,
       Quantity: 0,
       Amount: "0",
