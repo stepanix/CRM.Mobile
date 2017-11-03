@@ -69,7 +69,6 @@ export class OrderRepoApi {
      }
 
      listByScheduleId(scheduleId):Promise<any> {
-         console.log("orderscheduleid",scheduleId);
         var data = new QueryBuilder(new OrderModel());
         var results = data.where("ScheduleId", "=", scheduleId).get();
         return results;
@@ -77,7 +76,7 @@ export class OrderRepoApi {
 
      listUnSynched() : Promise<any> {
         var data = new QueryBuilder(new OrderModel());
-        var results = data.where("IsSynched", "=", "0").get();
+        var results = data.where("Submitted", "=", "1").get();
         return results;
      }
 

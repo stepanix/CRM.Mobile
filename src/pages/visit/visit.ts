@@ -59,7 +59,7 @@ export class VisitPage {
 
   ionViewWillEnter() {
     this.repoId = this.navParams.get('repoId');
-    this.scheduleId = this.navParams.get('scheduleId');
+    this.scheduleId = this.navParams.get('repoId');
     this.placeId = this.navParams.get('placeId');
     this.placeName = this.navParams.get('placeName');
     this.streetAddress = this.navParams.get('streetAddress');

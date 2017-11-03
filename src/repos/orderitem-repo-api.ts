@@ -69,7 +69,7 @@ export class OrderItemRepoApi {
 
      listUnSynched() : Promise<any> {
         var data = new QueryBuilder(new OrderItemModel());
-        var results = data.where("IsSynched", "=", "0").get();
+        var results = data.where("Submitted", "=", "1").get();
         return results;
      }
 
