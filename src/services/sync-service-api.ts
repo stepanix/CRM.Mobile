@@ -313,10 +313,10 @@ export class SyncServiceApi {
     }
 
     downloadServerData() {
+        this.downloadProductsApi();
         this.syncPlaceWithServer();
         this.downloadUserApi();
-        this.downloadStatusApi();
-        this.downloadProductsApi();
+        this.downloadStatusApi();        
         this.downloadRetailAuditFormsApi();
         this.downloadFormsApi();
         this.uploadTimeMileageToServer();

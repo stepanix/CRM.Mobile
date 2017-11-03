@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController,Events  } from 'ionic-angular';
 import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
 import { ListRetailAuditFormPage } from '../listretailauditform/listretailauditform';
@@ -30,12 +30,12 @@ export class VisitPage {
   lat: any;
   lng: any;
   dataDtoIn: any = {};
-  hideCheckOutButton: boolean = true;
+  hideCheckOutButton: boolean = false;
   visitStatus = "";
   repoId: any;
   activities: any[] = [];
 
-  constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
+  constructor(public events: Events,private timeMileageRepoAPi : TimeMileageRepoApi,
     private localNotifications: LocalNotifications,
     private activityRepoApi: ActivityRepoApi,
     private scheduleRepoApi: ScheduleRepoApi,
@@ -147,8 +147,10 @@ export class VisitPage {
   enterSchedule() {
     if (this.dataDtoIn.RepoId === undefined) {
       this.createNewSchedule();
+      //this.events.publish('checkinstatus', "checked in", Date.now());
     } else {
       this.updateScheduleStatus();
+      //this.events.publish('checkinstatus', "schedule updated", Date.now());
     }
   }
 
@@ -159,6 +161,7 @@ export class VisitPage {
     this.addNotifications();
     this.getScheduleData();
     this.startDay();
+    this.events.publish('checkedin', "checkedin", Date.now());
   }
 
   addNotifications() {
@@ -359,12 +362,14 @@ export class VisitPage {
             text: 'Cancel',
             role: 'cancel',
             handler: () => {
+              this.hideCheckOutButton = false;
               console.log('No clicked');
             }
           },
           {
             text: 'Start day',
             handler: () => {
+              this.hideCheckOutButton = false;
               let startTime =  moment().format("YYYY-MM-DD HH:mm");
               let workDay : any = "Workday : 0 hrs";
               let TimeMileageModel = {

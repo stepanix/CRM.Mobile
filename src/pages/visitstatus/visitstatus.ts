@@ -23,8 +23,12 @@ export class VisitStatusPage {
     private scheduleRepoApi : ScheduleRepoApi,
     public navCtrl : NavController,
     public navParams : NavParams) {
-      this.getCheckedInVisit();
+        this.getCheckedInVisit();
   }
+
+  ionViewCanEnter() {
+    this.getCheckedInVisit();
+   }
 
    getCheckedInVisit() {
       this.scheduleRepoApi.getChekedInVisit().then((res) => {
