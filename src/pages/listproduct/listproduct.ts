@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams,AlertController } from 'ionic-angular';
+import { NavController, NavParams,AlertController,LoadingController } from 'ionic-angular';
 import { ProductRepoApi } from '../../repos/product-repo-api';
 import { OrderRepoApi } from '../../repos/order-repo-api';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
@@ -7,6 +7,7 @@ import { OrdersPage } from '../orders/orders';
 import { OrderItemPage } from '../orderitem/orderitem';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import * as moment from 'moment';
+import { SyncServiceApi } from '../../services/sync-service-api';
 
 
 @Component({
@@ -26,9 +27,11 @@ export class ListProductPage {
   orderItemsTemp: any[] = [];
   orderId: any;
   orderQty: number = 0;
+  loader : any;
  
 
-  constructor(public atrCtrl: AlertController,
+  constructor(private syncServiceApi: SyncServiceApi,
+    private loading: LoadingController,public atrCtrl: AlertController,
     private barcodeScanner: BarcodeScanner,
     public orderItemRepoApi: OrderItemRepoApi,
     public orderRepoApi: OrderRepoApi,
@@ -43,6 +46,21 @@ export class ListProductPage {
   }
 
   ionViewDidLoad() {
+  }
+
+  syncData(){
+    this.loader = this.loading.create({
+      content: 'Synching data, please wait...',
+    });
+    this.loader.present().then(() => {
+        this.syncServiceApi.downloadServerData();
+        this.loader.dismiss();
+    });
+  }
+
+  submitOrder(){    
+    this.orderRepoApi.submit(this.scheduleId);
+    this.orderItemRepoApi.submit(this.orderId);
   }
 
   getItems(ev: any) {

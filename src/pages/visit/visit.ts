@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController,Events  } from 'ionic-angular';
+import { NavController, NavParams, AlertController,Events,LoadingController  } from 'ionic-angular';
 import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
 import { ListRetailAuditFormPage } from '../listretailauditform/listretailauditform';
@@ -15,6 +15,8 @@ import { OrdersPage } from '../orders/orders';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+
+
 
 @Component({
   selector: 'page-visit',
@@ -34,8 +36,10 @@ export class VisitPage {
   visitStatus = "";
   repoId: any;
   activities: any[] = [];
+  
 
-  constructor(public events: Events,private timeMileageRepoAPi : TimeMileageRepoApi,
+  constructor(
+    private timeMileageRepoAPi : TimeMileageRepoApi,
     private localNotifications: LocalNotifications,
     private activityRepoApi: ActivityRepoApi,
     private scheduleRepoApi: ScheduleRepoApi,
@@ -46,7 +50,7 @@ export class VisitPage {
 
   ionViewDidLoad() {
   }
-
+  
   openSchedule() {
     this.navCtrl.setRoot(SchedulePage, {
       placeId: this.placeId
@@ -146,11 +150,9 @@ export class VisitPage {
 
   enterSchedule() {
     if (this.dataDtoIn.RepoId === undefined) {
-      this.createNewSchedule();
-      //this.events.publish('checkinstatus', "checked in", Date.now());
+      this.createNewSchedule();      
     } else {
-      this.updateScheduleStatus();
-      //this.events.publish('checkinstatus', "schedule updated", Date.now());
+      this.updateScheduleStatus();      
     }
   }
 
@@ -160,8 +162,7 @@ export class VisitPage {
     this.createNewSchedule();
     this.addNotifications();
     this.getScheduleData();
-    this.startDay();
-    this.events.publish('checkedin', "checkedin", Date.now());
+    this.startDay();   
   }
 
   addNotifications() {

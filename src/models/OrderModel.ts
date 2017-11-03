@@ -23,6 +23,7 @@ export class OrderModel extends BaseModel {
         Signature: 'TEXT',
         IsSynched: 'INTEGER(1)',
         RepoId : 'TEXT',
-        ScheduleRepoId : 'TEXT'
+        ScheduleRepoId : 'TEXT',
+        Submitted : 'INTEGER(1)'
     }
 }

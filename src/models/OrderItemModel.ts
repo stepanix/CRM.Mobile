@@ -11,7 +11,8 @@ export class OrderItemModel extends BaseModel {
         ProductId: 'INTEGER(11)',
         Quantity: 'INTEGER(11)',
         Amount: 'TEXT',
-        IsSynched: 'INTEGER(1)'
+        IsSynched: 'INTEGER(1)',
+        Submitted : 'INTEGER(1)'
     }
 
 }
