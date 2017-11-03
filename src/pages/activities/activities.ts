@@ -6,6 +6,7 @@ import { SyncServiceApi } from '../../services/sync-service-api';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import * as moment from 'moment';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class ActivitiesPage {
     workDay : any = "Workday : 0 hrs";
     TimeMileageModel : any = {};
 
-    constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
+    constructor(private counterNotifications: LocalNotifications,
+        private timeMileageRepoAPi : TimeMileageRepoApi,
         public alertCtrl: AlertController,
         private activityRepoApi: ActivityRepoApi,
         private syncServiceApi: SyncServiceApi,
@@ -32,6 +34,21 @@ export class ActivitiesPage {
         this.getWorkDuration();
         this.checkWorkStatus();
     }
+
+    addTimerNotification() {
+        this.counterNotifications.schedule({
+          id: 2,
+          title: 'Timer counter active',
+          ongoing: true,
+          data: null,
+          every: 'second',
+          sound: null
+        });
+      }
+
+      cancelAllNotifications() {
+        this.counterNotifications.cancel(2);        
+      }
 
     getWorkDuration(){
         if(localStorage.getItem('workStatus') === "stopped"){
@@ -136,6 +153,7 @@ export class ActivitiesPage {
                   localStorage.setItem('startTime',startTime);
                   localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
                   localStorage.setItem('workStatus',"started");
+                  this.addTimerNotification();
                   this.checkWorkStatus();
                 }
               }
@@ -201,6 +219,7 @@ export class ActivitiesPage {
                   this.timeMileageRepoAPi.updateMileage(this.TimeMileageModel);
                   localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
                   localStorage.setItem('workStatus',"stopped");
+                  this.cancelAllNotifications();
                   this.checkWorkStatus();
               }
           });

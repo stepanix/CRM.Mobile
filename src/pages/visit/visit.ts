@@ -37,6 +37,7 @@ export class VisitPage {
   activities: any[] = [];
 
   constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
+    private counterNotifications: LocalNotifications,
     private localNotifications: LocalNotifications,
     private activityRepoApi: ActivityRepoApi,
     private scheduleRepoApi: ScheduleRepoApi,
@@ -184,8 +185,19 @@ export class VisitPage {
     });
   }
 
+  addTimerNotification() {
+    this.counterNotifications.schedule({
+      id: 2,
+      title: 'Timer counter active',
+      ongoing: true,
+      data: null,
+      every: 'second',
+      sound: null
+    });
+  }
+
   cancelAllNotifications() {
-    this.localNotifications.cancelAll();
+    this.localNotifications.cancel(1);
     this.navCtrl.setRoot(SchedulePage);
   }
 
@@ -388,6 +400,7 @@ export class VisitPage {
               localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
               localStorage.setItem('workStatus',"started");
               this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
+              this.addTimerNotification(); 
             }
           }
         ]
