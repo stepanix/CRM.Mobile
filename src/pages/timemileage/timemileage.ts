@@ -66,7 +66,7 @@ export class TimeMileagePage {
                 this.records.push({
                    date : moment(res[i].dateCreated).format('MMMM Do YYYY'),
                    duration : res[i].duration,
-                   mileage : res[i].mileage
+                   mileage : parseFloat(res[i].mileage).toFixed(2)
                 }); 
             }
           }

@@ -17,7 +17,6 @@ import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
-
 @Component({
   selector: 'page-visit',
   templateUrl: 'visit.html',
@@ -36,16 +35,15 @@ export class VisitPage {
   visitStatus = "";
   repoId: any;
   activities: any[] = [];
-  
 
-  constructor(
-    private timeMileageRepoAPi : TimeMileageRepoApi,
+  constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
     private localNotifications: LocalNotifications,
     private activityRepoApi: ActivityRepoApi,
     private scheduleRepoApi: ScheduleRepoApi,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams) {
+      
   }
 
   ionViewDidLoad() {
