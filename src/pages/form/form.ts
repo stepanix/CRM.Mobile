@@ -89,7 +89,7 @@ export class FormPage {
     submitOrder() {
         let alertConfirm = this.alertCtrl.create({
             title: '',
-            message: 'Are you sure you want to submit this order ? you will not be able to make changes after submitting',
+            message: 'Are you sure you want to submit this record ? you will not be able to make changes after submitting',
             buttons: [
                 {
                     text: 'Cancel',
@@ -99,7 +99,7 @@ export class FormPage {
                     }
                 },
                 {
-                    text: 'Submit Order',
+                    text: 'Submit record',
                     handler: () => {
                         this.formValueRepoApi.submit(this.formFieldId);
                         this.loader = this.loading.create({
@@ -265,8 +265,8 @@ export class FormPage {
         }
         let toast = this.toastCtrl.create({
             message: 'Record saved successfully',
-            duration: 3000,
-            position: 'top'
+            duration: 2000,
+            position: 'bottom'
         });
         toast.present();
     }

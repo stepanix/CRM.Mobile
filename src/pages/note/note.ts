@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController,AlertController,LoadingController } from 'ionic-angular';
 import {NoteRepoApi} from '../../repos/note-repo-api';
 import {ActivityRepoApi} from '../../repos/activity-repo-api';
 import * as moment from 'moment';
+import { SyncServiceApi } from '../../services/sync-service-api';
+import { ActivitiesPage } from '../activities/activities';
 
 @Component({
   selector: 'page-note',
@@ -16,8 +18,12 @@ export class NotePage {
   noteRepoId : any;
   noteId : any;
   placeName : string;
+  loader: any;
 
-  constructor(public activityRepoApi : ActivityRepoApi,
+  constructor(private loading: LoadingController,
+    private syncServiceApi: SyncServiceApi,
+    private alertCtrl: AlertController,
+    public activityRepoApi : ActivityRepoApi,
     public toastCtrl: ToastController,
     public noteRepoApi : NoteRepoApi,
     public navCtrl : NavController, 
@@ -34,6 +40,37 @@ export class NotePage {
       }
   }
 
+  submitOrder() {
+    let alertConfirm = this.alertCtrl.create({
+        title: '',
+        message: 'Are you sure you want to submit this record ? you will not be able to make changes after submitting',
+        buttons: [
+            {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => {
+                    console.log('No clicked');
+                }
+            },
+            {
+                text: 'Submit',
+                handler: () => {
+                    this.noteRepoApi.submit(this.noteId);
+                    this.loader = this.loading.create({
+                        content: 'Submitting, please wait...',
+                    });
+                    this.loader.present().then(() => {
+                        this.syncServiceApi.downloadServerData();
+                        this.navCtrl.setRoot(ActivitiesPage);
+                        this.loader.dismiss();
+                    });
+                }
+            }
+        ]
+    });
+    alertConfirm.present();
+}
+
   getNoteRepo() {
       this.noteRepoApi
       .listByNoteId(this.noteId)
@@ -49,7 +86,12 @@ export class NotePage {
     }else{
         this.updateNoteRepo();
     }
-    this.navCtrl.pop();
+    let toast = this.toastCtrl.create({
+        message: 'Record saved successfully',
+        duration: 2000,
+        position: 'bottom'
+    });
+    toast.present();
   }
 
 insertNoteRepo() {
