@@ -8,6 +8,13 @@ import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
+import { PhotoPage } from '../photo/photo';
+import { NotePage } from '../note/note';
+import { FormPage } from '../form/form';
+import { RetailAuditFormPage } from '../retailauditform/retailauditform';
+import { ListProductPage } from '../listproduct/listproduct';
+import { OrdersPage } from '../orders/orders';
+
 
 @Component({
     selector: 'page-activities',
@@ -34,6 +41,45 @@ export class ActivitiesPage {
         this.getWorkDuration();
         this.checkWorkStatus();
     }
+
+    navigatePage(type, logId,item) {
+        if (type === "Forms") {
+          this.navCtrl.setRoot(FormPage, {
+            Id: logId,
+            placeName: item.placeName,            
+            placeId: item.placeId
+          });
+        }
+        if (type === "Product Retail Audit") {
+          this.navCtrl.setRoot(RetailAuditFormPage, {
+            Id: logId,
+            placeName: item.placeName,            
+            placeId: item.placeId
+          });
+        }
+        if (type === "Photos") {
+          this.navCtrl.setRoot(PhotoPage, {
+            Id: logId,
+            placeName: item.placeName,           
+            placeId: item.placeId
+          });
+        }
+        if (type === "Notes") {
+          this.navCtrl.setRoot(NotePage, {
+            Id: logId,
+            placeName: item.placeName,            
+            placeId: item.placeId
+          });
+        }
+        if (type === "Orders") {
+          this.navCtrl.push(OrdersPage, {
+            Id: logId,
+            orderId : logId,
+            placeName: item.placeName,            
+            placeId: item.placeId
+          });
+        }
+      }
 
     addTimerNotification() {
         this.counterNotifications.schedule({
@@ -117,7 +163,7 @@ export class ActivitiesPage {
             this.start = false;
             this.pause = false;
             this.stop = false;
-        } 
+        }
     }
 
     startWork(){
