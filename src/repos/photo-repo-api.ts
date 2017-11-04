@@ -21,7 +21,8 @@ export class PhotoRepoApi {
         var data = new QueryBuilder(new PhotoModel());
         for(var i=0; i<dataDto.length;i++) {
             dtoData ={
-                IsSynched : 1
+                IsSynched : 1,
+                Submitted : 2
             };
             data.where("Id","=",dataDto[i].syncId).update(dtoData);
         }

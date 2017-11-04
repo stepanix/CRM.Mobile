@@ -20,7 +20,8 @@ export class OrderRepoApi {
         var data = new QueryBuilder(new OrderModel());
         for(var i=0; i<dataDto.length;i++) {
             dtoData = {
-               IsSynched : 1
+               IsSynched : 1,
+               Submitted : 2
             };
             data.where("Id","=",dataDto[i].syncId).update(dtoData);
         }
@@ -56,10 +57,9 @@ export class OrderRepoApi {
         data.where("Id", "=", dataDto.Id).update(dataDto);
      }
 
-     submit(scheduleId: any) {
+     submit(orderId: any) {
         var data = new QueryBuilder(new OrderModel());
-        data.rawQuery("UPDATE orders SET Submitted = 1 WHERE ScheduleId =?", [scheduleId]);
-        // data.where("ScheduleId", "=", scheduleId).update(dataDto);
+        data.rawQuery("UPDATE orders SET Submitted = 1 WHERE Id =?", [orderId]);
      }
 
      list():Promise<any> {
@@ -68,9 +68,9 @@ export class OrderRepoApi {
         return results;
      }
 
-     listByScheduleId(scheduleId):Promise<any> {
+     listByScheduleId(scheduleId,scheduleRepoId):Promise<any> {
         var data = new QueryBuilder(new OrderModel());
-        var results = data.where("ScheduleId", "=", scheduleId).get();
+        var results = data.where("ScheduleId", "=", scheduleId).orWhere("ScheduleRepoId", "=", scheduleRepoId).get();
         return results;
      }
 
@@ -88,7 +88,7 @@ export class OrderRepoApi {
 
      listByOrderId(Id:any) : Promise<any> {
         var data = new QueryBuilder(new OrderModel());
-        var results = data.where("Id", "=", Id).get();
+        var results = data.where("Id", "=", Id).orWhere("RepoId", "=", Id).get();
         return results;
      }
      

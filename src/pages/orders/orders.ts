@@ -1,12 +1,14 @@
 import { Component,ViewChild  } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController,ToastController} from 'ionic-angular';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 import {OrderRepoApi} from '../../repos/order-repo-api';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
 
-
+import { SyncServiceApi } from '../../services/sync-service-api';
+import { ActivitiesPage } from '../activities/activities';
+import { ListProductPage } from '../listproduct/listproduct';
 
 @Component({
    selector: 'page-orders',
@@ -28,6 +30,10 @@ export class OrdersPage {
   OrderDto : any;
   operation : any = "save";
   totalItems : number = 0;
+  isDisabled : boolean = false;
+  loader: any;
+  scheduleRepoId : any;
+  orderRepoId : any;
   
   private signaturePadOptions : Object = {
       'minWidth': 3,
@@ -35,8 +41,11 @@ export class OrdersPage {
       'canvasHeight': 100
   };
 
-  constructor(public orderItemRepoApi: OrderItemRepoApi,
-              public atrCtrl: AlertController,              
+  constructor(private loading: LoadingController,
+    private syncServiceApi: SyncServiceApi,
+    private alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    public orderItemRepoApi: OrderItemRepoApi,                            
               private orderRepoApi : OrderRepoApi,
               private calendar : DatePicker,
               public navCtrl : NavController,
@@ -73,8 +82,53 @@ export class OrdersPage {
       });
   }
 
+  viewItemsRepo(){
+    this.navCtrl.push(ListProductPage, {
+      placeName: this.placeName,
+      scheduleId: this.scheduleId,
+      scheduleRepoId : this.scheduleRepoId,
+      placeId: this.placeId
+    });
+  }
+
+  getSheduleRepoId(){
+
+  }
+
+  submitOrder() {
+    let alertConfirm = this.alertCtrl.create({
+        title: '',
+        message: 'Are you sure you want to submit this record ? you will not be able to make changes after submitting',
+        buttons: [
+            {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => {
+                    console.log('No clicked');
+                }
+            },
+            {
+                text: 'Submit',
+                handler: () => {
+                    this.orderRepoApi.submit(this.orderId);
+                    this.orderItemRepoApi.submit(this.orderId);
+                    this.loader = this.loading.create({
+                        content: 'Submitting, please wait...',
+                    });
+                    this.loader.present().then(() => {
+                        this.syncServiceApi.downloadServerData();
+                        this.navCtrl.setRoot(ActivitiesPage);
+                        this.loader.dismiss();
+                    });
+                }
+            }
+        ]
+    });
+    alertConfirm.present();
+}
+
   deleteOrder() {
-    let alertConfirm = this.atrCtrl.create({
+    let alertConfirm = this.alertCtrl.create({
       title: 'Delete Order',
       message: 'Are you sure you want to delete this order ?',
       buttons: [
@@ -117,10 +171,13 @@ export class OrdersPage {
           this.OrderModel.Signature = res.results[0].Signature;
           this.signaturePad.fromDataURL(this.OrderModel.Signature);
           this.operation = "update";
-          //this.computeAmount();
            this.computeDiscountAmount();
            this.computeDiscountRate();
            this.computeTaxAmount();
+           this.scheduleRepoId = res.results[0].ScheduleRepoId;
+           if(res.results[0].Submitted===1){
+             this.isDisabled = true;
+           }
      });
  }
 

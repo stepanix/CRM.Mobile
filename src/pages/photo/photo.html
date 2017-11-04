@@ -39,7 +39,7 @@
     <ion-list>
 
         <ion-item>
-            <ion-textarea [(ngModel)]="photoModel.Note" placeholder="Note..."></ion-textarea>
+            <ion-textarea [(ngModel)]="photoModel.Note" placeholder="Note..." [disabled]="isDisabled"></ion-textarea>
         </ion-item>
 
 
@@ -48,7 +48,7 @@
 </ion-content>
 
 <ion-fab right bottom color="danger">
-    <button ion-fab color="danger" (click)="presentActionSheet()">
+    <button ion-fab color="danger" [disabled]="isDisabled" (click)="presentActionSheet()">
         <ion-icon ios="md-camera" md="md-camera"></ion-icon>
     </button>
 </ion-fab>

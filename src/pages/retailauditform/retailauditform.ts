@@ -46,6 +46,8 @@ export class RetailAuditFormPage {
     placeName: string;
     retailAuditFormId: string;
 
+    isDisabled : boolean = false;
+
 
     constructor(public toastCtrl: ToastController,
         private loading: LoadingController,
@@ -353,12 +355,14 @@ export class RetailAuditFormPage {
     getFormFieldsRepo() {
         this.formFieldValues = [];
         this.productRetailAuditRepoApi.listByFormId(this.retailAuditFormId).then((res) => {
-            //console.log(res.results[0]);
             this.formId = res.results[0].RetailAuditFormId;
             this.available =  res.results[0].Available;
             this.promoted =  res.results[0].Promoted;
             this.price =  res.results[0].Price;
             this.stockLevel =  res.results[0].StockLevel;
+            if(res.results[0].Submitted===1){
+                this.isDisabled = true;
+            }
             this.getFormRepo();
             let fields = JSON.parse(res.results[0].RetailAuditFormFieldValues);
             for (var i = 0; i < fields.length; i++) {

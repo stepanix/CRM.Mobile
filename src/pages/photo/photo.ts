@@ -22,6 +22,7 @@ export class PhotoPage {
   photoId : any;
   placeName : string;
   loader: any;
+  isDisabled : boolean = false;
 
   constructor(private syncServiceApi: SyncServiceApi,
               private alertCtrl: AlertController,
@@ -86,6 +87,9 @@ export class PhotoPage {
           this.photoId = res.results[0].Id;
           this.photoModel.Note = res.results[0].Note;
           this.base64Image = res.results[0].PictureUrl;
+          if(res.results[0].Submitted===1){
+            this.isDisabled = true;
+        }
      });
  }
 

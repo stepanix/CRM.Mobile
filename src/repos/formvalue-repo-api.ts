@@ -21,7 +21,8 @@ export class FormValueRepoApi {
         var data = new QueryBuilder(new FormValueModel());
         for(var i=0; i<dataDto.length;i++) {
             dtoData ={
-                IsSynched : 1
+                IsSynched : 1,
+                Submitted : 2
             };
             data.where("Id","=",dataDto[i].syncId).update(dtoData);
         }

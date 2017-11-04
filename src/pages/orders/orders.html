@@ -10,15 +10,21 @@
 
     <ion-buttons end>
 
-      <button ion-button icon-only (click)="saveOrderRepo()" [disabled]="OrderModel.Quantity==='0' || OrderModel.Signature ===''">
-        Save
+       <button ion-button icon-only (click)="viewItemsRepo()">
+          Items
+       </button>
+
+      <button ion-button style="padding-left:10px!important" icon-only (click)="saveOrderRepo()"  [disabled]="OrderModel.Quantity==='0' || OrderModel.Signature ==='' || isDisabled">
+        Save 
       </button>
 
     </ion-buttons>
 
-    <ion-buttons end>
-      <page-network></page-network>
-    </ion-buttons>
+    <ion-buttons end style="padding-left:10px!important">                
+      <button ion-button icon-only (click)="submitOrder()" [disabled]="isDisabled" style="background-color: #fafafa;color:#000000">
+          <ion-icon ios="ios-cloud-upload" md="ios-cloud-upload" style="color:#2E86C1!important"></ion-icon>
+      </button>
+  </ion-buttons>
 
   </ion-navbar>
 
@@ -48,12 +54,12 @@
 
     <ion-item>
       <ion-label floating>Discount rate %</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.DiscountRate" (change)="computeDiscountAmount()" [disabled]="OrderModel.Amount==='0'"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountRate" [disabled]="isDisabled" (change)="computeDiscountAmount()" [disabled]="OrderModel.Amount==='0'"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Discount amount</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.DiscountAmount" (change)="computeDiscountRate()" [disabled]="OrderModel.Amount==='0'"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountAmount" [disabled]="isDisabled" (change)="computeDiscountRate()" [disabled]="OrderModel.Amount==='0'"></ion-input>
     </ion-item>
 
   </ion-list>
@@ -70,7 +76,7 @@
 
     <ion-item>
       <ion-label floating>Tax rate %</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.TaxRate" (change)="computeTaxAmount()"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.TaxRate" [disabled]="isDisabled" (change)="computeTaxAmount()"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -118,7 +124,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-input type="number" [(ngModel)]="OrderModel.DueDays" placeholder="Due days"></ion-input>
+    <ion-input type="number" [disabled]="true" [(ngModel)]="OrderModel.DueDays" placeholder="Due days"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -133,7 +139,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-textarea [(ngModel)]="OrderModel.Note" placeholder="Note..."></ion-textarea>
+    <ion-textarea [(ngModel)]="OrderModel.Note" [disabled]="true" placeholder="Note..."></ion-textarea>
   </ion-item>
 
   <h1>
@@ -153,6 +159,6 @@
         <strong>$ {{OrderModel.TotalAmount}} / {{totalItems}} items</strong>
     </span>
     <span style="float:right;padding-right:50px!important; font-size:25px!important">
-        <ion-icon ios="md-trash" md="md-trash" item-right (click)="deleteOrder()"></ion-icon>
+        <ion-icon ios="md-trash" md="md-trash" item-right (click)="deleteOrder()" [hidden]="isDisabled"></ion-icon>
     </span>
 </ion-footer>

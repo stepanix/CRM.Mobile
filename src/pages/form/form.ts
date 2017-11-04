@@ -43,6 +43,8 @@ export class FormPage {
     placeName: string;
     formFieldId: string;
 
+    isDisabled : boolean = false;
+
     constructor(private toastCtrl: ToastController,
         private alertCtrl: AlertController,
         private syncServiceApi: SyncServiceApi,
@@ -402,6 +404,9 @@ export class FormPage {
         this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {
             console.log(res.results[0]);
             this.formId = res.results[0].FormId;
+            if(res.results[0].Submitted===1){
+                this.isDisabled = true;
+            }
             this.getFormRepo();
             let fields = JSON.parse(res.results[0].FormFieldValues);
             for (var i = 0; i < fields.length; i++) {

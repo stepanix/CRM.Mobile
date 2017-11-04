@@ -176,7 +176,8 @@ export class SyncServiceApi {
                             Signature: res[i].signature,
                             IsSynched: 1,
                             repoId: res[i].repoId,
-                            ScheduleRepoId : res[i].repoId
+                            ScheduleRepoId : res[i].repoId,
+                            Submitted : 2
                         });
                     }
                     this.orderRepoApi.delete();

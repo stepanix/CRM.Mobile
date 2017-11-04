@@ -28,5 +28,5 @@
 
 
 <ion-content class="registerContainer">
-    <ion-textarea [(ngModel)]="noteModel.Description" placeholder="Note..."></ion-textarea>
+    <ion-textarea [(ngModel)]="noteModel.Description" placeholder="Note..." [disabled]="isDisabled"></ion-textarea>
 </ion-content>

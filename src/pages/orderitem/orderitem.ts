@@ -16,6 +16,7 @@ export class OrderItemPage {
   productName: any;
   operation: any = "save";
   OrderItemDto: any;
+  isDisabled : boolean = false;
 
   constructor(public toastCtrl: ToastController,
     public orderItemRepoApi: OrderItemRepoApi,

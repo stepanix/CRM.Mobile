@@ -121,6 +121,7 @@ export class VisitPage {
     if (type === "Orders") {
       this.navCtrl.push(OrdersPage, {
         Id: logId,
+        orderId : logId,
         placeName: this.placeName,
         scheduleId: this.scheduleId,
         placeId: this.placeId
