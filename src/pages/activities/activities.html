@@ -26,7 +26,7 @@
                       {{item.DateCreated}}
                   </span>
               </ion-card-header>
-              <ion-card-content>
+              <ion-card-content (click)="navigatePage(item.ActivityLog,item.ActivityTypeId,item)">
                     {{item.ActivityLog}}
               </ion-card-content>
            </ion-card>
