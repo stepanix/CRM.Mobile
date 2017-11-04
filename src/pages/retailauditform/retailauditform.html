@@ -9,8 +9,8 @@
 
         <ion-buttons end>
 
-            <button ion-button icon-only (click)="submitForm()" [disabled]="!allMandatoryFieldsValidated() && price>0">
-                Submit
+            <button ion-button icon-only (click)="submitForm()" [disabled]="!(allMandatoryFieldsValidated() && price>0) || isDisabled">
+                Save
             </button>
 
         </ion-buttons>

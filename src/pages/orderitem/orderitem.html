@@ -10,7 +10,7 @@
 
     <ion-buttons end>
 
-      <button ion-button icon-only (click)="saveOrderItemRepo()" [disabled]="OrderItemModel.Quantity==='0'">
+      <button ion-button icon-only (click)="saveOrderItemRepo()" [disabled]="OrderItemModel.Quantity==='0' || isDisabled">
         Save
       </button>
 

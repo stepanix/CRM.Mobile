@@ -402,16 +402,16 @@ export class FormPage {
     getFormFieldsRepo() {
         this.formFieldValues = [];
         this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {
-            console.log(res.results[0]);
+            //console.log(res.results[0]);
             this.formId = res.results[0].FormId;
-            if(res.results[0].Submitted===1){
+            if(res.results[0].Submitted===2){
                 this.isDisabled = true;
             }
             this.getFormRepo();
             let fields = JSON.parse(res.results[0].FormFieldValues);
             for (var i = 0; i < fields.length; i++) {
                 this.formFieldModel[fields[i].id] = this.parseModelAnswer(fields[i].answer);
-                console.log(this.formFieldModel[fields[i].id]);
+                //console.log(this.formFieldModel[fields[i].id]);
             }
         });
     }
@@ -448,7 +448,7 @@ export class FormPage {
                     this.loader.dismiss();
                 }, err => {
                     this.loader.dismiss();
-                    console.log(err);
+                    //console.log(err);
                     return;
                 });
         });

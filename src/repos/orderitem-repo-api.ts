@@ -15,7 +15,7 @@ export class OrderItemRepoApi {
         data.delete();
      }
 
-     updateSynched(dataDto:any[]) {
+     updateSynched(dataDto:any[],orderRepoId:any) {
         var dtoData = {};
         var data = new QueryBuilder(new OrderItemModel());
         for(var i=0; i<dataDto.length;i++) {
@@ -23,7 +23,7 @@ export class OrderItemRepoApi {
                IsSynched : 1,
                Submitted : 2
             };
-            data.where("Id","=",dataDto[i].syncId).update(dtoData);
+            data.where("OrderId","=",orderRepoId).update(dtoData);
         }
      }
 

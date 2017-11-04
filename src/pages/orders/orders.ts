@@ -177,7 +177,7 @@ export class OrdersPage {
            this.computeTaxAmount();
            this.scheduleRepoId = res.results[0].ScheduleRepoId;
            this.orderRepoId = res.results[0].RepoId;
-           if(res.results[0].Submitted===1){
+           if(res.results[0].Submitted===2){
              this.isDisabled = true;
            }
      });
@@ -282,8 +282,7 @@ export class OrdersPage {
     this.OrderModel.Signature = this.signaturePad.toDataURL();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad OrdersPage');
+  ionViewDidLoad() {    
   }
 
 }

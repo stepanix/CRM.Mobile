@@ -466,8 +466,10 @@ export class SyncServiceApi {
 
     uploadOrderItemsToServer() {
         let orderItemValues = [];
+        let orderRepoId = "";
         this.orderItemRepoApi.listUnSynched().then((res) => {
             for (var i = 0; i < res.results.length; i++) {
+                orderRepoId = res.results[i].OrderId;
                 orderItemValues.push({
                     id: 0,
                     syncId: res.results[i].Id,
@@ -477,13 +479,11 @@ export class SyncServiceApi {
                     amount: parseFloat(res.results[i].Amount)
                 });
             }
-            //console.log("Order List Values ",JSON.stringify(orderItemValues));
             this.orderItemServiceApi.addOrderList(orderItemValues)
                 .subscribe(
                 res => {
-                    this.orderItemRepoApi.updateSynched(res);
+                    this.orderItemRepoApi.updateSynched(res,orderRepoId);
                 }, err => {
-                    //console.log(err);
                     return;
                 });
         });

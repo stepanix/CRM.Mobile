@@ -31,6 +31,7 @@ export class ListProductPage {
   loader: any;
   scheduleRepoId : any;
   orderRepoId : any;
+  isDisabled : boolean = false;
 
 
   constructor(private activityRepoApi : ActivityRepoApi,
@@ -155,6 +156,9 @@ export class ListProductPage {
             Signature: res.results[i].Signature,
             IsSynched: 0
           };
+          if(res.results[0].Submitted===2){
+            this.isDisabled = true;
+          }
         }
         this.getOrderItemsRepo();
       } else {

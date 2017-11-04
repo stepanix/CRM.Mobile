@@ -360,7 +360,7 @@ export class RetailAuditFormPage {
             this.promoted =  res.results[0].Promoted;
             this.price =  res.results[0].Price;
             this.stockLevel =  res.results[0].StockLevel;
-            if(res.results[0].Submitted===1){
+            if(res.results[0].Submitted===2){
                 this.isDisabled = true;
             }
             this.getFormRepo();

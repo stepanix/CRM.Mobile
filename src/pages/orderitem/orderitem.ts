@@ -72,6 +72,9 @@ export class OrderItemPage {
           this.OrderItemModel.Amount = res[0].Amount;
           this.operation = "update";
         }
+        if(res.results[0].Submitted===2){
+          this.isDisabled = true;
+        }
       });
   }
 
