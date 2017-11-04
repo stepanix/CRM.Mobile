@@ -57,9 +57,9 @@ export class OrderRepoApi {
         data.where("Id", "=", dataDto.Id).update(dataDto);
      }
 
-     submit(orderId: any) {
+     submit(scheduleId: any,orderId: any) {
         var data = new QueryBuilder(new OrderModel());
-        data.rawQuery("UPDATE orders SET Submitted = 1 WHERE Id =?", [orderId]);
+        data.rawQuery("UPDATE orders SET Submitted = 1 WHERE Id = ?", [orderId]);
      }
 
      list():Promise<any> {

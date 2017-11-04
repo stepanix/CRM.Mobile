@@ -83,7 +83,7 @@ export class ListProductPage {
         {
           text: 'Submit Order',
           handler: () => {
-            this.orderRepoApi.submit(this.scheduleId);
+            this.orderRepoApi.submit(this.scheduleId,this.orderId);
             this.orderItemRepoApi.submit(this.orderId);
             this.loader = this.loading.create({
               content: 'Submitting orders, please wait...',

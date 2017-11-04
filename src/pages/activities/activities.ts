@@ -29,6 +29,7 @@ export class ActivitiesPage {
     stop: boolean = false;
     workDay: any = "Workday : 0 hrs";
     TimeMileageModel: any = {};
+    pauseTotal : any = "0";
 
     constructor(private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
@@ -132,9 +133,9 @@ export class ActivitiesPage {
         let startTime: any = new Date(localStorage.getItem('startTime')).getTime();
         let endTime: any = new Date(moment().format()).getTime();
         let duration: number = (endTime - startTime);
-        console.log("starttime", startTime);
-        console.log("endTime", endTime);
-        console.log("duration", this.parseMillisecondsIntoReadableTime(duration));
+        // console.log("starttime", startTime);
+        // console.log("endTime", endTime);
+        // console.log("duration", this.parseMillisecondsIntoReadableTime(duration));
         if (Number.isNaN(duration) || startTime === 0 || startTime === "0") {
             duration = 0;
             this.workDay = "Workday: 0:00 hrs";
@@ -156,56 +157,14 @@ export class ActivitiesPage {
         if (localStorage.getItem('workStatus') === "paused") {
             this.start = true;
             this.pause = false;
-            this.stop = true;
+            this.stop = false;            
         }
         if (localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString()
-            && localStorage.getItem('workStatus') !== "started") {
+            && localStorage.getItem('workStatus') !== "started" && localStorage.getItem('workStatus') !== "paused") {
             this.start = false;
             this.pause = false;
             this.stop = false;
         }
-    }
-
-    startWork() {
-        let alertConfirm = this.alertCtrl.create({
-            title: '',
-            message: 'Are you sure you want to start your day ?',
-            buttons: [
-                {
-                    text: 'Cancel',
-                    role: 'cancel',
-                    handler: () => {
-                        console.log('No clicked');
-                    }
-                },
-                {
-                    text: 'Start day',
-                    handler: () => {
-                        let startTime = moment().format();
-                        let TimeMileageModel = {
-                            Id: this.newGuid(),
-                            ServerId: 0,
-                            UserId: localStorage.getItem('userid'),
-                            PlaceId: null,
-                            PlaceName: null,
-                            StartTime: startTime,
-                            EndTime: null,
-                            Duration: this.workDay,
-                            Mileage: "0",
-                            IsSynched: 0,
-                            DateCreated: moment().format("YYYY-MM-DD")
-                        }
-                        this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
-                        localStorage.setItem('startTime', startTime);
-                        localStorage.setItem('lastMileageDate', moment().format("YYYY-MM-DD"));
-                        localStorage.setItem('workStatus', "started");
-                        this.addTimerNotification();
-                        this.checkWorkStatus();
-                    }
-                }
-            ]
-        });
-        alertConfirm.present();
     }
 
     newGuid(): string {
@@ -216,6 +175,63 @@ export class ActivitiesPage {
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
+    }
+
+    startWork() {
+        if(localStorage.getItem('workStatus') ==="paused") {
+            localStorage.setItem('workStatus', "started");
+            let pauseTime : any  = new Date(localStorage.getItem('pauseTime')).getTime();
+            let resumeTime : any = new Date(moment().format()).getTime();
+            this.pauseTotal = (resumeTime - pauseTime);
+            this.checkWorkStatus();
+        }else{
+            let alertConfirm = this.alertCtrl.create({
+                title: '',
+                message: 'Are you sure you want to start your day ?',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        role: 'cancel',
+                        handler: () => {
+                            console.log('No clicked');
+                        }
+                    },
+                    {
+                        text: 'Start day',
+                        handler: () => {
+                            let startTime = moment().format();
+                            let TimeMileageModel = {
+                                Id: this.newGuid(),
+                                ServerId: 0,
+                                UserId: localStorage.getItem('userid'),
+                                PlaceId: null,
+                                PlaceName: null,
+                                StartTime: startTime,
+                                EndTime: null,
+                                Duration: this.workDay,
+                                Mileage: "0",
+                                IsSynched: 0,
+                                DateCreated: moment().format("YYYY-MM-DD")
+                            }
+                            this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
+                            localStorage.setItem('startTime', startTime);
+                            localStorage.setItem('lastMileageDate', moment().format("YYYY-MM-DD"));
+                            localStorage.setItem('workStatus', "started");
+                            this.addTimerNotification();
+                            this.checkWorkStatus();
+                        }
+                    }
+                ]
+            });
+            alertConfirm.present();
+        }
+    }
+
+    pauseWork() {
+        let pauseTime = new Date(moment().format()).getTime();
+        localStorage.setItem('workStatus', "paused");
+        localStorage.setItem("pauseTime",pauseTime.toString());
+        this.checkWorkStatus();
     }
 
     stopWork() {
@@ -261,7 +277,6 @@ export class ActivitiesPage {
                     IsSynched: 0,
                     DateCreated: res.results[0].DateCreated
                 };
-                //this.workDay = "Workday: " + duration + " hrs";
                 this.timeMileageRepoAPi.updateMileage(this.TimeMileageModel);
                 localStorage.setItem('lastMileageDate', moment().format("YYYY-MM-DD"));
                 localStorage.setItem('workStatus', "stopped");
@@ -269,12 +284,7 @@ export class ActivitiesPage {
                 this.checkWorkStatus();
             }
         });
-    }
-
-    pauseWork() {
-        localStorage.setItem('workStatus', "paused");
-        this.checkWorkStatus();
-    }
+    }    
 
     ngAfterContentInit() {
         var token = localStorage.getItem('token');

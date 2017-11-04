@@ -392,6 +392,7 @@ export class SyncServiceApi {
                     dateCreated : res.results[i].DateCreated
                 });
             }
+            console.log(JSON.stringify(timeMileagevalues));
             this.timeMileageServiceApi.addTimeMileageList(timeMileagevalues)
                 .subscribe(
                 res => {

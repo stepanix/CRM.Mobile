@@ -63,6 +63,7 @@ export class TimeMileagePage {
         res => {
           if(res.length > 0){
             for(var i=0;i<res.length;i++){
+                //let tempData : any[] = res[i].duration.split("||");
                 this.records.push({
                    date : moment(res[i].dateCreated).format('MMMM Do YYYY'),
                    duration : res[i].duration,
