@@ -91,9 +91,9 @@ export class OrderItemRepoApi {
         data.where("OrderId","=",orderId).delete();
      }
 
-     listByOrderId(OrderId:any) : Promise<any> {
+     listByOrderId(OrderId:any,OrderRepoId : any) : Promise<any> {
         var data = new QueryBuilder(new OrderItemModel());
-        var results = data.where("OrderId", "=", OrderId).get();
+        var results = data.where("OrderId", "=", OrderId).orWhere("OrderId", "=", OrderRepoId).get();
         return results;
      }
 

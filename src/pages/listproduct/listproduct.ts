@@ -30,6 +30,7 @@ export class ListProductPage {
   orderQty: number = 0;
   loader: any;
   scheduleRepoId : any;
+  orderRepoId : any;
 
 
   constructor(private activityRepoApi : ActivityRepoApi,
@@ -45,6 +46,7 @@ export class ListProductPage {
     this.scheduleId = this.navParams.get('scheduleId');
     this.placeId = this.navParams.get('placeId');
     this.scheduleRepoId = this.navParams.get('scheduleRepoId');
+    this.orderRepoId = this.navParams.get('orderRepoId');
     this.getProductRepo();
     this.getOrderRepo();
   }
@@ -167,7 +169,7 @@ export class ListProductPage {
     this.totalItems = 0;
     let totalValue: number = 0;
     this.orderQty = 0;
-    this.orderItemRepoApi.listByOrderId(this.orderId).then((res) => {
+    this.orderItemRepoApi.listByOrderId(this.orderId,this.orderRepoId).then((res) => {
       if (res.results.length > 0) {
         for (let i = 0; i < res.results.length; i++) {
           this.orderItemsTemp.push({

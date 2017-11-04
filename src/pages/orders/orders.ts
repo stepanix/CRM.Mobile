@@ -87,6 +87,7 @@ export class OrdersPage {
       placeName: this.placeName,
       scheduleId: this.scheduleId,
       scheduleRepoId : this.scheduleRepoId,
+      orderRepoId : this.orderRepoId,
       placeId: this.placeId
     });
   }
@@ -175,6 +176,7 @@ export class OrdersPage {
            this.computeDiscountRate();
            this.computeTaxAmount();
            this.scheduleRepoId = res.results[0].ScheduleRepoId;
+           this.orderRepoId = res.results[0].RepoId;
            if(res.results[0].Submitted===1){
              this.isDisabled = true;
            }
