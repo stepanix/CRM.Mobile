@@ -5,7 +5,7 @@ import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 import {OrderRepoApi} from '../../repos/order-repo-api';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
-import {ActivityRepoApi} from '../../repos/activity-repo-api';
+
 
 
 @Component({
@@ -36,8 +36,7 @@ export class OrdersPage {
   };
 
   constructor(public orderItemRepoApi: OrderItemRepoApi,
-              public atrCtrl: AlertController,
-              private activityRepoApi : ActivityRepoApi,
+              public atrCtrl: AlertController,              
               private orderRepoApi : OrderRepoApi,
               private calendar : DatePicker,
               public navCtrl : NavController,
@@ -193,22 +192,9 @@ export class OrdersPage {
       }else{
          this.orderRepoApi.updateRecord(this.OrderDto);
       }
-      this.logActivityRepo();
       this.navCtrl.pop();
   }
-
-  logActivityRepo() {
-    let ActivityDtoIn = {
-       Id: this.newGuid(),
-       PlaceName : this.placeName,
-       PlaceId: this.placeId,
-       ActivityLog: 'Orders',
-       ActivityTypeId : this.orderId,
-       IsSynched: 0,
-       DateCreated : moment().format().toString()
-    }
-    this.activityRepoApi.insertRecord(ActivityDtoIn);
- }
+  
 
   ngAfterViewInit() {
     this.signaturePad.set('minWidth', 3);

@@ -52,12 +52,6 @@ export class RetailAuditFormRepoApi {
         return results;
      }
 
-     listUnSynched() : Promise<any>{
-        var data = new QueryBuilder(new RetailAuditFormModel());
-        var results = data.where("IsSynched", "=", "0").get();
-        return results;
-     }
-
      listById(serverId:any) : Promise<any>{
         var data = new QueryBuilder(new RetailAuditFormModel());
         var results = data.where("ServerId", "=", serverId).get();

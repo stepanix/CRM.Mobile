@@ -58,7 +58,7 @@ export class ProductRetailRepoApi {
 
      listUnSynched() : Promise<any> {
         var data = new QueryBuilder(new ProductRetailAuditModel());
-        var results = data.where("IsSynched", "=", "0").get();
+        var results = data.where("Submitted", "=", "1").get();
         return results;
      }
 
@@ -72,6 +72,11 @@ export class ProductRetailRepoApi {
         var data = new QueryBuilder(new ProductRetailAuditModel());
         var results = data.where("Id", "=", Id).get();
         return results;
+     }
+
+     submit(Id: any) {
+        var data = new QueryBuilder(new ProductRetailAuditModel());
+        data.rawQuery("UPDATE productRetailAudit SET Submitted = 1 WHERE Id =?", [Id]);
      }
      
 }

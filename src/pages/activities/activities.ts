@@ -240,10 +240,6 @@ export class ActivitiesPage {
             this.loader = this.loading.create({
                 content: 'Synching data, please wait...',
             });
-            // this.loader.present().then(() => {
-            //     this.syncServiceApi.downloadServerData();
-            //     this.loader.dismiss();
-            // });
         }
     }
 

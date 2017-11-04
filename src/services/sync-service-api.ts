@@ -476,7 +476,7 @@ export class SyncServiceApi {
                     amount: parseFloat(res.results[i].Amount)
                 });
             }
-            console.log("Order List Values ",JSON.stringify(orderItemValues));
+            //console.log("Order List Values ",JSON.stringify(orderItemValues));
             this.orderItemServiceApi.addOrderList(orderItemValues)
                 .subscribe(
                 res => {
@@ -529,7 +529,7 @@ export class SyncServiceApi {
                 res => {
                     this.activityRepoApi.updateSynched(res);
                 }, err => {
-                    console.log(err);
+                    //console.log(err);
                     return;
                 });
         });
@@ -563,7 +563,7 @@ export class SyncServiceApi {
                     this.downloadPlacesApi();
                     this.syncScheduleWithServer();
                 }, err => {
-                    console.log(err);
+                    //console.log(err);
                     return;
                 });
         });
@@ -600,7 +600,7 @@ export class SyncServiceApi {
                     this.scheduleRepoApi.deleteSynched(res);
                     this.downloadScheduleApi();
                 }, err => {
-                    console.log(err);
+                    //console.log(err);
                     return;
                 });
         });

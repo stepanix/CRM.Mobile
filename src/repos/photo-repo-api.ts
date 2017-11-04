@@ -59,7 +59,7 @@ export class PhotoRepoApi {
 
      listUnSynched() : Promise<any>{
         var data = new QueryBuilder(new PhotoModel());
-        var results = data.where("IsSynched", "=", "0").get();
+        var results = data.where("Submitted", "=", "1").get();
         return results;
      }
 
@@ -73,6 +73,11 @@ export class PhotoRepoApi {
         var data = new QueryBuilder(new PhotoModel());
         var results = data.where("Id", "=", Id).get();
         return results;
+     }
+
+     submit(Id: any) {
+        var data = new QueryBuilder(new PhotoModel());
+        data.rawQuery("UPDATE photo SET Submitted = 1 WHERE Id =?", [Id]);
      }
      
 }

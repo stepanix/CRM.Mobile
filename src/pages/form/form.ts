@@ -1,21 +1,23 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams,LoadingController,ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ActionSheetController, AlertController, ToastController } from 'ionic-angular';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    Validators
 } from "@angular/forms"
-import {FormRepoApi} from '../../repos/form-repo-api';
-import {FormValueRepoApi} from '../../repos/formvalue-repo-api';
-import {ProductRepoApi} from '../../repos/product-repo-api';
-import {FormServiceApi,ProductServiceApi,FormValueServiceApi} from '../../shared/shared';
+import { FormRepoApi } from '../../repos/form-repo-api';
+import { FormValueRepoApi } from '../../repos/formvalue-repo-api';
+import { ProductRepoApi } from '../../repos/product-repo-api';
+import { FormServiceApi, ProductServiceApi, FormValueServiceApi } from '../../shared/shared';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
-import {ActivityRepoApi} from '../../repos/activity-repo-api';
+import { ActivityRepoApi } from '../../repos/activity-repo-api';
+import { SyncServiceApi } from '../../services/sync-service-api';
+import { ActivitiesPage } from '../activities/activities';
 
 
 @Component({
@@ -25,183 +27,217 @@ import {ActivityRepoApi} from '../../repos/activity-repo-api';
 })
 
 export class FormPage {
-  
-    selectedDate : any = "Select date";
-    loader : any;
-    formData : any;
-    formFields : any[] = [];
-    formId : any;
-    scheduleId : any;
-    placeId : any;
-    products : any[] = [];
-    formFieldValues : any[] = [];
-    formFieldDtoIn : any;
-    formFieldModel:any[] = [];
-    base64Image : string;
-    placeName : string;
-    formFieldId : string;
 
-    constructor(public activityRepoApi : ActivityRepoApi,
-      private camera: Camera,
-      public actionSheetCtrl: ActionSheetController,
-      private loading: LoadingController,
-      private formValueRepoApi:FormValueRepoApi,
-      private formValueServiceApi : FormValueServiceApi,
-      private productRepoApi : ProductRepoApi,
-      private productServiceApi : ProductServiceApi,
-      public formServiceApi : FormServiceApi,
-      public formRepoApi : FormRepoApi,
-      private datePicker : DatePicker,
-      public navCtrl : NavController,
-      public navParams : NavParams) {
+    selectedDate: any = "Select date";
+    loader: any;
+    formData: any;
+    formFields: any[] = [];
+    formId: any;
+    scheduleId: any;
+    placeId: any;
+    products: any[] = [];
+    formFieldValues: any[] = [];
+    formFieldDtoIn: any;
+    formFieldModel: any[] = [];
+    base64Image: string;
+    placeName: string;
+    formFieldId: string;
 
-           this.datePicker.onDateSelected.subscribe((date) => {
-                for (var i=0; i < this.formFields.length; i++) {
-                    if (this.formFields[i].questionTypeId==="7") {
-                       this.formFieldModel[this.formFields[i].id] = moment(date).format('YYYY-MM-DD').toString();
+    constructor(private toastCtrl: ToastController,
+        private alertCtrl: AlertController,
+        private syncServiceApi: SyncServiceApi,
+        public activityRepoApi: ActivityRepoApi,
+        private camera: Camera,
+        public actionSheetCtrl: ActionSheetController,
+        private loading: LoadingController,
+        private formValueRepoApi: FormValueRepoApi,
+        private formValueServiceApi: FormValueServiceApi,
+        private productRepoApi: ProductRepoApi,
+        private productServiceApi: ProductServiceApi,
+        public formServiceApi: FormServiceApi,
+        public formRepoApi: FormRepoApi,
+        private datePicker: DatePicker,
+        public navCtrl: NavController,
+        public navParams: NavParams) {
+
+        this.datePicker.onDateSelected.subscribe((date) => {
+            for (var i = 0; i < this.formFields.length; i++) {
+                if (this.formFields[i].questionTypeId === "7") {
+                    this.formFieldModel[this.formFields[i].id] = moment(date).format('YYYY-MM-DD').toString();
+                }
+            }
+        });
+
+        this.formFieldValues = [];
+        this.formFieldDtoIn = {};
+
+        this.formFieldId = this.navParams.get('Id');
+        this.placeName = this.navParams.get('placeName');
+        this.formId = this.navParams.get('formId');
+        this.placeId = this.navParams.get('placeId');
+        this.scheduleId = this.navParams.get('scheduleId');
+
+        this.listProductsRepo();
+
+        if (this.formFieldId === undefined) {
+            this.getFormRepo();
+        } else {
+            this.getFormFieldsRepo();
+        }
+    }
+
+    submitOrder() {
+        let alertConfirm = this.alertCtrl.create({
+            title: '',
+            message: 'Are you sure you want to submit this order ? you will not be able to make changes after submitting',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('No clicked');
+                    }
+                },
+                {
+                    text: 'Submit Order',
+                    handler: () => {
+                        this.formValueRepoApi.submit(this.formFieldId);
+                        this.loader = this.loading.create({
+                            content: 'Submitting, please wait...',
+                        });
+                        this.loader.present().then(() => {
+                            this.syncServiceApi.downloadServerData();
+                            this.navCtrl.setRoot(ActivitiesPage);
+                            this.loader.dismiss();
+                        });
                     }
                 }
-           });
-          
-           this.formFieldValues = [];
-           this.formFieldDtoIn = {};
-           
-           this.formFieldId = this.navParams.get('Id');
-           this.placeName = this.navParams.get('placeName');
-           this.formId = this.navParams.get('formId');
-           this.placeId = this.navParams.get('placeId');
-           this.scheduleId = this.navParams.get('scheduleId');
+            ]
+        });
+        alertConfirm.present();
+    }
 
-           this.listProductsRepo();
-            
-           if(this.formFieldId===undefined){
-              this.getFormRepo();
-           }else{
-             this.getFormFieldsRepo();
-           }
-     }
-
-     newGuid() : string {
-      function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-              .toString(16)
-              .substring(1);
-      }
+    newGuid(): string {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-        s4() + '-' + s4() + s4() + s4();
+            s4() + '-' + s4() + s4() + s4();
     }
 
     presentActionSheet(questionId) {
         let actionSheet = this.actionSheetCtrl.create({
-          title: 'Change your profile picture',
-          buttons: [
+            title: 'Change your profile picture',
+            buttons: [
                 {
-                  text: 'Take a picture',
-                  handler: () => {
-                  this.takePhoto(questionId);
+                    text: 'Take a picture',
+                    handler: () => {
+                        this.takePhoto(questionId);
+                    }
+                }, {
+                    text: 'Select from gallery',
+                    handler: () => {
+                        this.selectPhoto(questionId);
+                    }
+                }, {
+                    text: 'Cancel',
                 }
-                },{
-                  text: 'Select from gallery',
-                  handler: () => {
-                  this.selectPhoto(questionId);
-                }
-                },{
-                  text: 'Cancel',
-                }
-          ]
+            ]
         });
         actionSheet.present();
-      }
+    }
 
-      takePhoto(questionId) {
+    takePhoto(questionId) {
         var options: CameraOptions = {
-          quality: 100,
-          destinationType: this.camera.DestinationType.DATA_URL,
-          encodingType: this.camera.EncodingType.JPEG,
-          mediaType: this.camera.MediaType.PICTURE,
-          correctOrientation: true,
-          saveToPhotoAlbum : true
+            quality: 100,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE,
+            correctOrientation: true,
+            saveToPhotoAlbum: true
         }
-        this.camera.getPicture(options).then((imageData) => {          
+        this.camera.getPicture(options).then((imageData) => {
             this.base64Image = 'data:image/jpeg;base64,' + imageData;
             this.formFieldModel[questionId] = this.base64Image;
         }, (err) => {
         });
     }
-    
+
     selectPhoto(questionId) {
-            let returnImage = this;
-    
-            var libOptions = {
-                quality: 100,
-                sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-                destinationType: this.camera.DestinationType.FILE_URI,
-                encodingType: this.camera.EncodingType.JPEG,
-                saveToPhotoAlbum: true,
-                correctOrientation: true
-            };
-          
-            this.camera.getPicture(libOptions).then((filePath) => {
-                  window["plugins"].Base64.encodeFile(filePath, function(base64) {
-                       console.log(base64);
-                       returnImage.base64Image = base64;
-                       returnImage.formFieldModel[questionId] = returnImage.base64Image;
-                  });
-                  
-            }, (err) => {
+        let returnImage = this;
+
+        var libOptions = {
+            quality: 100,
+            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            destinationType: this.camera.DestinationType.FILE_URI,
+            encodingType: this.camera.EncodingType.JPEG,
+            saveToPhotoAlbum: true,
+            correctOrientation: true
+        };
+
+        this.camera.getPicture(libOptions).then((filePath) => {
+            window["plugins"].Base64.encodeFile(filePath, function (base64) {
+                console.log(base64);
+                returnImage.base64Image = base64;
+                returnImage.formFieldModel[questionId] = returnImage.base64Image;
             });
-       }
 
-     ionViewDidLoad(){
-     }
+        }, (err) => {
+        });
+    }
 
-     showCalendar(){
-       this.datePicker.showCalendar();
-     }
+    ionViewDidLoad() {
+    }
 
-     saveFormFieldValues() {
-      this.formFieldValues = [];
-        for(var i=0;i<this.formFields.length;i++) {
+    showCalendar() {
+        this.datePicker.showCalendar();
+    }
+
+    saveFormFieldValues() {
+        this.formFieldValues = [];
+        for (var i = 0; i < this.formFields.length; i++) {
             //if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
-                this.formFieldValues.push ({
-                    id : this.formFields[i].id,
-                    questionTypeId : this.formFields[i].questionTypeId,
-                    question : this.formFields[i].question,
-                    answer : this.formFieldModel[this.formFields[i].id]
-                });
+            this.formFieldValues.push({
+                id: this.formFields[i].id,
+                questionTypeId: this.formFields[i].questionTypeId,
+                question: this.formFields[i].question,
+                answer: this.formFieldModel[this.formFields[i].id]
+            });
             //}
         }
-     }
+    }
 
-     prepareApiDtoData() {
-        this.saveFormFieldValues();    
+    prepareApiDtoData() {
+        this.saveFormFieldValues();
         this.formFieldDtoIn = {
-            id : 1,
-            placeId : this.placeId,
-            formId : this.formId,
-            formFieldValues : JSON.stringify(this.formFieldValues),
-            scheduleId : this.scheduleId
+            id: 1,
+            placeId: this.placeId,
+            formId: this.formId,
+            formFieldValues: JSON.stringify(this.formFieldValues),
+            scheduleId: this.scheduleId
         }
-     }
+    }
 
-     prepareRepoDtoData() {
-      this.saveFormFieldValues();
-      this.formFieldId = this.newGuid()
-      this.formFieldDtoIn = {
-          id : this.formFieldId,
-          PlaceId : this.placeId,
-          FormId : this.formId,
-          FormFieldValues : JSON.stringify(this.formFieldValues),
-          ScheduleId : this.scheduleId,
-          IsSynched : 0
-      }
-   }
+    prepareRepoDtoData() {
+        this.saveFormFieldValues();
+        this.formFieldId = this.newGuid()
+        this.formFieldDtoIn = {
+            id: this.formFieldId,
+            PlaceId: this.placeId,
+            FormId: this.formId,
+            FormFieldValues: JSON.stringify(this.formFieldValues),
+            ScheduleId: this.scheduleId,
+            IsSynched: 0
+        }
+    }
 
-     submitForm() {
+    submitForm() {
         this.saveFormValuesRepo();
-     }
+    }
 
-     saveFormValuesApi() {
+    saveFormValuesApi() {
         this.prepareApiDtoData();
         this.loader = this.loading.create({
             content: 'Busy, please wait...',
@@ -209,27 +245,33 @@ export class FormPage {
         this.loader.present().then(() => {
             this.formValueServiceApi.addFormValue(this.formFieldDtoIn)
                 .subscribe(
-                  res => {
+                res => {
                     this.navCtrl.pop();
                     this.loader.dismiss();
-                  },err => {
+                }, err => {
                     console.log(err);
                     this.loader.dismiss();
                     return;
-             });
+                });
         });
-     }
+    }
 
-     saveFormValuesRepo() {
-          console.log("Form Field " + this.formFieldId);
-          if(this.formFieldId===undefined){
-              this.insertFormvaluesRepo();
-          }else{
-              this.updateFormValuesRepo();
-          }
-     }
+    saveFormValuesRepo() {
+        console.log("Form Field " + this.formFieldId);
+        if (this.formFieldId === undefined) {
+            this.insertFormvaluesRepo();
+        } else {
+            this.updateFormValuesRepo();
+        }
+        let toast = this.toastCtrl.create({
+            message: 'Record saved successfully',
+            duration: 3000,
+            position: 'top'
+        });
+        toast.present();
+    }
 
-     insertFormvaluesRepo(){
+    insertFormvaluesRepo() {
         this.prepareRepoDtoData();
         this.loader = this.loading.create({
             content: 'Busy, please wait...',
@@ -237,178 +279,176 @@ export class FormPage {
         this.loader.present().then(() => {
             this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
             this.logActivityRepo();
-            this.navCtrl.pop();
             this.loader.dismiss();
         });
-     }
+    }
 
-     updateFormValuesRepo(){
+    updateFormValuesRepo() {
         this.saveFormFieldValues();
         this.formFieldDtoIn = {
-            Id : this.formFieldId,
-            PlaceId : this.placeId,
-            FormId : this.formId,
-            FormFieldValues : JSON.stringify(this.formFieldValues),
-            ScheduleId : this.scheduleId,
-            IsSynched : 0
+            Id: this.formFieldId,
+            PlaceId: this.placeId,
+            FormId: this.formId,
+            FormFieldValues: JSON.stringify(this.formFieldValues),
+            ScheduleId: this.scheduleId,
+            IsSynched: 0
         }
         this.formValueRepoApi.updateRecord(this.formFieldDtoIn);
-        this.navCtrl.pop();
-     }
+    }
 
-     logActivityRepo() {
+    logActivityRepo() {
         let ActivityDtoIn = {
-           Id: this.newGuid(),
-           PlaceName : this.placeName,
-           PlaceId: this.placeId,
-           ActivityLog: 'Forms',
-           ActivityTypeId : this.formFieldId,
-           IsSynched: 0,
-           DateCreated : moment().format().toString()
+            Id: this.newGuid(),
+            PlaceName: this.placeName,
+            PlaceId: this.placeId,
+            ActivityLog: 'Forms',
+            ActivityTypeId: this.formFieldId,
+            IsSynched: 0,
+            DateCreated: moment().format().toString()
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
-     }
+    }
 
-     listProductsApi() {
-            this.products = [];
-            this.productServiceApi.getProducts()
-             .subscribe(
-                res => {
-                  for(var i=0; i< res.length; i++) {
-                        this.products.push({
-                            id:res[i].id,
-                            name : res[i].name
-                        });
-                    }
-                },err => {
-                 console.log(err);
-                 return;
+    listProductsApi() {
+        this.products = [];
+        this.productServiceApi.getProducts()
+            .subscribe(
+            res => {
+                for (var i = 0; i < res.length; i++) {
+                    this.products.push({
+                        id: res[i].id,
+                        name: res[i].name
+                    });
+                }
+            }, err => {
+                console.log(err);
+                return;
             });
-     }
+    }
 
-     listProductsRepo() {
+    listProductsRepo() {
         this.products = [];
         this.productRepoApi.list().then((res) => {
-              for(var i = 0; i<res.results.length;i++) {
-                  this.products.push({
-                      id : res.results[i].ServerId,
-                      name : res.results[i].Name
-                  });
-              }
-          });
-     }
-
-     isFormFieldValueValid(formFieldValue) : boolean{
-        if(formFieldValue===undefined 
-          || formFieldValue==="undefined"
-          || formFieldValue==="null"
-          || formFieldValue===null
-          || formFieldValue===""){
-            return false;
-          }
-          return true;
-     }
-
-     allMandatoryFieldsValidated() : boolean {
-          for(var i=0;i<this.formFields.length;i++){
-            if((this.formFieldModel[this.formFields[i].id]===undefined 
-              || this.formFieldModel[this.formFields[i].id]==="undefined"
-              || this.formFieldModel[this.formFields[i].id]==="null"
-              || this.formFieldModel[this.formFields[i].id]===null
-              || this.formFieldModel[this.formFields[i].id]==="")
-              && this.isFieldMandatory(this.formFields[i])){
-                return false;                 
+            for (var i = 0; i < res.results.length; i++) {
+                this.products.push({
+                    id: res.results[i].ServerId,
+                    name: res.results[i].Name
+                });
             }
-          }
-          return true;
-     }
+        });
+    }
 
-     isFieldMandatory(field){
-          let index: number = this.formFields.indexOf(field);
-          if (index !== -1) {
-              return this.formFields[index].mandatory;
-          }
-     }
+    isFormFieldValueValid(formFieldValue): boolean {
+        if (formFieldValue === undefined
+            || formFieldValue === "undefined"
+            || formFieldValue === "null"
+            || formFieldValue === null
+            || formFieldValue === "") {
+            return false;
+        }
+        return true;
+    }
 
-     getFormRepo() {
+    allMandatoryFieldsValidated(): boolean {
+        for (var i = 0; i < this.formFields.length; i++) {
+            if ((this.formFieldModel[this.formFields[i].id] === undefined
+                || this.formFieldModel[this.formFields[i].id] === "undefined"
+                || this.formFieldModel[this.formFields[i].id] === "null"
+                || this.formFieldModel[this.formFields[i].id] === null
+                || this.formFieldModel[this.formFields[i].id] === "")
+                && this.isFieldMandatory(this.formFields[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    isFieldMandatory(field) {
+        let index: number = this.formFields.indexOf(field);
+        if (index !== -1) {
+            return this.formFields[index].mandatory;
+        }
+    }
+
+    getFormRepo() {
         this.loader = this.loading.create({
             content: 'Busy please wait...',
         });
 
         this.loader.present().then(() => {
-          
-                this.formFields = [];
 
-                this.formRepoApi.listById(this.formId).then((res) => {
+            this.formFields = [];
 
-                  let fields = JSON.parse(res.results[0].Fields);
-                    
-                    for(var i=0; i < fields.length; i++) {
-                        this.formFields.push({
-                            id : fields[i].id,
-                            questionTypeId : fields[i].questionTypeId,
-                            question : fields[i].question,
-                            answers : fields[i].answers,
-                            mandatory : fields[i].mandatory
-                        });
-                    }
-                    this.loader.dismiss();
-                });
+            this.formRepoApi.listById(this.formId).then((res) => {
+
+                let fields = JSON.parse(res.results[0].Fields);
+
+                for (var i = 0; i < fields.length; i++) {
+                    this.formFields.push({
+                        id: fields[i].id,
+                        questionTypeId: fields[i].questionTypeId,
+                        question: fields[i].question,
+                        answers: fields[i].answers,
+                        mandatory: fields[i].mandatory
+                    });
+                }
+                this.loader.dismiss();
+            });
         });
-     }
+    }
 
-     getFormFieldsRepo() {
+    getFormFieldsRepo() {
         this.formFieldValues = [];
         this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {
-           console.log(res.results[0]);
+            console.log(res.results[0]);
             this.formId = res.results[0].FormId;
             this.getFormRepo();
             let fields = JSON.parse(res.results[0].FormFieldValues);
-            for(var i=0; i < fields.length; i++) {
+            for (var i = 0; i < fields.length; i++) {
                 this.formFieldModel[fields[i].id] = this.parseModelAnswer(fields[i].answer);
                 console.log(this.formFieldModel[fields[i].id]);
             }
         });
-     }
+    }
 
-     parseModelAnswer(value) {
-        if(value===undefined) {
+    parseModelAnswer(value) {
+        if (value === undefined) {
             return "";
-        }else{
+        } else {
             return value;
         }
-     }
+    }
 
-     getFormApi() {
+    getFormApi() {
 
-          this.loader = this.loading.create({
-             content: 'Busy please wait...',
-          });
+        this.loader = this.loading.create({
+            content: 'Busy please wait...',
+        });
 
-          this.loader.present().then(() => {
+        this.loader.present().then(() => {
             this.formFields = [];
             this.formServiceApi.getForm(this.formId)
-            .subscribe(
+                .subscribe(
                 res => {
-                  let fields = JSON.parse(res.fields);
-                  for(var i=0; i < fields.length; i++){
+                    let fields = JSON.parse(res.fields);
+                    for (var i = 0; i < fields.length; i++) {
                         this.formFields.push({
-                            id : fields[i].id,
-                            questionTypeId : fields[i].questionTypeId,
-                            question : fields[i].question,
-                            answers : fields[i].answers,
-                            mandatory : fields[i].mandatory
+                            id: fields[i].id,
+                            questionTypeId: fields[i].questionTypeId,
+                            question: fields[i].question,
+                            answers: fields[i].answers,
+                            mandatory: fields[i].mandatory
                         });
                     }
                     this.loader.dismiss();
-                },err => {
-                  this.loader.dismiss();
-                  console.log(err);
-                  return;
-              });
-          });
-       
-     }
+                }, err => {
+                    this.loader.dismiss();
+                    console.log(err);
+                    return;
+                });
+        });
 
-    
+    }
+
+
 }

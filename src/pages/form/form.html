@@ -4,20 +4,27 @@
   <ion-navbar>
      <ion-title>form</ion-title>
 
+     <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
      <ion-buttons end>
         
             <button ion-button icon-only (click)="submitForm()" [disabled] = "!allMandatoryFieldsValidated()">
                 Save
-            </button>
-            
-            <page-network> </page-network>
+            </button>            
             
      </ion-buttons>
+
+     <ion-buttons end style="padding-left:10px!important">                
+        <button ion-button icon-only (click)="submitOrder()" style="background-color: #fafafa;color:#000000">
+            <ion-icon ios="ios-cloud-upload" md="ios-cloud-upload" style="color:#2E86C1!important"></ion-icon>
+        </button>
+    </ion-buttons>
 
   </ion-navbar>
 
 </ion-header>
-
 
 <ion-content class="registerContainer">
     

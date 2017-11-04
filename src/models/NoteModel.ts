@@ -12,6 +12,7 @@ export class NoteModel extends BaseModel {
             Description : 'TEXT',
             IsSynched: 'INTEGER(1)',
             ScheduleRepoId: 'TEXT',
-            PlaceRepoId : 'TEXT'
+            PlaceRepoId : 'TEXT',
+            Submitted : 'INTEGER(1)'
         }
 }

@@ -53,7 +53,7 @@ export class ActivityRepoApi {
 
      listAll():Promise<any> {
         var data = new QueryBuilder(new ActivityModel());
-        var results = data.get();
+        var results = data.get("*");
         return results;
      }
 

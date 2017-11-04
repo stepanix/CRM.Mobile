@@ -8,6 +8,7 @@ import { OrderItemPage } from '../orderitem/orderitem';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import * as moment from 'moment';
 import { SyncServiceApi } from '../../services/sync-service-api';
+import {ActivityRepoApi} from '../../repos/activity-repo-api';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class ListProductPage {
   loader: any;
 
 
-  constructor(private alertCtrl: AlertController, private syncServiceApi: SyncServiceApi,
+  constructor(private activityRepoApi : ActivityRepoApi,
+    private alertCtrl: AlertController, private syncServiceApi: SyncServiceApi,
     private loading: LoadingController, public atrCtrl: AlertController,
     private barcodeScanner: BarcodeScanner,
     public orderItemRepoApi: OrderItemRepoApi,
@@ -47,6 +49,19 @@ export class ListProductPage {
 
   ionViewDidLoad() {
   }
+
+  logActivityRepo() {
+    let ActivityDtoIn = {
+       Id: this.newGuid(),
+       PlaceName : this.placeName,
+       PlaceId: this.placeId,
+       ActivityLog: 'Orders',
+       ActivityTypeId : this.orderId,
+       IsSynched: 0,
+       DateCreated : moment().format().toString()
+    }
+    this.activityRepoApi.insertRecord(ActivityDtoIn);
+ }
 
   submitOrder() {
     let alertConfirm = this.alertCtrl.create({
@@ -78,7 +93,6 @@ export class ListProductPage {
       ]
     });
     alertConfirm.present();
-
   }
 
   getItems(ev: any) {
@@ -233,6 +247,7 @@ export class ListProductPage {
       IsSynched: 0
     }
     this.orderRepoApi.insertRecord(NewOrderModel);
+    this.logActivityRepo();
   }
 
   addQty(item) {

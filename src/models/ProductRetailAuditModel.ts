@@ -19,7 +19,8 @@ export class ProductRetailAuditModel extends BaseModel {
         Promoted : 'TEXT',
         Price: 'TEXT',
         StockLevel : 'INTEGER(11)',
-        Note: 'TEXT'
+        Note: 'TEXT',
+        Submitted : 'INTEGER(1)'
     }
 
 }
