@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ToastController,AlertController,LoadingController } from 'ionic-angular';
+import { NavController, NavParams,ToastController,AlertController,LoadingController } from 'ionic-angular';
 import {NoteRepoApi} from '../../repos/note-repo-api';
 import {ActivityRepoApi} from '../../repos/activity-repo-api';
 import * as moment from 'moment';
@@ -23,8 +23,8 @@ export class NotePage {
   constructor(private loading: LoadingController,
     private syncServiceApi: SyncServiceApi,
     private alertCtrl: AlertController,
-    public activityRepoApi : ActivityRepoApi,
     public toastCtrl: ToastController,
+    public activityRepoApi : ActivityRepoApi,    
     public noteRepoApi : NoteRepoApi,
     public navCtrl : NavController, 
     public navParams : NavParams) {

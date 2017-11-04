@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ActionSheetController,ToastController } from 'ionic-angular';
+import { NavController, NavParams,ToastController,AlertController,LoadingController,ActionSheetController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import {PhotoRepoApi} from '../../repos/photo-repo-api';
 import {ActivityRepoApi} from '../../repos/activity-repo-api';
 import * as moment from 'moment';
+
+import { SyncServiceApi } from '../../services/sync-service-api';
+import { ActivitiesPage } from '../activities/activities';
 
 @Component({
   selector: 'page-photo',
@@ -18,8 +21,12 @@ export class PhotoPage {
   photoRepoId : any;
   photoId : any;
   placeName : string;
+  loader: any;
 
-  constructor(public activityRepoApi : ActivityRepoApi,
+  constructor(private syncServiceApi: SyncServiceApi,
+              private alertCtrl: AlertController,
+              private loading: LoadingController,
+              public activityRepoApi : ActivityRepoApi,
               public toastCtrl: ToastController,
               public photoRepoApi : PhotoRepoApi,
               public actionSheetCtrl: ActionSheetController,
@@ -37,6 +44,37 @@ export class PhotoPage {
             this.getPhotoRepo();
          }
   }
+
+  submitOrder() {
+    let alertConfirm = this.alertCtrl.create({
+        title: '',
+        message: 'Are you sure you want to submit this record ? you will not be able to make changes after submitting',
+        buttons: [
+            {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: () => {
+                    console.log('No clicked');
+                }
+            },
+            {
+                text: 'Submit',
+                handler: () => {
+                    this.photoRepoApi.submit(this.photoId);
+                    this.loader = this.loading.create({
+                        content: 'Submitting, please wait...',
+                    });
+                    this.loader.present().then(() => {
+                        this.syncServiceApi.downloadServerData();
+                        this.navCtrl.setRoot(ActivitiesPage);
+                        this.loader.dismiss();
+                    });
+                }
+            }
+        ]
+    });
+    alertConfirm.present();
+}
 
   ionViewDidLoad() {
   }
