@@ -200,12 +200,16 @@ export class FormPage {
     saveFormFieldValues() {
         this.formFieldValues = [];
         for (var i = 0; i < this.formFields.length; i++) {
+            let answer = "";
+            if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
+                answer = this.formFieldModel[this.formFields[i].id];
+            }
             //if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
             this.formFieldValues.push({
                 id: this.formFields[i].id,
                 questionTypeId: this.formFields[i].questionTypeId,
                 question: this.formFields[i].question,
-                answer: this.formFieldModel[this.formFields[i].id]
+                answer: answer
             });
             //}
         }
