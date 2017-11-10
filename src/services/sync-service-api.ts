@@ -546,7 +546,7 @@ export class SyncServiceApi {
                     syncId: res.results[i].Id,
                     name: res.results[i].Name,
                     streetAddress: res.results[i].StreetAddress,
-                    statusId: res.results[i].StatusId,
+                    statusId: this.parseStatusId(res.results[i].StatusId),
                     email: res.results[i].Email,
                     webSite: res.results[i].WebSite,
                     contactName: res.results[i].ContactName,
@@ -558,6 +558,7 @@ export class SyncServiceApi {
                     repoId: res.results[i].RepoId
                 });
             }
+            //console.log("places",JSON.stringify(places));
             this.placeServiceApi.addPlaceList(places)
                 .subscribe(
                 res => {
@@ -569,6 +570,14 @@ export class SyncServiceApi {
                     return;
                 });
         });
+    }
+
+    parseStatusId(id){
+        if(id===-1 || id==="-1"){
+            return null;
+        }else{
+            return id;
+        }
     }
 
     syncScheduleWithServer() {

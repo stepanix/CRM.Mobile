@@ -131,7 +131,6 @@ export class VisitPage {
 
   getScheduleData() {
     this.scheduleRepoApi.listByScheduleId(this.repoId).then((res) => {
-      console.log(JSON.stringify(res.results));
       if (res.results.length > 0) {
         this.dataDtoIn = res.results[0];
         if (this.dataDtoIn.VisitStatus === "In") {
@@ -220,6 +219,13 @@ export class VisitPage {
   }
 
   createNewSchedule() {
+    if(this.scheduleId===undefined 
+      || this.scheduleId==="undefined" 
+      || this.scheduleId===""
+      || this.scheduleId==="null"
+      || this.scheduleId===null){
+        this.scheduleId =  this.newGuid();
+    }
     let ScheduleDto = {
       Id: this.scheduleId,
       RepoId: this.scheduleId,

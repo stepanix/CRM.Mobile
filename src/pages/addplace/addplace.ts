@@ -102,8 +102,27 @@ export class AddPlacePage {
             RepoId : this.placeRepoId
         };
         this.placeRepoApi.insertRecord(this.PlaceModel);
-        this.createVisitToPlace();
+        this.isAnyPlaceCheckedIn();
      }
+
+     isAnyPlaceCheckedIn() {
+        this.scheduleRepoApi.getChekedInVisit().then((res) => {
+            if (res.results.length > 0) {
+                this.navCtrl.setRoot(VisitPage, {
+                    scheduleId: res.results[0].RepoId,
+                    repoId: res.results[0].RepoId,
+                    placeId: parseInt(res.results[0].PlaceId),
+                    placeName: res.results[0].PlaceName,
+                    streetAddress: res.results[0].PlaceAddress,
+                    lat: res.results[0].Latitude,
+                    lng: res.results[0].Longitude
+                });
+            } else {
+                this.createVisitToPlace();
+            }
+        });
+    }
+
 
      createVisitToPlace(){
         this.scheduleRepoId = this.newGuid();

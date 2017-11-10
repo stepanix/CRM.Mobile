@@ -43,6 +43,7 @@ export class ScheduleRepoApi {
     checkInVisit(dataDto: any) {
         var data = new QueryBuilder(new ScheduleModel());
         dataDto.VisitStatus = "In";
+        dataDto.IsVisited = true;
         dataDto.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
         dataDto.IsSynched = 0;
         data.where("RepoId", "=", dataDto.RepoId).update(dataDto);

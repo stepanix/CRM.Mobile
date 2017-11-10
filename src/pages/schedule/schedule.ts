@@ -26,7 +26,7 @@ export class SchedulePage {
     scheduleId: any;
     repoId: any;
     isDataAvailable: boolean = false;
-    placeId : any;
+    placeId: any;
 
     options: CalendarModalOptions = {
         canBackwardsSelected: true
@@ -41,14 +41,32 @@ export class SchedulePage {
 
     ngOnInit() {
         this.placeId = this.navParams.get('placeId');
-        this.listMyScheduleRepo();
-        this.listSheduleDates();
-    }    
+        this.isAnyPlaceCheckedIn();
+    }
+
+    isAnyPlaceCheckedIn() {
+        this.scheduleRepoApi.getChekedInVisit().then((res) => {
+            if (res.results.length > 0) {
+                this.navCtrl.setRoot(VisitPage, {
+                    scheduleId: res.results[0].RepoId,
+                    repoId: res.results[0].RepoId,
+                    placeId: parseInt(res.results[0].PlaceId),
+                    placeName: res.results[0].PlaceName,
+                    streetAddress: res.results[0].PlaceAddress,
+                    lat: res.results[0].Latitude,
+                    lng: res.results[0].Longitude
+                });
+            } else {
+                this.listMyScheduleRepo();
+                this.listSheduleDates();
+            }
+        });
+    }
 
     listSheduleDates() {
         let _daysConfig: DayConfig[] = [];
         this.scheduleRepoApi.listScheduleDates(this.placeId).then((res) => {
-            if(res.length>0){
+            if (res.length > 0) {
                 for (let i = 0; i < res.length; i++) {
                     _daysConfig.push({
                         date: new Date(res[i].VisitDate),
@@ -72,7 +90,7 @@ export class SchedulePage {
         this.loader.present().then(() => {
             let scheduleDate = moment(this.eventDate).format('YYYY-MM-DD').toString();
             this.schedules = [];
-            this.scheduleRepoApi.listByDate(this.placeId,this.parseRepoDate(scheduleDate)).then((res) => {
+            this.scheduleRepoApi.listByDate(this.placeId, this.parseRepoDate(scheduleDate)).then((res) => {
                 for (var i = 0; i < res.results.length; i++) {
                     this.schedules.push({
                         id: res.results[i].ServerId,
