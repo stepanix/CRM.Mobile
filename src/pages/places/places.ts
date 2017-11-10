@@ -59,19 +59,46 @@ export class PlacesPage {
     }
 
     openVisit(item) {
-        this.navCtrl.push(VisitPage, {
-            scheduleId: this.newGuid(),
-            repoId: this.newGuid(),
-            placeId: item.placeId,
-            placeName: item.name,
-            streetAddress: item.streetAddress,
-            lat: item.latitude,
-            lng: item.longitude
+        // this.navCtrl.push(VisitPage, {
+        //     scheduleId: this.newGuid(),
+        //     repoId: this.newGuid(),
+        //     placeId: item.placeId,
+        //     placeName: item.name,
+        //     streetAddress: item.streetAddress,
+        //     lat: item.latitude,
+        //     lng: item.longitude
+        // });
+        this.isAnyPlaceCheckedIn(item);
+    }
+
+    isAnyPlaceCheckedIn(item) {
+        this.scheduleRepoApi.getChekedInVisit().then((res) => {
+            if (res.results.length > 0) {
+                this.navCtrl.setRoot(VisitPage, {
+                    scheduleId: res.results[0].RepoId,
+                    repoId: res.results[0].RepoId,
+                    placeId: parseInt(res.results[0].PlaceId),
+                    placeName: res.results[0].PlaceName,
+                    streetAddress: res.results[0].PlaceAddress,
+                    lat: res.results[0].Latitude,
+                    lng: res.results[0].Longitude
+                });
+            } else {
+                this.navCtrl.push(VisitPage, {
+                    scheduleId: this.newGuid(),
+                    repoId: this.newGuid(),
+                    placeId: item.placeId,
+                    placeName: item.name,
+                    streetAddress: item.streetAddress,
+                    lat: item.latitude,
+                    lng: item.longitude
+                });
+            }
         });
     }
 
     addPlace() {
-        this.navCtrl.setRoot(AddPlacePage);
+        this.navCtrl.push(AddPlacePage);
     }
 
     newGuid(): string {

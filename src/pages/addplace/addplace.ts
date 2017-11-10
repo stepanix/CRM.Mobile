@@ -8,6 +8,7 @@ import {PlaceRepoApi} from '../../repos/place-repo-api';
 import {ScheduleRepoApi} from '../../repos/schedule-repo-api';
 
 import { VisitPage } from '../visit/visit';
+import { PlacesPage } from '../places/places';
 
 import * as moment from 'moment';
 
@@ -102,7 +103,8 @@ export class AddPlacePage {
             RepoId : this.placeRepoId
         };
         this.placeRepoApi.insertRecord(this.PlaceModel);
-        this.isAnyPlaceCheckedIn();
+        this.navCtrl.setRoot(PlacesPage);
+        //this.isAnyPlaceCheckedIn();
      }
 
      isAnyPlaceCheckedIn() {
@@ -118,7 +120,7 @@ export class AddPlacePage {
                     lng: res.results[0].Longitude
                 });
             } else {
-                this.createVisitToPlace();
+                //this.createVisitToPlace();
             }
         });
     }
