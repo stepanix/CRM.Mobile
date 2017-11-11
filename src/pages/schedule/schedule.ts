@@ -122,6 +122,9 @@ export class SchedulePage {
       if(status==="In"){
         return "On site";
       }
+      if(status==="New visit" || status==="Scheduled"){
+        return "Scheduled";
+      }
       return status;
     }
 
