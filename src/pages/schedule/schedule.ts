@@ -99,15 +99,39 @@ export class SchedulePage {
                         place: res.results[i].PlaceName,
                         address: res.results[i].PlaceAddress,
                         time: this.parseScheduleTime(res.results[i].VisitTime),
-                        status: res.results[i].VisitStatus,
+                        visitStatus: this.parseStatus(res.results[i].VisitStatus),
                         latitude: res.results[i].Latitude,
                         longitude: res.results[i].Longitude,
-                        isSynched: res.results[i].IsSynched
+                        isSynched: res.results[i].IsSynched,
+                        isScheduled: res.results[i].IsScheduled,
+                        isVisited: res.results[i].IsVisited,
+                        isMissed: res.results[i].IsMissed,
+                        isUnScheduled: res.results[i].IsUnScheduled,
+                        scheduleStatus : this.parseScheduleStatus(res.results[i].IsUnScheduled,res.results[i].IsScheduled)
                     });
                 }
                 this.loader.dismiss();
             });
         });
+    }
+
+    parseStatus(status){
+      if(status==="Out"){
+          return "Visited";
+      }
+      if(status==="In"){
+        return "On site";
+      }
+      return status;
+    }
+
+    parseScheduleStatus(unscheduledStatus,scheduleStatus){
+        if(unscheduledStatus==="true"){
+            return "Unscheduled";
+        }
+        if(scheduleStatus==="true"){
+            return "Scheduled";
+        }
     }
 
     parseRepoDate(date): string {
