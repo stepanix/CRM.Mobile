@@ -36,10 +36,15 @@
                         </ion-icon>
                     </p>
                     <p>
-                        <ion-icon ios="ios-information-circle" md="ios-information-circle"  item-left>
+                        <ion-icon *ngIf="item.visitStatus==='Missed'" style="color:red!important" ios="ios-close-circle" md="ios-close-circle"  item-left>
                             <span style="font-size: 15px!important">
                                 <strong> {{item.visitStatus}}</strong>
                             </span>
+                        </ion-icon>
+                        <ion-icon *ngIf="item.visitStatus==='Visited'" style="color:green!important" ios="ios-checkmark-circle" md="ios-checkmark-circle"  item-left>
+                                <span style="font-size: 15px!important">
+                                    <strong> {{item.visitStatus}}</strong>
+                                </span>
                         </ion-icon>
                     </p>
                     <strong>
