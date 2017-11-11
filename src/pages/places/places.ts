@@ -59,15 +59,6 @@ export class PlacesPage {
     }
 
     openVisit(item) {
-        // this.navCtrl.push(VisitPage, {
-        //     scheduleId: this.newGuid(),
-        //     repoId: this.newGuid(),
-        //     placeId: item.placeId,
-        //     placeName: item.name,
-        //     streetAddress: item.streetAddress,
-        //     lat: item.latitude,
-        //     lng: item.longitude
-        // });
         this.isAnyPlaceCheckedIn(item);
     }
 

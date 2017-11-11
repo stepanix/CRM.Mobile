@@ -12,6 +12,8 @@ export class ScheduleRepoApi {
     constructor() {
     }
 
+    
+
     delete() {
         var data = new QueryBuilder(new ScheduleModel());
         data.delete();
@@ -86,6 +88,17 @@ export class ScheduleRepoApi {
             results = data.rawQuery("SELECT DISTINCT VisitDate FROM schedule WHERE PlaceId =?", [placeId]);
         }
         return results;
+    }
+
+    updateMissedSchedule() {
+        var currentDate = moment().format("YYYY-MM-DD") + "T00:00:00";
+        var data = new QueryBuilder(new ScheduleModel());
+        data.rawQuery("UPDATE schedule SET VisitStatus = 'Missed' WHERE VisitStatus = ? AND VisitDate > ? ", ["New Visit",currentDate]);
+        // var dataDto : any;
+        // dataDto.VisitStatus = "Missed";
+        // dataDto.IsMissed = true;
+        // dataDto.IsSynched = 0;
+        // var results = data.where("VisitStatus", "=", 'New Visit').where("VisitDate", ">", currentDate).update(dataDto);
     }
 
     listById(Id: string): Promise<any> {

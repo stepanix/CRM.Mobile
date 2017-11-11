@@ -5,6 +5,7 @@ import { PlacesPage } from '../places/places';
 import { SyncServiceApi } from '../../services/sync-service-api';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
+import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -31,7 +32,8 @@ export class ActivitiesPage {
     TimeMileageModel: any = {};
     pauseTotal : any = "0";
 
-    constructor(private counterNotifications: LocalNotifications,
+    constructor(private scheduleRepoApi:ScheduleRepoApi,
+        private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
         public alertCtrl: AlertController,
         private activityRepoApi: ActivityRepoApi,
@@ -39,8 +41,13 @@ export class ActivitiesPage {
         private loading: LoadingController,
         public navCtrl: NavController,
         public navParams: NavParams) {
+        this.checkMissedSchedule();
         this.getWorkDuration();
         this.checkWorkStatus();
+    }
+
+    checkMissedSchedule(){
+        this.scheduleRepoApi.updateMissedSchedule();
     }
 
     navigatePage(type, logId, item) {
