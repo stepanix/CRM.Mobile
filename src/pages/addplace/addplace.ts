@@ -1,6 +1,6 @@
 import { Component, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-angular';
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import { } from '@types/googlemaps';
 import { StatusRepoApi } from '../../repos/status-repo-api';
@@ -11,6 +11,9 @@ import { VisitPage } from '../visit/visit';
 import { PlacesPage } from '../places/places';
 
 import * as moment from 'moment';
+
+import { Geolocation } from '@ionic-native/geolocation';
+import  {Http} from '@angular/http';
 
 @Component({
     selector: 'page-addplace',
@@ -26,11 +29,14 @@ export class AddPlacePage {
 
     latitude: number;
     longitude: number;
+    loader : any;
 
     @ViewChild("search")
     searchElementRef: ElementRef;
 
-    constructor(private scheduleRepoApi: ScheduleRepoApi,
+    constructor(private loading: LoadingController,
+        private http:Http,public geolocation: Geolocation,             
+        private scheduleRepoApi: ScheduleRepoApi,
         private placeRepoApi: PlaceRepoApi,
         private statusRepoApi: StatusRepoApi,
         private mapsAPILoader: MapsAPILoader,
@@ -53,6 +59,7 @@ export class AddPlacePage {
 
         this.latitude = -26.0323027;
         this.longitude = 28.0363948;
+        
 
         this.listStatusRepo();
 
@@ -79,32 +86,52 @@ export class AddPlacePage {
                 });
             });
         });
-
-
     }
 
+
+    geolocate() {
+            this.loader = this.loading.create({
+                content: 'Saving data, please wait...',
+            });
+            this.loader.present().then(() => {
+                this.geolocation.getCurrentPosition().then((resp) => {
+                    var lat=resp.coords.latitude;
+                    var long=resp.coords.longitude;
+                    console.log();
+                    this.http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+long+'&sensor=true').map(res=>res.json()).subscribe(data => {
+                     var address = data.results[0];
+                     this.placeRepoId = this.newGuid();
+                     this.PlaceModel.StreetAddress = address.formatted_address;
+                     this.PlaceModel = {
+                         Id: this.placeRepoId,
+                         ServerId: 0,
+                         StatusId: this.PlaceModel.SelectedStatus,
+                         Name: this.PlaceModel.Name,
+                         StreetAddress: this.PlaceModel.StreetAddress,
+                         Email: this.PlaceModel.Email,
+                         Website: this.PlaceModel.Website,
+                         ContactName: this.PlaceModel.ContactName,
+                         ContactTitle: this.PlaceModel.ContactTitle,
+                         Phone: this.PlaceModel.Phone,
+                         CellPhone: this.PlaceModel.CellPhone,
+                         Latitude: this.latitude,
+                         Longitude: this.longitude,
+                         IsSynched: 0,
+                         RepoId: this.placeRepoId
+                     };
+                     this.loader.dismiss();
+                     this.placeRepoApi.insertRecord(this.PlaceModel);
+                     this.navCtrl.setRoot(PlacesPage);
+                    });
+                }).catch((error) => {
+                    this.loader.dismiss();
+                    console.log('Error getting location', error);
+                });
+            });
+      }
+
     savePlaceRepo() {
-        this.placeRepoId = this.newGuid();
-        this.PlaceModel = {
-            Id: this.placeRepoId,
-            ServerId: 0,
-            StatusId: this.PlaceModel.SelectedStatus,
-            Name: this.PlaceModel.Name,
-            StreetAddress: this.PlaceModel.StreetAddress,
-            Email: this.PlaceModel.Email,
-            Website: this.PlaceModel.Website,
-            ContactName: this.PlaceModel.ContactName,
-            ContactTitle: this.PlaceModel.ContactTitle,
-            Phone: this.PlaceModel.Phone,
-            CellPhone: this.PlaceModel.CellPhone,
-            Latitude: this.latitude,
-            Longitude: this.longitude,
-            IsSynched: 0,
-            RepoId: this.placeRepoId
-        };
-        this.placeRepoApi.insertRecord(this.PlaceModel);
-        this.navCtrl.setRoot(PlacesPage);
-        //this.isAnyPlaceCheckedIn();
+        this.geolocate();
     }
 
     isAnyPlaceCheckedIn() {

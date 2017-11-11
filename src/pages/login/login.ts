@@ -6,7 +6,6 @@ import { ActivitiesPage } from '../activities/activities';
 import { SyncServiceApi } from '../../services/sync-service-api';
 
 
-
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -19,8 +18,7 @@ export class LoginPage {
   roles : string[];
   loader : any;
 
-  constructor(
-    private syncServiceApi: SyncServiceApi,
+  constructor(private syncServiceApi: SyncServiceApi,
     private loginApi: LoginServiceApi,
     private menu: MenuController,
     private loading: LoadingController,

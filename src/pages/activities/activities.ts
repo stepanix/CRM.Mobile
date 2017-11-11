@@ -15,6 +15,7 @@ import { FormPage } from '../form/form';
 import { RetailAuditFormPage } from '../retailauditform/retailauditform';
 import { ListProductPage } from '../listproduct/listproduct';
 import { OrdersPage } from '../orders/orders';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 
 @Component({
@@ -30,9 +31,10 @@ export class ActivitiesPage {
     stop: boolean = false;
     workDay: any = "Workday : 0 hrs";
     TimeMileageModel: any = {};
-    pauseTotal : any = "0";
+    pauseTotal: any = "0";
 
-    constructor(private scheduleRepoApi:ScheduleRepoApi,
+    constructor(private locationAccuracy: LocationAccuracy,
+        private scheduleRepoApi: ScheduleRepoApi,
         private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
         public alertCtrl: AlertController,
@@ -41,16 +43,23 @@ export class ActivitiesPage {
         private loading: LoadingController,
         public navCtrl: NavController,
         public navParams: NavParams) {
+
+        this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+            if (canRequest) {
+                // the accuracy option will be ignored by iOS
+                this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+                    () => console.log('Request successful'),
+                    error => console.log('Error requesting location permissions', error)
+                );
+            }
+        });
         this.checkMissedSchedule();
         this.getWorkDuration();
         this.checkWorkStatus();
     }
 
     checkMissedSchedule() {
-        this.scheduleRepoApi.updateMissedSchedule();
-        // this.scheduleRepoApi.updateMissedSchedule() .then((res) => {
-        //    console.log("results",res);
-        // });
+       this.scheduleRepoApi.updateMissedSchedule();
     }
 
     navigatePage(type, logId, item) {
@@ -167,7 +176,7 @@ export class ActivitiesPage {
         if (localStorage.getItem('workStatus') === "paused") {
             this.start = true;
             this.pause = false;
-            this.stop = false;            
+            this.stop = false;
         }
         if (localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString()
             && localStorage.getItem('workStatus') !== "started" && localStorage.getItem('workStatus') !== "paused") {
@@ -188,13 +197,13 @@ export class ActivitiesPage {
     }
 
     startWork() {
-        if(localStorage.getItem('workStatus') ==="paused") {
+        if (localStorage.getItem('workStatus') === "paused") {
             localStorage.setItem('workStatus', "started");
-            let pauseTime : any  = new Date(localStorage.getItem('pauseTime')).getTime();
-            let resumeTime : any = new Date(moment().format()).getTime();
+            let pauseTime: any = new Date(localStorage.getItem('pauseTime')).getTime();
+            let resumeTime: any = new Date(moment().format()).getTime();
             this.pauseTotal = (resumeTime - pauseTime);
             this.checkWorkStatus();
-        }else{
+        } else {
             let alertConfirm = this.alertCtrl.create({
                 title: '',
                 message: 'Are you sure you want to start your day ?',
@@ -240,7 +249,7 @@ export class ActivitiesPage {
     pauseWork() {
         let pauseTime = new Date(moment().format()).getTime();
         localStorage.setItem('workStatus', "paused");
-        localStorage.setItem("pauseTime",pauseTime.toString());
+        localStorage.setItem("pauseTime", pauseTime.toString());
         this.checkWorkStatus();
     }
 
@@ -294,7 +303,7 @@ export class ActivitiesPage {
                 this.checkWorkStatus();
             }
         });
-    }    
+    }
 
     ngAfterContentInit() {
         var token = localStorage.getItem('token');
@@ -303,7 +312,7 @@ export class ActivitiesPage {
             this.navCtrl.setRoot(LoginPage);
         } else {
             this.getActivityLog();
-           this.syncServiceApi.downloadServerData();
+            this.syncServiceApi.downloadServerData();
         }
     }
 

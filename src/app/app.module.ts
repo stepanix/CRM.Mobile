@@ -34,8 +34,6 @@ import { SummaryPage } from '../pages/summary/summary';
 import { OrderItemPage } from '../pages/orderitem/orderitem';
 import { TimeMileagePage } from '../pages/timemileage/timemileage';
 
-
-
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
 import { AgmCoreModule } from "angular2-google-maps/core";
@@ -45,6 +43,8 @@ import { SignaturePadModule } from 'angular2-signaturepad';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Geolocation } from '@ionic-native/geolocation';
+//import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
 // import { LaunchNavigator} from '@ionic-native/launch-navigator';
 
 
@@ -122,7 +122,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     SplashScreen,
     LocalNotifications,
     BarcodeScanner,
-    Geolocation,    
+    Geolocation,
+    LocationAccuracy,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
