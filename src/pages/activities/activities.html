@@ -38,18 +38,18 @@
  </ion-fab>
 
  <ion-footer>
-        <span style="padding-top:20px!important; font-size:15px!important">
+        <span style="padding-top:30px!important; font-size:15px!important;position:relative;top: 8px;">
             <strong>{{workDay}}</strong>
         </span>
-        <span *ngIf="stop" style="float:right;padding-right:100px!important; font-size:25px!important">
+        <span *ngIf="stop" style="float:right;padding-right:100px!important; font-size:25px!important;position:relative;top: 2px;">
             <ion-icon ios="md-square" md="md-square" item-right (click)="stopWork()"></ion-icon>
          </span>
 
-        <span *ngIf="pause" style="float:right;padding-right:50px!important; font-size:25px!important">
+        <span *ngIf="pause" style="float:right;padding-right:50px!important; font-size:25px!important;position:relative;top: 2px;">
             <ion-icon ios="md-pause" md="md-pause" item-right (click)="pauseWork()"></ion-icon>
         </span>
 
-        <span *ngIf="start" style="float:right;padding-right:100px!important; font-size:25px!important">
+        <span *ngIf="start" style="float:right;padding-right:100px!important; font-size:25px!important;position:relative;top: 2px;">
            <ion-icon ios="md-play" md="md-play" item-right (click)="startWork()"></ion-icon>
         </span>
        

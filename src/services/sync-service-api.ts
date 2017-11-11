@@ -246,6 +246,8 @@ export class SyncServiceApi {
                             Latitude: res[i].place.latitude,
                             Longitude: res[i].place.longitude,
                             VisitStatus: res[i].visitStatus,
+                            CheckInTime : res[i].checkInTime,
+                            CheckOutTime : res[i].checkOutTime,
                             IsSynched: 1,
                             repoId: res[i].repoId
                         });
