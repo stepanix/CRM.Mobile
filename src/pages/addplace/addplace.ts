@@ -97,7 +97,6 @@ export class AddPlacePage {
                 this.geolocation.getCurrentPosition().then((resp) => {
                     var lat=resp.coords.latitude;
                     var long=resp.coords.longitude;
-                    console.log();
                     this.http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+long+'&sensor=true').map(res=>res.json()).subscribe(data => {
                      var address = data.results[0];
                      this.placeRepoId = this.newGuid();
