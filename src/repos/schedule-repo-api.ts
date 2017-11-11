@@ -91,14 +91,9 @@ export class ScheduleRepoApi {
     }
 
     updateMissedSchedule() {
-        var currentDate = moment().format("YYYY-MM-DD") + "T00:00:00";
+        var currentDate =  moment().format("YYYY-MM-DD");
         var data = new QueryBuilder(new ScheduleModel());
-        data.rawQuery("UPDATE schedule SET VisitStatus = 'Missed' WHERE VisitStatus = ? AND VisitDate > ? ", ["New Visit",currentDate]);
-        // var dataDto : any;
-        // dataDto.VisitStatus = "Missed";
-        // dataDto.IsMissed = true;
-        // dataDto.IsSynched = 0;
-        // var results = data.where("VisitStatus", "=", 'New Visit').where("VisitDate", ">", currentDate).update(dataDto);
+        data.rawQuery("UPDATE schedule SET VisitStatus = 'Missed', IsMissed='true', IsSynched = 0 WHERE VisitStatus = ? AND VisitDate < ? ", ["New visit",currentDate]);
     }
 
     listById(Id: string): Promise<any> {

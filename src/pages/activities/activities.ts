@@ -46,8 +46,11 @@ export class ActivitiesPage {
         this.checkWorkStatus();
     }
 
-    checkMissedSchedule(){
+    checkMissedSchedule() {
         this.scheduleRepoApi.updateMissedSchedule();
+        // this.scheduleRepoApi.updateMissedSchedule() .then((res) => {
+        //    console.log("results",res);
+        // });
     }
 
     navigatePage(type, logId, item) {
@@ -300,9 +303,7 @@ export class ActivitiesPage {
             this.navCtrl.setRoot(LoginPage);
         } else {
             this.getActivityLog();
-            this.loader = this.loading.create({
-                content: 'Synching data, please wait...',
-            });
+           this.syncServiceApi.downloadServerData();
         }
     }
 

@@ -62,9 +62,10 @@
 
                       <div *ngIf="item.questionTypeId==='7'">
                           <span  *ngIf="item.mandatory === true" style="color:red;font-weight: bold;">* </span>
-                          <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
-                          <span style="color:black;">{{item.question}}</span>
-                          <b (click)="showCalendar()">{{formFieldModel[item.id]}}</b>
+                          <ion-icon item-left name="calendar" (click)="showCalendar()">
+                            <span style="padding-left:10px;font-size: 18px!important">{{item.question}}</span>
+                            <b>{{formFieldModel[item.id]}}</b>
+                         </ion-icon>
                       </div>
 
                       <div *ngIf="item.questionTypeId==='9'">
