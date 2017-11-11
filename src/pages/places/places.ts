@@ -23,11 +23,9 @@ export class PlacesPage {
     }
 
     ionViewDidLoad() {
-
     }
 
     getPlaces() {
-
         this.loader = this.loading.create({
             content: 'Busy please wait...',
         });

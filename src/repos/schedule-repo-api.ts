@@ -35,7 +35,8 @@ export class ScheduleRepoApi {
 
     checkOutVisit(dtoScheduleIn: any) {
         var data = new QueryBuilder(new ScheduleModel());
-        dtoScheduleIn.VisitStatus = "Out";
+        dtoScheduleIn.VisitStatus = "Visited";
+        dtoScheduleIn.IsVisited = "true";
         dtoScheduleIn.CheckOutTime = moment().format("YYYY-MM-DD HH:mm");
         dtoScheduleIn.IsSynched = 0;
         console.log("checkoutdata", JSON.stringify(dtoScheduleIn));
@@ -45,7 +46,6 @@ export class ScheduleRepoApi {
     checkInVisit(dataDto: any) {
         var data = new QueryBuilder(new ScheduleModel());
         dataDto.VisitStatus = "In";
-        dataDto.IsVisited = true;
         dataDto.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
         dataDto.IsSynched = 0;
         data.where("RepoId", "=", dataDto.RepoId).update(dataDto);
@@ -93,7 +93,7 @@ export class ScheduleRepoApi {
     updateMissedSchedule() {
         var currentDate =  moment().format("YYYY-MM-DD");
         var data = new QueryBuilder(new ScheduleModel());
-        data.rawQuery("UPDATE schedule SET VisitStatus = 'Missed', IsMissed='true', IsSynched = 0 WHERE VisitStatus = ? AND VisitDate < ? ", ["New visit",currentDate]);
+        data.rawQuery("UPDATE schedule SET VisitStatus = 'Missed', IsMissed='true', IsSynched = 0 WHERE VisitStatus = ? AND VisitDate < ? ", ["Scheduled",currentDate]);
     }
 
     listById(Id: string): Promise<any> {

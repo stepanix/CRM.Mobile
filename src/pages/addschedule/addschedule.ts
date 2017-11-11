@@ -101,7 +101,7 @@ export class AddSchedulePage {
                 IsVisited: false,
                 IsMissed: false,
                 IsUnScheduled: false,
-                VisitStatus: 'New Visit',
+                VisitStatus: 'Scheduled',
                 IsSynched: 0
             };
             this.scheduleServiceRepo.insertRecord(ScheduleDto);
