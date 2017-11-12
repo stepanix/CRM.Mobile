@@ -19,14 +19,26 @@ export class PlacesPage {
         public navCtrl: NavController,
         private loading: LoadingController,
         public navParams: NavParams) {
-        this.getPlaces();
+        this.getScheduledPlaces();
     }
 
     ionViewDidLoad() {
     }
 
-    getScheduledPlaces(){
-        
+    getScheduledPlaces() {
+        this.scheduleRepoApi.listScheduledPlaces().then((res) => {
+            for (var i = 0; i < res.length; i++) {
+                this.places.push({
+                    id: parseInt(res[i].PlaceId),
+                    name: res[i].PlaceName,
+                    streetAddress: res[i].PlaceAddress,
+                    placeId: this.parsePlaceId(res[i].PlaceId, res[i].PlaceId),
+                    latitude: res[i].Latitude,
+                    longitude: res[i].Longitude,
+                    isVisited: res[i].IsVisited
+                });
+            }
+        });
     }
 
     getPlaces() {

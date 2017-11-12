@@ -90,7 +90,7 @@ export class ScheduleRepoApi {
 
     listScheduledPlaces(): Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
-        var results =data.rawQuery("SELECT DISTINCT PlaceId, PlaceName, PlaceAddress FROM schedule", []);
+        var results = data.rawQuery("SELECT DISTINCT PlaceId, PlaceName, PlaceAddress,Latitude,Longitude,IsVisited FROM schedule", []);
         return results;
     }
 

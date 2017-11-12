@@ -22,6 +22,7 @@
 
     <ion-list class="servicesList">
           <button *ngFor="let item of places" ion-item style="text-align: left;" type="button" (click)="openVisit(item)">
+               <ion-icon style="color:green!important" *ngIf="item.isVisited==='true'" ios="ios-checkmark-circle" md="ios-checkmark-circle" item-left></ion-icon>
                <div><span><strong>{{item.name}}</strong></span></div>
                <div>{{item.streetAddress}}</div>
                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
