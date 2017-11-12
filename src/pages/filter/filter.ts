@@ -28,13 +28,13 @@ export class FilterPage {
     private placeRepoApi: PlaceRepoApi,
     private calendar: DatePicker,
     private userRepoApi: UserRepoApi,
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams) {
 
       this.dateFrom = moment().format('YYYY-MM-DD').toString();
       this.dateTo = this.dateFrom;
       this.repModel = localStorage.getItem('userid');
-      this.placeModel = "-1";
+      this.placeModel = 0;
       this.selectedModule = "all";
 
       this.calendar.onDateSelected.subscribe((date) => {
@@ -52,8 +52,7 @@ export class FilterPage {
   showCalendar(dateSelectedVar) {
     this.dateSelected = dateSelectedVar;
     this.calendar.showCalendar();
-  } 
- 
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FilterPage');
@@ -86,7 +85,7 @@ export class FilterPage {
     this.filterModule.dateFrom = this.dateFrom;
     this.filterModule.dateTo = this.dateTo;
     this.filterModule.repModel = this.repModel;
-    this.filterModule.placeModel = this.placeModel;
+    this.filterModule.dtoPlaceId = parseInt(this.placeModel);
     this.filterModule.selectedModule = this.selectedModule;
     this.viewCtrl.dismiss(this.filterModule);
   }

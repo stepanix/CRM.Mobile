@@ -21,7 +21,7 @@
 
   <ion-item>
     <ion-select [(ngModel)]="placeModel">
-      <ion-option value="-1">All places</ion-option>
+      <ion-option value="0">All places</ion-option>
       <ion-option *ngFor="let item of places" value="{{item.ServerId}}">{{item.Name}}</ion-option>
     </ion-select>
   </ion-item>

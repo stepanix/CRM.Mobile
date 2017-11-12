@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams,LoadingController,ModalController} from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
@@ -35,12 +35,14 @@ export class ActivityhistoryPage {
   forms: any[] = [];
   formValues: any[] = [];
   activities: any[] = [];
-  notes : any[] = [];
+  activitiesTemp: any[] = [];
+  notes: any[] = [];
   loader: any;
+  filterData: any = {};
 
   constructor(public modalCtrl: ModalController,
     private loading: LoadingController,
-    private noteRepoApi : NoteRepoApi,
+    private noteRepoApi: NoteRepoApi,
     private activityRepoApi: ActivityRepoApi,
     private formRepoApi: FormRepoApi,
     private formValueRepoApi: FormValueRepoApi,
@@ -52,14 +54,6 @@ export class ActivityhistoryPage {
     private scheduleRepoApi: ScheduleRepoApi,
     public navCtrl: NavController,
     public navParams: NavParams) {
-  }
-
-  toggleMenu() {
-    let filterModal = this.modalCtrl.create(FilterPage);
-     filterModal.present();
-     filterModal.onDidDismiss(data=>{
-      console.log("Data =>", data)
-    });
   }
 
   navigatePage(type, logId, item) {
@@ -114,14 +108,14 @@ export class ActivityhistoryPage {
 
   listOrderRepo() {
     this.loader.present().then(() => {
-    this.orderRepoApi
-      .getOrderForActivity()
-      .then((res) => {
-        if (res.results.length > 0) {
-          this.orders = res.results;
-        }
-        this.listPhotoRepo();
-      });
+      this.orderRepoApi
+        .getOrderForActivity()
+        .then((res) => {
+          if (res.results.length > 0) {
+            this.orders = res.results;
+          }
+          this.listPhotoRepo();
+        });
     });
   }
 
@@ -192,10 +186,12 @@ export class ActivityhistoryPage {
   }
 
   getActivityLog() {
-    this.activities = [];
+    this.filterData.selectedModule = "all";
+    this.filterData.dtoPlaceId = 0;
+    this.activitiesTemp = [];
     this.activityRepoApi.listAll().then((res) => {
       for (var i = 0; i < res.results.length; i++) {
-        this.activities.push({
+        this.activitiesTemp.push({
           ActivityTypeId: res.results[i].ActivityTypeId,
           fullName: res.results[i].FullName,
           initial: this.parseInitial(res.results[i].FullName),
@@ -211,6 +207,7 @@ export class ActivityhistoryPage {
           DateCreated: moment(res.results[i].DateCreated).format("lll")
         });
       }
+      this.appyModuleFilter();
       this.loader.dismiss();
     });
   }
@@ -299,8 +296,99 @@ export class ActivityhistoryPage {
   ngAfterContentInit() {
     this.loader = this.loading.create({
       content: 'Busy please wait...',
-   });
+    });
     this.listPlaceRepo();
+  }
+
+  toggleMenu() {
+    let filterModal = this.modalCtrl.create(FilterPage);
+    filterModal.present();
+    filterModal.onDidDismiss(data => {
+      this.filterData = data;
+      //console.log("Data =>", data)
+      this.appyModuleFilter();
+    });
+  }
+
+  appyModuleFilter() {
+    this.activities = [];
+    if (this.filterData.selectedModule === "all" && this.filterData.dtoPlaceId === 0) {
+      this.activities = this.activitiesTemp;
+    }
+    if (this.filterData.selectedModule !== "all" && this.filterData.dtoPlaceId === 0) {
+      this.activitiesTemp.forEach(entry => {
+        if (entry.ActivityLog === this.filterData.selectedModule
+          && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
+            && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
+
+          this.activities.push({
+            ActivityTypeId: entry.ActivityTypeId,
+            fullName: entry.FullName,
+            initial: this.parseInitial(entry.FullName),
+            placeId: parseInt(entry.PlaceId),
+            placeName: entry.PlaceName,
+            address: this.getPlace(parseInt(entry.PlaceId)),
+            ActivityLog: entry.ActivityLog,
+            photoImage: this.getPhoto(entry.ActivityTypeId),
+            order: this.getOrder(entry.ActivityTypeId),
+            retailAudit: this.getProductAudit(entry.ActivityTypeId),
+            form: this.getFormValues(entry.ActivityTypeId),
+            note: this.getNote(entry.ActivityTypeId),
+            DateCreated: moment(entry.DateCreated).format("lll")
+          });
+        }
+      });
+    }
+
+    if (this.filterData.selectedModule !== "all" && this.filterData.dtoPlaceId > 0) {
+      this.activitiesTemp.forEach(entry => {
+        if (entry.ActivityLog === this.filterData.selectedModule && entry.placeId === this.filterData.dtoPlaceId
+          && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
+            && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
+          this.activities.push({
+            ActivityTypeId: entry.ActivityTypeId,
+            fullName: entry.FullName,
+            initial: this.parseInitial(entry.FullName),
+            placeId: parseInt(entry.PlaceId),
+            placeName: entry.PlaceName,
+            address: this.getPlace(parseInt(entry.PlaceId)),
+            ActivityLog: entry.ActivityLog,
+            photoImage: this.getPhoto(entry.ActivityTypeId),
+            order: this.getOrder(entry.ActivityTypeId),
+            retailAudit: this.getProductAudit(entry.ActivityTypeId),
+            form: this.getFormValues(entry.ActivityTypeId),
+            note: this.getNote(entry.ActivityTypeId),
+            DateCreated: moment(entry.DateCreated).format("lll")
+          });
+        }
+      });
+    }
+
+    if (this.filterData.selectedModule === "all" && this.filterData.dtoPlaceId > 0) {
+      this.activitiesTemp.forEach(entry => {
+        if (entry.placeId === this.filterData.dtoPlaceId
+          && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
+            && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
+          this.activities.push({
+            ActivityTypeId: entry.ActivityTypeId,
+            fullName: entry.FullName,
+            initial: this.parseInitial(entry.FullName),
+            placeId: parseInt(entry.PlaceId),
+            placeName: entry.PlaceName,
+            address: this.getPlace(parseInt(entry.PlaceId)),
+            ActivityLog: entry.ActivityLog,
+            photoImage: this.getPhoto(entry.ActivityTypeId),
+            order: this.getOrder(entry.ActivityTypeId),
+            retailAudit: this.getProductAudit(entry.ActivityTypeId),
+            form: this.getFormValues(entry.ActivityTypeId),
+            note: this.getNote(entry.ActivityTypeId),
+            DateCreated: moment(entry.DateCreated).format("lll")
+          });
+        }
+      });
+    }
+    console.log("activities Temp", this.filterData);
+    console.log("activities Temp", this.activitiesTemp);
   }
 
 }
