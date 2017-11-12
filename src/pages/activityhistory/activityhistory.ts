@@ -1,0 +1,264 @@
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { ActivityRepoApi } from '../../repos/activity-repo-api';
+import { PhotoRepoApi } from '../../repos/photo-repo-api';
+import { PlaceRepoApi } from '../../repos/place-repo-api';
+import { OrderRepoApi } from '../../repos/order-repo-api';
+import { ProductRetailRepoApi } from '../../repos/productretailaudit-repo-api';
+import { RetailAuditFormRepoApi } from '../../repos/retailauditform-repo-api';
+import { FormValueRepoApi } from '../../repos/formvalue-repo-api';
+import { FormRepoApi } from '../../repos/form-repo-api';
+import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
+
+import * as moment from 'moment';
+
+import { PhotoPage } from '../photo/photo';
+import { NotePage } from '../note/note';
+import { FormPage } from '../form/form';
+import { RetailAuditFormPage } from '../retailauditform/retailauditform';
+import { ListProductPage } from '../listproduct/listproduct';
+import { OrdersPage } from '../orders/orders';
+
+@Component({
+  selector: 'page-activityhistory',
+  templateUrl: 'activityhistory.html',
+})
+export class ActivityhistoryPage {
+
+  photos: any[] = [];
+  places: any[] = [];
+  orders: any[] = [];
+  audits: any[] = [];
+  retailAuditForms: any[] = [];
+  forms: any[] = [];
+  formValues: any[] = [];
+  activities: any[] = [];
+
+  constructor(private activityRepoApi: ActivityRepoApi,
+    private formRepoApi: FormRepoApi,
+    private formValueRepoApi: FormValueRepoApi,
+    private retailAuditFormRepoApi: RetailAuditFormRepoApi,
+    private productRetailAudit: ProductRetailRepoApi,
+    private orderRepoApi: OrderRepoApi,
+    private placeRepoApi: PlaceRepoApi,
+    private photoRepoApi: PhotoRepoApi,
+    private scheduleRepoApi: ScheduleRepoApi,
+    public navCtrl: NavController,
+    public navParams: NavParams) {
+  }
+
+  navigatePage(type, logId, item) {
+    if (type === "Forms") {
+      this.navCtrl.setRoot(FormPage, {
+        Id: logId,
+        placeName: item.placeName,
+        placeId: item.placeId
+      });
+    }
+    if (type === "Product Retail Audit") {
+      this.navCtrl.setRoot(RetailAuditFormPage, {
+        Id: logId,
+        placeName: item.placeName,
+        placeId: item.placeId
+      });
+    }
+    if (type === "Photos") {
+      this.navCtrl.setRoot(PhotoPage, {
+        Id: logId,
+        placeName: item.placeName,
+        placeId: item.placeId
+      });
+    }
+    if (type === "Notes") {
+      this.navCtrl.setRoot(NotePage, {
+        Id: logId,
+        placeName: item.placeName,
+        placeId: item.placeId
+      });
+    }
+    if (type === "Orders") {
+      this.navCtrl.push(OrdersPage, {
+        Id: logId,
+        orderId: logId,
+        placeName: item.placeName,
+        placeId: item.placeId
+      });
+    }
+  }
+
+  listPlaceRepo() {
+    this.placeRepoApi
+      .getPlaceForActivity()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.places = res.results;
+        }
+        this.listOrderRepo();
+      });
+  }
+
+  listOrderRepo() {
+    this.orderRepoApi
+      .getOrderForActivity()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.orders = res.results;
+        }
+        this.listPhotoRepo();
+      });
+  }
+
+  listPhotoRepo() {
+    this.photoRepoApi
+      .getPhotoForActivity()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.photos = res.results;
+        }
+        this.listRetailAuditFormRepo();
+      });
+  }
+
+  listRetailAuditFormRepo() {
+    this.retailAuditFormRepoApi
+      .list()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.retailAuditForms = res.results;
+        }
+        this.listAuditRepo();
+      });
+  }
+
+  listAuditRepo() {
+    this.productRetailAudit
+      .list()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.audits = res.results;
+        }
+        this.listFormRepo();
+      });
+  }
+
+  listFormRepo() {
+    this.formRepoApi
+      .list()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.forms = res.results;
+        }
+        this.listFormValueRepo();
+      });
+  }
+
+  listFormValueRepo() {
+    this.formValueRepoApi
+      .list()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.formValues = res.results;
+        }
+        this.getActivityLog();
+      });
+  }
+
+  getActivityLog() {
+    this.activities = [];
+    this.activityRepoApi.listAll().then((res) => {
+      for (var i = 0; i < res.results.length; i++) {
+        this.activities.push({
+          ActivityTypeId: res.results[i].ActivityTypeId,
+          fullName: res.results[i].FullName,
+          initial: this.parseInitial(res.results[i].FullName),
+          placeId: parseInt(res.results[i].PlaceId),
+          placeName: res.results[i].PlaceName,
+          address: this.getPlace(parseInt(res.results[i].PlaceId)),
+          ActivityLog: res.results[i].ActivityLog,
+          photoImage: this.getPhoto(res.results[i].ActivityTypeId),
+          order: this.getOrder(res.results[i].ActivityTypeId),
+          retailAudit: this.getProductAudit(res.results[i].ActivityTypeId),
+          form: this.getFormValues(res.results[i].ActivityTypeId),
+          DateCreated: moment(res.results[i].DateCreated).format("lll")
+        });
+      }
+    });
+  }
+
+  ionViewDidLoad() {
+
+  }
+
+  parseInitial(fullname: string): string {
+    var tempName: string[] = fullname.split(" ");
+    return tempName[0].charAt(0) + tempName[1].charAt(0);
+  }
+
+  getFormValues(repoId) {
+    let itemModel = this.formValues.find(item => item.Id === repoId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return this.getForm(itemModel.FormId);
+    }
+  }
+
+  getForm(formId) {
+    let itemModel = this.forms.find(item => item.ServerId === formId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return itemModel.Title;
+    }
+  }
+
+  getProductAudit(repoId) {
+    let itemModel = this.audits.find(item => item.Id === repoId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return this.getAuditForm(itemModel.RetailAuditFormId);
+    }
+  }
+
+  getAuditForm(formId) {
+    let itemModel = this.retailAuditForms.find(item => item.ServerId === formId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return itemModel.Name;
+    }
+  }
+
+  getPhoto(photoId) {
+    let itemModel = this.photos.find(item => item.Id === photoId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return itemModel.PictureUrl;
+    }
+  }
+
+  getOrder(orderId) {
+    let itemModel = this.orders.find(item => item.RepoId === orderId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return itemModel.TotalAmount;
+    }
+  }
+
+  getPlace(placeId) {
+    let itemModel = this.places.find(item => item.ServerId === placeId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return itemModel.StreetAddress;
+    }
+  }
+
+  ngAfterContentInit() {
+    this.listPlaceRepo();
+  }
+
+}

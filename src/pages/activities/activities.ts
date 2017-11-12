@@ -6,22 +6,22 @@ import { SyncServiceApi } from '../../services/sync-service-api';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
-import { PhotoRepoApi } from '../../repos/photo-repo-api';
-import { PlaceRepoApi } from '../../repos/place-repo-api';
-import { OrderRepoApi } from '../../repos/order-repo-api';
-import { ProductRetailRepoApi } from '../../repos/productretailaudit-repo-api';
-import { RetailAuditFormRepoApi } from '../../repos/retailauditform-repo-api';
-import { FormValueRepoApi } from '../../repos/formvalue-repo-api';
-import { FormRepoApi } from '../../repos/form-repo-api';
+// import { PhotoRepoApi } from '../../repos/photo-repo-api';
+// import { PlaceRepoApi } from '../../repos/place-repo-api';
+// import { OrderRepoApi } from '../../repos/order-repo-api';
+// import { ProductRetailRepoApi } from '../../repos/productretailaudit-repo-api';
+// import { RetailAuditFormRepoApi } from '../../repos/retailauditform-repo-api';
+// import { FormValueRepoApi } from '../../repos/formvalue-repo-api';
+// import { FormRepoApi } from '../../repos/form-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
-import { PhotoPage } from '../photo/photo';
-import { NotePage } from '../note/note';
-import { FormPage } from '../form/form';
-import { RetailAuditFormPage } from '../retailauditform/retailauditform';
-import { ListProductPage } from '../listproduct/listproduct';
-import { OrdersPage } from '../orders/orders';
+// import { PhotoPage } from '../photo/photo';
+// import { NotePage } from '../note/note';
+// import { FormPage } from '../form/form';
+// import { RetailAuditFormPage } from '../retailauditform/retailauditform';
+// import { ListProductPage } from '../listproduct/listproduct';
+// import { OrdersPage } from '../orders/orders';
 // import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 
@@ -32,28 +32,22 @@ import { OrdersPage } from '../orders/orders';
 export class ActivitiesPage {
 
     loader: any;
-    activities: any[] = [];
+    // activities: any[] = [];
     start: boolean = true;
     pause: boolean = false;
     stop: boolean = false;
     workDay: any = "Workday : 0 hrs";
     TimeMileageModel: any = {};
     pauseTotal: any = "0";
-    photos : any[] = [];
-    places : any[] = [];
-    orders : any[] = [];
-    audits : any[] = [];
-    retailAuditForms : any[] = [];
-    forms : any[] = [];
-    formValues : any[] = [];
+    // photos : any[] = [];
+    // places : any[] = [];
+    // orders : any[] = [];
+    // audits : any[] = [];
+    // retailAuditForms : any[] = [];
+    // forms : any[] = [];
+    // formValues : any[] = [];
 
-    constructor(private formRepoApi : FormRepoApi,
-        private formValueRepoApi : FormValueRepoApi,
-        private retailAuditFormRepoApi : RetailAuditFormRepoApi,
-        private productRetailAudit : ProductRetailRepoApi,
-        private orderRepoApi : OrderRepoApi,
-        private placeRepoApi : PlaceRepoApi, 
-        private photoRepoApi: PhotoRepoApi,
+    constructor(
         private scheduleRepoApi: ScheduleRepoApi,
         private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
@@ -82,44 +76,44 @@ export class ActivitiesPage {
         this.scheduleRepoApi.updateMissedSchedule();
     }
 
-    navigatePage(type, logId, item) {
-        if (type === "Forms") {
-            this.navCtrl.setRoot(FormPage, {
-                Id: logId,
-                placeName: item.placeName,
-                placeId: item.placeId
-            });
-        }
-        if (type === "Product Retail Audit") {
-            this.navCtrl.setRoot(RetailAuditFormPage, {
-                Id: logId,
-                placeName: item.placeName,
-                placeId: item.placeId
-            });
-        }
-        if (type === "Photos") {
-            this.navCtrl.setRoot(PhotoPage, {
-                Id: logId,
-                placeName: item.placeName,
-                placeId: item.placeId
-            });
-        }
-        if (type === "Notes") {
-            this.navCtrl.setRoot(NotePage, {
-                Id: logId,
-                placeName: item.placeName,
-                placeId: item.placeId
-            });
-        }
-        if (type === "Orders") {
-            this.navCtrl.push(OrdersPage, {
-                Id: logId,
-                orderId: logId,
-                placeName: item.placeName,
-                placeId: item.placeId
-            });
-        }
-    }
+    // navigatePage(type, logId, item) {
+    //     if (type === "Forms") {
+    //         this.navCtrl.setRoot(FormPage, {
+    //             Id: logId,
+    //             placeName: item.placeName,
+    //             placeId: item.placeId
+    //         });
+    //     }
+    //     if (type === "Product Retail Audit") {
+    //         this.navCtrl.setRoot(RetailAuditFormPage, {
+    //             Id: logId,
+    //             placeName: item.placeName,
+    //             placeId: item.placeId
+    //         });
+    //     }
+    //     if (type === "Photos") {
+    //         this.navCtrl.setRoot(PhotoPage, {
+    //             Id: logId,
+    //             placeName: item.placeName,
+    //             placeId: item.placeId
+    //         });
+    //     }
+    //     if (type === "Notes") {
+    //         this.navCtrl.setRoot(NotePage, {
+    //             Id: logId,
+    //             placeName: item.placeName,
+    //             placeId: item.placeId
+    //         });
+    //     }
+    //     if (type === "Orders") {
+    //         this.navCtrl.push(OrdersPage, {
+    //             Id: logId,
+    //             orderId: logId,
+    //             placeName: item.placeName,
+    //             placeId: item.placeId
+    //         });
+    //     }
+    // }
 
     addTimerNotification() {
         this.counterNotifications.schedule({
@@ -331,181 +325,181 @@ export class ActivitiesPage {
         if (token === null || token === undefined || token === "null") {
             this.navCtrl.setRoot(LoginPage);
         } else {
-            this.listPlaceRepo();
+            //this.listPlaceRepo();
             this.syncServiceApi.downloadServerData();
         }
     }
 
-    listPlaceRepo() {
-        this.placeRepoApi
-            .getPlaceForActivity()
-            .then((res) => {
-                if (res.results.length > 0) {
-                    this.places = res.results;
-                }
-                this.listOrderRepo();
-            });
-    }
+    // listPlaceRepo() {
+    //     this.placeRepoApi
+    //         .getPlaceForActivity()
+    //         .then((res) => {
+    //             if (res.results.length > 0) {
+    //                 this.places = res.results;
+    //             }
+    //             this.listOrderRepo();
+    //         });
+    // }
 
-    listOrderRepo(){
-        this.orderRepoApi
-        .getOrderForActivity()
-        .then((res) => {
-            if (res.results.length > 0) {
-                this.orders = res.results;
-            }
-            this.listPhotoRepo();
-        });
-    }
+    // listOrderRepo(){
+    //     this.orderRepoApi
+    //     .getOrderForActivity()
+    //     .then((res) => {
+    //         if (res.results.length > 0) {
+    //             this.orders = res.results;
+    //         }
+    //         this.listPhotoRepo();
+    //     });
+    // }
 
-    listPhotoRepo() {
-        this.photoRepoApi
-            .getPhotoForActivity()
-            .then((res) => {
-                if (res.results.length > 0) {
-                    this.photos = res.results;
-                }
-                this.listRetailAuditFormRepo();
-            });
-    }
+    // listPhotoRepo() {
+    //     this.photoRepoApi
+    //         .getPhotoForActivity()
+    //         .then((res) => {
+    //             if (res.results.length > 0) {
+    //                 this.photos = res.results;
+    //             }
+    //             this.listRetailAuditFormRepo();
+    //         });
+    // }
 
-    listRetailAuditFormRepo(){
-        this.retailAuditFormRepoApi
-        .list()
-        .then((res) => {
-            if (res.results.length > 0) {
-                this.retailAuditForms = res.results;
-            }
-            this.listAuditRepo();
-        });
-    }
+    // listRetailAuditFormRepo(){
+    //     this.retailAuditFormRepoApi
+    //     .list()
+    //     .then((res) => {
+    //         if (res.results.length > 0) {
+    //             this.retailAuditForms = res.results;
+    //         }
+    //         this.listAuditRepo();
+    //     });
+    // }
 
-    listAuditRepo(){
-        this.productRetailAudit
-        .list()
-        .then((res) => {
-            if (res.results.length > 0) {
-                this.audits = res.results;
-            }
-            this.listFormRepo();
-        });
-    }
+    // listAuditRepo(){
+    //     this.productRetailAudit
+    //     .list()
+    //     .then((res) => {
+    //         if (res.results.length > 0) {
+    //             this.audits = res.results;
+    //         }
+    //         this.listFormRepo();
+    //     });
+    // }
 
-    listFormRepo(){
-        this.formRepoApi
-        .list()
-        .then((res) => {
-            if (res.results.length > 0) {
-                this.forms = res.results;
-            }
-            this.listFormValueRepo();
-        });
-    }
+    // listFormRepo(){
+    //     this.formRepoApi
+    //     .list()
+    //     .then((res) => {
+    //         if (res.results.length > 0) {
+    //             this.forms = res.results;
+    //         }
+    //         this.listFormValueRepo();
+    //     });
+    // }
 
-    listFormValueRepo(){
-        this.formValueRepoApi
-        .list()
-        .then((res) => {
-            if (res.results.length > 0) {
-                this.formValues = res.results;
-            }
-            this.getActivityLog();
-        });
-    }
+    // listFormValueRepo(){
+    //     this.formValueRepoApi
+    //     .list()
+    //     .then((res) => {
+    //         if (res.results.length > 0) {
+    //             this.formValues = res.results;
+    //         }
+    //         this.getActivityLog();
+    //     });
+    // }
 
-    getActivityLog() {
-        this.activities = [];
-        this.activityRepoApi.listAll().then((res) => {
-            for (var i = 0; i < res.results.length; i++) {
-                this.activities.push({
-                    ActivityTypeId: res.results[i].ActivityTypeId,
-                    fullName: res.results[i].FullName,
-                    initial : this.parseInitial(res.results[i].FullName),
-                    placeId: parseInt(res.results[i].PlaceId),
-                    placeName: res.results[i].PlaceName,
-                    address : this.getPlace(parseInt(res.results[i].PlaceId)),
-                    ActivityLog : res.results[i].ActivityLog,
-                    photoImage: this.getPhoto(res.results[i].ActivityTypeId),
-                    order : this.getOrder(res.results[i].ActivityTypeId),
-                    retailAudit : this.getProductAudit(res.results[i].ActivityTypeId),
-                    form : this.getFormValues(res.results[i].ActivityTypeId),
-                    DateCreated: moment(res.results[i].DateCreated).format("lll")
-                });
-            }
-        });
-    }
+    // getActivityLog() {
+    //     this.activities = [];
+    //     this.activityRepoApi.listAll().then((res) => {
+    //         for (var i = 0; i < res.results.length; i++) {
+    //             this.activities.push({
+    //                 ActivityTypeId: res.results[i].ActivityTypeId,
+    //                 fullName: res.results[i].FullName,
+    //                 initial : this.parseInitial(res.results[i].FullName),
+    //                 placeId: parseInt(res.results[i].PlaceId),
+    //                 placeName: res.results[i].PlaceName,
+    //                 address : this.getPlace(parseInt(res.results[i].PlaceId)),
+    //                 ActivityLog : res.results[i].ActivityLog,
+    //                 photoImage: this.getPhoto(res.results[i].ActivityTypeId),
+    //                 order : this.getOrder(res.results[i].ActivityTypeId),
+    //                 retailAudit : this.getProductAudit(res.results[i].ActivityTypeId),
+    //                 form : this.getFormValues(res.results[i].ActivityTypeId),
+    //                 DateCreated: moment(res.results[i].DateCreated).format("lll")
+    //             });
+    //         }
+    //     });
+    // }
 
-    ionViewDidLoad() {
+    // ionViewDidLoad() {
 
-    }
+    // }
 
-    parseInitial(fullname:string) : string {
-        var tempName : string[] = fullname.split(" ");
-        return tempName[0].charAt(0) + tempName[1].charAt(0);
-    }
+    // parseInitial(fullname:string) : string {
+    //     var tempName : string[] = fullname.split(" ");
+    //     return tempName[0].charAt(0) + tempName[1].charAt(0);
+    // }
 
-    getFormValues(repoId){
-        let itemModel = this.formValues.find(item => item.Id === repoId);       
-        if (itemModel === undefined) {
-            return "";
-        } else {
-            return this.getForm(itemModel.FormId);
-        }
-    }
+    // getFormValues(repoId){
+    //     let itemModel = this.formValues.find(item => item.Id === repoId);       
+    //     if (itemModel === undefined) {
+    //         return "";
+    //     } else {
+    //         return this.getForm(itemModel.FormId);
+    //     }
+    // }
     
-    getForm(formId) {
-        let itemModel = this.forms.find(item => item.ServerId === formId);
-        if (itemModel === undefined) {
-            return "";
-        } else {
-            return itemModel.Title;
-        }
-    }
+    // getForm(formId) {
+    //     let itemModel = this.forms.find(item => item.ServerId === formId);
+    //     if (itemModel === undefined) {
+    //         return "";
+    //     } else {
+    //         return itemModel.Title;
+    //     }
+    // }
 
-    getProductAudit(repoId){
-        let itemModel = this.audits.find(item => item.Id === repoId);       
-        if (itemModel === undefined) {
-            return "";
-        } else {
-            return this.getAuditForm(itemModel.RetailAuditFormId);
-        }
-    }
+    // getProductAudit(repoId){
+    //     let itemModel = this.audits.find(item => item.Id === repoId);       
+    //     if (itemModel === undefined) {
+    //         return "";
+    //     } else {
+    //         return this.getAuditForm(itemModel.RetailAuditFormId);
+    //     }
+    // }
     
-    getAuditForm(formId) {
-        let itemModel = this.retailAuditForms.find(item => item.ServerId === formId);
-        if (itemModel === undefined) {
-            return "";
-        } else {
-            return itemModel.Name;
-        }
-    }
+    // getAuditForm(formId) {
+    //     let itemModel = this.retailAuditForms.find(item => item.ServerId === formId);
+    //     if (itemModel === undefined) {
+    //         return "";
+    //     } else {
+    //         return itemModel.Name;
+    //     }
+    // }
 
-    getPhoto(photoId) {
-        let itemModel = this.photos.find(item => item.Id === photoId);
-        if (itemModel === undefined) {
-            return "";
-        } else {
-            return itemModel.PictureUrl;
-        }
-    }
+    // getPhoto(photoId) {
+    //     let itemModel = this.photos.find(item => item.Id === photoId);
+    //     if (itemModel === undefined) {
+    //         return "";
+    //     } else {
+    //         return itemModel.PictureUrl;
+    //     }
+    // }
 
-    getOrder(orderId) {
-        let itemModel = this.orders.find(item => item.RepoId === orderId);
-        if (itemModel === undefined) {
-            return "";
-        } else {
-            return itemModel.TotalAmount;
-        }
-    }
+    // getOrder(orderId) {
+    //     let itemModel = this.orders.find(item => item.RepoId === orderId);
+    //     if (itemModel === undefined) {
+    //         return "";
+    //     } else {
+    //         return itemModel.TotalAmount;
+    //     }
+    // }
 
-    getPlace(placeId) {
-        let itemModel = this.places.find(item => item.ServerId === placeId);
-        if (itemModel === undefined) {
-            return "";
-        } else {
-            return itemModel.StreetAddress;
-        }
-    }
+    // getPlace(placeId) {
+    //     let itemModel = this.places.find(item => item.ServerId === placeId);
+    //     if (itemModel === undefined) {
+    //         return "";
+    //     } else {
+    //         return itemModel.StreetAddress;
+    //     }
+    // }
 
     navigateToPlaces() {
         this.navCtrl.setRoot(PlacesPage);

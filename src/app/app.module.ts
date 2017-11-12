@@ -14,6 +14,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ReactiveFormsModule }  from '@angular/forms';
 import { ActivitiesPage } from '../pages/activities/activities';
+import { ActivityhistoryPage } from '../pages/activityhistory/activityhistory';
+
 import { SchedulePage } from '../pages/schedule/schedule';
 import { AddSchedulePage } from '../pages/addschedule/addschedule';
 import { VisitPage } from '../pages/visit/visit';
@@ -74,7 +76,8 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
       ListProductPage,
       OrdersPage,
       OrderItemPage,
-      TimeMileagePage
+      TimeMileagePage,
+      ActivityhistoryPage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -114,7 +117,8 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
       ListProductPage,
       OrdersPage,
       OrderItemPage,
-      TimeMileagePage
+      TimeMileagePage,
+      ActivityhistoryPage
   ],
   providers: [
     Camera,
