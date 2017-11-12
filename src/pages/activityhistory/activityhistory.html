@@ -89,6 +89,21 @@
                             </div>
                         </ion-col>
                     </ion-row>
+
+                    <ion-row *ngIf="item.ActivityLog==='Notes'">
+                            <ion-col col-auto>
+                                <div style="margin-left: 10px;">
+                                    <ion-icon ios="md-list-box" md="md-list-box" item-left></ion-icon>
+                                </div>
+                            </ion-col>
+                            <ion-col col-auto>
+                                <div style="margin-top: 15px;">
+                                    <span style="color:#666;font-size: 13px; padding-left:2px!important;">
+                                        {{item.note}}
+                                    </span>
+                                </div>
+                            </ion-col>
+                        </ion-row>
             </ion-grid>
         </ion-card>
     </div>

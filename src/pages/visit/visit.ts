@@ -65,69 +65,69 @@ export class VisitPage {
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
     this.getScheduleData();
-    this.getActivityRepo();
+    // this.getActivityRepo();
     console.log("scheduleid", this.scheduleId);
   }
 
-  getActivityRepo() {
-    this.activities = [];
-    this.activityRepoApi.list(this.placeId).then((res) => {
-      if (res.results.length > 0) {
-        for (var i = 0; i < res.results.length; i++) {
-          this.activities.push({
-            PlaceName: res.results[i].PlaceName,
-            ActivityTypeId: res.results[i].ActivityTypeId,
-            ActivityLog: res.results[i].ActivityLog,
-            DateCreated: moment(res.results[i].DateCreated).format("lll")
-          });
-        }
-      }
-    });
-  }
+  // getActivityRepo() {
+  //   this.activities = [];
+  //   this.activityRepoApi.list(this.placeId).then((res) => {
+  //     if (res.results.length > 0) {
+  //       for (var i = 0; i < res.results.length; i++) {
+  //         this.activities.push({
+  //           PlaceName: res.results[i].PlaceName,
+  //           ActivityTypeId: res.results[i].ActivityTypeId,
+  //           ActivityLog: res.results[i].ActivityLog,
+  //           DateCreated: moment(res.results[i].DateCreated).format("lll")
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 
-  navigatePage(type, logId) {
-    if (type === "Forms") {
-      this.navCtrl.setRoot(FormPage, {
-        Id: logId,
-        placeName: this.placeName,
-        scheduleId: this.scheduleId,
-        placeId: this.placeId
-      });
-    }
-    if (type === "Product Retail Audit") {
-      this.navCtrl.setRoot(RetailAuditFormPage, {
-        Id: logId,
-        placeName: this.placeName,
-        scheduleId: this.scheduleId,
-        placeId: this.placeId
-      });
-    }
-    if (type === "Photos") {
-      this.navCtrl.setRoot(PhotoPage, {
-        Id: logId,
-        placeName: this.placeName,
-        scheduleId: this.scheduleId,
-        placeId: this.placeId
-      });
-    }
-    if (type === "Notes") {
-      this.navCtrl.setRoot(NotePage, {
-        Id: logId,
-        placeName: this.placeName,
-        scheduleId: this.scheduleId,
-        placeId: this.placeId
-      });
-    }
-    if (type === "Orders") {
-      this.navCtrl.push(OrdersPage, {
-        Id: logId,
-        orderId : logId,
-        placeName: this.placeName,
-        scheduleId: this.scheduleId,
-        placeId: this.placeId
-      });
-    }
-  }
+  // navigatePage(type, logId) {
+  //   if (type === "Forms") {
+  //     this.navCtrl.setRoot(FormPage, {
+  //       Id: logId,
+  //       placeName: this.placeName,
+  //       scheduleId: this.scheduleId,
+  //       placeId: this.placeId
+  //     });
+  //   }
+  //   if (type === "Product Retail Audit") {
+  //     this.navCtrl.setRoot(RetailAuditFormPage, {
+  //       Id: logId,
+  //       placeName: this.placeName,
+  //       scheduleId: this.scheduleId,
+  //       placeId: this.placeId
+  //     });
+  //   }
+  //   if (type === "Photos") {
+  //     this.navCtrl.setRoot(PhotoPage, {
+  //       Id: logId,
+  //       placeName: this.placeName,
+  //       scheduleId: this.scheduleId,
+  //       placeId: this.placeId
+  //     });
+  //   }
+  //   if (type === "Notes") {
+  //     this.navCtrl.setRoot(NotePage, {
+  //       Id: logId,
+  //       placeName: this.placeName,
+  //       scheduleId: this.scheduleId,
+  //       placeId: this.placeId
+  //     });
+  //   }
+  //   if (type === "Orders") {
+  //     this.navCtrl.push(OrdersPage, {
+  //       Id: logId,
+  //       orderId : logId,
+  //       placeName: this.placeName,
+  //       scheduleId: this.scheduleId,
+  //       placeId: this.placeId
+  //     });
+  //   }
+  // }
 
   getScheduleData() {
     this.scheduleRepoApi.listByScheduleId(this.repoId).then((res) => {

@@ -17,7 +17,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
       <ion-list class="signInList signIn">        
 
@@ -29,7 +29,7 @@
           <button ion-item style="text-align: left;">
               <ion-icon ios="ios-navigate" md="ios-navigate" item-left></ion-icon>
               {{streetAddress}}
-              <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+              <!-- <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon> -->
           </button>
 
           <button ion-item style="text-align: left;" (click)="openSchedule()">
@@ -82,24 +82,7 @@
              </div>
         </ion-card-header>
    </ion-card>
-
-   <ion-list>
-        <div *ngFor="let item of activities">
-               <ion-card>
-                   <ion-card-header (click)="navigatePage(item.ActivityLog,item.ActivityTypeId)">
-                       <ion-icon ios="ios-home" md="ios-home" item-left>
-                           {{item.PlaceName}}
-                       </ion-icon>
-                       <span style="color:#666;font-size: 1.2rem; float:right;font-size: 13px;">
-                           {{item.DateCreated}}
-                       </span>
-                   </ion-card-header>
-                   <ion-card-content (click)="navigatePage(item.ActivityLog,item.ActivityTypeId)">
-                         {{item.ActivityLog}}
-                   </ion-card-content>
-               </ion-card>
-          </div>
-   </ion-list>
+   <page-activityhistory></page-activityhistory>   
 </ion-content>
 
 <ion-fab right bottom color="#2E86C1" [hidden]="!hideCheckOutButton">

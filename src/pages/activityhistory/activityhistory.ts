@@ -8,6 +8,7 @@ import { ProductRetailRepoApi } from '../../repos/productretailaudit-repo-api';
 import { RetailAuditFormRepoApi } from '../../repos/retailauditform-repo-api';
 import { FormValueRepoApi } from '../../repos/formvalue-repo-api';
 import { FormRepoApi } from '../../repos/form-repo-api';
+import { NoteRepoApi } from '../../repos/note-repo-api';
 import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 
 import * as moment from 'moment';
@@ -33,8 +34,10 @@ export class ActivityhistoryPage {
   forms: any[] = [];
   formValues: any[] = [];
   activities: any[] = [];
+  notes : any[] = [];
 
-  constructor(private activityRepoApi: ActivityRepoApi,
+  constructor(private noteRepoApi : NoteRepoApi,
+    private activityRepoApi: ActivityRepoApi,
     private formRepoApi: FormRepoApi,
     private formValueRepoApi: FormValueRepoApi,
     private retailAuditFormRepoApi: RetailAuditFormRepoApi,
@@ -159,6 +162,17 @@ export class ActivityhistoryPage {
         if (res.results.length > 0) {
           this.formValues = res.results;
         }
+        this.listNoteRepo();
+      });
+  }
+
+  listNoteRepo() {
+    this.noteRepoApi
+      .list()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.notes = res.results;
+        }
         this.getActivityLog();
       });
   }
@@ -179,6 +193,7 @@ export class ActivityhistoryPage {
           order: this.getOrder(res.results[i].ActivityTypeId),
           retailAudit: this.getProductAudit(res.results[i].ActivityTypeId),
           form: this.getFormValues(res.results[i].ActivityTypeId),
+          note: this.getNote(res.results[i].ActivityTypeId),
           DateCreated: moment(res.results[i].DateCreated).format("lll")
         });
       }
@@ -192,6 +207,15 @@ export class ActivityhistoryPage {
   parseInitial(fullname: string): string {
     var tempName: string[] = fullname.split(" ");
     return tempName[0].charAt(0) + tempName[1].charAt(0);
+  }
+
+  getNote(repoId) {
+    let itemModel = this.notes.find(item => item.Id === repoId);
+    if (itemModel === undefined) {
+      return "";
+    } else {
+      return itemModel.Description;
+    }
   }
 
   getFormValues(repoId) {
