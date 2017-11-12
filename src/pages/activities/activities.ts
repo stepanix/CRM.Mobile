@@ -8,6 +8,7 @@ import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
+import { OrderRepoApi } from '../../repos/order-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -34,10 +35,13 @@ export class ActivitiesPage {
     workDay: any = "Workday : 0 hrs";
     TimeMileageModel: any = {};
     pauseTotal: any = "0";
-    photos: any[] = [];
+    photos : any[] = [];
     places : any[] = [];
+    orders : any[] = [];
 
-    constructor(private placeRepoApi : PlaceRepoApi, private photoRepoApi: PhotoRepoApi,
+    constructor(private orderRepoApi : OrderRepoApi,
+        private placeRepoApi : PlaceRepoApi, 
+        private photoRepoApi: PhotoRepoApi,
         private scheduleRepoApi: ScheduleRepoApi,
         private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
@@ -316,21 +320,8 @@ export class ActivitiesPage {
             this.navCtrl.setRoot(LoginPage);
         } else {
             this.listPlaceRepo();
-            this.listPhotoRepo();
             this.syncServiceApi.downloadServerData();
         }
-    }
-
-    listPhotoRepo() {
-        this.photoRepoApi
-            .getPhotoForActivity()
-            .then((res) => {
-                if (res.results.length > 0) {
-                    this.photos = res.results;
-                }
-                //console.log("photos", this.photos);
-                this.getActivityLog();
-            });
     }
 
     listPlaceRepo() {
@@ -340,10 +331,31 @@ export class ActivitiesPage {
                 if (res.results.length > 0) {
                     this.places = res.results;
                 }
-                console.log("places", this.places);
+                this.listOrderRepo();
             });
     }
-    
+
+    listOrderRepo(){
+        this.orderRepoApi
+        .getOrderForActivity()
+        .then((res) => {
+            if (res.results.length > 0) {
+                this.orders = res.results;
+            }
+            this.listPhotoRepo();
+        });
+    }
+
+    listPhotoRepo() {
+        this.photoRepoApi
+            .getPhotoForActivity()
+            .then((res) => {
+                if (res.results.length > 0) {
+                    this.photos = res.results;
+                }
+                this.getActivityLog();
+            });
+    }
 
     getActivityLog() {
         this.activities = [];
@@ -356,8 +368,9 @@ export class ActivitiesPage {
                     placeId: parseInt(res.results[i].PlaceId),
                     placeName: res.results[i].PlaceName,
                     address : this.getPlace(parseInt(res.results[i].PlaceId)),
-                    ActivityLog: res.results[i].ActivityLog,
+                    ActivityLog : res.results[i].ActivityLog,
                     photoImage: this.getPhoto(res.results[i].ActivityTypeId),
+                    order : this.getOrder(res.results[i].ActivityTypeId),
                     DateCreated: moment(res.results[i].DateCreated).format("lll")
                 });
             }
@@ -379,6 +392,15 @@ export class ActivitiesPage {
             return "";
         } else {
             return itemModel.PictureUrl;
+        }
+    }
+
+    getOrder(orderId) {
+        let itemModel = this.orders.find(item => item.RepoId === orderId);
+        if (itemModel === undefined) {
+            return "";
+        } else {
+            return itemModel.TotalAmount;
         }
     }
 

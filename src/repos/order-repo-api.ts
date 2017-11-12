@@ -91,5 +91,11 @@ export class OrderRepoApi {
         var results = data.where("Id", "=", Id).orWhere("RepoId", "=", Id).get();
         return results;
      }
+
+     getOrderForActivity() : Promise<any>{
+        var data = new QueryBuilder(new OrderModel());
+        var results = data.get("*");
+        return results;
+     }
      
 }
