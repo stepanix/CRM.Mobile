@@ -10,14 +10,14 @@
 
         <ion-buttons end>
 
-            <button ion-button icon-only (click)="savePhotoRepo()" [disabled]="base64Image==='assets/camera.png'">
+            <button ion-button icon-only (click)="savePhotoRepo()" [disabled]="base64Image==='assets/camera.png' || isDisabled">
                 Save
             </button>
 
         </ion-buttons>
 
-        <ion-buttons end style="padding-left:10px!important">                
-            <button ion-button icon-only (click)="submitOrder()" style="background-color: #fafafa;color:#000000">
+        <ion-buttons end style="padding-left:10px!important">
+            <button ion-button icon-only (click)="submitOrder()" [disabled]="isDisabled" style="background-color: #fafafa;color:#000000">
                 <ion-icon ios="ios-cloud-upload" md="ios-cloud-upload" style="color:#2E86C1!important"></ion-icon>
             </button>
         </ion-buttons>

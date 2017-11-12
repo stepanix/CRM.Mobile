@@ -6,6 +6,7 @@ import { SyncServiceApi } from '../../services/sync-service-api';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
+import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -15,7 +16,7 @@ import { FormPage } from '../form/form';
 import { RetailAuditFormPage } from '../retailauditform/retailauditform';
 import { ListProductPage } from '../listproduct/listproduct';
 import { OrdersPage } from '../orders/orders';
-import { LocationAccuracy } from '@ionic-native/location-accuracy';
+// import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 
 @Component({
@@ -32,8 +33,9 @@ export class ActivitiesPage {
     workDay: any = "Workday : 0 hrs";
     TimeMileageModel: any = {};
     pauseTotal: any = "0";
+    photos : any[] =[];
 
-    constructor(private locationAccuracy: LocationAccuracy,
+    constructor(private photoRepoApi : PhotoRepoApi,        
         private scheduleRepoApi: ScheduleRepoApi,
         private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
@@ -44,19 +46,19 @@ export class ActivitiesPage {
         public navCtrl: NavController,
         public navParams: NavParams) {
 
-        this.locationAccuracy.canRequest().then((canRequest: boolean) => {
-            if (canRequest) {
-                // the accuracy option will be ignored by iOS
-                this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
-                    () => console.log('Request successful'),
-                    error => console.log('Error requesting location permissions', error)
-                );
-            }
-        });
+        // this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+        //     if (canRequest) {
+        //         // the accuracy option will be ignored by iOS
+        //         this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+        //             () => console.log('Request successful'),
+        //             error => console.log('Error requesting location permissions', error)
+        //         );
+        //     }
+        // });        
         this.checkMissedSchedule();
         this.getWorkDuration();
         this.checkWorkStatus();
-    }
+    }    
 
     checkMissedSchedule() {
        this.scheduleRepoApi.updateMissedSchedule();
@@ -311,9 +313,21 @@ export class ActivitiesPage {
         if (token === null || token === undefined || token === "null") {
             this.navCtrl.setRoot(LoginPage);
         } else {
-            this.getActivityLog();
+            this.listPhotoRepo();            
             this.syncServiceApi.downloadServerData();
         }
+    }
+
+    listPhotoRepo(){
+        this.photoRepoApi
+        .getPhotoForActivity()
+        .then((res) => {
+            if(res.results.length>0){
+              this.photos = res.results;         
+            }
+            console.log("photos",this.photos);
+            this.getActivityLog();
+        });
     }
 
     getActivityLog() {
@@ -325,14 +339,25 @@ export class ActivitiesPage {
                     placeId: parseInt(res.results[i].PlaceId),
                     placeName: res.results[i].PlaceName,
                     ActivityLog: res.results[i].ActivityLog,
+                    photoImage : this.getPhoto(res.results[i].ActivityTypeId),
                     DateCreated: moment(res.results[i].DateCreated).format("lll")
                 });
             }
         });
+        console.log("activities",this.activities);
     }
 
     ionViewDidLoad() {
+        
+    }
 
+    getPhoto(photoId){
+        let itemModel = this.photos.find(item => item.Id === photoId);
+        if (itemModel === undefined) {
+          return "";
+        } else {
+          return itemModel.PictureUrl;
+        }
     }
 
     navigateToPlaces() {

@@ -52,6 +52,7 @@ export class LoginPage {
             this.loginApi.postLogin(this.loginData).subscribe(res => {
                 localStorage.setItem('token', res.access_token);
                 localStorage.setItem('userid',res.userid);
+                localStorage.setItem('fullname',res.fullname);
                 this.syncServiceApi.downloadServerData();               
                 this.loader.dismiss();
                 this.navCtrl.setRoot(ActivitiesPage);

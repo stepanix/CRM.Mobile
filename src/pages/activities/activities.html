@@ -1,57 +1,61 @@
 <ion-header>
     <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>Activities</ion-title>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Activities</ion-title>
 
         <ion-buttons end>
-          
-              <page-network> </page-network>
-          
+
+            <page-network> </page-network>
+
         </ion-buttons>
 
     </ion-navbar>
 
-  </ion-header>
-    <ion-content class="signInList signIn">
-      <page-visitstatus></page-visitstatus>
-      <div *ngFor="let item of activities">
-           <ion-card>
-              <ion-card-header (click)="navigatePage(item.ActivityLog,item.ActivityTypeId,item)">
-                  <ion-icon ios="ios-home" md="ios-home" item-left>
-                      {{item.PlaceName}}
-                  </ion-icon>
-                  <span style="color:#666;font-size: 1.2rem; float:right;font-size: 13px;">
-                      {{item.DateCreated}}
-                  </span>
-              </ion-card-header>
-              <ion-card-content (click)="navigatePage(item.ActivityLog,item.ActivityTypeId,item)">
-                    {{item.ActivityLog}}
-              </ion-card-content>
-           </ion-card>
-      </div>
-  </ion-content>
+</ion-header>
+<ion-content class="signInList signIn">
+    <page-visitstatus></page-visitstatus>
 
- <ion-fab right bottom color="#2E86C1" style="float:right;padding-bottom:50px!important;" >
-    <button ion-fab color="#2E86C1" (click)="navigateToPlaces()"><ion-icon ios="md-compass" md="md-compass"></ion-icon></button>
- </ion-fab>
+    <div *ngFor="let item of activities">
+        <ion-card>
+            <ion-card-header (click)="navigatePage(item.ActivityLog,item.ActivityTypeId,item)">
+                <ion-icon ios="ios-home" md="ios-home" item-left>
+                        <span style="font-size: 18px;">
+                            {{item.placeName}}
+                        </span>
+                </ion-icon>
+                <span style="color:#666;font-size: 1.2rem; float:right;font-size: 13px;">
+                    {{item.DateCreated}}
+                </span>
+            </ion-card-header>
+            <ion-card-content (click)="navigatePage(item.ActivityLog,item.ActivityTypeId,item)">
+                <div *ngIf="item.ActivityLog!=='Photos'">{{item.ActivityLog}}</div>
+                <ion-thumbnail *ngIf="item.ActivityLog==='Photos'" item-left class="img-rounded">
+                    <img [src]="item.photoImage" [width]="100" [height]="110">
+                </ion-thumbnail>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
 
- <ion-footer>
-        <span style="padding-top:30px!important; font-size:15px!important;position:relative;top: 8px;">
-            <strong>{{workDay}}</strong>
-        </span>
-        <span *ngIf="stop" style="float:right;padding-right:100px!important; font-size:25px!important;position:relative;top: 2px;">
-            <ion-icon ios="md-square" md="md-square" item-right (click)="stopWork()"></ion-icon>
-         </span>
+<ion-fab right bottom color="#2E86C1" style="float:right;padding-bottom:50px!important;">
+    <button ion-fab color="#2E86C1" (click)="navigateToPlaces()">
+        <ion-icon ios="md-compass" md="md-compass"></ion-icon>
+    </button>
+</ion-fab>
 
-        <span *ngIf="pause" style="float:right;padding-right:50px!important; font-size:25px!important;position:relative;top: 2px;">
-            <ion-icon ios="md-pause" md="md-pause" item-right (click)="pauseWork()"></ion-icon>
-        </span>
-
-        <span *ngIf="start" style="float:right;padding-right:100px!important; font-size:25px!important;position:relative;top: 2px;">
-           <ion-icon ios="md-play" md="md-play" item-right (click)="startWork()"></ion-icon>
-        </span>
-       
-  </ion-footer>
-  
+<ion-footer>
+    <span style="padding-top:30px!important; font-size:15px!important;position:relative;top: 8px;">
+        <strong>{{workDay}}</strong>
+    </span>
+    <span *ngIf="stop" style="float:right;padding-right:100px!important; font-size:25px!important;position:relative;top: 2px;">
+        <ion-icon ios="md-square" md="md-square" item-right (click)="stopWork()"></ion-icon>
+    </span>
+    <span *ngIf="pause" style="float:right;padding-right:50px!important; font-size:25px!important;position:relative;top: 2px;">
+        <ion-icon ios="md-pause" md="md-pause" item-right (click)="pauseWork()"></ion-icon>
+    </span>
+    <span *ngIf="start" style="float:right;padding-right:100px!important; font-size:25px!important;position:relative;top: 2px;">
+        <ion-icon ios="md-play" md="md-play" item-right (click)="startWork()"></ion-icon>
+    </span>
+</ion-footer>

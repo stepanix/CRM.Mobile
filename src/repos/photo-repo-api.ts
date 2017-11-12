@@ -64,9 +64,15 @@ export class PhotoRepoApi {
         return results;
      }
 
-     listById(serverId:any) : Promise<any>{
+     listById(photoId:any) : Promise<any>{
         var data = new QueryBuilder(new PhotoModel());
-        var results = data.where("ServerId", "=", serverId).get();
+        var results = data.where("ServerId", "=", photoId).orWhere("Id","=",photoId).get();
+        return results;
+     }
+
+     getPhotoForActivity() : Promise<any>{
+        var data = new QueryBuilder(new PhotoModel());
+        var results = data.get("*");
         return results;
      }
 

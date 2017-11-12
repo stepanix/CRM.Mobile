@@ -155,4 +155,22 @@ page-activities {
      .checkbox-md {
      margin: 9px 10px 9px 4px !important;
      }
+
+     ion-thumbnail {
+        white-space: nowrap;
+        border-radius: 10px;
+        background: #4099FF;
+        padding: 5px; 
+        width: 112px;
+        height: 120px;
+     }
+
+     .activityimg {
+        border-radius: 25px;        
+        padding: 20px; 
+        width: 95px;
+        height: 110px;
+    }
+
+    
 }
