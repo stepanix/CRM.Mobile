@@ -305,6 +305,7 @@ export class FormPage {
     logActivityRepo() {
         let ActivityDtoIn = {
             Id: this.newGuid(),
+            FullName : localStorage.getItem('fullname'),
             PlaceName: this.placeName,
             PlaceId: this.placeId,
             ActivityLog: 'Forms',

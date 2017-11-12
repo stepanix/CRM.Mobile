@@ -33,9 +33,9 @@ export class ActivitiesPage {
     workDay: any = "Workday : 0 hrs";
     TimeMileageModel: any = {};
     pauseTotal: any = "0";
-    photos : any[] =[];
+    photos: any[] = [];
 
-    constructor(private photoRepoApi : PhotoRepoApi,        
+    constructor(private photoRepoApi: PhotoRepoApi,
         private scheduleRepoApi: ScheduleRepoApi,
         private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
@@ -58,10 +58,10 @@ export class ActivitiesPage {
         this.checkMissedSchedule();
         this.getWorkDuration();
         this.checkWorkStatus();
-    }    
+    }
 
     checkMissedSchedule() {
-       this.scheduleRepoApi.updateMissedSchedule();
+        this.scheduleRepoApi.updateMissedSchedule();
     }
 
     navigatePage(type, logId, item) {
@@ -313,21 +313,21 @@ export class ActivitiesPage {
         if (token === null || token === undefined || token === "null") {
             this.navCtrl.setRoot(LoginPage);
         } else {
-            this.listPhotoRepo();            
+            this.listPhotoRepo();
             this.syncServiceApi.downloadServerData();
         }
     }
 
-    listPhotoRepo(){
+    listPhotoRepo() {
         this.photoRepoApi
-        .getPhotoForActivity()
-        .then((res) => {
-            if(res.results.length>0){
-              this.photos = res.results;         
-            }
-            console.log("photos",this.photos);
-            this.getActivityLog();
-        });
+            .getPhotoForActivity()
+            .then((res) => {
+                if (res.results.length > 0) {
+                    this.photos = res.results;
+                }
+                console.log("photos", this.photos);
+                this.getActivityLog();
+            });
     }
 
     getActivityLog() {
@@ -336,27 +336,27 @@ export class ActivitiesPage {
             for (var i = 0; i < res.results.length; i++) {
                 this.activities.push({
                     ActivityTypeId: res.results[i].ActivityTypeId,
+                    fullName: res.results[i].FullName,
                     placeId: parseInt(res.results[i].PlaceId),
                     placeName: res.results[i].PlaceName,
                     ActivityLog: res.results[i].ActivityLog,
-                    photoImage : this.getPhoto(res.results[i].ActivityTypeId),
+                    photoImage: this.getPhoto(res.results[i].ActivityTypeId),
                     DateCreated: moment(res.results[i].DateCreated).format("lll")
                 });
             }
         });
-        console.log("activities",this.activities);
     }
 
     ionViewDidLoad() {
-        
+
     }
 
-    getPhoto(photoId){
+    getPhoto(photoId) {
         let itemModel = this.photos.find(item => item.Id === photoId);
         if (itemModel === undefined) {
-          return "";
+            return "";
         } else {
-          return itemModel.PictureUrl;
+            return itemModel.PictureUrl;
         }
     }
 

@@ -25,6 +25,10 @@ export class PlacesPage {
     ionViewDidLoad() {
     }
 
+    getScheduledPlaces(){
+        
+    }
+
     getPlaces() {
         this.loader = this.loading.create({
             content: 'Busy please wait...',

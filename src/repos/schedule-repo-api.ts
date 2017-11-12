@@ -12,8 +12,6 @@ export class ScheduleRepoApi {
     constructor() {
     }
 
-    
-
     delete() {
         var data = new QueryBuilder(new ScheduleModel());
         data.delete();
@@ -87,6 +85,12 @@ export class ScheduleRepoApi {
         }else{
             results = data.rawQuery("SELECT DISTINCT VisitDate FROM schedule WHERE PlaceId =?", [placeId]);
         }
+        return results;
+    }
+
+    listScheduledPlaces(): Promise<any> {
+        var data = new QueryBuilder(new ScheduleModel());
+        var results =data.rawQuery("SELECT DISTINCT PlaceId, PlaceName, PlaceAddress FROM schedule", []);
         return results;
     }
 

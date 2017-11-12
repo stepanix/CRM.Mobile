@@ -138,6 +138,7 @@ export class PhotoPage {
   logActivityRepo() {
     let ActivityDtoIn = {
        Id: this.newGuid(),
+       FullName : localStorage.getItem('fullname'),
        PlaceName : this.placeName,
        PlaceId: this.placeId,
        ActivityLog: 'Photos',

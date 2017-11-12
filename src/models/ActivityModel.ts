@@ -5,6 +5,7 @@ export class ActivityModel extends BaseModel {
     public table: string = 'activity';
     public schema: Object = {
         Id: 'TEXT',
+        FullName : 'TEXT',
         PlaceName : 'TEXT',
         PlaceId: 'TEXT',
         ActivityLog: 'TEXT',
