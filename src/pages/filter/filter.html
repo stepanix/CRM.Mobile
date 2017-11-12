@@ -1,12 +1,11 @@
-
 <ion-header>
 
   <ion-navbar>
     <ion-title>Filter Activity History</ion-title>
     <ion-buttons style="padding-bottom:10px" end>
-        <button ion-button icon-only (click)="close()" style="background-color: #fafafa;color:#000000">
-            <ion-icon ios="md-close-circle" md="md-close-circle" style="color:#2E86C1!important"></ion-icon>
-        </button>
+      <button ion-button icon-only (click)="close()" style="background-color: #fafafa;color:#000000">
+        <ion-icon ios="md-close-circle" md="md-close-circle" style="color:#2E86C1!important"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 
@@ -14,47 +13,47 @@
 
 <ion-content padding>
 
-     <ion-item>
-        <ion-select [(ngModel)]="repModel">
-          <ion-option *ngFor="let item of reps" value="{{item.id}}">{{item.name}}</ion-option>
-        </ion-select>
-      </ion-item>
+  <ion-item>
+    <ion-select [(ngModel)]="repModel">
+      <ion-option *ngFor="let item of reps" value="{{item.id}}">{{item.name}}</ion-option>
+    </ion-select>
+  </ion-item>
 
-      <ion-item>
-          <ion-select [(ngModel)]="placeModel">
-              <ion-option value="-1">All places</ion-option>
-            <ion-option *ngFor="let item of places" value="{{item.ServerId}}">{{item.Name}}</ion-option>
-          </ion-select>
-       </ion-item>
+  <ion-item>
+    <ion-select [(ngModel)]="placeModel">
+      <ion-option value="-1">All places</ion-option>
+      <ion-option *ngFor="let item of places" value="{{item.ServerId}}">{{item.Name}}</ion-option>
+    </ion-select>
+  </ion-item>
 
-       <ion-item>
-          <ion-select [(ngModel)]="selectedModule">
-              <ion-option  value="all">* All field activities</ion-option>
-              <ion-option  value="Forms">All forms</ion-option>
-              <ion-option  value="Photos">Photos</ion-option>
-              <ion-option  value="Visits">Place visits</ion-option>
-              <ion-option  value="Notes">Place notes</ion-option>
-              <ion-option  value="Orders">Orders</ion-option>
-              <ion-option  value="Product Retail Audit">Retail audits</ion-option>
-          </ion-select>
-       </ion-item>
-    
-      <ion-item (click)="showCalendar('from')">
-        <ion-icon item-left name="calendar">
-          <span style="padding-left:10px;font-size: 15px!important">Date From</span>
-        </ion-icon>
-        <span style="float:right;padding-left:10px;font-size: 15px!important">
-          {{dateFrom}}
-        </span>
-      </ion-item>
-    
-      <ion-item (click)="showCalendar('to')">
-        <ion-icon item-left name="calendar">
-          <span style="padding-left:10px;font-size: 15px!important;">Date To</span>
-        </ion-icon>
-        <span style="float:right;padding-left:10px;font-size: 15px!important">
-          {{dateTo}}
-        </span>
-      </ion-item>
+  <ion-item>
+    <ion-select [(ngModel)]="selectedModule">
+      <ion-option value="all">* All field activities</ion-option>
+      <ion-option value="Forms">All forms</ion-option>
+      <ion-option value="Photos">Photos</ion-option>
+      <ion-option value="Visits">Place visits</ion-option>
+      <ion-option value="Notes">Place notes</ion-option>
+      <ion-option value="Orders">Orders</ion-option>
+      <ion-option value="Product Retail Audit">Retail audits</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item (click)="showCalendar('from')">
+    <ion-icon item-left name="calendar">
+      <span style="padding-left:10px;font-size: 15px!important">Date From</span>
+    </ion-icon>
+    <span style="float:right;padding-left:10px;font-size: 15px!important">
+      {{dateFrom}}
+    </span>
+  </ion-item>
+
+  <ion-item (click)="showCalendar('to')">
+    <ion-icon item-left name="calendar">
+      <span style="padding-left:10px;font-size: 15px!important;">Date To</span>
+    </ion-icon>
+    <span style="float:right;padding-left:10px;font-size: 15px!important">
+      {{dateTo}}
+    </span>
+  </ion-item>
 
 </ion-content>
