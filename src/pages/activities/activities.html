@@ -49,18 +49,20 @@
                 </ion-row>
                 <ion-row *ngIf="item.ActivityLog==='Orders'">
                     <ion-col col-auto>
-                        <ion-icon ios="md-checkbox" md="md-checkbox" item-left></ion-icon>
+                         <div style="margin-left: 10px;">
+                           <ion-icon ios="md-checkbox" md="md-checkbox" item-left></ion-icon>
+                        </div>
                     </ion-col>
                     <ion-col col-auto>
                         <div style="margin-top: 15px;">
-                            <span style="color:#666;font-size: 13px; padding-left:5px!important;">
+                            <span style="color:#666;font-size: 13px; padding-left:2px!important;">
                                 Order
                             </span>
                         </div>
                     </ion-col>
                 </ion-row>
                 <ion-row *ngIf="item.ActivityLog==='Orders'">
-                    <div style="margin-left: 30px;">
+                    <div style="margin-left: 35px;">
                         <span style="color:#666;font-size: 13px; padding-left:5px!important">
                             $ {{item.order}}
                         </span>
