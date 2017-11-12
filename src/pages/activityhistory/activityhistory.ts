@@ -217,8 +217,8 @@ export class ActivityhistoryPage {
   }
 
   parseInitial(fullname: string): string {
-    var tempName: string[] = fullname.split(" ");
-    return tempName[0].charAt(0) + tempName[1].charAt(0);
+      var tempName: string[] = fullname.split(" ");
+      return tempName[0].charAt(0) + tempName[1].charAt(0);
   }
 
   getNote(repoId) {
@@ -323,11 +323,11 @@ export class ActivityhistoryPage {
 
           this.activities.push({
             ActivityTypeId: entry.ActivityTypeId,
-            fullName: entry.FullName,
-            initial: this.parseInitial(entry.FullName),
-            placeId: parseInt(entry.PlaceId),
-            placeName: entry.PlaceName,
-            address: this.getPlace(parseInt(entry.PlaceId)),
+            fullName: entry.fullName,
+            initial: this.parseInitial(entry.fullName),
+            placeId: parseInt(entry.placeId),
+            placeName: entry.placeName,
+            address: this.getPlace(parseInt(entry.placeId)),
             ActivityLog: entry.ActivityLog,
             photoImage: this.getPhoto(entry.ActivityTypeId),
             order: this.getOrder(entry.ActivityTypeId),
@@ -345,21 +345,22 @@ export class ActivityhistoryPage {
         if (entry.ActivityLog === this.filterData.selectedModule && entry.placeId === this.filterData.dtoPlaceId
           && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
             && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
-          this.activities.push({
-            ActivityTypeId: entry.ActivityTypeId,
-            fullName: entry.FullName,
-            initial: this.parseInitial(entry.FullName),
-            placeId: parseInt(entry.PlaceId),
-            placeName: entry.PlaceName,
-            address: this.getPlace(parseInt(entry.PlaceId)),
-            ActivityLog: entry.ActivityLog,
-            photoImage: this.getPhoto(entry.ActivityTypeId),
-            order: this.getOrder(entry.ActivityTypeId),
-            retailAudit: this.getProductAudit(entry.ActivityTypeId),
-            form: this.getFormValues(entry.ActivityTypeId),
-            note: this.getNote(entry.ActivityTypeId),
-            DateCreated: moment(entry.DateCreated).format("lll")
-          });
+          
+              this.activities.push({
+                ActivityTypeId: entry.ActivityTypeId,
+                fullName: entry.fullName,
+                initial: this.parseInitial(entry.fullName),
+                placeId: parseInt(entry.placeId),
+                placeName: entry.placeName,
+                address: this.getPlace(parseInt(entry.placeId)),
+                ActivityLog: entry.ActivityLog,
+                photoImage: this.getPhoto(entry.ActivityTypeId),
+                order: this.getOrder(entry.ActivityTypeId),
+                retailAudit: this.getProductAudit(entry.ActivityTypeId),
+                form: this.getFormValues(entry.ActivityTypeId),
+                note: this.getNote(entry.ActivityTypeId),
+                DateCreated: moment(entry.DateCreated).format("lll")
+              });
         }
       });
     }
@@ -369,21 +370,21 @@ export class ActivityhistoryPage {
         if (entry.placeId === this.filterData.dtoPlaceId
           && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
             && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
-          this.activities.push({
-            ActivityTypeId: entry.ActivityTypeId,
-            fullName: entry.FullName,
-            initial: this.parseInitial(entry.FullName),
-            placeId: parseInt(entry.PlaceId),
-            placeName: entry.PlaceName,
-            address: this.getPlace(parseInt(entry.PlaceId)),
-            ActivityLog: entry.ActivityLog,
-            photoImage: this.getPhoto(entry.ActivityTypeId),
-            order: this.getOrder(entry.ActivityTypeId),
-            retailAudit: this.getProductAudit(entry.ActivityTypeId),
-            form: this.getFormValues(entry.ActivityTypeId),
-            note: this.getNote(entry.ActivityTypeId),
-            DateCreated: moment(entry.DateCreated).format("lll")
-          });
+              this.activities.push({
+                ActivityTypeId: entry.ActivityTypeId,
+                fullName: entry.fullName,
+                initial: this.parseInitial(entry.fullName),
+                placeId: parseInt(entry.placeId),
+                placeName: entry.placeName,
+                address: this.getPlace(parseInt(entry.placeId)),
+                ActivityLog: entry.ActivityLog,
+                photoImage: this.getPhoto(entry.ActivityTypeId),
+                order: this.getOrder(entry.ActivityTypeId),
+                retailAudit: this.getProductAudit(entry.ActivityTypeId),
+                form: this.getFormValues(entry.ActivityTypeId),
+                note: this.getNote(entry.ActivityTypeId),
+                DateCreated: moment(entry.DateCreated).format("lll")
+              });
         }
       });
     }
