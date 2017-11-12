@@ -14,6 +14,10 @@ export class PlacesPage {
     places: any[] = [];
     loader: any;
     viewSelectionModel : string = "";
+    currentLat : number = 0;
+    currentLng : number = 0;
+    currentDist : number = 0;
+    dist : string = "";
 
     constructor(public menuCtrl: MenuController,
         private scheduleRepoApi: ScheduleRepoApi,
@@ -21,6 +25,8 @@ export class PlacesPage {
         public navCtrl: NavController,
         private loading: LoadingController,
         public navParams: NavParams) {
+        this.currentLat = parseFloat(localStorage.getItem("lat"));
+        this.currentLng =  parseFloat(localStorage.getItem("lng"));    
         this.getScheduledPlaces();
     }
 
@@ -45,6 +51,12 @@ export class PlacesPage {
         this.places = [];
         this.scheduleRepoApi.listScheduledPlaces().then((res) => {
             for (var i = 0; i < res.length; i++) {
+                this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(res[i].Latitude),parseFloat(res[i].Longitude),"K")
+                if(this.currentDist > 10) {
+                    this.dist  = "> 10 k";
+                }else{
+                    this.dist = this.currentDist.toFixed(2) + " k";
+                }
                 this.places.push({
                     id: parseInt(res[i].PlaceId),
                     name: res[i].PlaceName,
@@ -52,7 +64,8 @@ export class PlacesPage {
                     placeId: this.parsePlaceId(res[i].PlaceId, res[i].PlaceId),
                     latitude: res[i].Latitude,
                     longitude: res[i].Longitude,
-                    isVisited: res[i].IsVisited
+                    isVisited: res[i].IsVisited,
+                    distance : this.dist
                 });
             }
         });
@@ -62,23 +75,49 @@ export class PlacesPage {
         this.loader = this.loading.create({
             content: 'Busy please wait...',
         });
-
+        
         this.loader.present().then(() => {
             this.places = [];
             this.placeRepoApi.list().then((res) => {
+                
                 for (var i = 0; i < res.results.length; i++) {
+                    this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(res.results[i].Latitude),parseFloat(res.results[i].Longitude),"K")
+                    if(this.currentDist > 10) {
+                        this.dist  = "> 10 k";
+                    }else{
+                        this.dist = this.currentDist.toFixed(2) + " k";
+                    }
                     this.places.push({
                         id: res.results[i].ServerId,
                         name: res.results[i].Name,
                         streetAddress: res.results[i].StreetAddress,
                         placeId: this.parsePlaceId(res.results[i].ServerId, res.results[i].RepoId),
                         latitude: res.results[i].Latitude,
-                        longitude: res.results[i].Longitude
+                        longitude: res.results[i].Longitude,
+                        distance : this.dist
                     });
                 }
                 this.loader.dismiss();
             });
         });
+    }
+
+    parseDistance() {
+
+    }
+
+    computeMileage(lat1, lon1, lat2, lon2, unit) : number {
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180/Math.PI
+        dist = dist * 60 * 1.1515
+        if (unit=="K") { dist = dist * 1.609344 }
+        if (unit=="N") { dist = dist * 0.8684 }
+        return dist
     }
 
     parsePlaceId(serverid, repoid) {
