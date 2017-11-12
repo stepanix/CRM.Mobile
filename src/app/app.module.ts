@@ -35,6 +35,7 @@ import { OrdersPage } from '../pages/orders/orders';
 import { SummaryPage } from '../pages/summary/summary';
 import { OrderItemPage } from '../pages/orderitem/orderitem';
 import { TimeMileagePage } from '../pages/timemileage/timemileage';
+import { FilterPage } from '../pages/filter/filter';
 
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 
@@ -77,7 +78,8 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
       OrdersPage,
       OrderItemPage,
       TimeMileagePage,
-      ActivityhistoryPage
+      ActivityhistoryPage,
+      FilterPage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -118,7 +120,8 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
       OrdersPage,
       OrderItemPage,
       TimeMileagePage,
-      ActivityhistoryPage
+      ActivityhistoryPage,
+      FilterPage
   ],
   providers: [
     Camera,

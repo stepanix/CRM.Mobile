@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams,LoadingController} from 'ionic-angular';
+import { NavController, NavParams,LoadingController,ModalController} from 'ionic-angular';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
@@ -13,6 +13,7 @@ import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 
 import * as moment from 'moment';
 
+import { FilterPage } from '../filter/filter';
 import { PhotoPage } from '../photo/photo';
 import { NotePage } from '../note/note';
 import { FormPage } from '../form/form';
@@ -37,7 +38,8 @@ export class ActivityhistoryPage {
   notes : any[] = [];
   loader: any;
 
-  constructor(private loading: LoadingController,
+  constructor(public modalCtrl: ModalController,
+    private loading: LoadingController,
     private noteRepoApi : NoteRepoApi,
     private activityRepoApi: ActivityRepoApi,
     private formRepoApi: FormRepoApi,
@@ -50,6 +52,14 @@ export class ActivityhistoryPage {
     private scheduleRepoApi: ScheduleRepoApi,
     public navCtrl: NavController,
     public navParams: NavParams) {
+  }
+
+  toggleMenu() {
+    let filterModal = this.modalCtrl.create(FilterPage);
+     filterModal.present();
+     filterModal.onDidDismiss(data=>{
+      console.log("Data =>", data)
+    });
   }
 
   navigatePage(type, logId, item) {

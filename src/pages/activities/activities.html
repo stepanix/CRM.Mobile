@@ -15,9 +15,10 @@
 
 </ion-header>
 <ion-content class="signInList signIn">
-    <page-visitstatus></page-visitstatus>
-    <page-activityhistory></page-activityhistory>
+    <page-visitstatus></page-visitstatus> 
+    <page-activityhistory></page-activityhistory>      
 </ion-content>
+
 
 <ion-fab right bottom color="#2E86C1" style="float:right;padding-bottom:50px!important;">
     <button ion-fab color="#2E86C1" (click)="navigateToPlaces()">
@@ -25,8 +26,8 @@
     </button>
 </ion-fab>
 
-<ion-footer>
-    <span style="padding-top:30px!important; font-size:15px!important;position:relative;top: 8px;">
+<ion-footer style="padding-bottom:30px!important;">
+    <span style="padding-top:50px!important;padding-left:10px!important; font-size:15px!important;position:relative;top: 8px;">
         <strong>{{workDay}}</strong>
     </span>
     <span *ngIf="stop" style="float:right;padding-right:100px!important; font-size:25px!important;position:relative;top: 2px;">

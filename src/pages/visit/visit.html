@@ -18,7 +18,7 @@
 </ion-header>
 
 <ion-content>
-
+    
     <ion-list class="signInList signIn">
 
         <button ion-item style="text-align: left;">
@@ -30,14 +30,10 @@
             <ion-icon ios="ios-navigate" md="ios-navigate" item-left></ion-icon>
             {{streetAddress}}
             <!-- <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon> -->
-        </button>
-
-        <!-- <button ion-item style="text-align: left;" (click)="openSchedule()">
-             <ion-icon ios="ios-calendar" md="ios-calendar" item-left></ion-icon>
-             Schedule
-         </button> -->
+        </button>       
 
     </ion-list>
+    
     <div align="center">
         <ion-card>
             <ion-grid>
@@ -94,16 +90,7 @@
                 </ion-row>
             </ion-grid>
         </ion-card>
-    </div>
-    <ion-card>
-        <ion-card-header>
-            <div style="text-align: center;">
-                <span style="color:darkslategrey;font-size: 1.2rem; text-align:center;font-size: 17px;">
-                    Activity History
-                </span>
-            </div>
-        </ion-card-header>
-    </ion-card>
+    </div>    
     <page-activityhistory></page-activityhistory>
 </ion-content>
 
