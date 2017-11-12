@@ -80,4 +80,9 @@ export class ProductRetailRepoApi {
         data.rawQuery("UPDATE productRetailAudit SET Submitted = 1 WHERE Id =?", [Id]);
      }
      
+     getRetailAuditForActivity() : Promise<any>{
+        var data = new QueryBuilder(new ProductRetailAuditModel());
+        var results = data.get("*");
+        return results;
+     }
 }

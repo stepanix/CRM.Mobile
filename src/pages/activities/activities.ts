@@ -9,6 +9,8 @@ import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
 import { OrderRepoApi } from '../../repos/order-repo-api';
+import { ProductRetailRepoApi } from '../../repos/productretailaudit-repo-api';
+import { RetailAuditFormRepoApi } from '../../repos/retailauditform-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -38,8 +40,12 @@ export class ActivitiesPage {
     photos : any[] = [];
     places : any[] = [];
     orders : any[] = [];
+    audits : any[] = [];
+    retailAuditForms : any[] = [];
 
-    constructor(private orderRepoApi : OrderRepoApi,
+    constructor(private retailAuditFormRepoApi : RetailAuditFormRepoApi,
+        private productRetailAudit : ProductRetailRepoApi,
+        private orderRepoApi : OrderRepoApi,
         private placeRepoApi : PlaceRepoApi, 
         private photoRepoApi: PhotoRepoApi,
         private scheduleRepoApi: ScheduleRepoApi,
@@ -353,8 +359,30 @@ export class ActivitiesPage {
                 if (res.results.length > 0) {
                     this.photos = res.results;
                 }
-                this.getActivityLog();
+                this.listRetailAuditFormRepo();
             });
+    }
+
+    listRetailAuditFormRepo(){
+        this.retailAuditFormRepoApi
+        .list()
+        .then((res) => {
+            if (res.results.length > 0) {
+                this.retailAuditForms = res.results;
+            }
+            this.listAuditRepo();
+        });
+    }
+
+    listAuditRepo(){
+        this.productRetailAudit
+        .list()
+        .then((res) => {
+            if (res.results.length > 0) {
+                this.audits = res.results;
+            }
+            this.getActivityLog();
+        });
     }
 
     getActivityLog() {
@@ -371,6 +399,7 @@ export class ActivitiesPage {
                     ActivityLog : res.results[i].ActivityLog,
                     photoImage: this.getPhoto(res.results[i].ActivityTypeId),
                     order : this.getOrder(res.results[i].ActivityTypeId),
+                    retailAudit : this.getProductAudit(res.results[i].ActivityTypeId),
                     DateCreated: moment(res.results[i].DateCreated).format("lll")
                 });
             }
@@ -384,6 +413,24 @@ export class ActivitiesPage {
     parseInitial(fullname:string) : string {
         var tempName : string[] = fullname.split(" ");
         return tempName[0].charAt(0) + tempName[1].charAt(0);
+    }
+
+    getProductAudit(repoId){
+        let itemModel = this.audits.find(item => item.Id === repoId);       
+        if (itemModel === undefined) {
+            return "";
+        } else {
+            return this.getAuditForm(itemModel.RetailAuditFormId);
+        }
+    }
+    
+    getAuditForm(formId) {
+        let itemModel = this.retailAuditForms.find(item => item.ServerId === formId);
+        if (itemModel === undefined) {
+            return "";
+        } else {
+            return itemModel.Name;
+        }
     }
 
     getPhoto(photoId) {
