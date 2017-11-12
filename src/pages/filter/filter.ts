@@ -22,7 +22,7 @@ export class FilterPage {
   places: any[] = []; 
   selectedModule : any = "";
 
-  filterModule : any;
+  filterModule : any = {};
 
   constructor(public viewCtrl: ViewController,
     private placeRepoApi: PlaceRepoApi,
