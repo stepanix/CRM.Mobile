@@ -7,6 +7,7 @@ import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
+import { PlaceRepoApi } from '../../repos/place-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -34,8 +35,9 @@ export class ActivitiesPage {
     TimeMileageModel: any = {};
     pauseTotal: any = "0";
     photos: any[] = [];
+    places : any[] = [];
 
-    constructor(private photoRepoApi: PhotoRepoApi,
+    constructor(private placeRepoApi : PlaceRepoApi, private photoRepoApi: PhotoRepoApi,
         private scheduleRepoApi: ScheduleRepoApi,
         private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,
@@ -313,6 +315,7 @@ export class ActivitiesPage {
         if (token === null || token === undefined || token === "null") {
             this.navCtrl.setRoot(LoginPage);
         } else {
+            this.listPlaceRepo();
             this.listPhotoRepo();
             this.syncServiceApi.downloadServerData();
         }
@@ -325,10 +328,22 @@ export class ActivitiesPage {
                 if (res.results.length > 0) {
                     this.photos = res.results;
                 }
-                console.log("photos", this.photos);
+                //console.log("photos", this.photos);
                 this.getActivityLog();
             });
     }
+
+    listPlaceRepo() {
+        this.placeRepoApi
+            .getPlaceForActivity()
+            .then((res) => {
+                if (res.results.length > 0) {
+                    this.places = res.results;
+                }
+                console.log("places", this.places);
+            });
+    }
+    
 
     getActivityLog() {
         this.activities = [];
@@ -337,8 +352,10 @@ export class ActivitiesPage {
                 this.activities.push({
                     ActivityTypeId: res.results[i].ActivityTypeId,
                     fullName: res.results[i].FullName,
+                    initial : this.parseInitial(res.results[i].FullName),
                     placeId: parseInt(res.results[i].PlaceId),
                     placeName: res.results[i].PlaceName,
+                    address : this.getPlace(parseInt(res.results[i].PlaceId)),
                     ActivityLog: res.results[i].ActivityLog,
                     photoImage: this.getPhoto(res.results[i].ActivityTypeId),
                     DateCreated: moment(res.results[i].DateCreated).format("lll")
@@ -351,12 +368,26 @@ export class ActivitiesPage {
 
     }
 
+    parseInitial(fullname:string) : string {
+        var tempName : string[] = fullname.split(" ");
+        return tempName[0].charAt(0) + tempName[1].charAt(0);
+    }
+
     getPhoto(photoId) {
         let itemModel = this.photos.find(item => item.Id === photoId);
         if (itemModel === undefined) {
             return "";
         } else {
             return itemModel.PictureUrl;
+        }
+    }
+
+    getPlace(placeId) {
+        let itemModel = this.places.find(item => item.ServerId === placeId);
+        if (itemModel === undefined) {
+            return "";
+        } else {
+            return itemModel.StreetAddress;
         }
     }
 

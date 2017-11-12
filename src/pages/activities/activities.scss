@@ -174,10 +174,25 @@ page-activities {
 
     .gr-circle-act {
         background: #4099FF;
-        width: 43px;
+        width: 55px;
         border-radius: 50%;
-        color: white !important;
-        height: 43px;
+        color: white;
+        height: 55px;
+        position:relative;
+    }
+
+    .center-tag {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .fs-22 {
+      font-size: 22px !important;
+    }
+
+    .hi-100 {
+      height: 100% !important
     }
     
 }

@@ -16,18 +16,38 @@
 </ion-header>
 <ion-content class="signInList signIn">
     <page-visitstatus></page-visitstatus>
-
     <div *ngFor="let item of activities">
         <ion-card>
             <ion-card-header (click)="navigatePage(item.ActivityLog,item.ActivityTypeId,item)">
-                <ion-icon ios="ios-home" md="ios-home" item-left>
-                        <span style="font-size: 18px;">
-                            {{item.placeName}}
-                        </span>
-                </ion-icon>
-                <span style="color:#666;font-size: 1.2rem; float:right;font-size: 13px;">
+                 <span style="color:#666;font-size: 1.2rem; float:right;font-size: 13px;">
                     {{item.DateCreated}}
-                </span>
+                 </span>
+                 <ion-grid>
+                   <ion-row>                      
+                      <ion-col col-auto>                        
+                        <div class="gr-circle-act">
+                            <span class="center-tag hi-100 fs-22">
+                                {{item.initial}}
+                            </span>
+                        </div>
+                      </ion-col>
+                      <ion-col col-auto>
+                            <span style="color:#555!important">
+                                 {{item.fullName}}
+                            </span>
+                            <br>
+                            <div style="margin-top: 10px;">
+                            </div>
+                            <span style="color:#4099FF!important;font-size: 15px;">
+                                 {{item.placeName}}
+                            </span>
+                            <br>
+                            <span style="color:#555!important;font-size: 15px;">
+                                 {{item.address}}
+                            </span>
+                      </ion-col>
+                   </ion-row>
+                 </ion-grid>               
             </ion-card-header>
             <ion-card-content (click)="navigatePage(item.ActivityLog,item.ActivityTypeId,item)">
                 <div *ngIf="item.ActivityLog!=='Photos'">{{item.ActivityLog}}</div>

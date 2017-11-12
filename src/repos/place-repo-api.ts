@@ -45,5 +45,11 @@ export class PlaceRepoApi {
             data.where("Id","=",dataDto[i].syncId).delete();
         }
      }
+
+     getPlaceForActivity() : Promise<any>{
+        var data = new QueryBuilder(new PlaceModel());
+        var results = data.get("*");
+        return results;
+     }
      
 }
