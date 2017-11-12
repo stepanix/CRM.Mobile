@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController,MenuController } from 'ionic-angular';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
 import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 import { VisitPage } from '../visit/visit';
@@ -13,8 +13,10 @@ export class PlacesPage {
 
     places: any[] = [];
     loader: any;
+    viewSelectionModel : string = "";
 
-    constructor(private scheduleRepoApi: ScheduleRepoApi,
+    constructor(public menuCtrl: MenuController,
+        private scheduleRepoApi: ScheduleRepoApi,
         private placeRepoApi: PlaceRepoApi,
         public navCtrl: NavController,
         private loading: LoadingController,
@@ -25,7 +27,22 @@ export class PlacesPage {
     ionViewDidLoad() {
     }
 
+    filterPlaces(){
+        if(this.viewSelectionModel==="all"){
+            this.getPlaces(); 
+        }else{
+            this.getScheduledPlaces();
+        }
+        this.menuCtrl.toggle('right');
+    }
+
+    toggleMenu() {
+        this.menuCtrl.enable(true, 'search');
+        this.menuCtrl.toggle('right');
+    }
+
     getScheduledPlaces() {
+        this.places = [];
         this.scheduleRepoApi.listScheduledPlaces().then((res) => {
             for (var i = 0; i < res.length; i++) {
                 this.places.push({

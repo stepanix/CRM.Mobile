@@ -60,7 +60,7 @@
                           </span>
                       </div>
 
-                      <div *ngIf="item.questionTypeId==='7'">
+                      <div *ngIf="item.questionTypeId==='7'" (click)="showCalendar()">
                           <span  *ngIf="item.mandatory === true" style="color:red;font-weight: bold;">* </span>
                           <ion-icon item-left name="calendar" (click)="showCalendar()">
                             <span style="padding-left:10px;font-size: 18px!important">{{item.question}}</span>
@@ -70,7 +70,7 @@
 
                       <div *ngIf="item.questionTypeId==='9'">
                           <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
-                          <ion-icon item-left name="ios-barcode" (click)="openBarCode()"></ion-icon>
+                          <ion-icon item-left name="ios-barcode" (click)="openBarCode(item.id)"></ion-icon>
                           <span style="color:black;"> {{item.question}} </span>
                           <b (click)="openBarCode()">{{formFieldModel[item.id]}}</b>
                       </div>

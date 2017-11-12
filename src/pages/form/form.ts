@@ -19,6 +19,8 @@ import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { SyncServiceApi } from '../../services/sync-service-api';
 import { ActivitiesPage } from '../activities/activities';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
 
 @Component({
     selector: 'page-form',
@@ -43,9 +45,10 @@ export class FormPage {
     placeName: string;
     formFieldId: string;
 
-    isDisabled : boolean = false;
+    isDisabled: boolean = false;
 
-    constructor(private toastCtrl: ToastController,
+    constructor(private barcodeScanner: BarcodeScanner,
+        private toastCtrl: ToastController,
         private alertCtrl: AlertController,
         private syncServiceApi: SyncServiceApi,
         public activityRepoApi: ActivityRepoApi,
@@ -197,11 +200,19 @@ export class FormPage {
         this.datePicker.showCalendar();
     }
 
+    openBarCode(questionId) {
+        this.barcodeScanner.scan().then((barcode) => {
+            this.formFieldModel[questionId] = barcode;
+        }, (err) => {
+            console.log("barcode error", err);
+        });
+    }
+
     saveFormFieldValues() {
         this.formFieldValues = [];
         for (var i = 0; i < this.formFields.length; i++) {
             let answer = "";
-            if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
+            if (this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
                 answer = this.formFieldModel[this.formFields[i].id];
             }
             //if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
@@ -305,7 +316,7 @@ export class FormPage {
     logActivityRepo() {
         let ActivityDtoIn = {
             Id: this.newGuid(),
-            FullName : localStorage.getItem('fullname'),
+            FullName: localStorage.getItem('fullname'),
             PlaceName: this.placeName,
             PlaceId: this.placeId,
             ActivityLog: 'Forms',
@@ -409,7 +420,7 @@ export class FormPage {
         this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {
             //console.log(res.results[0]);
             this.formId = res.results[0].FormId;
-            if(res.results[0].Submitted===2){
+            if (res.results[0].Submitted === 2) {
                 this.isDisabled = true;
             }
             this.getFormRepo();

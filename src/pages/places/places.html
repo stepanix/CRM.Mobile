@@ -1,19 +1,25 @@
 <ion-header>
-    
+
     <ion-navbar>
-    
+
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-    
+
         <ion-title>My Places</ion-title>
-    
+
+        <ion-buttons end>
+            <button ion-button icon-only (click)="toggleMenu()" style="background-color: #fafafa;color:#000000">
+                <ion-icon ios="ios-funnel" md="ios-funnel" style="color:#2E86C1!important" name="iconNetwork"></ion-icon>
+            </button>
+        </ion-buttons>
+
         <ion-buttons end>
             <page-network> </page-network>
         </ion-buttons>
-          
+
     </ion-navbar>
-    
+
 </ion-header>
 
 <ion-content class="servicesContainer">
@@ -21,16 +27,47 @@
     <page-visitstatus></page-visitstatus>
 
     <ion-list class="servicesList">
-          <button *ngFor="let item of places" ion-item style="text-align: left;" type="button" (click)="openVisit(item)">
-               <ion-icon style="color:green!important" *ngIf="item.isVisited==='true'" ios="ios-checkmark-circle" md="ios-checkmark-circle" item-left></ion-icon>
-               <div><span><strong>{{item.name}}</strong></span></div>
-               <div>{{item.streetAddress}}</div>
-               <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-          </button>
+        <button *ngFor="let item of places" ion-item style="text-align: left;" type="button" (click)="openVisit(item)">
+            <ion-icon style="color:green!important" *ngIf="item.isVisited==='true'" ios="ios-checkmark-circle" md="ios-checkmark-circle"
+                item-left></ion-icon>
+            <div>
+                <span>
+                    <strong>{{item.name}}</strong>
+                </span>
+            </div>
+            <div>{{item.streetAddress}}</div>
+            <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
+        </button>
     </ion-list>
 
 </ion-content>
 
 <ion-fab right bottom color="#2E86C1">
-    <button ion-fab color="#2E86C1" (click)="addPlace()"><ion-icon ios="md-add" md="md-add"></ion-icon></button>
+    <button ion-fab color="#2E86C1" (click)="addPlace()">
+        <ion-icon ios="md-add" md="md-add"></ion-icon>
+    </button>
 </ion-fab>
+
+<ion-menu id="search" side="right" [content]="content">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title>
+                <ion-icon ios="ios-funnel" md="ios-funnel" item-left></ion-icon>
+                <span style="padding-left:10px"> Filter Places </span>
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-item>
+                <ion-label>View Scheduled Places</ion-label>
+                <ion-select [(ngModel)]="viewSelectionModel" (ionChange)="filterPlaces()">
+                        <ion-option value="scheduled">Scheduled places</ion-option>
+                        <ion-option value="all">All places</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #content [root]="rootPage"></ion-nav>

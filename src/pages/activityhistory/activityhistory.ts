@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams,LoadingController} from 'ionic-angular';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
@@ -35,8 +35,10 @@ export class ActivityhistoryPage {
   formValues: any[] = [];
   activities: any[] = [];
   notes : any[] = [];
+  loader: any;
 
-  constructor(private noteRepoApi : NoteRepoApi,
+  constructor(private loading: LoadingController,
+    private noteRepoApi : NoteRepoApi,
     private activityRepoApi: ActivityRepoApi,
     private formRepoApi: FormRepoApi,
     private formValueRepoApi: FormValueRepoApi,
@@ -101,6 +103,7 @@ export class ActivityhistoryPage {
   }
 
   listOrderRepo() {
+    this.loader.present().then(() => {
     this.orderRepoApi
       .getOrderForActivity()
       .then((res) => {
@@ -109,6 +112,7 @@ export class ActivityhistoryPage {
         }
         this.listPhotoRepo();
       });
+    });
   }
 
   listPhotoRepo() {
@@ -197,6 +201,7 @@ export class ActivityhistoryPage {
           DateCreated: moment(res.results[i].DateCreated).format("lll")
         });
       }
+      this.loader.dismiss();
     });
   }
 
@@ -282,6 +287,9 @@ export class ActivityhistoryPage {
   }
 
   ngAfterContentInit() {
+    this.loader = this.loading.create({
+      content: 'Busy please wait...',
+   });
     this.listPlaceRepo();
   }
 

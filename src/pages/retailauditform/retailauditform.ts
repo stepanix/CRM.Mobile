@@ -14,6 +14,7 @@ import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { SyncServiceApi } from '../../services/sync-service-api';
 import { ActivitiesPage } from '../activities/activities';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @Component({
     selector: 'page-retailauditform',
@@ -46,13 +47,15 @@ export class RetailAuditFormPage {
     placeName: string;
     retailAuditFormId: string;
 
-    isDisabled : boolean = false;
+    isDisabled: boolean = false;
 
 
-    constructor(public toastCtrl: ToastController,
+    constructor(private barcodeScanner: BarcodeScanner,
+        public toastCtrl: ToastController,
         private loading: LoadingController,
         private syncServiceApi: SyncServiceApi,
-        private alertCtrl: AlertController, public activityRepoApi: ActivityRepoApi,
+        private alertCtrl: AlertController,
+        public activityRepoApi: ActivityRepoApi,
         private datePicker: DatePicker,
         private productRepoApi: ProductRepoApi,
         private retailAuditFormRepoApi: RetailAuditFormRepoApi,
@@ -271,10 +274,18 @@ export class RetailAuditFormPage {
         this.productRetailAuditRepoApi.updateRecord(this.formFieldDtoIn);
     }
 
+    openBarCode(questionId) {
+        this.barcodeScanner.scan().then((barcode) => {
+            this.formFieldModel[questionId] = barcode;
+        }, (err) => {
+            console.log("barcode error", err);
+        });
+    }
+
     logActivityRepo() {
         let ActivityDtoIn = {
             Id: this.newGuid(),
-            FullName : localStorage.getItem('fullname'),
+            FullName: localStorage.getItem('fullname'),
             PlaceName: this.placeName,
             PlaceId: this.placeId,
             ActivityLog: 'Product Retail Audit',
@@ -357,11 +368,11 @@ export class RetailAuditFormPage {
         this.formFieldValues = [];
         this.productRetailAuditRepoApi.listByFormId(this.retailAuditFormId).then((res) => {
             this.formId = res.results[0].RetailAuditFormId;
-            this.available =  res.results[0].Available;
-            this.promoted =  res.results[0].Promoted;
-            this.price =  res.results[0].Price;
-            this.stockLevel =  res.results[0].StockLevel;
-            if(res.results[0].Submitted===2){
+            this.available = res.results[0].Available;
+            this.promoted = res.results[0].Promoted;
+            this.price = res.results[0].Price;
+            this.stockLevel = res.results[0].StockLevel;
+            if (res.results[0].Submitted === 2) {
                 this.isDisabled = true;
             }
             this.getFormRepo();
