@@ -195,4 +195,50 @@ page-visit {
     .hi-100 {
       height: 100% !important
     }
+
+    .gr-circle-photo {
+        background: darkgoldenrod;
+        width: 55px;
+        border-radius: 50%;
+        color: white;
+        height: 55px;
+        position:relative;
+    }
+
+    .gr-circle-form {
+        background: deepskyblue;
+        width: 55px;
+        border-radius: 50%;
+        color: white;
+        height: 55px;
+        position:relative;
+    }
+
+    .gr-circle-note {
+        background: #444;
+        width: 55px;
+        border-radius: 50%;
+        color: white;
+        height: 55px;
+        position:relative;
+    }
+
+    .gr-circle-audit {
+        background: aquamarine;
+        width: 55px;
+        border-radius: 50%;
+        color: white;
+        height: 55px;
+        position:relative;
+    }
+
+    .gr-circle-orders {
+        background: coral;
+        width: 55px;
+        border-radius: 50%;
+        color: white;
+        height: 55px;
+        position:relative;
+    }
+   
 }

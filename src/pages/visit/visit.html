@@ -1,90 +1,114 @@
 <ion-header>
-  <ion-navbar>
+    <ion-navbar>
         <button ion-button menuToggle>
-           <ion-icon name="menu"></ion-icon>
+            <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>Visit Task</ion-title>
 
         <ion-buttons end [hidden]="hideCheckOutButton">
-           <button ion-button icon-only (click)="checkOutVisit()" style="background-color: #b23000;color:#000000;padding:10px">               
-                 <span style="color:white!important"> CHECK OUT </span>
-           </button>
+            <button ion-button icon-only (click)="checkOutVisit()" style="background-color: #b23000;color:#000000;padding:10px">
+                <span style="color:white!important"> CHECK OUT </span>
+            </button>
         </ion-buttons>
 
-        <ion-buttons end>                
-              <page-network> </page-network>                
+        <ion-buttons end>
+            <page-network> </page-network>
         </ion-buttons>
-  </ion-navbar>
+    </ion-navbar>
 </ion-header>
 
 <ion-content>
 
-      <ion-list class="signInList signIn">        
+    <ion-list class="signInList signIn">
 
-          <button ion-item style="text-align: left;">
-              <ion-icon ios="ios-home" md="ios-home" item-left></ion-icon>
-              {{placeName}}
-          </button>
+        <button ion-item style="text-align: left;">
+            <ion-icon ios="ios-home" md="ios-home" item-left></ion-icon>
+            {{placeName}}
+        </button>
 
-          <button ion-item style="text-align: left;">
-              <ion-icon ios="ios-navigate" md="ios-navigate" item-left></ion-icon>
-              {{streetAddress}}
-              <!-- <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon> -->
-          </button>
+        <button ion-item style="text-align: left;">
+            <ion-icon ios="ios-navigate" md="ios-navigate" item-left></ion-icon>
+            {{streetAddress}}
+            <!-- <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon> -->
+        </button>
 
-          <button ion-item style="text-align: left;" (click)="openSchedule()">
+        <!-- <button ion-item style="text-align: left;" (click)="openSchedule()">
              <ion-icon ios="ios-calendar" md="ios-calendar" item-left></ion-icon>
              Schedule
-         </button>
+         </button> -->
 
-      </ion-list>
+    </ion-list>
+    <div align="center">
+        <ion-card>
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-2 (click)="checkIn('photo')">
+                        <div class="gr-circle-photo">
+                            <span class="center-tag hi-100 fs-22">
+                                <ion-icon ios="ios-camera" md="ios-camera" style="font-size:30px!important"></ion-icon>
+                            </span>
+                        </div>
+                        <br>
+                        <span style="font-size:15px;padding-left:5px" align="center">Photo</span>
+                    </ion-col>
 
-      <ion-list>
+                    <ion-col col-2 (click)="checkIn('form')">
+                        <div class="gr-circle-form">
+                            <span class="center-tag hi-100 fs-22">
+                                <ion-icon ios="ios-document" md="ios-document" style="font-size:30px!important"></ion-icon>
+                            </span>
+                        </div>
+                        <br>
+                        <span style="font-size:15px;padding-left:5px" align="center">Form</span>
+                    </ion-col>
 
-            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('photo')">
-                  <ion-icon ios="ios-camera" md="ios-camera"  item-left></ion-icon>
-                      Photo
-                  <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-            </button>
+                    <ion-col col-2 (click)="checkIn('note')">
+                        <div class="gr-circle-note">
+                            <span class="center-tag hi-100 fs-22">
+                                <ion-icon ios="md-list-box" md="md-list-box" style="font-size:30px!important"></ion-icon>
+                            </span>
+                        </div>
+                        <br>
+                        <span style="font-size:15px;padding-left:5px" align="center">Note</span>
+                    </ion-col>
 
-            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('form')">
-                <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
-                    Form
-                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-            </button>
+                    <ion-col col-2 (click)="checkIn('audits')">
+                        <div class="gr-circle-audit">
+                            <span class="center-tag hi-100 fs-22">
+                                <ion-icon ios="ios-create" md="ios-create" style="font-size:30px!important"></ion-icon>
+                            </span>
+                        </div>
+                        <br>
+                        <span style="font-size:15px;" align="center">Audit Form</span>
+                    </ion-col>
 
-            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('note')">
-                <ion-icon ios="md-list-box" md="md-list-box" item-left></ion-icon>
-                    Note
-                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-            </button>
-
-            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('audits')">
-                <ion-icon ios="ios-create" md="ios-create" item-left></ion-icon>
-                    Audits
-                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-            </button>
-
-            <button ion-item style="text-align: right;" class="signInBtn" type="button" (click)="checkIn('orders')">
-                <ion-icon ios="md-checkbox" md="md-checkbox"  item-left></ion-icon>
-                   Orders
-                <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
-            </button>
-
-   </ion-list>
-
-   <ion-card>
+                    <ion-col col-2 (click)="checkIn('orders')">
+                        <div class="gr-circle-orders">
+                            <span class="center-tag hi-100 fs-22">
+                                <ion-icon ios="md-checkbox" md="md-checkbox" style="font-size:30px!important"></ion-icon>
+                            </span>
+                        </div>
+                        <br>
+                        <span style="font-size:15px;padding-left:5px" align="center">Orders</span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card>
+    </div>
+    <ion-card>
         <ion-card-header>
-             <div style="text-align: center;">
-                <span style="color:#666;font-size: 1.2rem; text-align:center;font-size: 17px;">
+            <div style="text-align: center;">
+                <span style="color:darkslategrey;font-size: 1.2rem; text-align:center;font-size: 17px;">
                     Activity History
                 </span>
-             </div>
+            </div>
         </ion-card-header>
-   </ion-card>
-   <page-activityhistory></page-activityhistory>   
+    </ion-card>
+    <page-activityhistory></page-activityhistory>
 </ion-content>
 
 <ion-fab right bottom color="#2E86C1" [hidden]="!hideCheckOutButton">
-    <button ion-fab color="#2E86C1" (click)="checkInPlace()"><ion-icon ios="ios-checkmark-circle" md="ios-checkmark-circle"></ion-icon></button>
+    <button ion-fab color="#2E86C1" (click)="checkInPlace()">
+        <ion-icon ios="ios-checkmark-circle" md="ios-checkmark-circle"></ion-icon>
+    </button>
 </ion-fab>
