@@ -50,8 +50,8 @@
 
                 <ion-row *ngIf="item.ActivityLog==='Orders'">
                     <ion-col col-auto>
-                         <div style="margin-left: 10px;">
-                           <ion-icon ios="md-checkbox" md="md-checkbox" item-left></ion-icon>
+                        <div style="margin-left: 10px;">
+                            <ion-icon ios="md-checkbox" md="md-checkbox" item-left></ion-icon>
                         </div>
                     </ion-col>
                     <ion-col col-auto>
@@ -78,15 +78,30 @@
                 </ion-row>
 
                 <ion-row *ngIf="item.ActivityLog==='Product Retail Audit'">
+                    <ion-col col-auto>
+                        <div style="margin-left: 10px;">
+                            <ion-icon ios="ios-create" md="ios-create" item-left></ion-icon>
+                        </div>
+                    </ion-col>
+                    <ion-col col-auto>
+                        <div style="margin-top: 15px;">
+                            <span style="color:#666;font-size: 13px; padding-left:2px!important;">
+                                {{item.retailAudit}}
+                            </span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row *ngIf="item.ActivityLog==='Forms'">
                         <ion-col col-auto>
-                             <div style="margin-left: 10px;">
-                               <ion-icon ios="ios-create" md="ios-create" item-left></ion-icon>
+                            <div style="margin-left: 10px;">
+                                <ion-icon ios="ios-document" md="ios-document" item-left></ion-icon>
                             </div>
                         </ion-col>
                         <ion-col col-auto>
                             <div style="margin-top: 15px;">
                                 <span style="color:#666;font-size: 13px; padding-left:2px!important;">
-                                    {{item.retailAudit}}
+                                    {{item.form}}
                                 </span>
                             </div>
                         </ion-col>

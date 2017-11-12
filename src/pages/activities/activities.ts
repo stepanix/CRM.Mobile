@@ -11,6 +11,8 @@ import { PlaceRepoApi } from '../../repos/place-repo-api';
 import { OrderRepoApi } from '../../repos/order-repo-api';
 import { ProductRetailRepoApi } from '../../repos/productretailaudit-repo-api';
 import { RetailAuditFormRepoApi } from '../../repos/retailauditform-repo-api';
+import { FormValueRepoApi } from '../../repos/formvalue-repo-api';
+import { FormRepoApi } from '../../repos/form-repo-api';
 import * as moment from 'moment';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -42,8 +44,12 @@ export class ActivitiesPage {
     orders : any[] = [];
     audits : any[] = [];
     retailAuditForms : any[] = [];
+    forms : any[] = [];
+    formValues : any[] = [];
 
-    constructor(private retailAuditFormRepoApi : RetailAuditFormRepoApi,
+    constructor(private formRepoApi : FormRepoApi,
+        private formValueRepoApi : FormValueRepoApi,
+        private retailAuditFormRepoApi : RetailAuditFormRepoApi,
         private productRetailAudit : ProductRetailRepoApi,
         private orderRepoApi : OrderRepoApi,
         private placeRepoApi : PlaceRepoApi, 
@@ -381,6 +387,28 @@ export class ActivitiesPage {
             if (res.results.length > 0) {
                 this.audits = res.results;
             }
+            this.listFormRepo();
+        });
+    }
+
+    listFormRepo(){
+        this.formRepoApi
+        .list()
+        .then((res) => {
+            if (res.results.length > 0) {
+                this.forms = res.results;
+            }
+            this.listFormValueRepo();
+        });
+    }
+
+    listFormValueRepo(){
+        this.formValueRepoApi
+        .list()
+        .then((res) => {
+            if (res.results.length > 0) {
+                this.formValues = res.results;
+            }
             this.getActivityLog();
         });
     }
@@ -400,6 +428,7 @@ export class ActivitiesPage {
                     photoImage: this.getPhoto(res.results[i].ActivityTypeId),
                     order : this.getOrder(res.results[i].ActivityTypeId),
                     retailAudit : this.getProductAudit(res.results[i].ActivityTypeId),
+                    form : this.getFormValues(res.results[i].ActivityTypeId),
                     DateCreated: moment(res.results[i].DateCreated).format("lll")
                 });
             }
@@ -413,6 +442,24 @@ export class ActivitiesPage {
     parseInitial(fullname:string) : string {
         var tempName : string[] = fullname.split(" ");
         return tempName[0].charAt(0) + tempName[1].charAt(0);
+    }
+
+    getFormValues(repoId){
+        let itemModel = this.formValues.find(item => item.Id === repoId);       
+        if (itemModel === undefined) {
+            return "";
+        } else {
+            return this.getForm(itemModel.FormId);
+        }
+    }
+    
+    getForm(formId) {
+        let itemModel = this.forms.find(item => item.ServerId === formId);
+        if (itemModel === undefined) {
+            return "";
+        } else {
+            return itemModel.Title;
+        }
     }
 
     getProductAudit(repoId){
