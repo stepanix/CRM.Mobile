@@ -35,6 +35,9 @@ export class VisitPage {
   visitStatus = "";
   repoId: any;
   activities: any[] = [];
+  currentLat : number = 0;
+  currentLng : number = 0;
+  currentDist : number = 0;
 
   constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
@@ -64,70 +67,9 @@ export class VisitPage {
     this.streetAddress = this.navParams.get('streetAddress');
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
-    this.getScheduleData();
-    // this.getActivityRepo();
+    this.getScheduleData();    
     console.log("scheduleid", this.scheduleId);
   }
-
-  // getActivityRepo() {
-  //   this.activities = [];
-  //   this.activityRepoApi.list(this.placeId).then((res) => {
-  //     if (res.results.length > 0) {
-  //       for (var i = 0; i < res.results.length; i++) {
-  //         this.activities.push({
-  //           PlaceName: res.results[i].PlaceName,
-  //           ActivityTypeId: res.results[i].ActivityTypeId,
-  //           ActivityLog: res.results[i].ActivityLog,
-  //           DateCreated: moment(res.results[i].DateCreated).format("lll")
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
-
-  // navigatePage(type, logId) {
-  //   if (type === "Forms") {
-  //     this.navCtrl.setRoot(FormPage, {
-  //       Id: logId,
-  //       placeName: this.placeName,
-  //       scheduleId: this.scheduleId,
-  //       placeId: this.placeId
-  //     });
-  //   }
-  //   if (type === "Product Retail Audit") {
-  //     this.navCtrl.setRoot(RetailAuditFormPage, {
-  //       Id: logId,
-  //       placeName: this.placeName,
-  //       scheduleId: this.scheduleId,
-  //       placeId: this.placeId
-  //     });
-  //   }
-  //   if (type === "Photos") {
-  //     this.navCtrl.setRoot(PhotoPage, {
-  //       Id: logId,
-  //       placeName: this.placeName,
-  //       scheduleId: this.scheduleId,
-  //       placeId: this.placeId
-  //     });
-  //   }
-  //   if (type === "Notes") {
-  //     this.navCtrl.setRoot(NotePage, {
-  //       Id: logId,
-  //       placeName: this.placeName,
-  //       scheduleId: this.scheduleId,
-  //       placeId: this.placeId
-  //     });
-  //   }
-  //   if (type === "Orders") {
-  //     this.navCtrl.push(OrdersPage, {
-  //       Id: logId,
-  //       orderId : logId,
-  //       placeName: this.placeName,
-  //       scheduleId: this.scheduleId,
-  //       placeId: this.placeId
-  //     });
-  //   }
-  // }
 
   getScheduleData() {
     this.scheduleRepoApi.listByScheduleId(this.repoId).then((res) => {
@@ -212,6 +154,8 @@ export class VisitPage {
   }
 
   updateScheduleStatus() {
+    this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(this.lat),parseFloat(this.lng),"K");
+    this.dataDtoIn.CheckInDistance = this.currentDist.toFixed(2);
     this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
     this.dataDtoIn.VisitStatus = "In";
     this.dataDtoIn.IsSynched = 0;
@@ -226,6 +170,7 @@ export class VisitPage {
       || this.scheduleId===null){
         this.scheduleId =  this.newGuid();
     }
+    this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(this.lat),parseFloat(this.lng),"K");
     let ScheduleDto = {
       Id: this.scheduleId,
       RepoId: this.scheduleId,
@@ -237,6 +182,8 @@ export class VisitPage {
       VisitDate: moment().format("YYYY-MM-DD") + "T00:00:00",
       VisitTime: moment().format("YYYY-MM-DD HH:mm"),
       CheckInTime: moment().format("YYYY-MM-DD HH:mm"),
+      CheckInDistance: this.currentDist.toFixed(2),
+      CheckOutDistance : "0",
       VisitNote: "",
       IsRecurring: false,
       RepeatCycle: 0,
@@ -251,6 +198,20 @@ export class VisitPage {
     };
     this.scheduleRepoApi.insertRecord(ScheduleDto);
   }
+
+  computeMileage(lat1, lon1, lat2, lon2, unit) : number {
+    var radlat1 = Math.PI * lat1/180
+    var radlat2 = Math.PI * lat2/180
+    var theta = lon1-lon2
+    var radtheta = Math.PI * theta/180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist)
+    dist = dist * 180/Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit=="K") { dist = dist * 1.609344 }
+    if (unit=="N") { dist = dist * 0.8684 }
+    return dist
+}
 
   parseStreetAddress(address) {
     if (address === undefined) {
@@ -363,6 +324,8 @@ export class VisitPage {
   }
 
   checkOutVisit() {
+    this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(this.lat),parseFloat(this.lng),"K");
+    this.dataDtoIn.CheckOutDistance = this.currentDist.toFixed(2);
     this.scheduleRepoApi.checkOutVisit(this.dataDtoIn);
     this.cancelAllNotifications();
   }

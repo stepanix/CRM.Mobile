@@ -1,6 +1,5 @@
 import {BaseModel} from '../services/query-builder';
 
-
 export class ScheduleModel extends BaseModel {
     public database: string = 'crm.db';
     public table: string = 'schedule';
@@ -23,10 +22,11 @@ export class ScheduleModel extends BaseModel {
         VisitStatus: 'TEXT',
         CheckInTime: 'TEXT',
         CheckOutTime: 'TEXT',
+        CheckInDistance: 'TEXT',
+        CheckOutDistance: 'TEXT',
         Latitude: 'TEXT',
         Longitude : 'TEXT',
         IsSynched: 'INTEGER(1)',
         RepoId : 'TEXT'
     }
-
 }
