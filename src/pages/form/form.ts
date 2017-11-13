@@ -419,7 +419,7 @@ export class FormPage {
         this.formFieldValues = [];
         this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {            
             this.formId = res.results[0].FormId;
-            if (res.results[0].Submitted === 2) {
+            if (res.results[0].Submitted === 1 || res.results[0].Submitted === 2) {
                 this.isDisabled = true;
             }
             this.getFormRepo();
