@@ -78,7 +78,7 @@ export class NotePage {
             .then((res) => {
                 this.noteId = res.results[0].Id;
                 this.noteModel.Description = res.results[0].Description;
-                if(res.results[0].Submitted===1){
+                if(res.results[0].Submitted===1 || res.results[0].Submitted===2){
                     this.isDisabled = true;
                 }
             });
