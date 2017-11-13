@@ -19,6 +19,8 @@ import { OrderRepoApi } from '../repos/order-repo-api';
 import { OrderItemRepoApi } from '../repos/orderitem-repo-api';
 import { TimeMileageRepoApi } from '../repos/timemileage-repo-api';
 
+import * as moment from 'moment';
+
 @Injectable()
 export class SyncServiceApi {
 
@@ -393,7 +395,7 @@ export class SyncServiceApi {
                     endTime: res.results[i].EndTime,
                     duration : res.results[i].Duration,
                     mileage : res.results[i].Mileage,
-                    dateCreated : res.results[i].DateCreated
+                    dateCreated : moment(res.results[i].DateCreated).format("YYYY-MM-DD")
                 });
             }
             console.log(JSON.stringify(timeMileagevalues));

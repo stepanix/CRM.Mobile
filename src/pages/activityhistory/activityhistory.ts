@@ -58,28 +58,28 @@ export class ActivityhistoryPage {
 
   navigatePage(type, logId, item) {
     if (type === "Forms") {
-      this.navCtrl.setRoot(FormPage, {
+      this.navCtrl.push(FormPage, {
         Id: logId,
         placeName: item.placeName,
         placeId: item.placeId
       });
     }
     if (type === "Product Retail Audit") {
-      this.navCtrl.setRoot(RetailAuditFormPage, {
+      this.navCtrl.push(RetailAuditFormPage, {
         Id: logId,
         placeName: item.placeName,
         placeId: item.placeId
       });
     }
     if (type === "Photos") {
-      this.navCtrl.setRoot(PhotoPage, {
+      this.navCtrl.push(PhotoPage, {
         Id: logId,
         placeName: item.placeName,
         placeId: item.placeId
       });
     }
     if (type === "Notes") {
-      this.navCtrl.setRoot(NotePage, {
+      this.navCtrl.push(NotePage, {
         Id: logId,
         placeName: item.placeName,
         placeId: item.placeId

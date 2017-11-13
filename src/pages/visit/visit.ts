@@ -236,28 +236,28 @@ export class VisitPage {
               this.hideCheckOutButton = false;
               this.enterSchedule();
               if (type === "form") {
-                this.navCtrl.setRoot(ListFormsPage, {
+                this.navCtrl.push(ListFormsPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
                 });
               }
               if (type === "audits") {
-                this.navCtrl.setRoot(ListRetailAuditFormPage, {
+                this.navCtrl.push(ListRetailAuditFormPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
                 });
               }
               if (type === "photo") {
-                this.navCtrl.setRoot(PhotoPage, {
+                this.navCtrl.push(PhotoPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
                 });
               }
               if (type === "note") {
-                this.navCtrl.setRoot(NotePage, {
+                this.navCtrl.push(NotePage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
                   placeId: this.placeId
@@ -290,28 +290,28 @@ export class VisitPage {
       confirm.present();
     } else {
       if (type === "form") {
-        this.navCtrl.setRoot(ListFormsPage, {
+        this.navCtrl.push(ListFormsPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
         });
       }
       if (type === "audits") {
-        this.navCtrl.setRoot(ListRetailAuditFormPage, {
+        this.navCtrl.push(ListRetailAuditFormPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
         });
       }
       if (type === "photo") {
-        this.navCtrl.setRoot(PhotoPage, {
+        this.navCtrl.push(PhotoPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId
         });
       }
       if (type === "note") {
-        this.navCtrl.setRoot(NotePage, {
+        this.navCtrl.push(NotePage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
           placeId: this.placeId

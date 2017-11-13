@@ -184,7 +184,7 @@ export class ActivitiesPage {
                                 EndTime: null,
                                 Duration: this.workDay,
                                 Mileage: "0",
-                                IsSynched: 0,
+                                IsSynched: 1,
                                 DateCreated: moment().format("YYYY-MM-DD")
                             }
                             this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
@@ -256,6 +256,7 @@ export class ActivitiesPage {
                 localStorage.setItem('workStatus', "stopped");
                 this.cancelAllNotifications();
                 this.checkWorkStatus();
+                this.syncServiceApi.downloadServerData();
             }
         });
     }
