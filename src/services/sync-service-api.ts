@@ -248,6 +248,8 @@ export class SyncServiceApi {
                             VisitStatus: res[i].visitStatus,
                             CheckInTime : res[i].checkInTime,
                             CheckOutTime : res[i].checkOutTime,
+                            CheckInDistance : res[i].checkInDistance,
+                            CheckOutDistance : res[i].checkOutDistance,
                             IsSynched: 1,
                             repoId: res[i].repoId
                         });
@@ -603,6 +605,8 @@ export class SyncServiceApi {
                     visitStatus: res.results[i].VisitStatus,
                     checkInTime: this.parseDateTime(res.results[i].CheckInTime),
                     checkOutTime: this.parseDateTime(res.results[i].CheckOutTime),
+                    checkInDistance : parseFloat(res[i].CheckInDistance),
+                    checkOutDistance : parseFloat(res[i].CheckOutDistance),
                     repoId: res.results[i].RepoId
                 });
             }
