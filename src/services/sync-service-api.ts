@@ -395,10 +395,10 @@ export class SyncServiceApi {
                     endTime: res.results[i].EndTime,
                     duration : res.results[i].Duration,
                     mileage : res.results[i].Mileage,
-                    dateCreated : moment(res.results[i].DateCreated).format("YYYY-MM-DD")
+                    dateCreated : res.results[i].DateCreated
                 });
             }
-            console.log(JSON.stringify(timeMileagevalues));
+            console.log("timemileage",JSON.stringify(timeMileagevalues));
             this.timeMileageServiceApi.addTimeMileageList(timeMileagevalues)
                 .subscribe(
                 res => {
@@ -564,7 +564,7 @@ export class SyncServiceApi {
                     repoId: res.results[i].RepoId
                 });
             }
-            console.log("places",JSON.stringify(places));
+            //console.log("places",JSON.stringify(places));
             this.placeServiceApi.addPlaceList(places)
                 .subscribe(
                 res => {
