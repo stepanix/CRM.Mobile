@@ -12,6 +12,7 @@ import { AddPlacePage } from '../addplace/addplace';
 export class PlacesPage {
 
     places: any[] = [];
+    placesTemp: any[] = [];
     loader: any;
     viewSelectionModel : string = "";
     currentLat : number = 0;
@@ -49,6 +50,7 @@ export class PlacesPage {
 
     getScheduledPlaces() {
         this.places = [];
+        this.placesTemp = [];
         this.scheduleRepoApi.listScheduledPlaces().then((res) => {
             for (var i = 0; i < res.length; i++) {
                 this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(res[i].Latitude),parseFloat(res[i].Longitude),"K")
@@ -57,7 +59,7 @@ export class PlacesPage {
                 }else{
                     this.dist = this.currentDist.toFixed(2) + " k";
                 }
-                this.places.push({
+                this.placesTemp.push({
                     id: parseInt(res[i].PlaceId),
                     name: res[i].PlaceName,
                     streetAddress: res[i].PlaceAddress,
@@ -68,6 +70,7 @@ export class PlacesPage {
                     distance : this.dist
                 });
             }
+            this.places = this.placesTemp.filter(item => item.isVisited === "true");
         });
     }
 

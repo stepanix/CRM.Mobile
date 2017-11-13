@@ -46,7 +46,7 @@ export class ScheduleRepoApi {
         dataDto.VisitStatus = "In";
         dataDto.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
         dataDto.IsSynched = 0;
-        data.where("RepoId", "=", dataDto.RepoId).orWhere("ServerId","=",dataDto.ServerId).update(dataDto);
+        data.where("RepoId", "=", dataDto.RepoId).orWhere("ServerId", "=", dataDto.ServerId).update(dataDto);
     }
 
     getChekedInVisit() {
@@ -67,7 +67,7 @@ export class ScheduleRepoApi {
     }
 
     listByDate(placeId: string, visitDate: string): Promise<any> {
-        var data = new QueryBuilder(new ScheduleModel());        
+        var data = new QueryBuilder(new ScheduleModel());
         var results = null;
         if (placeId === undefined) {
             results = data.where("VisitDate", "=", visitDate).get();
@@ -82,7 +82,7 @@ export class ScheduleRepoApi {
         var results = null;
         if (placeId === undefined) {
             results = data.rawQuery("SELECT DISTINCT VisitDate FROM schedule ", null);
-        }else{
+        } else {
             results = data.rawQuery("SELECT DISTINCT VisitDate FROM schedule WHERE PlaceId =?", [placeId]);
         }
         return results;
@@ -95,9 +95,9 @@ export class ScheduleRepoApi {
     }
 
     updateMissedSchedule() {
-        var currentDate =  moment().format("YYYY-MM-DD");
+        var currentDate = moment().format("YYYY-MM-DD");
         var data = new QueryBuilder(new ScheduleModel());
-        data.rawQuery("UPDATE schedule SET VisitStatus = 'Missed', IsMissed='true', IsSynched = 0 WHERE (VisitStatus = ? OR VisitStatus = ?) AND VisitDate < ? ", ["Scheduled","New visit",currentDate]);
+        data.rawQuery("UPDATE schedule SET VisitStatus = 'Missed', IsMissed='true', IsSynched = 0 WHERE (VisitStatus = ? OR VisitStatus = ?) AND VisitDate < ? ", ["Scheduled", "New visit", currentDate]);
     }
 
     listById(Id: string): Promise<any> {
@@ -106,9 +106,9 @@ export class ScheduleRepoApi {
         return results;
     }
 
-    listByScheduleId(Id: string,serverId:any): Promise<any> {
+    listByScheduleId(Id: string, serverId: any): Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
-        var results = data.where("RepoId", "=", Id).where("VisitStatus", "=","In").get();
+        var results = data.where("RepoId", "=", Id).where("VisitStatus", "=", "In").get();
         return results;
     }
 
