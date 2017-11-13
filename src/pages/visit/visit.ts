@@ -47,7 +47,8 @@ export class VisitPage {
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams) {
-      
+      this.currentLat = parseFloat(localStorage.getItem("lat"));
+      this.currentLng =  parseFloat(localStorage.getItem("lng"));  
   }
 
   ionViewDidLoad() {
