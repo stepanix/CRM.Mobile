@@ -38,6 +38,7 @@ export class VisitPage {
   currentLat : number = 0;
   currentLng : number = 0;
   currentDist : number = 0;
+  serverId : any = "";
 
   constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
@@ -61,6 +62,7 @@ export class VisitPage {
   }
 
   ionViewWillEnter() {
+    this.serverId = this.navParams.get('id');
     this.repoId = this.navParams.get('repoId');
     this.scheduleId = this.navParams.get('repoId');
     this.placeId = this.navParams.get('placeId');
@@ -69,11 +71,12 @@ export class VisitPage {
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
     this.getScheduleData();    
-    console.log("scheduleid", this.scheduleId);
+    console.log("serverid", this.serverId);
+    console.log("repoid", this.repoId);
   }
 
   getScheduleData() {
-    this.scheduleRepoApi.listByScheduleId(this.repoId).then((res) => {
+    this.scheduleRepoApi.listByScheduleId(this.repoId,this.serverId).then((res) => {
       if (res.results.length > 0) {
         this.dataDtoIn = res.results[0];
         if (this.dataDtoIn.VisitStatus === "In") {

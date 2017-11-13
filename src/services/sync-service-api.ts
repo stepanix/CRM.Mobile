@@ -605,8 +605,8 @@ export class SyncServiceApi {
                     visitStatus: res.results[i].VisitStatus,
                     checkInTime: this.parseDateTime(res.results[i].CheckInTime),
                     checkOutTime: this.parseDateTime(res.results[i].CheckOutTime),
-                    checkInDistance : parseFloat(res[i].CheckInDistance),
-                    checkOutDistance : parseFloat(res[i].CheckOutDistance),
+                    checkInDistance : parseFloat(res.results[i].CheckInDistance),
+                    checkOutDistance : parseFloat(res.results[i].CheckOutDistance),
                     repoId: res.results[i].RepoId
                 });
             }

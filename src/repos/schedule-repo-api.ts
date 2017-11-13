@@ -106,9 +106,9 @@ export class ScheduleRepoApi {
         return results;
     }
 
-    listByScheduleId(Id: string): Promise<any> {
+    listByScheduleId(Id: string,serverId:any): Promise<any> {
         var data = new QueryBuilder(new ScheduleModel());
-        var results = data.where("RepoId", "=", Id).get();
+        var results = data.where("RepoId", "=", Id).where("VisitStatus", "=","In").get();
         return results;
     }
 

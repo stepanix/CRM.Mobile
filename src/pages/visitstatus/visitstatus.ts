@@ -18,6 +18,7 @@ export class VisitStatusPage {
   lat : any;
   lng : any;
   repoId : any;
+  serverId : any;
 
   constructor(private events : Events,
     private scheduleRepoApi : ScheduleRepoApi,
@@ -34,6 +35,7 @@ export class VisitStatusPage {
       this.scheduleRepoApi.getChekedInVisit().then((res) => {
             if (res.results.length > 0) {
                 this.placeCheckedIn = " Checked in at " + res.results[0].PlaceName;
+                this.serverId = res.results[0].ServerId;
                 this.scheduleId = res.results[0].Id;
                 this.placeId =  res.results[0].PlaceId;
                 this.repoId = res.results[0].RepoId;
@@ -49,6 +51,7 @@ export class VisitStatusPage {
 
    openVisit() {
         this.navCtrl.setRoot(VisitPage, {
+            id : this.serverId,
             repoId : this.repoId,
             scheduleId : this.repoId,
             placeId : this.placeId,

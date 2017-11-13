@@ -388,8 +388,8 @@ export class ActivityhistoryPage {
         }
       });
     }
-    console.log("activities Temp", this.filterData);
-    console.log("activities Temp", this.activitiesTemp);
+    // console.log("activities Temp", this.filterData);
+    // console.log("activities Temp", this.activitiesTemp);
   }
 
 }
