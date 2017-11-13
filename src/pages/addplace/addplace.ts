@@ -45,7 +45,7 @@ export class AddPlacePage {
         public navParams: NavParams) {
 
         this.PlaceModel.Name = "";
-        this.PlaceModel.SelectedStatus = -1;
+        this.PlaceModel.SelectedStatus = "-1";
         this.PlaceModel.StreetAddress = "";
 
         this.PlaceModel.ContactName = "";
@@ -90,6 +90,7 @@ export class AddPlacePage {
 
 
     geolocate() {
+          if(this.PlaceModel.StreetAddress===""){
             this.loader = this.loading.create({
                 content: 'Saving data, please wait...',
             });
@@ -104,7 +105,7 @@ export class AddPlacePage {
                      this.PlaceModel = {
                          Id: this.placeRepoId,
                          ServerId: 0,
-                         StatusId: this.PlaceModel.SelectedStatus,
+                         StatusId: this.parseStatus(this.PlaceModel.SelectedStatus),
                          Name: this.PlaceModel.Name,
                          StreetAddress: this.PlaceModel.StreetAddress,
                          Email: this.PlaceModel.Email,
@@ -122,11 +123,42 @@ export class AddPlacePage {
                      this.placeRepoApi.insertRecord(this.PlaceModel);
                      this.navCtrl.setRoot(PlacesPage);
                     });
+                    this.loader.dismiss();
                 }).catch((error) => {
                     this.loader.dismiss();
                     console.log('Error getting location', error);
                 });
             });
+          }else{
+            this.PlaceModel = {
+                Id: this.placeRepoId,
+                ServerId: 0,
+                StatusId: this.parseStatus(this.PlaceModel.SelectedStatus),
+                Name: this.PlaceModel.Name,
+                StreetAddress: this.PlaceModel.StreetAddress,
+                Email: this.PlaceModel.Email,
+                Website: this.PlaceModel.Website,
+                ContactName: this.PlaceModel.ContactName,
+                ContactTitle: this.PlaceModel.ContactTitle,
+                Phone: this.PlaceModel.Phone,
+                CellPhone: this.PlaceModel.CellPhone,
+                Latitude: this.latitude,
+                Longitude: this.longitude,
+                IsSynched: 0,
+                RepoId: this.placeRepoId
+            };
+            this.loader.dismiss();
+            this.placeRepoApi.insertRecord(this.PlaceModel);
+            this.navCtrl.setRoot(PlacesPage);
+          }
+      }
+
+      parseStatus(status:any){
+          if(status===-1 || status==="-1"){
+                return null;
+          }else{
+              return status;
+          }
       }
 
     savePlaceRepo() {

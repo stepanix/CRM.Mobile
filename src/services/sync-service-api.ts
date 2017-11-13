@@ -562,7 +562,7 @@ export class SyncServiceApi {
                     repoId: res.results[i].RepoId
                 });
             }
-            //console.log("places",JSON.stringify(places));
+            console.log("places",JSON.stringify(places));
             this.placeServiceApi.addPlaceList(places)
                 .subscribe(
                 res => {
@@ -580,7 +580,7 @@ export class SyncServiceApi {
         if(id===-1 || id==="-1"){
             return null;
         }else{
-            return id;
+            return parseInt(id);
         }
     }
 

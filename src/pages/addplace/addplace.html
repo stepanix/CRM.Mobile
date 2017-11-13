@@ -31,6 +31,7 @@
 
     <ion-item>
           <ion-select placeholder="Status" [(ngModel)]="PlaceModel.SelectedStatus">
+             <ion-option value="-1">Select status</ion-option>
              <ion-option *ngFor="let item of status" value="{{item.id}}">{{item.name}}</ion-option>
           </ion-select>
      </ion-item>

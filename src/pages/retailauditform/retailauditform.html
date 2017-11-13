@@ -89,9 +89,9 @@
 
             <div *ngIf="item.questionTypeId==='7'" (click)="showCalendar()">
                 <span *ngIf="item.mandatory === true" style="color:red;font-weight: bold;">* </span>
-                <ion-icon item-left name="calendar" (click)="showCalendar()"></ion-icon>
+                <ion-icon item-left name="calendar"></ion-icon>
                 <span style="color:black;">{{item.question}}</span>
-                <b (click)="showCalendar()">{{formFieldModel[item.id]}}</b>
+                <b>{{formFieldModel[item.id]}}</b>
             </div>
 
             <div *ngIf="item.questionTypeId==='9'">

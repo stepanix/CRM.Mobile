@@ -106,8 +106,7 @@ export class ActivityhistoryPage {
       });
   }
 
-  listOrderRepo() {
-    this.loader.present().then(() => {
+  listOrderRepo() {  
       this.orderRepoApi
         .getOrderForActivity()
         .then((res) => {
@@ -115,8 +114,7 @@ export class ActivityhistoryPage {
             this.orders = res.results;
           }
           this.listPhotoRepo();
-        });
-    });
+        });    
   }
 
   listPhotoRepo() {
@@ -208,7 +206,7 @@ export class ActivityhistoryPage {
         });
       }
       this.appyModuleFilter();
-      this.loader.dismiss();
+      //this.loader.dismiss();
     });
   }
 
@@ -294,9 +292,9 @@ export class ActivityhistoryPage {
   }
 
   ngAfterContentInit() {
-    this.loader = this.loading.create({
-      content: 'Busy please wait...',
-    });
+    // this.loader = this.loading.create({
+    //   content: 'Busy please wait...',
+    // });
     this.listPlaceRepo();
   }
 

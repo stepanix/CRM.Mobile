@@ -14,7 +14,7 @@ export class PlacesPage {
     places: any[] = [];
     placesTemp: any[] = [];
     loader: any;
-    viewSelectionModel : string = "";
+    viewSelectionModel : string = "scheduled";
     currentLat : number = 0;
     currentLng : number = 0;
     currentDist : number = 0;
@@ -67,10 +67,12 @@ export class PlacesPage {
                     latitude: res[i].Latitude,
                     longitude: res[i].Longitude,
                     isVisited: res[i].IsVisited,
+                    isScheduled: res[i].IsScheduled,
+                    isMissed: res[i].IsMissed,
                     distance : this.dist
                 });
             }
-            this.places = this.placesTemp.filter(item => item.isVisited === "true");
+            this.places = this.placesTemp.filter(item => item.isVisited === "true" || (item.isScheduled === "true" && item.isScheduled === "true"));
         });
     }
 

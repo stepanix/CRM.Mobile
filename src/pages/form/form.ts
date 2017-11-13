@@ -417,8 +417,7 @@ export class FormPage {
 
     getFormFieldsRepo() {
         this.formFieldValues = [];
-        this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {
-            //console.log(res.results[0]);
+        this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {            
             this.formId = res.results[0].FormId;
             if (res.results[0].Submitted === 2) {
                 this.isDisabled = true;
@@ -427,7 +426,6 @@ export class FormPage {
             let fields = JSON.parse(res.results[0].FormFieldValues);
             for (var i = 0; i < fields.length; i++) {
                 this.formFieldModel[fields[i].id] = this.parseModelAnswer(fields[i].answer);
-                //console.log(this.formFieldModel[fields[i].id]);
             }
         });
     }
