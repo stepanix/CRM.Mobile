@@ -194,7 +194,9 @@ export class SchedulePage {
             placeName: item.place,
             streetAddress: item.address,
             lat: item.latitude,
-            lng: item.longitude
+            lng: item.longitude,
+            status : item.status,
+            serverId : item.id
         });
     }
 

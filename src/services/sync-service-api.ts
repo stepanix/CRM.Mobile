@@ -185,7 +185,7 @@ export class SyncServiceApi {
                     this.orderRepoApi.delete();
                     this.orderRepoApi.insert(this.ordersTemp);
                     this.uploadOrderItemsToServer();
-                    console.log("ordrstemp",this.ordersTemp);
+                    //console.log("ordrstemp",this.ordersTemp);
                 }
             }, err => {
                 //console.log(err);
@@ -398,7 +398,7 @@ export class SyncServiceApi {
                     dateCreated : res.results[i].DateCreated
                 });
             }
-            console.log("timemileage",JSON.stringify(timeMileagevalues));
+            //console.log("timemileage",JSON.stringify(timeMileagevalues));
             this.timeMileageServiceApi.addTimeMileageList(timeMileagevalues)
                 .subscribe(
                 res => {

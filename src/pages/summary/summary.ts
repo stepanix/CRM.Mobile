@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ActivityServiceApi,ScheduleServiceApi,OrderServiceApi } from '../../shared/shared';
 import { UserRepoApi } from '../../repos/user-repo-api';
+import { PlaceRepoApi } from '../../repos/place-repo-api';
 import { DatePicker } from 'ionic2-date-picker';
 import * as moment from 'moment';
 
@@ -30,11 +31,14 @@ export class SummaryPage {
   dateTo: any;
   dateSelected: any = "";
   repModel: any = "";
+  placeModel : any ="";
   reps: any[] = [];
+  places : any[] = [];
   
   loader: any;
 
-  constructor(private orderServiceApi : OrderServiceApi,
+  constructor(private placeRepoApi : PlaceRepoApi,
+    private orderServiceApi : OrderServiceApi,
     private loading: LoadingController,
     private scheduleServiceApi : ScheduleServiceApi,
     private userRepoApi: UserRepoApi,
@@ -46,7 +50,7 @@ export class SummaryPage {
     this.dateFrom = moment().format('YYYY-MM-DD').toString();
     this.dateTo = this.dateFrom;
     this.repModel = localStorage.getItem('userid');
-
+    this.placeModel = "1";
     this.calendar.onDateSelected.subscribe((date) => {
         if (this.dateSelected === "from") {
            this.dateFrom = moment(date).format('YYYY-MM-DD').toString();
@@ -56,8 +60,8 @@ export class SummaryPage {
            this.listSummary();
         }
     });
-    
     this.listReps();
+    this.listPlaces();
     this.listSummary();
   }
 
@@ -73,7 +77,20 @@ export class SummaryPage {
         this.reps.push({
           id: res.results[i].Id,
           name: res.results[i].FirstName + ' ' + res.results[i].Surname
+        });        
+      }
+    });
+  }
+
+  listPlaces() {
+    this.places = [];
+    this.placeRepoApi.list().then((res) => {
+      for (var i = 0; i < res.results.length; i++) {
+        this.places.push({
+          id: res.results[i].ServerId,
+          name: res.results[i].Name
         });
+        this.placeModel = res.results[0].ServerId;
       }
     });
   }
@@ -84,7 +101,7 @@ export class SummaryPage {
     });
     this.loader.present().then(() => {      
       this.activityServiceApi
-        .getActivitiesSummary(this.repModel, this.dateFrom, this.dateTo)
+        .getActivitiesSummary(this.repModel, this.dateFrom, this.dateTo,this.placeModel)
         .subscribe(
         res => {
           for (var i = 0; i < res.length; i++) {
@@ -102,7 +119,7 @@ export class SummaryPage {
             }
             if (res[i].activityLog === "Photos") {
               this.photosCount += 1;
-            }            
+            }
           }
           this.listScheduleSummary();
         }, err => {

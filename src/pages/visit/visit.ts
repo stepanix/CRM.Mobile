@@ -39,6 +39,7 @@ export class VisitPage {
   currentLng : number = 0;
   currentDist : number = 0;
   serverId : any = "";
+  status : any = "";
 
   constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
@@ -70,6 +71,7 @@ export class VisitPage {
     this.streetAddress = this.navParams.get('streetAddress');
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
+    this.status = this.navParams.get('status');
     this.getScheduleData();    
     console.log("serverid", this.serverId);
     console.log("repoid", this.repoId);
@@ -94,7 +96,7 @@ export class VisitPage {
   }
 
   enterSchedule() {
-    if (this.dataDtoIn.RepoId === undefined) {
+    if (this.dataDtoIn.repoId === undefined) {
       this.createNewSchedule();      
     } else {
       this.updateScheduleStatus();      
