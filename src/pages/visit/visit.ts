@@ -40,6 +40,7 @@ export class VisitPage {
   currentDist : number = 0;
   serverId : any = "";
   status : any = "";
+  isUnscheduled : any ="false";
 
   constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
@@ -63,7 +64,7 @@ export class VisitPage {
   }
 
   ionViewWillEnter() {
-    this.serverId = this.navParams.get('id');
+    this.serverId = this.navParams.get('serverId');
     this.repoId = this.navParams.get('repoId');
     this.scheduleId = this.navParams.get('repoId');
     this.placeId = this.navParams.get('placeId');
@@ -72,9 +73,11 @@ export class VisitPage {
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
     this.status = this.navParams.get('status');
+    this.isUnscheduled = this.navParams.get('isUnscheduled');
     this.getScheduleData();    
     console.log("serverid", this.serverId);
     console.log("repoid", this.repoId);
+    console.log("scheduleid", this.scheduleId);
   }
 
   getScheduleData() {
@@ -96,7 +99,7 @@ export class VisitPage {
   }
 
   enterSchedule() {
-    if (this.repoId === undefined) {
+    if (this.isUnscheduled === "true") {
       this.createNewSchedule();      
     } else {
       this.updateScheduleStatus();      
@@ -334,7 +337,7 @@ export class VisitPage {
   checkOutVisit() {
     this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(this.lat),parseFloat(this.lng),"K");
     this.dataDtoIn.CheckOutDistance = this.currentDist.toFixed(2);
-    this.scheduleRepoApi.checkOutVisit(this.dataDtoIn);
+    this.scheduleRepoApi.checkOutVisit(this.dataDtoIn,this.repoId);
     this.cancelAllNotifications();
   }
 

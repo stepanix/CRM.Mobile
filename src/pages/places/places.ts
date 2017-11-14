@@ -157,7 +157,8 @@ export class PlacesPage {
                     placeName: item.name,
                     streetAddress: item.streetAddress,
                     lat: item.latitude,
-                    lng: item.longitude
+                    lng: item.longitude,
+                    isUnscheduled : "true"
                 });
             }
         });

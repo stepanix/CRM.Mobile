@@ -612,7 +612,7 @@ export class SyncServiceApi {
                     repoId: res.results[i].RepoId
                 });
             }
-            console.log(JSON.stringify(schedules));
+           // console.log(JSON.stringify(schedules));
             this.scheduleServiceApi.addScheduleList(schedules)
                 .subscribe(
                 res => {

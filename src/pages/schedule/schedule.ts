@@ -199,7 +199,8 @@ export class SchedulePage {
             lat: item.latitude,
             lng: item.longitude,
             status : item.status,
-            serverId : item.id
+            serverId : item.id,
+            isUnscheduled : "false"
         });
     }
 

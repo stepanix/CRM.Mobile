@@ -31,14 +31,14 @@ export class ScheduleRepoApi {
         }
     }
 
-    checkOutVisit(dtoScheduleIn: any) {
+    checkOutVisit(dtoScheduleIn: any,repoId:any) {
         var data = new QueryBuilder(new ScheduleModel());
         dtoScheduleIn.VisitStatus = "Visited";
         dtoScheduleIn.IsVisited = "true";
         dtoScheduleIn.CheckOutTime = moment().format("YYYY-MM-DD HH:mm");
         dtoScheduleIn.IsSynched = 0;
-        console.log("checkoutdata", JSON.stringify(dtoScheduleIn));
-        data.where("RepoId", "=", dtoScheduleIn.RepoId).update(dtoScheduleIn);
+        //console.log("checkoutdata", JSON.stringify(dtoScheduleIn));
+        data.where("RepoId", "=", repoId).update(dtoScheduleIn);
     }
 
     checkInVisit(dataDto: any) {
