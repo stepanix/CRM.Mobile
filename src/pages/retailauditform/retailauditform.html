@@ -79,7 +79,7 @@
                 <span *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
                 <div class="editProfilePicContainer">
                     <p></p>
-                    <img [src]="base64Image" />
+                    <img [src]="formFieldModel[item.id]" />
                 </div>
                 <span style="float: right;">
                     {{item.question}}
