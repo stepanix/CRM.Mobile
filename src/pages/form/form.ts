@@ -188,7 +188,6 @@ export class FormPage {
                 returnImage.base64Image = base64;
                 returnImage.formFieldModel[questionId] = returnImage.base64Image;
             });
-
         }, (err) => {
         });
     }

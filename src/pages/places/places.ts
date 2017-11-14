@@ -19,6 +19,7 @@ export class PlacesPage {
     currentLng : number = 0;
     currentDist : number = 0;
     dist : string = "";
+    visitedPlaces : any[] = [];
 
     constructor(public menuCtrl: MenuController,
         private scheduleRepoApi: ScheduleRepoApi,
@@ -28,7 +29,8 @@ export class PlacesPage {
         public navParams: NavParams) {
         this.currentLat = parseFloat(localStorage.getItem("lat"));
         this.currentLng =  parseFloat(localStorage.getItem("lng"));    
-        this.getScheduledPlaces();
+        this.listVisitedPlaces();
+
     }
 
     ionViewDidLoad() {
@@ -38,7 +40,7 @@ export class PlacesPage {
         if(this.viewSelectionModel==="all"){
             this.getPlaces(); 
         }else{
-            this.getScheduledPlaces();
+            this.listVisitedPlaces();
         }
         this.menuCtrl.toggle('right');
     }
@@ -46,6 +48,20 @@ export class PlacesPage {
     toggleMenu() {
         this.menuCtrl.enable(true, 'search');
         this.menuCtrl.toggle('right');
+    }
+
+    listVisitedPlaces(){
+        this.visitedPlaces = [];
+        this.scheduleRepoApi.listVisitedPlaces().then((res) => {
+            for (var i = 0; i < res.length; i++) {                
+                this.visitedPlaces.push({
+                    id: parseInt(res[i].PlaceId),
+                    name: res[i].PlaceName,                    
+                });
+            }
+            console.log("visited",this.visitedPlaces);
+            this.getScheduledPlaces();
+        });
     }
 
     getScheduledPlaces() {
@@ -64,16 +80,24 @@ export class PlacesPage {
                     name: res[i].PlaceName,
                     streetAddress: res[i].PlaceAddress,
                     placeId: this.parsePlaceId(res[i].PlaceId, res[i].PlaceId),
+                    isVisited  : this.parseVisitedPlaces(parseInt(res[i].PlaceId)),
                     latitude: res[i].Latitude,
                     longitude: res[i].Longitude,
-                    isVisited: res[i].IsVisited,
-                    isScheduled: res[i].IsScheduled,
-                    isMissed: res[i].IsMissed,
                     distance : this.dist
-                });
+                });                
             }
-            this.places = this.placesTemp.filter(item => item.isVisited === "true" || (item.isScheduled === "true" && item.isScheduled === "true"));
+            this.places = this.placesTemp;
+            console.log("scheduled places",this.places);
         });
+    }
+
+    parseVisitedPlaces(id){
+        let placeVisistedModel = this.visitedPlaces.find(place => place.id === id);
+        if (placeVisistedModel !== undefined) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 
     getPlaces() {
