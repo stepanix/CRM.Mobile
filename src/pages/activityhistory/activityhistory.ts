@@ -292,9 +292,6 @@ export class ActivityhistoryPage {
   }
 
   ngAfterContentInit() {
-    // this.loader = this.loading.create({
-    //   content: 'Busy please wait...',
-    // });
     this.listPlaceRepo();
   }
 

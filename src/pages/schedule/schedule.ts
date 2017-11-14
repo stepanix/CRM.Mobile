@@ -36,10 +36,15 @@ export class SchedulePage {
         private scheduleRepoApi: ScheduleRepoApi,
         private navCtrl: NavController,
         private navParams: NavParams) {
-        this.eventDate = new Date().toISOString();
+        
     }
 
     ngOnInit() {
+       
+    }
+
+    ionViewDidEnter(){
+        this.eventDate = new Date().toISOString();
         this.placeId = this.navParams.get('placeId');
         this.isAnyPlaceCheckedIn();
     }
@@ -57,8 +62,7 @@ export class SchedulePage {
                     lng: res.results[0].Longitude
                 });
             } else {
-                this.listMyScheduleRepo();
-                this.listSheduleDates();
+                this.listMyScheduleRepo();                
             }
         });
     }
@@ -79,9 +83,7 @@ export class SchedulePage {
         });
     }
 
-    listSchedule() {
-        this.listMyScheduleRepo();
-    }
+   
 
     listMyScheduleRepo() {
         this.loader = this.loading.create({
@@ -110,6 +112,7 @@ export class SchedulePage {
                         scheduleStatus : this.parseScheduleStatus(res.results[i].IsUnScheduled,res.results[i].IsScheduled)
                     });
                 }
+                this.listSheduleDates();
                 this.loader.dismiss();
             });
         });

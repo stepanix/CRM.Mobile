@@ -22,7 +22,7 @@
 
     <page-visitstatus></page-visitstatus>
 
-    <ion-calendar *ngIf="isDataAvailable" [(ngModel)]="eventDate" [options]="options" (onChange)="listSchedule()" [format]="'YYYY-MM-DD'"></ion-calendar>
+    <ion-calendar *ngIf="isDataAvailable" [(ngModel)]="eventDate" [options]="options" (onChange)="listMyScheduleRepo()" [format]="'YYYY-MM-DD'"></ion-calendar>
 
     <ion-list class="servicesList">
         <div *ngFor="let item of schedules">

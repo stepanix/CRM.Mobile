@@ -96,7 +96,7 @@ export class VisitPage {
   }
 
   enterSchedule() {
-    if (this.dataDtoIn.repoId === undefined) {
+    if (this.repoId === undefined) {
       this.createNewSchedule();      
     } else {
       this.updateScheduleStatus();      
@@ -165,6 +165,8 @@ export class VisitPage {
     this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
     this.dataDtoIn.VisitStatus = "In";
     this.dataDtoIn.IsSynched = 0;
+    this.dataDtoIn.RepoId = this.repoId;
+    this.dataDtoIn.ServerId = this.serverId;
     this.scheduleRepoApi.checkInVisit(this.dataDtoIn);
   }
 
