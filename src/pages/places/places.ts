@@ -84,7 +84,7 @@ export class PlacesPage {
                     latitude: res[i].Latitude,
                     longitude: res[i].Longitude,
                     distance : this.dist
-                });                
+                });
             }
             this.places = this.placesTemp;
             console.log("scheduled places",this.places);
