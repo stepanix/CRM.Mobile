@@ -31,28 +31,27 @@
 
         <ion-item>
             <ion-label>Available</ion-label>
-            <ion-checkbox [(ngModel)]="available"></ion-checkbox>
+            <ion-checkbox [disabled]="isDisabled" [(ngModel)]="available"></ion-checkbox>
         </ion-item>
 
         <ion-item>
             <ion-label>Promoted</ion-label>
-            <ion-checkbox [(ngModel)]="promoted"></ion-checkbox>
+            <ion-checkbox [disabled]="isDisabled" [(ngModel)]="promoted"></ion-checkbox>
         </ion-item>
 
         <ion-item>
-            <span style="color:red;font-weight: bold;">* </span>
-            <ion-label floating>Price</ion-label>
-            <ion-input type="number" [(ngModel)]="price"></ion-input>
+            <ion-label floating><span style="color:red;font-weight: bold;">* </span> Price</ion-label>
+            <ion-input type="number" [disabled]="isDisabled" [(ngModel)]="price"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="showStockLevel==='true'">
             <ion-label floating>Stock Level</ion-label>
-            <ion-input type="number" [(ngModel)]="stockLevel"></ion-input>
+            <ion-input type="number" [disabled]="isDisabled" [disabled]="isDisabled" [(ngModel)]="stockLevel"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="showNote==='true'">
             <ion-label floating>Note</ion-label>
-            <ion-input type="text" [(ngModel)]="note"></ion-input>
+            <ion-input type="text" [disabled]="isDisabled" [(ngModel)]="note"></ion-input>
         </ion-item>
 
         <ion-item *ngFor="let item of formFields">
@@ -60,18 +59,18 @@
             <ion-label *ngIf="item.questionTypeId !=='6' && item.questionTypeId !=='7' && item.questionTypeId !=='9'" floating>
                 <span *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
 
-            <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
+            <ion-input *ngIf="item.questionTypeId==='1'" [disabled]="isDisabled" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
 
-            <ion-textarea *ngIf="item.questionTypeId==='2'" [(ngModel)]="formFieldModel[item.id]"></ion-textarea>
+            <ion-textarea *ngIf="item.questionTypeId==='2'" [disabled]="isDisabled" [(ngModel)]="formFieldModel[item.id]"></ion-textarea>
 
-            <ion-input *ngIf="item.questionTypeId==='3'" type="number" [(ngModel)]="formFieldModel[item.id]"> </ion-input>
+            <ion-input *ngIf="item.questionTypeId==='3'" type="number" [disabled]="isDisabled" [(ngModel)]="formFieldModel[item.id]"> </ion-input>
 
-            <ion-select *ngIf="item.questionTypeId==='4'" [(ngModel)]="formFieldModel[item.id]">
+            <ion-select *ngIf="item.questionTypeId==='4'" [disabled]="isDisabled" [(ngModel)]="formFieldModel[item.id]">
                 <ion-option value="Yes">Yes</ion-option>
                 <ion-option value="No">No</ion-option>
             </ion-select>
 
-            <ion-select *ngIf="item.questionTypeId==='5'" [(ngModel)]="formFieldModel[item.id]">
+            <ion-select *ngIf="item.questionTypeId==='5'"  [disabled]="isDisabled" [(ngModel)]="formFieldModel[item.id]">
                 <ion-option *ngFor="let option of item.answers" value="{{option.answer}}">{{option.answer}}</ion-option>
             </ion-select>
 
@@ -101,7 +100,7 @@
                 <b (click)="openBarCode()">{{formFieldModel[item.id]}}</b>
             </div>
 
-            <ion-select *ngIf="item.questionTypeId==='10'" [(ngModel)]="formFieldModel[item.id]">
+            <ion-select *ngIf="item.questionTypeId==='10'" [(ngModel)]="formFieldModel[item.id]" [disabled]="isDisabled">
                 <ion-option *ngFor="let option of products" value="{{option.name}}">{{option.name}}</ion-option>
             </ion-select>
 
