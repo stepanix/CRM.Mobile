@@ -342,13 +342,14 @@ export class VisitPage {
   }
 
   startDay() {
-    if(localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString() 
-    || localStorage.getItem('workStatus')==="started") {
-        return;
-    }else{
+    //if(localStorage.getItem('lastMileageDate') === moment().format("YYYY-MM-DD").toString() 
+    // if(localStorage.getItem('workStatus') === "stopped"
+    // || localStorage.getItem('workStatus')==="started") {
+    //     return;
+    // }else{
       let alertConfirm = this.alertCtrl.create({
         title: '',
-        message: 'Are you sure you want to start your day ?',
+        message: 'Are you sure you want to startyour day ?',
         buttons: [
           {
             text: 'Cancel',
@@ -359,7 +360,7 @@ export class VisitPage {
             }
           },
           {
-            text: 'Start day',
+            text: 'Start/resume day',
             handler: () => {
               this.hideCheckOutButton = false;
               let startTime =  moment().format("YYYY-MM-DD HH:mm");
@@ -387,7 +388,7 @@ export class VisitPage {
         ]
       });
       alertConfirm.present();
-    }
+    // }
     
   }
 
