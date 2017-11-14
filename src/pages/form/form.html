@@ -34,18 +34,18 @@
 
                       <ion-label *ngIf="item.questionTypeId !=='6' && item.questionTypeId !=='7' && item.questionTypeId !=='9'" floating><span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>{{item.question}} </ion-label>
                       
-                      <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" type="text"> </ion-input>
+                      <ion-input *ngIf="item.questionTypeId==='1'" [(ngModel)]="formFieldModel[item.id]" [disabled]="isDisabled" type="text"> </ion-input>
 
-                      <ion-textarea *ngIf="item.questionTypeId==='2'" [(ngModel)]="formFieldModel[item.id]"></ion-textarea>
+                      <ion-textarea *ngIf="item.questionTypeId==='2'" [(ngModel)]="formFieldModel[item.id]" [disabled]="isDisabled"></ion-textarea>
 
-                      <ion-input *ngIf="item.questionTypeId==='3'" type="number" [(ngModel)]="formFieldModel[item.id]"> </ion-input>
+                      <ion-input *ngIf="item.questionTypeId==='3'" type="number" [(ngModel)]="formFieldModel[item.id]" [disabled]="isDisabled"> </ion-input>
 
-                      <ion-select *ngIf="item.questionTypeId==='4'" [(ngModel)]="formFieldModel[item.id]">
+                      <ion-select *ngIf="item.questionTypeId==='4'" [(ngModel)]="formFieldModel[item.id]" [disabled]="isDisabled">
                           <ion-option value="Yes">Yes</ion-option>
                           <ion-option value="No">No</ion-option>
                       </ion-select>
 
-                      <ion-select *ngIf="item.questionTypeId==='5'" [(ngModel)]="formFieldModel[item.id]">
+                      <ion-select *ngIf="item.questionTypeId==='5'" [(ngModel)]="formFieldModel[item.id]" [disabled]="isDisabled">
                           <ion-option *ngFor="let option of item.answers" value="{{option.answer}}">{{option.answer}}</ion-option>
                       </ion-select>
 
@@ -53,7 +53,7 @@
                           <span  *ngIf="item.mandatory ===true" style="color:red;font-weight: bold;">* </span>
                           <div class="editProfilePicContainer">
                               <p></p>
-                              <img [src]="base64Image" />
+                              <img [src]="formFieldModel[item.id]" />
                           </div>
                           <span style="float: right;">
                               {{item.question}} <ion-icon ios="ios-camera" (click)="presentActionSheet(item.id)" md="ios-camera" item-right></ion-icon>
@@ -75,7 +75,7 @@
                           <b (click)="openBarCode()">{{formFieldModel[item.id]}}</b>
                       </div>
 
-                      <ion-select *ngIf="item.questionTypeId==='10'" [(ngModel)]="formFieldModel[item.id]">
+                      <ion-select *ngIf="item.questionTypeId==='10'" [(ngModel)]="formFieldModel[item.id]" [disabled]="isDisabled">
                           <ion-option *ngFor="let option of products" value="{{option.name}}">{{option.name}}</ion-option>
                       </ion-select>
 
