@@ -83,13 +83,11 @@ export class SchedulePage {
         });
     }
 
-   
-
     listMyScheduleRepo() {
-        this.loader = this.loading.create({
-            content: 'Busy please wait...',
-        });
-        this.loader.present().then(() => {
+        // this.loader = this.loading.create({
+        //     content: 'Busy please wait...',
+        // });
+       // this.loader.present().then(() => {
             let scheduleDate = moment(this.eventDate).format('YYYY-MM-DD').toString();
             this.schedules = [];
             this.scheduleRepoApi.listByDate(this.placeId, this.parseRepoDate(scheduleDate)).then((res) => {
@@ -115,7 +113,7 @@ export class SchedulePage {
                 this.listSheduleDates();
                 this.loader.dismiss();
             });
-        });
+        //});
     }
 
     parseStatus(status){

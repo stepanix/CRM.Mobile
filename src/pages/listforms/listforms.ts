@@ -37,10 +37,10 @@ export class ListFormsPage {
   }
 
   listFormsRepo() {
-      this.loader = this.loading.create({
-          content: 'Busy please wait...',
-      });
-      this.loader.present().then(() => {
+    //   this.loader = this.loading.create({
+    //       content: 'Busy please wait...',
+    //   });
+     // this.loader.present().then(() => {
               this.forms = [];
               this.fromRepoApi.list().then((res) => {
                   for(var i = 0; i<res.results.length;i++) {
@@ -52,32 +52,32 @@ export class ListFormsPage {
                   }
                   this.loader.dismiss();
               });
-      });
+    //   });
   }
 
   listFormsApi() {
-        this.loader = this.loading.create({
-            content: 'Busy please wait...',
-        });
-        this.loader.present().then(() => {
-            this.forms = [];
-            this.formServiceApi.getForms()
-            .subscribe(
-                res => {
-                   for(var i=0; i< res.length; i++) {
-                        this.forms.push({
-                            id:res[i].id,
-                            title : res[i].title,
-                            description: res[i].description
-                        });
-                    }
-                    this.loader.dismiss();
-                },err => {
-                this.loader.dismiss();
-                console.log(err);
-                return;
-            });
-        });
+        // this.loader = this.loading.create({
+        //     content: 'Busy please wait...',
+        // });
+        //this.loader.present().then(() => {
+            // this.forms = [];
+            // this.formServiceApi.getForms()
+            // .subscribe(
+            //     res => {
+            //        for(var i=0; i< res.length; i++) {
+            //             this.forms.push({
+            //                 id:res[i].id,
+            //                 title : res[i].title,
+            //                 description: res[i].description
+            //             });
+            //         }
+            //         this.loader.dismiss();
+            //     },err => {
+            //     this.loader.dismiss();
+            //     console.log(err);
+            //     return;
+            // });
+        //});
   }
 
   openForm(item) {
