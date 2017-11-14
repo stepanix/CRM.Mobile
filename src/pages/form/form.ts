@@ -388,11 +388,11 @@ export class FormPage {
     }
 
     getFormRepo() {
-        this.loader = this.loading.create({
-            content: 'Busy please wait...',
-        });
+        // this.loader = this.loading.create({
+        //     content: 'Busy please wait...',
+        // });
 
-        this.loader.present().then(() => {
+       // this.loader.present().then(() => {
 
             this.formFields = [];
 
@@ -411,7 +411,7 @@ export class FormPage {
                 }
                 this.loader.dismiss();
             });
-        });
+       // });
     }
 
     getFormFieldsRepo() {
