@@ -267,7 +267,7 @@ export class ActivitiesPage {
         if (token === null || token === undefined || token === "null") {
             this.navCtrl.setRoot(LoginPage);
         } else {
-            this.syncServiceApi.downloadServerData();
+            //this.syncServiceApi.downloadServerData();
         }
     }
 

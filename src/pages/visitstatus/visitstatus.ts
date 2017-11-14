@@ -58,7 +58,8 @@ export class VisitStatusPage {
             placeName : this.placeName,
             streetAddress : this.streetAddress,
             lat : this.lat,
-            lng : this.lng
+            lng : this.lng,
+            serverId : this.serverId
        });
    }
 
