@@ -46,6 +46,7 @@ export class FormPage {
     formFieldId: string;
 
     isDisabled: boolean = false;
+    serverRepoId : any = "";
 
     constructor(private barcodeScanner: BarcodeScanner,
         private toastCtrl: ToastController,
@@ -293,10 +294,11 @@ export class FormPage {
         //     content: 'Busy, please wait...',
         // });
         //this.loader.present().then(() => {
-            this.formFieldDtoIn.RepoId = this.newGuid();
+            this.serverRepoId = this.newGuid();
+            this.formFieldDtoIn.RepoId = this.serverRepoId;
             this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
             this.logActivityRepo();
-            this.loader.dismiss();
+            //this.loader.dismiss();
         //});
     }
 
@@ -410,7 +412,7 @@ export class FormPage {
                         mandatory: fields[i].mandatory
                     });
                 }
-                this.loader.dismiss();
+                //this.loader.dismiss();
             });
        // });
     }

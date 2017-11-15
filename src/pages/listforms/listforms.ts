@@ -50,7 +50,7 @@ export class ListFormsPage {
                           description : res.results[i].Description
                       });
                   }
-                  this.loader.dismiss();
+                  //this.loader.dismiss();
               });
     //   });
   }

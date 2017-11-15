@@ -111,7 +111,7 @@ export class SchedulePage {
                     });
                 }
                 this.listSheduleDates();
-                this.loader.dismiss();
+                //this.loader.dismiss();
             });
         //});
     }

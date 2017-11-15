@@ -23,6 +23,7 @@ export class PhotoPage {
   placeName : string;
   loader: any;
   isDisabled : boolean = false;
+  serverRepoId : any = "";
 
   constructor(private syncServiceApi: SyncServiceApi,
               private alertCtrl: AlertController,
@@ -117,6 +118,7 @@ export class PhotoPage {
 
   savePhotoRepo() {
       this.photoId = this.newGuid();
+      this.serverRepoId = this.photoId;
       let PhotoDtoIn = {
           Id : this.photoId,
           ServerId: 0,
@@ -125,7 +127,7 @@ export class PhotoPage {
           ScheduleId : this.scheduleId,
           PlaceId : this.placeId,
           IsSynched : 0,
-          RepoId : this.photoId
+          RepoId : this.serverRepoId
       }
       this.logActivityRepo();
       this.photoRepoApi.insertRecord(PhotoDtoIn);
@@ -138,7 +140,7 @@ export class PhotoPage {
 
   logActivityRepo() {
     let ActivityDtoIn = {
-       Id: this.newGuid(),
+       Id: this.serverRepoId,
        FullName : localStorage.getItem('fullname'),
        PlaceName : this.placeName,
        PlaceId: this.placeId,

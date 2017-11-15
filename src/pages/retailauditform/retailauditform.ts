@@ -48,6 +48,7 @@ export class RetailAuditFormPage {
     retailAuditFormId: string;
 
     isDisabled: boolean = false;
+    serverRepoId : any = "";
 
 
     constructor(private barcodeScanner: BarcodeScanner,
@@ -216,6 +217,7 @@ export class RetailAuditFormPage {
     prepareRepoDtoData() {
         this.saveFormFieldValues();
         this.retailAuditFormId = this.newGuid();
+        this.serverRepoId = this.retailAuditFormId;
         this.formFieldDtoIn = {
             id: this.retailAuditFormId,
             PlaceId: this.placeId,
@@ -237,7 +239,7 @@ export class RetailAuditFormPage {
 
     insertFormValuesRepo() {
         this.prepareRepoDtoData();
-        this.formFieldDtoIn.RepoId = this.newGuid();
+        this.formFieldDtoIn.RepoId = this.serverRepoId;
         this.productRetailAuditRepoApi.insertRecord(this.formFieldDtoIn);
         this.logActivityRepo();
     }
@@ -285,7 +287,7 @@ export class RetailAuditFormPage {
 
     logActivityRepo() {
         let ActivityDtoIn = {
-            Id: this.newGuid(),
+            Id: this.serverRepoId,
             FullName: localStorage.getItem('fullname'),
             PlaceName: this.placeName,
             PlaceId: this.placeId,

@@ -20,6 +20,7 @@ export class NotePage {
     placeName: string;
     loader: any;
     isDisabled : boolean = false;
+    serverRepoId : any = "";
 
     constructor(private loading: LoadingController,
         private syncServiceApi: SyncServiceApi,
@@ -100,6 +101,7 @@ export class NotePage {
 
     insertNoteRepo() {
         this.noteId = this.newGuid();
+        this.serverRepoId = this.noteRepoId;
         let NoteDtoIn = {
             Id: this.noteId,
             ServerId: 0,
@@ -107,7 +109,7 @@ export class NotePage {
             ScheduleId: this.scheduleId,
             PlaceId: this.placeId,
             IsSynched: 0,
-            RepoId  : this.noteId
+            RepoId  : this.serverRepoId
         }
         this.noteRepoApi.insertRecord(NoteDtoIn);
         this.logActivityRepo();
@@ -132,7 +134,7 @@ export class NotePage {
 
     logActivityRepo() {
         let ActivityDtoIn = {
-            Id: this.newGuid(),
+            Id: this.serverRepoId,
             FullName : localStorage.getItem('fullname'),
             PlaceName: this.placeName,
             PlaceId: this.placeId,

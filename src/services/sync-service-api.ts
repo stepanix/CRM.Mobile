@@ -345,7 +345,8 @@ export class SyncServiceApi {
                     promoted: res.results[i].Promoted,
                     price: res.results[i].Price,
                     stockLevel: res.results[i].StockLevel,
-                    note: res.results[i].Note
+                    note: res.results[i].Note,
+                    repoId : res.results[i].RepoId
                 });
             }
             this.productRetailAuditServiceApi.addProductRetailAuditList(formValues)
@@ -369,7 +370,8 @@ export class SyncServiceApi {
                     placeId: parseInt(this.parsePlaceId(res.results[i].PlaceId)),
                     formId: res.results[i].FormId,
                     formFieldValues: JSON.stringify(JSON.parse(res.results[i].FormFieldValues)),
-                    scheduleId: parseInt(this.parseScheduleId(res.results[i].ScheduleId))
+                    scheduleId: parseInt(this.parseScheduleId(res.results[i].ScheduleId)),
+                    repoId : res.results[i].RepoId
                 });
             }
             this.formValueServiceApi.addFormValueList(formValues)
@@ -420,7 +422,8 @@ export class SyncServiceApi {
                     pictureUrl: res.results[i].PictureUrl,
                     note: res.results[i].Note,
                     placeId: parseInt(this.parsePlaceId(res.results[i].PlaceId)),
-                    scheduleId: parseInt(this.parseScheduleId(res.results[i].ScheduleId))
+                    scheduleId: parseInt(this.parseScheduleId(res.results[i].ScheduleId)),
+                    repoId : res.results[i].RepoId
                 });
             }
             this.photoServiceAPi.addPhotoList(photoValues)
@@ -505,7 +508,8 @@ export class SyncServiceApi {
                     syncId: res.results[i].Id,
                     description: res.results[i].Description,
                     placeId: parseInt(this.parsePlaceId(res.results[i].PlaceId)),
-                    scheduleId: parseInt(this.parseScheduleId(res.results[i].ScheduleId))
+                    scheduleId: parseInt(this.parseScheduleId(res.results[i].ScheduleId)),
+                    repoId : res.results[i].RepoId
                 });
             }
             this.noteServiceApi.addNoteList(noteValues)
