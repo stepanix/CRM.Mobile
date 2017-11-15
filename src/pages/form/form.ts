@@ -273,7 +273,6 @@ export class FormPage {
     }
 
     saveFormValuesRepo() {
-        //console.log("Form Field " + this.formFieldId);
         if (this.formFieldId === undefined) {
             this.insertFormvaluesRepo();
         } else {

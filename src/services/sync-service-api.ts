@@ -486,7 +486,8 @@ export class SyncServiceApi {
                     orderId: parseInt(this.parseOrderId(res.results[i].OrderId)),
                     productId: parseInt(res.results[i].ProductId),
                     quantity: parseInt(res.results[i].Quantity),
-                    amount: parseFloat(res.results[i].Amount)
+                    amount: parseFloat(res.results[i].Amount),
+                    repoId : res.results[i].OrderId
                 });
             }
             this.orderItemServiceApi.addOrderList(orderItemValues)

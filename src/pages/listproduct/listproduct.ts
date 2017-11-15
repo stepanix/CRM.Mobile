@@ -8,7 +8,7 @@ import { OrderItemPage } from '../orderitem/orderitem';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import * as moment from 'moment';
 import { SyncServiceApi } from '../../services/sync-service-api';
-import {ActivityRepoApi} from '../../repos/activity-repo-api';
+import { ActivityRepoApi } from '../../repos/activity-repo-api';
 
 
 @Component({
@@ -29,12 +29,12 @@ export class ListProductPage {
   orderId: any;
   orderQty: number = 0;
   loader: any;
-  scheduleRepoId : any;
-  orderRepoId : any;
-  isDisabled : boolean = false;
+  scheduleRepoId: any;
+  orderRepoId: any;
+  isDisabled: boolean = false;
 
 
-  constructor(private activityRepoApi : ActivityRepoApi,
+  constructor(private activityRepoApi: ActivityRepoApi,
     private alertCtrl: AlertController, private syncServiceApi: SyncServiceApi,
     private loading: LoadingController, public atrCtrl: AlertController,
     private barcodeScanner: BarcodeScanner,
@@ -57,17 +57,17 @@ export class ListProductPage {
 
   logActivityRepo() {
     let ActivityDtoIn = {
-       Id: this.newGuid(),
-       FullName : localStorage.getItem('fullname'),
-       PlaceName : this.placeName,
-       PlaceId: this.placeId,
-       ActivityLog: 'Orders',
-       ActivityTypeId : this.orderId,
-       IsSynched: 0,
-       DateCreated : moment().format().toString()
+      Id: this.newGuid(),
+      FullName: localStorage.getItem('fullname'),
+      PlaceName: this.placeName,
+      PlaceId: this.placeId,
+      ActivityLog: 'Orders',
+      ActivityTypeId: this.orderId,
+      IsSynched: 0,
+      DateCreated: moment().format().toString()
     }
     this.activityRepoApi.insertRecord(ActivityDtoIn);
- }
+  }
 
   submitOrder() {
     let alertConfirm = this.alertCtrl.create({
@@ -84,7 +84,7 @@ export class ListProductPage {
         {
           text: 'Submit Order',
           handler: () => {
-            this.orderRepoApi.submit(this.scheduleId,this.orderId);
+            this.orderRepoApi.submit(this.scheduleId, this.orderId);
             this.orderItemRepoApi.submit(this.orderId);
             this.loader = this.loading.create({
               content: 'Submitting orders, please wait...',
@@ -134,7 +134,7 @@ export class ListProductPage {
   }
 
   getOrderRepo() {
-    this.orderRepoApi.listByScheduleId(this.scheduleId,this.scheduleRepoId).then((res) => {
+    this.orderRepoApi.listByScheduleId(this.scheduleId, this.scheduleRepoId).then((res) => {
       if (res.results.length > 0) {
         for (let i = 0; i < res.results.length; i++) {
           this.orderId = res.results[0].Id;
@@ -157,7 +157,7 @@ export class ListProductPage {
             Signature: res.results[i].Signature,
             IsSynched: 0
           };
-          if(res.results[0].Submitted===2){
+          if (res.results[0].Submitted === 2) {
             this.isDisabled = true;
           }
         }
@@ -174,7 +174,7 @@ export class ListProductPage {
     this.totalItems = 0;
     let totalValue: number = 0;
     this.orderQty = 0;
-    this.orderItemRepoApi.listByOrderId(this.orderId,this.orderRepoId).then((res) => {
+    this.orderItemRepoApi.listByOrderId(this.orderId, this.orderRepoId).then((res) => {
       if (res.results.length > 0) {
         for (let i = 0; i < res.results.length; i++) {
           this.orderItemsTemp.push({
