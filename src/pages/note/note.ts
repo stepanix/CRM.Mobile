@@ -101,7 +101,7 @@ export class NotePage {
 
     insertNoteRepo() {
         this.noteId = this.newGuid();
-        this.serverRepoId = this.noteRepoId;
+        this.serverRepoId = this.noteId;
         let NoteDtoIn = {
             Id: this.noteId,
             ServerId: 0,

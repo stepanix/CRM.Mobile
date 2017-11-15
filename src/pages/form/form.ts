@@ -215,14 +215,12 @@ export class FormPage {
             if (this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
                 answer = this.formFieldModel[this.formFields[i].id];
             }
-            //if(this.isFormFieldValueValid(this.formFieldModel[this.formFields[i].id])) {
             this.formFieldValues.push({
                 id: this.formFields[i].id,
                 questionTypeId: this.formFields[i].questionTypeId,
                 question: this.formFields[i].question,
                 answer: answer
             });
-            //}
         }
     }
 
@@ -239,7 +237,8 @@ export class FormPage {
 
     prepareRepoDtoData() {
         this.saveFormFieldValues();
-        this.formFieldId = this.newGuid()
+        this.formFieldId = this.newGuid();
+        this.serverRepoId = this.formFieldId;
         this.formFieldDtoIn = {
             id: this.formFieldId,
             PlaceId: this.placeId,
@@ -274,7 +273,7 @@ export class FormPage {
     }
 
     saveFormValuesRepo() {
-        console.log("Form Field " + this.formFieldId);
+        //console.log("Form Field " + this.formFieldId);
         if (this.formFieldId === undefined) {
             this.insertFormvaluesRepo();
         } else {
@@ -290,7 +289,6 @@ export class FormPage {
 
     insertFormvaluesRepo() {
         this.prepareRepoDtoData();
-        this.serverRepoId = this.newGuid();
         this.formFieldDtoIn.RepoId = this.serverRepoId;
         this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
         this.logActivityRepo();
@@ -311,7 +309,7 @@ export class FormPage {
 
     logActivityRepo() {
         let ActivityDtoIn = {
-            Id: this.newGuid(),
+            Id: this.serverRepoId,
             FullName: localStorage.getItem('fullname'),
             PlaceName: this.placeName,
             PlaceId: this.placeId,
@@ -422,37 +420,5 @@ export class FormPage {
             return value;
         }
     }
-
-    getFormApi() {
-
-        this.loader = this.loading.create({
-            content: 'Busy please wait...',
-        });
-
-        this.loader.present().then(() => {
-            this.formFields = [];
-            this.formServiceApi.getForm(this.formId)
-                .subscribe(
-                res => {
-                    let fields = JSON.parse(res.fields);
-                    for (var i = 0; i < fields.length; i++) {
-                        this.formFields.push({
-                            id: fields[i].id,
-                            questionTypeId: fields[i].questionTypeId,
-                            question: fields[i].question,
-                            answers: fields[i].answers,
-                            mandatory: fields[i].mandatory
-                        });
-                    }
-                    this.loader.dismiss();
-                }, err => {
-                    this.loader.dismiss();
-                    //console.log(err);
-                    return;
-                });
-        });
-
-    }
-
 
 }
