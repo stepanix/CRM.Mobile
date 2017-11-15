@@ -106,7 +106,8 @@ export class NotePage {
             Description: this.noteModel.Description,
             ScheduleId: this.scheduleId,
             PlaceId: this.placeId,
-            IsSynched: 0
+            IsSynched: 0,
+            RepoId  : this.noteId
         }
         this.noteRepoApi.insertRecord(NoteDtoIn);
         this.logActivityRepo();

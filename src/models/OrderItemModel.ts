@@ -12,7 +12,8 @@ export class OrderItemModel extends BaseModel {
         Quantity: 'INTEGER(11)',
         Amount: 'TEXT',
         IsSynched: 'INTEGER(1)',
-        Submitted : 'INTEGER(1)'
+        Submitted : 'INTEGER(1)',
+        RepoId : 'TEXT'
     }
 
 }

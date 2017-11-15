@@ -528,6 +528,7 @@ export class SyncServiceApi {
                     syncId: res.results[i].Id,
                     placeId: parseInt(this.parsePlaceId(res.results[i].PlaceId)),
                     activityLog: res.results[i].ActivityLog,
+                    activityTypeId : res.results[i].ActivityTypeId,
                     dateCreated: res.results[i].DateCreated
                 });
             }

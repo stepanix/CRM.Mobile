@@ -20,7 +20,8 @@ export class ProductRetailAuditModel extends BaseModel {
         Price: 'TEXT',
         StockLevel : 'INTEGER(11)',
         Note: 'TEXT',
-        Submitted : 'INTEGER(1)'
+        Submitted : 'INTEGER(1)',
+        RepoId : 'TEXT'
     }
 
 }

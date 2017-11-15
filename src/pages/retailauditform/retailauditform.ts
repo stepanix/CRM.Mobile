@@ -237,6 +237,7 @@ export class RetailAuditFormPage {
 
     insertFormValuesRepo() {
         this.prepareRepoDtoData();
+        this.formFieldDtoIn.RepoId = this.newGuid();
         this.productRetailAuditRepoApi.insertRecord(this.formFieldDtoIn);
         this.logActivityRepo();
     }

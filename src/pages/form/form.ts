@@ -289,14 +289,15 @@ export class FormPage {
 
     insertFormvaluesRepo() {
         this.prepareRepoDtoData();
-        this.loader = this.loading.create({
-            content: 'Busy, please wait...',
-        });
-        this.loader.present().then(() => {
+        // this.loader = this.loading.create({
+        //     content: 'Busy, please wait...',
+        // });
+        //this.loader.present().then(() => {
+            this.formFieldDtoIn.RepoId = this.newGuid();
             this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
             this.logActivityRepo();
             this.loader.dismiss();
-        });
+        //});
     }
 
     updateFormValuesRepo() {
@@ -319,7 +320,7 @@ export class FormPage {
             PlaceName: this.placeName,
             PlaceId: this.placeId,
             ActivityLog: 'Forms',
-            ActivityTypeId: this.formFieldId,
+            ActivityTypeId : this.formFieldId,            
             IsSynched: 0,
             DateCreated: moment().format().toString()
         }

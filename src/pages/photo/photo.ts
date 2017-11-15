@@ -124,7 +124,8 @@ export class PhotoPage {
           Note : this.photoModel.Note,
           ScheduleId : this.scheduleId,
           PlaceId : this.placeId,
-          IsSynched : 0
+          IsSynched : 0,
+          RepoId : this.photoId
       }
       this.logActivityRepo();
       this.photoRepoApi.insertRecord(PhotoDtoIn);

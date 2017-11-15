@@ -14,7 +14,8 @@ export class FormValueModel extends BaseModel {
         IsSynched: 'INTEGER(1)',
         ScheduleRepoId: 'TEXT',
         PlaceRepoId : 'TEXT',
-        Submitted : 'INTEGER(1)'
+        Submitted : 'INTEGER(1)',
+        RepoId : 'TEXT'
     }
 
 }
