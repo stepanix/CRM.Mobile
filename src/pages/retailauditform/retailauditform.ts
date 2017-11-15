@@ -38,8 +38,8 @@ export class RetailAuditFormPage {
 
     showStockLevel: any;
     showNote: any;
-    available: boolean;
-    promoted: boolean;
+    available: boolean = false;
+    promoted: boolean = false;
 
     price: number = 0;
     stockLevel: number = 0;
@@ -48,7 +48,7 @@ export class RetailAuditFormPage {
     retailAuditFormId: string;
 
     isDisabled: boolean = false;
-    serverRepoId : any = "";
+    serverRepoId: any = "";
 
 
     constructor(private barcodeScanner: BarcodeScanner,
@@ -273,7 +273,7 @@ export class RetailAuditFormPage {
             ScheduleId: this.scheduleId,
             IsSynched: 0
         }
-        console.log(JSON.stringify(this.formFieldDtoIn));
+        //console.log(JSON.stringify(this.formFieldDtoIn));
         this.productRetailAuditRepoApi.updateRecord(this.formFieldDtoIn);
     }
 

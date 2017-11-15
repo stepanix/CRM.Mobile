@@ -46,7 +46,7 @@ export class FormPage {
     formFieldId: string;
 
     isDisabled: boolean = false;
-    serverRepoId : any = "";
+    serverRepoId: any = "";
 
     constructor(private barcodeScanner: BarcodeScanner,
         private toastCtrl: ToastController,
@@ -290,16 +290,10 @@ export class FormPage {
 
     insertFormvaluesRepo() {
         this.prepareRepoDtoData();
-        // this.loader = this.loading.create({
-        //     content: 'Busy, please wait...',
-        // });
-        //this.loader.present().then(() => {
-            this.serverRepoId = this.newGuid();
-            this.formFieldDtoIn.RepoId = this.serverRepoId;
-            this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
-            this.logActivityRepo();
-            //this.loader.dismiss();
-        //});
+        this.serverRepoId = this.newGuid();
+        this.formFieldDtoIn.RepoId = this.serverRepoId;
+        this.formValueRepoApi.insertRecord(this.formFieldDtoIn);
+        this.logActivityRepo();
     }
 
     updateFormValuesRepo() {
@@ -322,7 +316,7 @@ export class FormPage {
             PlaceName: this.placeName,
             PlaceId: this.placeId,
             ActivityLog: 'Forms',
-            ActivityTypeId : this.formFieldId,            
+            ActivityTypeId: this.formFieldId,
             IsSynched: 0,
             DateCreated: moment().format().toString()
         }
@@ -391,35 +385,24 @@ export class FormPage {
     }
 
     getFormRepo() {
-        // this.loader = this.loading.create({
-        //     content: 'Busy please wait...',
-        // });
-
-       // this.loader.present().then(() => {
-
-            this.formFields = [];
-
-            this.formRepoApi.listById(this.formId).then((res) => {
-
-                let fields = JSON.parse(res.results[0].Fields);
-
-                for (var i = 0; i < fields.length; i++) {
-                    this.formFields.push({
-                        id: fields[i].id,
-                        questionTypeId: fields[i].questionTypeId,
-                        question: fields[i].question,
-                        answers: fields[i].answers,
-                        mandatory: fields[i].mandatory
-                    });
-                }
-                //this.loader.dismiss();
-            });
-       // });
+        this.formFields = [];
+        this.formRepoApi.listById(this.formId).then((res) => {
+            let fields = JSON.parse(res.results[0].Fields);
+            for (var i = 0; i < fields.length; i++) {
+                this.formFields.push({
+                    id: fields[i].id,
+                    questionTypeId: fields[i].questionTypeId,
+                    question: fields[i].question,
+                    answers: fields[i].answers,
+                    mandatory: fields[i].mandatory
+                });
+            }
+        });
     }
 
     getFormFieldsRepo() {
         this.formFieldValues = [];
-        this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {            
+        this.formValueRepoApi.listByFormId(this.formFieldId).then((res) => {
             this.formId = res.results[0].FormId;
             if (res.results[0].Submitted === 1 || res.results[0].Submitted === 2) {
                 this.isDisabled = true;
