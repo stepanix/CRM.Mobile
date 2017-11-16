@@ -202,7 +202,8 @@ export class ActivityhistoryPage {
           retailAudit: this.getProductAudit(res.results[i].ActivityTypeId),
           form: this.getFormValues(res.results[i].ActivityTypeId),
           note: this.getNote(res.results[i].ActivityTypeId),
-          DateCreated: moment(res.results[i].DateCreated).format("lll")
+          DateCreated: moment(res.results[i].DateCreated).format("lll"),
+          Submitted : res.results[i].Submitted
         });
       }
       this.appyModuleFilter();

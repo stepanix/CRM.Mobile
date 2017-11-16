@@ -542,6 +542,7 @@ export class SyncServiceApi {
                 .subscribe(
                 res => {
                     this.activityRepoApi.updateSynched(res);
+                    this.downloadActivity();
                 }, err => {
                     //console.log(err);
                     return;
@@ -592,6 +593,7 @@ export class SyncServiceApi {
                         Submitted : res[i].submitted
                     });
                 }
+                this.activityRepoApi.insert(activities);
             }
         }, err => {
             return;
