@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-import { ActivityServiceApi,ScheduleServiceApi,OrderServiceApi } from '../../shared/shared';
+import { ActivityServiceApi, ScheduleServiceApi, OrderServiceApi } from '../../shared/shared';
 import { UserRepoApi } from '../../repos/user-repo-api';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
 import { DatePicker } from 'ionic2-date-picker';
@@ -19,28 +19,28 @@ export class SummaryPage {
   placeNotesCount: any = 0;
   ordersCount: any = 0;
 
-  totalVisitsCount : any = 0;
-  scheduledCount : any = 0;
-  visitedCount : any = 0;
-  unscheduledCount : any = 0;
-  missedCount : any = 0;
+  totalVisitsCount: any = 0;
+  scheduledCount: any = 0;
+  visitedCount: any = 0;
+  unscheduledCount: any = 0;
+  missedCount: any = 0;
 
-  ordersTotal : any = 0;
+  ordersTotal: any = 0;
 
   dateFrom: any;
   dateTo: any;
   dateSelected: any = "";
   repModel: any = "";
-  placeModel : any ="";
+  placeModel: any = "";
   reps: any[] = [];
-  places : any[] = [];
-  
+  places: any[] = [];
+
   loader: any;
 
-  constructor(private placeRepoApi : PlaceRepoApi,
-    private orderServiceApi : OrderServiceApi,
+  constructor(private placeRepoApi: PlaceRepoApi,
+    private orderServiceApi: OrderServiceApi,
     private loading: LoadingController,
-    private scheduleServiceApi : ScheduleServiceApi,
+    private scheduleServiceApi: ScheduleServiceApi,
     private userRepoApi: UserRepoApi,
     private calendar: DatePicker,
     public activityServiceApi: ActivityServiceApi,
@@ -52,17 +52,17 @@ export class SummaryPage {
     this.repModel = localStorage.getItem('userid');
     this.placeModel = "1";
     this.calendar.onDateSelected.subscribe((date) => {
-        if (this.dateSelected === "from") {
-           this.dateFrom = moment(date).format('YYYY-MM-DD').toString();
-           this.listSummary();
-        } else {
-           this.dateTo = moment(date).format('YYYY-MM-DD').toString();
-           this.listSummary();
-        }
+      if (this.dateSelected === "from") {
+        this.dateFrom = moment(date).format('YYYY-MM-DD').toString();
+        this.listSummary();
+      } else {
+        this.dateTo = moment(date).format('YYYY-MM-DD').toString();
+        this.listSummary();
+      }
     });
     this.listReps();
-    this.listPlaces();
-    this.listSummary();
+    //this.listPlaces();
+    //this.listSummary();
   }
 
   showCalendar(dateSelectedVar) {
@@ -77,8 +77,9 @@ export class SummaryPage {
         this.reps.push({
           id: res.results[i].Id,
           name: res.results[i].FirstName + ' ' + res.results[i].Surname
-        });        
+        });
       }
+      this.listPlaces();
     });
   }
 
@@ -92,6 +93,7 @@ export class SummaryPage {
         });
         this.placeModel = res.results[0].ServerId;
       }
+      this.listSummary();
     });
   }
 
@@ -99,29 +101,18 @@ export class SummaryPage {
     this.loader = this.loading.create({
       content: 'Busy, please wait. ..',
     });
-    this.loader.present().then(() => {      
+    this.loader.present().then(() => {
       this.activityServiceApi
-        .getActivitiesSummary(this.repModel, this.dateFrom, this.dateTo,this.placeModel)
+        .getActivitiesSummary(this.repModel, this.dateFrom, this.dateTo, this.placeModel)
         .subscribe(
         res => {
-          for (var i = 0; i < res.length; i++) {
-            if (res[i].activityLog === "Forms") {
-              this.formsCount += 1;
-            }
-            if (res[i].activityLog === "Notes") {
-              this.placeNotesCount += 1;
-            }
-            if (res[i].activityLog === "Product Retail Audit") {
-              this.retailAuditCount += 1;
-            }
-            if (res[i].activityLog === "Orders") {
-              this.ordersCount += 1;
-            }
-            if (res[i].activityLog === "Photos") {
-              this.photosCount += 1;
-            }
-          }
-          this.listScheduleSummary();
+          this.formsCount = res.formCount;
+          this.placeNotesCount = res.noteCount;
+          this.retailAuditCount = res.retailAuditCount;
+          this.ordersCount = res.orderCount;
+          this.photosCount = res.photoCount;
+          this.ordersTotal = res.orderTotal;
+          this.loader.dismiss();
         }, err => {
           this.loader.dismiss();
           console.log(err);
@@ -129,54 +120,6 @@ export class SummaryPage {
         });
     });
   }
-
-  listScheduleSummary(){
-    this.scheduleServiceApi
-    .getScheduleSummary(this.repModel, this.dateFrom, this.dateTo)
-    .subscribe(
-    res => {
-      for (var i = 0; i < res.length; i++) {
-        if (res[i].isVisited === true) {
-          this.totalVisitsCount += 1;
-        }
-        if (res[i].isScheduled === true) {
-          this.scheduledCount += 1;
-        }
-        if (res[i].isVisited === true && res[i].isScheduled === true) {
-          this.visitedCount += 1;
-        }
-        if (res[i].isUnscheduled === true) {
-          this.unscheduledCount += 1;
-        }
-        if (res[i].visitStatus === "New Visit" && moment(res[i].visitDate).isBefore(moment(new Date().toISOString()).format('YYYY-MM-DD').toString())) {
-          this.missedCount += 1;
-        }
-      }
-      this.getOrderTotal()
-    }, err => {
-      this.loader.dismiss();
-      console.log(err);
-      return;
-    });
-  }
-
-  getOrderTotal() {
-    this.orderServiceApi
-    .getOrderSummary(this.repModel, this.dateFrom, this.dateTo)
-    .subscribe(
-    res => {
-      for (var i = 0; i < res.length; i++) {
-        this.ordersTotal += parseFloat(res[i].totalAmount);
-      }
-      this.loader.dismiss();
-    }, err => {
-       this.loader.dismiss();
-       console.log(err);
-       return;
-    });
-  }
-
-
 
   ionViewDidLoad() {
 
