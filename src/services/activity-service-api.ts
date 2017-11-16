@@ -39,8 +39,8 @@ export class ActivityServiceApi {
         .catch((error:any) => Observable.throw(error.json() || 'Server error'));
      }
 
-     getActivitiesRepSummary(userid:any) : Observable<any[]> {
-        return  this.http.get(crmBaseUrl + "Activity/RepSummary?userid=" + userid  ,{headers: this.getHeader()})
+     getActivitiesRepSummary() : Observable<any[]> {
+        return  this.http.get(crmBaseUrl + "Activity/RepSummary?userid=" + localStorage.getItem('userid')  ,{headers: this.getHeader()})
         .map((response: Response) => response.json())
         .catch((error:any) => Observable.throw(error.json() || 'Server error'));
      }
@@ -50,8 +50,5 @@ export class ActivityServiceApi {
                          .map((res:Response) => res.json()) // ...and calling .json() on the response to return data
                          .catch((error:any) => Observable.throw(error.json() || 'Server error')); //...errors if any
      }
-     
-
-   
      
 }

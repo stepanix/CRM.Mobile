@@ -141,7 +141,8 @@ export class NotePage {
             ActivityLog: 'Notes',
             ActivityTypeId: this.noteId,
             IsSynched: 0,
-            DateCreated: moment().format().toString()
+            DateCreated: moment().format().toString(),
+            Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
     }

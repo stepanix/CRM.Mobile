@@ -147,7 +147,8 @@ export class PhotoPage {
             ActivityLog: 'Photos',
             ActivityTypeId: this.photoId,
             IsSynched: 0,
-            DateCreated: moment().format().toString()
+            DateCreated: moment().format().toString(),
+            Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
     }

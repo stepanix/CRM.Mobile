@@ -9,9 +9,11 @@ export class ActivityModel extends BaseModel {
         PlaceName : 'TEXT',
         PlaceId: 'TEXT',
         ActivityLog: 'TEXT',
-        ActivityTypeId : 'TEXT',        
+        ActivityTypeId : 'TEXT',
+        ActivityContent : 'TEXT',
         IsSynched: 'INTEGER(1)',
         PlaceRepoId : 'TEXT',
-        DateCreated : 'TEXT'
+        DateCreated : 'TEXT',
+        Submitted : 'INTEGER(1)'
     }
 }

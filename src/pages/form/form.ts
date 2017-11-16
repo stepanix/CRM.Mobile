@@ -315,7 +315,8 @@ export class FormPage {
             ActivityLog: 'Forms',
             ActivityTypeId: this.formFieldId,
             IsSynched: 0,
-            DateCreated: moment().format().toString()
+            DateCreated: moment().format().toString(),
+            Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
     }

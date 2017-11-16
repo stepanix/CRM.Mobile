@@ -294,7 +294,8 @@ export class RetailAuditFormPage {
             ActivityLog: 'Product Retail Audit',
             ActivityTypeId: this.retailAuditFormId,
             IsSynched: 0,
-            DateCreated: moment().format().toString()
+            DateCreated: moment().format().toString(),
+            Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
     }

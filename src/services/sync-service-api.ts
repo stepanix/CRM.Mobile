@@ -549,6 +549,55 @@ export class SyncServiceApi {
         });
     }
 
+    downloadActivity() {
+        let activities : any[] = [];
+        let activityContent : any = "";
+        this.activityRepoApi.delete();
+        this.activityServiceApi.getActivitiesRepSummary()        
+        .subscribe(
+        res => {
+            if (res.length > 0) {
+                for (var i = 0; i < res.length; i++) {
+
+                    if(res[i].activityLog==="Product Retail Audit") {
+                        activityContent = JSON.stringify(res[i].productRetailAudit);
+                    }
+
+                    if(res[i].activityLog==="Notes") {
+                        activityContent = JSON.stringify(res[i].note);
+                    }
+
+                    if(res[i].activityLog==="Forms") {
+                        activityContent = JSON.stringify(res[i].formValue);
+                    }
+
+                    if(res[i].activityLog==="Orders") {
+                        activityContent = JSON.stringify(res[i].order);
+                    }
+
+                    if(res[i].activityLog==="Photos") {
+                        activityContent = JSON.stringify(res[i].photo);
+                    }
+
+                    activities.push({
+                        Id: this.newGuid(),
+                        FullName: res[i].user.firstName + " " + res[i].user.surname,
+                        PlaceName: res[i].place.name,
+                        PlaceId: res[i].place.placeId,
+                        ActivityLog: res[i].activityLog,
+                        ActivityTypeId: res[i].activityTypeId,
+                        ActivityContent: activityContent,
+                        DateCreated : res[i].dateCreated,
+                        IsSynched: 1,
+                        Submitted : res[i].submitted
+                    });
+                }
+            }
+        }, err => {
+            return;
+        });
+    }
+
     syncPlaceWithServer() {
         let places = [];
         this.placeRepoApi.listUnSynched().then((res) => {
