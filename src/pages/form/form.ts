@@ -134,6 +134,9 @@ export class FormPage {
     }
 
     presentActionSheet(questionId) {
+        if(this.isDisabled===true){
+            return;
+        }
         let actionSheet = this.actionSheetCtrl.create({
             title: 'Change your profile picture',
             buttons: [
@@ -204,6 +207,9 @@ export class FormPage {
     }
 
     openBarCode(questionId) {
+        if(this.isDisabled===true){
+            return;
+        }
         this.barcodeScanner.scan().then((barcode) => {
             this.formFieldModel[questionId] = barcode;
         }, (err) => {
