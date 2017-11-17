@@ -60,9 +60,7 @@ export class SummaryPage {
         this.listSummary();
       }
     });
-    this.listReps();
-    //this.listPlaces();
-    //this.listSummary();
+    this.listReps();   
   }
 
   showCalendar(dateSelectedVar) {

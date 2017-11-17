@@ -565,11 +565,11 @@ export class SyncServiceApi {
         res => {
             if (res.length > 0) {
                 
-                this.productRetailRepoApi.delete();
-                this.noteRepoApi.delete();
-                this.formValueRepoApi.delete();
-                this.orderRepoApi.delete();
-                this.orderItemRepoApi.delete();
+                this.productRetailRepoApi.deleteSubmitted();
+                this.noteRepoApi.deleteSubmitted();
+                this.formValueRepoApi.deleteSubmitted();
+                this.orderRepoApi.deleteSubmitted();
+                this.orderItemRepoApi.deleteSubmitted();
                 for (let i = 0; i < res.length; i++) {
                     
                     if(res[i].activityLog==="Product Retail Audit") {

@@ -16,6 +16,11 @@ export class FormValueRepoApi {
         data.delete();
      }
 
+     deleteSubmitted() {
+        var data = new QueryBuilder(new FormValueModel());
+        data.where("Submitted","=", "2").orWhere("Submitted","=", 2).delete();
+     }
+
      updateSynched(dataDto:any[]) {
         var dtoData = {};
         var data = new QueryBuilder(new FormValueModel());

@@ -16,6 +16,11 @@ export class PhotoRepoApi {
         data.delete();
      }
 
+     deleteSubmitted() {
+        var data = new QueryBuilder(new PhotoModel());
+        data.where("Submitted","=", "2").orWhere("Submitted","=", 2).delete();
+     }
+
      updateSynched(dataDto:any[]) {
         var dtoData = {};
         var data = new QueryBuilder(new PhotoModel());
