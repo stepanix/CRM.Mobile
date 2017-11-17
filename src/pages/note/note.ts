@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, AlertController, LoadingController,Events } from 'ionic-angular';
 import { NoteRepoApi } from '../../repos/note-repo-api';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import * as moment from 'moment';
@@ -22,7 +22,8 @@ export class NotePage {
     isDisabled : boolean = false;
     serverRepoId : any = "";
 
-    constructor(private loading: LoadingController,
+    constructor(private ev: Events,
+        private loading: LoadingController,
         private syncServiceApi: SyncServiceApi,
         private alertCtrl: AlertController,
         public toastCtrl: ToastController,
@@ -145,6 +146,7 @@ export class NotePage {
             Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
+        this.ev.publish('activity', true);
     }
 
     newGuid(): string {

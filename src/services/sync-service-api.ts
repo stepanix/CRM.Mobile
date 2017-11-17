@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Events } from 'ionic-angular';
 import 'rxjs/add/operator/map'
 import { ProductServiceApi, FormServiceApi, ScheduleServiceApi, UserServiceApi, PhotoServiceApi } from '../shared/shared';
 import { PlaceServiceApi, RetailAuditFormServiceApi, StatusServiceApi, OrderServiceApi, OrderItemServiceApi } from '../shared/shared';
@@ -28,7 +29,8 @@ export class SyncServiceApi {
     scheduleTemp: any[] = [];
     ordersTemp: any[];
 
-    constructor(private timeMileageServiceApi : TimeMileageServiceApi,
+    constructor(private ev: Events,
+        private timeMileageServiceApi : TimeMileageServiceApi,
         private timeMileageRepoApi : TimeMileageRepoApi,
         private orderItemServiceApi: OrderItemServiceApi,
         private orderItemRepoApi: OrderItemRepoApi,
@@ -693,6 +695,7 @@ export class SyncServiceApi {
                 this.orderRepoApi.insert(orderDtoIn);
                 this.orderItemRepoApi.insert(orderItemDtoIn);
                 this.photoRepoApi.insert(photoDtoIn);
+                this.ev.publish('activity', true);
             }
         }, err => {
             return;

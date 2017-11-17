@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController,Events } from 'ionic-angular';
 import { ProductRepoApi } from '../../repos/product-repo-api';
 import { OrderRepoApi } from '../../repos/order-repo-api';
 import { OrderItemRepoApi } from '../../repos/orderitem-repo-api';
@@ -34,7 +34,8 @@ export class ListProductPage {
   isDisabled: boolean = false;
 
 
-  constructor(private activityRepoApi: ActivityRepoApi,
+  constructor(private ev: Events,
+    private activityRepoApi: ActivityRepoApi,
     private alertCtrl: AlertController, private syncServiceApi: SyncServiceApi,
     private loading: LoadingController, public atrCtrl: AlertController,
     private barcodeScanner: BarcodeScanner,
@@ -68,6 +69,7 @@ export class ListProductPage {
       Submitted : 1
     }
     this.activityRepoApi.insertRecord(ActivityDtoIn);
+    this.ev.publish('activity', true);
   }
 
   submitOrder() {

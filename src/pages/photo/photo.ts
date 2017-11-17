@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, AlertController, LoadingController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, AlertController, LoadingController, ActionSheetController,Events } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
@@ -25,7 +25,8 @@ export class PhotoPage {
     isDisabled: boolean = false;
     serverRepoId: any = "";
 
-    constructor(private syncServiceApi: SyncServiceApi,
+    constructor(private ev: Events,
+        private syncServiceApi: SyncServiceApi,
         private alertCtrl: AlertController,
         private loading: LoadingController,
         public activityRepoApi: ActivityRepoApi,
@@ -151,6 +152,7 @@ export class PhotoPage {
             Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
+        this.ev.publish('activity', true);
     }
 
     updatePhotoRepo() {

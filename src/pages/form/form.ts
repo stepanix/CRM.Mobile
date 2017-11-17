@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ActionSheetController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ActionSheetController, AlertController, ToastController,Events } from 'ionic-angular';
 import {
     FormBuilder,
     FormControl,
@@ -48,7 +48,7 @@ export class FormPage {
     isDisabled: boolean = false;
     serverRepoId: any = "";
 
-    constructor(private barcodeScanner: BarcodeScanner,
+    constructor(private ev: Events,private barcodeScanner: BarcodeScanner,
         private toastCtrl: ToastController,
         private alertCtrl: AlertController,
         private syncServiceApi: SyncServiceApi,
@@ -328,6 +328,7 @@ export class FormPage {
             Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
+        this.ev.publish('activity', true);
     }
 
     listProductsApi() {

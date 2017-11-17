@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {
     IonicPage, NavController, NavParams,
-    ActionSheetController, LoadingController, AlertController, ToastController
+    ActionSheetController, LoadingController, AlertController, ToastController,
+    Events
 } from 'ionic-angular';
 import { RetailAuditFormRepoApi } from '../../repos/retailauditform-repo-api';
 import { ProductRetailRepoApi } from '../../repos/productretailaudit-repo-api';
@@ -51,7 +52,8 @@ export class RetailAuditFormPage {
     serverRepoId: any = "";
 
 
-    constructor(private barcodeScanner: BarcodeScanner,
+    constructor(private ev: Events,
+        private barcodeScanner: BarcodeScanner,
         public toastCtrl: ToastController,
         private loading: LoadingController,
         private syncServiceApi: SyncServiceApi,
@@ -307,6 +309,7 @@ export class RetailAuditFormPage {
             Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
+        this.ev.publish('activity', true);
     }
 
     listProductsRepo() {

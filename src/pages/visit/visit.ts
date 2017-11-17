@@ -43,7 +43,8 @@ export class VisitPage {
   isUnscheduled : any ="false";
   @ViewChild('history') history;
 
-  constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
+  constructor(private ev: Events,
+    private timeMileageRepoAPi : TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
     private localNotifications: LocalNotifications,
     private activityRepoApi: ActivityRepoApi,
@@ -75,7 +76,10 @@ export class VisitPage {
     this.lng = this.navParams.get('lng');
     this.status = this.navParams.get('status');
     this.isUnscheduled = this.navParams.get('isUnscheduled');
-    this.getScheduleData();    
+    this.getScheduleData();
+    this.ev.subscribe('activity', name => {
+      this.history.listPlaceRepo();
+    });
     // console.log("serverid", this.serverId);
     // console.log("repoid", this.repoId);
     // console.log("scheduleid", this.scheduleId);
