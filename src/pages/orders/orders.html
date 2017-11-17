@@ -10,21 +10,21 @@
 
     <ion-buttons end>
 
-       <button ion-button icon-only (click)="viewItemsRepo()">
-          Items
-       </button>
+      <button ion-button icon-only (click)="viewItemsRepo()">
+        Items
+      </button>
 
-      <button ion-button style="padding-left:10px!important" icon-only (click)="saveOrderRepo()"  [disabled]="OrderModel.Quantity==='0' || OrderModel.Signature ==='' || isDisabled">
-        Save 
+      <button ion-button style="padding-left:10px!important" icon-only (click)="saveOrderRepo()" [disabled]="OrderModel.Quantity==='0' || OrderModel.Signature ==='' || isDisabled">
+        Save
       </button>
 
     </ion-buttons>
 
-    <ion-buttons end style="padding-left:10px!important">                
+    <ion-buttons end style="padding-left:10px!important">
       <button ion-button icon-only (click)="submitOrder()" [disabled]="isDisabled" style="background-color: #fafafa;color:#000000">
-          <ion-icon ios="ios-cloud-upload" md="ios-cloud-upload" style="color:#2E86C1!important"></ion-icon>
+        <ion-icon ios="ios-cloud-upload" md="ios-cloud-upload" style="color:#2E86C1!important"></ion-icon>
       </button>
-  </ion-buttons>
+    </ion-buttons>
 
   </ion-navbar>
 
@@ -54,12 +54,14 @@
 
     <ion-item>
       <ion-label floating>Discount rate %</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.DiscountRate" [disabled]="isDisabled" (change)="computeDiscountAmount()" [disabled]="OrderModel.Amount==='0'"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountRate" [disabled]="isDisabled" (change)="computeDiscountAmount()"
+        [disabled]="OrderModel.Amount==='0'"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Discount amount</ion-label>
-      <ion-input type="number" [(ngModel)]="OrderModel.DiscountAmount" [disabled]="isDisabled" (change)="computeDiscountRate()" [disabled]="OrderModel.Amount==='0'"></ion-input>
+      <ion-input type="number" [(ngModel)]="OrderModel.DiscountAmount" [disabled]="isDisabled" (change)="computeDiscountRate()"
+        [disabled]="OrderModel.Amount==='0'"></ion-input>
     </ion-item>
 
   </ion-list>
@@ -114,16 +116,17 @@
 
   <ion-item>
     <ion-icon item-left name="calendar" (click)="showCalendarDate()">
-      <span style="padding-left:10px;font-size: 20px!important">Date</span>
+      <span style="padding-left:10px;font-size: 20px!important">Order Date</span>
       <b (click)="showCalendarDate()">
         <span style="padding-left:10px;font-size: 18px!important">
-          {{OrderModel.Date}}
+          {{OrderModel.OrderDate}}
         </span>
       </b>
     </ion-icon>
   </ion-item>
 
   <ion-item>
+    <ion-label floating>Due Days</ion-label>
     <ion-input type="number" [disabled]="true" [(ngModel)]="OrderModel.DueDays" placeholder="Due days"></ion-input>
   </ion-item>
 
@@ -147,18 +150,23 @@
   </h1>
 
   <ion-item>
-    <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+    <div *ngIf="isDisabled===true">
+      <img [src]="OrderModel.Signature" />
+    </div>
+    <signature-pad *ngIf="isDisabled !==true" [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
   </ion-item>
 
-  <div style="text-align: center;"><button ion-button [hidden]="OrderModel.Signature==='' || isDisabled" (click)="clearSignature()" style="width:60%!important">Clear</button> </div>
+  <div style="text-align: center;">
+    <button ion-button [hidden]="OrderModel.Signature==='' || isDisabled" (click)="clearSignature()" style="width:60%!important">Clear</button>
+  </div>
 
 </ion-content>
 
 <ion-footer>
-    <span style="padding-top:10px!important; font-size:20px!important">
-        <strong>$ {{OrderModel.TotalAmount}} / {{totalItems}} items</strong>
-    </span>
-    <span style="float:right;padding-right:50px!important; font-size:25px!important">
-        <ion-icon ios="md-trash" md="md-trash" item-right (click)="deleteOrder()" [hidden]="isDisabled"></ion-icon>
-    </span>
+  <span style="padding-top:10px!important; font-size:20px!important">
+    <strong>$ {{OrderModel.TotalAmount}} / {{totalItems}} items</strong>
+  </span>
+  <span style="float:right;padding-right:50px!important; font-size:25px!important">
+    <ion-icon ios="md-trash" md="md-trash" item-right (click)="deleteOrder()" [hidden]="isDisabled"></ion-icon>
+  </span>
 </ion-footer>

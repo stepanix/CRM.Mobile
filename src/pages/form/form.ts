@@ -197,6 +197,9 @@ export class FormPage {
     }
 
     showCalendar() {
+        if(this.isDisabled===true){
+            return;
+        }
         this.datePicker.showCalendar();
     }
 

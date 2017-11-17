@@ -162,6 +162,7 @@ export class ListProductPage {
             this.isDisabled = true;
           }
         }
+        console.log("order model",this.orderModel);
         this.getOrderItemsRepo();
       } else {
         this.createNewOrder();

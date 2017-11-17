@@ -40,6 +40,8 @@ export class ActivityhistoryPage {
   loader: any;
   filterData: any = {};
 
+  ActivityContent: any = {};
+
   constructor(public modalCtrl: ModalController,
     private loading: LoadingController,
     private noteRepoApi: NoteRepoApi,
@@ -61,28 +63,36 @@ export class ActivityhistoryPage {
       this.navCtrl.push(FormPage, {
         Id: logId,
         placeName: item.placeName,
-        placeId: item.placeId
+        placeId: item.placeId,
+        submited: item.submitted,
+        content : item.ActivityContent
       });
     }
     if (type === "Product Retail Audit") {
       this.navCtrl.push(RetailAuditFormPage, {
         Id: logId,
         placeName: item.placeName,
-        placeId: item.placeId
+        placeId: item.placeId,
+        submited: item.submitted,
+        content : item.ActivityContent
       });
     }
     if (type === "Photos") {
       this.navCtrl.push(PhotoPage, {
         Id: logId,
         placeName: item.placeName,
-        placeId: item.placeId
+        placeId: item.placeId,
+        submited: item.submitted,
+        content : item.ActivityContent
       });
     }
     if (type === "Notes") {
       this.navCtrl.push(NotePage, {
         Id: logId,
         placeName: item.placeName,
-        placeId: item.placeId
+        placeId: item.placeId,
+        submited: item.submitted,
+        content : item.ActivityContent
       });
     }
     if (type === "Orders") {
@@ -90,7 +100,8 @@ export class ActivityhistoryPage {
         Id: logId,
         orderId: logId,
         placeName: item.placeName,
-        placeId: item.placeId
+        placeId: item.placeId,
+        submited: item.submitted
       });
     }
   }
@@ -106,15 +117,15 @@ export class ActivityhistoryPage {
       });
   }
 
-  listOrderRepo() {  
-      this.orderRepoApi
-        .getOrderForActivity()
-        .then((res) => {
-          if (res.results.length > 0) {
-            this.orders = res.results;
-          }
-          this.listPhotoRepo();
-        });    
+  listOrderRepo() {
+    this.orderRepoApi
+      .getOrderForActivity()
+      .then((res) => {
+        if (res.results.length > 0) {
+          this.orders = res.results;
+        }
+        this.listPhotoRepo();
+      });
   }
 
   listPhotoRepo() {
@@ -189,35 +200,36 @@ export class ActivityhistoryPage {
     this.activitiesTemp = [];
     this.activityRepoApi.listAll().then((res) => {
       for (var i = 0; i < res.results.length; i++) {
-        this.activitiesTemp.push({
-          ActivityTypeId: res.results[i].ActivityTypeId,
-          fullName: res.results[i].FullName,
-          initial: this.parseInitial(res.results[i].FullName),
-          placeId: parseInt(res.results[i].PlaceId),
-          placeName: res.results[i].PlaceName,
-          address: this.getPlace(parseInt(res.results[i].PlaceId)),
-          ActivityLog: res.results[i].ActivityLog,
-          photoImage: this.getPhoto(res.results[i].ActivityTypeId),
-          order: this.getOrder(res.results[i].ActivityTypeId),
-          retailAudit: this.getProductAudit(res.results[i].ActivityTypeId),
-          form: this.getFormValues(res.results[i].ActivityTypeId),
-          note: this.getNote(res.results[i].ActivityTypeId),
-          DateCreated: moment(res.results[i].DateCreated).format("lll"),
-          Submitted : res.results[i].Submitted
-        });
+          this.activitiesTemp.push({
+            ActivityTypeId: res.results[i].ActivityTypeId,
+            fullName: res.results[i].FullName,
+            initial: this.parseInitial(res.results[i].FullName),
+            placeId: parseInt(res.results[i].PlaceId),
+            placeName: res.results[i].PlaceName,
+            address: this.getPlace(parseInt(res.results[i].PlaceId)),
+            ActivityLog: res.results[i].ActivityLog,
+            photoImage: this.getPhoto(res.results[i].ActivityTypeId),
+            order: this.getOrder(res.results[i].ActivityTypeId),
+            retailAudit: this.getProductAudit(res.results[i].ActivityTypeId),
+            form: this.getFormValues(res.results[i].ActivityTypeId),
+            note: this.getNote(res.results[i].ActivityTypeId),
+            DateCreated: moment(res.results[i].DateCreated).format("lll"),
+            submitted: res.results[i].Submitted
+          });
       }
       this.appyModuleFilter();
-      //this.loader.dismiss();
     });
   }
+
+
 
   ionViewDidLoad() {
 
   }
 
   parseInitial(fullname: string): string {
-      var tempName: string[] = fullname.split(" ");
-      return tempName[0].charAt(0) + tempName[1].charAt(0);
+    var tempName: string[] = fullname.split(" ");
+    return tempName[0].charAt(0) + tempName[1].charAt(0);
   }
 
   getNote(repoId) {
@@ -316,7 +328,6 @@ export class ActivityhistoryPage {
         if (entry.ActivityLog === this.filterData.selectedModule
           && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
             && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
-
           this.activities.push({
             ActivityTypeId: entry.ActivityTypeId,
             fullName: entry.fullName,
@@ -341,22 +352,22 @@ export class ActivityhistoryPage {
         if (entry.ActivityLog === this.filterData.selectedModule && entry.placeId === this.filterData.dtoPlaceId
           && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
             && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
-          
-              this.activities.push({
-                ActivityTypeId: entry.ActivityTypeId,
-                fullName: entry.fullName,
-                initial: this.parseInitial(entry.fullName),
-                placeId: parseInt(entry.placeId),
-                placeName: entry.placeName,
-                address: this.getPlace(parseInt(entry.placeId)),
-                ActivityLog: entry.ActivityLog,
-                photoImage: this.getPhoto(entry.ActivityTypeId),
-                order: this.getOrder(entry.ActivityTypeId),
-                retailAudit: this.getProductAudit(entry.ActivityTypeId),
-                form: this.getFormValues(entry.ActivityTypeId),
-                note: this.getNote(entry.ActivityTypeId),
-                DateCreated: moment(entry.DateCreated).format("lll")
-              });
+
+          this.activities.push({
+            ActivityTypeId: entry.ActivityTypeId,
+            fullName: entry.fullName,
+            initial: this.parseInitial(entry.fullName),
+            placeId: parseInt(entry.placeId),
+            placeName: entry.placeName,
+            address: this.getPlace(parseInt(entry.placeId)),
+            ActivityLog: entry.ActivityLog,
+            photoImage: this.getPhoto(entry.ActivityTypeId),
+            order: this.getOrder(entry.ActivityTypeId),
+            retailAudit: this.getProductAudit(entry.ActivityTypeId),
+            form: this.getFormValues(entry.ActivityTypeId),
+            note: this.getNote(entry.ActivityTypeId),
+            DateCreated: moment(entry.DateCreated).format("lll")
+          });
         }
       });
     }
@@ -366,21 +377,21 @@ export class ActivityhistoryPage {
         if (entry.placeId === this.filterData.dtoPlaceId
           && (moment(entry.DateCreated).format("YYYY-MM-DD") >= moment(this.filterData.dateFrom).format("YYYY-MM-DD")
             && moment(entry.DateCreated).format("YYYY-MM-DD") <= moment(this.filterData.dateTo).format("YYYY-MM-DD"))) {
-              this.activities.push({
-                ActivityTypeId: entry.ActivityTypeId,
-                fullName: entry.fullName,
-                initial: this.parseInitial(entry.fullName),
-                placeId: parseInt(entry.placeId),
-                placeName: entry.placeName,
-                address: this.getPlace(parseInt(entry.placeId)),
-                ActivityLog: entry.ActivityLog,
-                photoImage: this.getPhoto(entry.ActivityTypeId),
-                order: this.getOrder(entry.ActivityTypeId),
-                retailAudit: this.getProductAudit(entry.ActivityTypeId),
-                form: this.getFormValues(entry.ActivityTypeId),
-                note: this.getNote(entry.ActivityTypeId),
-                DateCreated: moment(entry.DateCreated).format("lll")
-              });
+          this.activities.push({
+            ActivityTypeId: entry.ActivityTypeId,
+            fullName: entry.fullName,
+            initial: this.parseInitial(entry.fullName),
+            placeId: parseInt(entry.placeId),
+            placeName: entry.placeName,
+            address: this.getPlace(parseInt(entry.placeId)),
+            ActivityLog: entry.ActivityLog,
+            photoImage: this.getPhoto(entry.ActivityTypeId),
+            order: this.getOrder(entry.ActivityTypeId),
+            retailAudit: this.getProductAudit(entry.ActivityTypeId),
+            form: this.getFormValues(entry.ActivityTypeId),
+            note: this.getNote(entry.ActivityTypeId),
+            DateCreated: moment(entry.DateCreated).format("lll")
+          });
         }
       });
     }

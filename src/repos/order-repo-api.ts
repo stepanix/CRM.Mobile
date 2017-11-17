@@ -47,7 +47,7 @@ export class OrderRepoApi {
      }
 
      insertRecord(dataDto:any) {
-        console.log("ordermodel",JSON.stringify(dataDto));
+        //console.log("ordermodel",JSON.stringify(dataDto));
         var data = new QueryBuilder(new OrderModel());
         data.create(dataDto);
      }

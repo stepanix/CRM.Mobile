@@ -16,6 +16,12 @@ export class FormRepoApi {
         data.delete();
      }
 
+     insertRecord(dataDto:any) {
+        var data = new QueryBuilder(new FormModel());
+        data.create(dataDto);
+     }
+
+
      insert(dataDto:any[]){
         var data = new QueryBuilder(new FormModel());
         for(var i=0; i<dataDto.length;i++){

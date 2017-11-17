@@ -60,7 +60,7 @@ export class OrdersPage {
       this.OrderModel.TaxAmount = "0";
       this.OrderModel.DueDays = "0";
       this.OrderModel.Signature = "";
-      this.OrderModel.Date = moment().format('YYYY-MM-DD').toString();
+      this.OrderModel.OrderDate = moment().format('YYYY-MM-DD').toString();
       this.OrderModel.DueDate = moment().format('YYYY-MM-DD').toString();
       
       this.placeName = this.navParams.get('placeName');
@@ -75,7 +75,7 @@ export class OrdersPage {
 
       this.calendar.onDateSelected.subscribe((date) => {
             if (this.dateSelected==="date") {
-                this.OrderModel.Date = moment(date).format('YYYY-MM-DD').toString(); 
+                this.OrderModel.OrderDate = moment(date).format('YYYY-MM-DD').toString(); 
             } else {
                 this.OrderModel.DueDate = moment(date).format('YYYY-MM-DD').toString();
             }
@@ -165,9 +165,9 @@ export class OrdersPage {
           this.OrderModel.TaxRate = res.results[0].TaxRate;
           this.OrderModel.TaxAmount = res.results[0].TaxAmount;
           this.OrderModel.TotalAmount = res.results[0].TotalAmount;
-          this.OrderModel.OrderDate = res.results[0].OrderDate;
-          this.OrderModel.DueDays = res.results[0].DueDays;
-          this.OrderModel.DueDate = res.results[0].DueDate;
+          this.OrderModel.OrderDate = moment(res.results[0].OrderDate).format('YYYY-MM-DD').toString();
+          this.OrderModel.DueDays = res.results[0].DueDays; 
+          this.OrderModel.DueDate = moment(res.results[0].DueDate).format('YYYY-MM-DD').toString();
           this.OrderModel.Note = res.results[0].Note;
           this.OrderModel.Signature = res.results[0].Signature;
           this.signaturePad.fromDataURL(this.OrderModel.Signature);
@@ -266,11 +266,17 @@ export class OrdersPage {
   }
 
   showCalendarDate() {
+    if(this.isDisabled===true){
+      return;
+    }
     this.dateSelected="date";
     this.calendar.showCalendar();
   }
 
   showCalendarDueDate() {
+    if(this.isDisabled===true){
+      return;
+    }
     this.dateSelected="dueDate";
     this.calendar.showCalendar();
   }

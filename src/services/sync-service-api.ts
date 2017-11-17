@@ -552,48 +552,144 @@ export class SyncServiceApi {
 
     downloadActivity() {
         let activities : any[] = [];
-        let activityContent : any = "";
-        this.activityRepoApi.delete();
+        let produtctRetailDtoIn : any[] = [];
+        let noteDtoIn : any[] = [];
+        let formDtoIn : any[] = [];
+        let orderDtoIn : any[] = [];
+        let orderItemDtoIn : any[] = [];
+        let photoDtoIn : any[] = [];
+       
         this.activityServiceApi.getActivitiesRepSummary()        
         .subscribe(
         res => {
             if (res.length > 0) {
-                for (var i = 0; i < res.length; i++) {
-
+                this.activityRepoApi.delete();
+                this.productRetailRepoApi.delete();
+                this.noteRepoApi.delete();
+                this.formValueRepoApi.delete();
+                this.orderRepoApi.delete();
+                this.orderItemRepoApi.delete();
+                for (let i = 0; i < res.length; i++) {
+                    
                     if(res[i].activityLog==="Product Retail Audit") {
-                        activityContent = JSON.stringify(res[i].productRetailAudit);
+                        produtctRetailDtoIn.push({
+                            Id : res[i].activityTypeId,                   
+                            ServerId : res[i].productRetailAudit.id,
+                            PlaceId : res[i].productRetailAudit.placeId,
+                            RetailAuditFormId : res[i].productRetailAudit.retailAuditFormId,
+                            ScheduleId : null,
+                            RetailAuditFormFieldValues :  JSON.stringify(JSON.parse(res[i].productRetailAudit.retailAuditFormFieldValues)),
+                            IsSaved : 1,
+                            IsSynched : 1,
+                            Available : res[i].productRetailAudit.available,
+                            Promoted : res[i].productRetailAudit.promoted,
+                            Price  : res[i].productRetailAudit.price,
+                            StockLevel :  res[i].productRetailAudit.stockLevel,
+                            Note : res[i].productRetailAudit.note,
+                            Submitted : 2
+                        });
                     }
-
+                    
                     if(res[i].activityLog==="Notes") {
-                        activityContent = JSON.stringify(res[i].note);
+                        noteDtoIn.push({
+                            Id : res[i].activityTypeId,
+                            ServerId : res[i].note.id,
+                            PlaceId : res[i].note.placeId,
+                            ScheduleId : null,
+                            Description : res[i].note.description,
+                            IsSynched : 1,
+                            Submitted : 2
+                        });
                     }
 
                     if(res[i].activityLog==="Forms") {
-                        activityContent = JSON.stringify(res[i].formValue);
+                          formDtoIn.push({
+                            Id : res[i].activityTypeId,
+                            ServerId : res[i].formValue.id,
+                            PlaceId : res[i].formValue.placeId,
+                            FormId : res[i].formValue.formId,
+                            ScheduleId : null,
+                            FormFieldValues : JSON.stringify(JSON.parse(res[i].formValue.formFieldValues)),
+                            IsSynched : 1,
+                            Submitted : 2
+                          });
                     }
 
                     if(res[i].activityLog==="Orders") {
-                        activityContent = JSON.stringify(res[i].order);
+                        orderDtoIn.push({
+                            Id : res[i].activityTypeId,
+                            ServerId : res[i].order.id,
+                            PlaceId : res[i].order.placeId,
+                            ScheduleId : res[i].order.scheduleId,
+                            Quantity : res[i].order.quantity,
+                            Amount : res[i].order.amount,
+                            DiscountRate : res[i].order.discountRate,
+                            DiscountAmount : res[i].order.discountAmount,
+                            TaxRate : res[i].order.taxRate,
+                            TaxAmount : res[i].order.taxAmount,
+                            TotalAmount : res[i].order.totalAmount,
+                            OrderDate : res[i].order.orderDate,
+                            DueDays : res[i].order.dueDays,
+                            DueDate : res[i].order.dueDate,
+                            Note : res[i].order.note,
+                            Signature : res[i].order.signature,
+                            IsSynched : 1,
+                            RepoId : res[i].order.repoId,
+                            Submitted : 2,
+                            ScheduleRepoId : res[i].order.scheduleId
+                        });
+                        if(res[i].order.orderItemList.length > 0){
+                            for(let j=0;j<res[i].order.orderItemList.length; j++){
+                                orderItemDtoIn.push({
+                                    Id : this.newGuid(),
+                                    ServerId : res[i].order.orderItemList[j].id,
+                                    OrderId : res[i].activityTypeId,
+                                    ProductId : res[i].order.orderItemList[j].productId,
+                                    Quantity : res[i].order.orderItemList[j].quantity,
+                                    Amount : res[i].order.orderItemList[j].amount,
+                                    IsSynched : 1,
+                                    Submitted : 2,
+                                    RepoId : null, 
+                                });
+                            }
+                        }
                     }
 
                     if(res[i].activityLog==="Photos") {
-                        activityContent = JSON.stringify(res[i].photo);
+                        // photoDtoIn.push({
+                        //     Id: 'TEXT',
+                        //     ServerId : 'INTEGER(11)',
+                        //     PlaceId : 'TEXT',
+                        //     ScheduleId : 'TEXT',
+                        //     PictureUrl : 'TEXT',
+                        //     Note : 'TEXT',
+                        //     IsSynched: 'INTEGER(1)',
+                        //     ScheduleRepoId: 'TEXT',
+                        //     PlaceRepoId : 'TEXT',
+                        //     Submitted : 'INTEGER(1)',
+                        //     RepoId : 'TEXT'
+                        // });
+                        // = JSON.stringify(res[i].photo);
                     }
 
                     activities.push({
                         Id: this.newGuid(),
                         FullName: res[i].user.firstName + " " + res[i].user.surname,
                         PlaceName: res[i].place.name,
-                        PlaceId: res[i].place.placeId,
+                        PlaceId: res[i].placeId,
                         ActivityLog: res[i].activityLog,
                         ActivityTypeId: res[i].activityTypeId,
-                        ActivityContent: activityContent,
                         DateCreated : res[i].dateCreated,
                         IsSynched: 1,
                         Submitted : res[i].submitted
                     });
                 }
                 this.activityRepoApi.insert(activities);
+                this.formValueRepoApi.insert(formDtoIn);
+                this.noteRepoApi.insert(noteDtoIn);
+                this.productRetailRepoApi.insert(produtctRetailDtoIn);
+                this.orderRepoApi.insert(orderDtoIn);
+                this.orderItemRepoApi.insert(orderItemDtoIn);
             }
         }, err => {
             return;
