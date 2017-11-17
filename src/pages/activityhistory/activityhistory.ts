@@ -217,6 +217,7 @@ export class ActivityhistoryPage {
             submitted: res.results[i].Submitted
           });
       }
+      console.log("temp activity",this.activitiesTemp);
       this.appyModuleFilter();
     });
   }

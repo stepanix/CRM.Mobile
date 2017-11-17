@@ -558,12 +558,13 @@ export class SyncServiceApi {
         let orderDtoIn : any[] = [];
         let orderItemDtoIn : any[] = [];
         let photoDtoIn : any[] = [];
+        this.activityRepoApi.delete();
        
         this.activityServiceApi.getActivitiesRepSummary()        
         .subscribe(
         res => {
             if (res.length > 0) {
-                this.activityRepoApi.delete();
+                
                 this.productRetailRepoApi.delete();
                 this.noteRepoApi.delete();
                 this.formValueRepoApi.delete();
