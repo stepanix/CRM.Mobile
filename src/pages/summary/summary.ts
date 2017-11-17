@@ -112,6 +112,11 @@ export class SummaryPage {
           this.ordersCount = res.orderCount;
           this.photosCount = res.photoCount;
           this.ordersTotal = res.orderTotal;
+          this.totalVisitsCount =  res.totalVisitCount;
+          this.scheduledCount =  res.scheduledVisitCount;
+          this.visitedCount =  res.visitCount;
+          this.unscheduledCount =  res.unScheduledVisitCount;
+          this.missedCount =  res.missedVisitCount;
           this.loader.dismiss();
         }, err => {
           this.loader.dismiss();
