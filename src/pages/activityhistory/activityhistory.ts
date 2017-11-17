@@ -222,8 +222,6 @@ export class ActivityhistoryPage {
     });
   }
 
-
-
   ionViewDidLoad() {
 
   }
