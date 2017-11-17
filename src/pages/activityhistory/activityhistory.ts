@@ -41,6 +41,7 @@ export class ActivityhistoryPage {
   filterData: any = {};
 
   ActivityContent: any = {};
+  
 
   constructor(public modalCtrl: ModalController,
     private loading: LoadingController,
@@ -57,6 +58,14 @@ export class ActivityhistoryPage {
     public navCtrl: NavController,
     public navParams: NavParams) {
   }
+
+  ngAfterContentInit() {
+    //this.history.listPlaceRepo();
+  }
+
+  // ionViewDidEnter(){
+  //   this.history.listPlaceRepo();
+  //  }
 
   navigatePage(type, logId, item) {
     if (type === "Forms") {
@@ -217,7 +226,6 @@ export class ActivityhistoryPage {
             submitted: res.results[i].Submitted
           });
       }
-      //console.log("temp activity",this.activitiesTemp);
       this.appyModuleFilter();
     });
   }
@@ -301,11 +309,7 @@ export class ActivityhistoryPage {
     } else {
       return itemModel.StreetAddress;
     }
-  }
-
-  ngAfterContentInit() {
-    this.listPlaceRepo();
-  }
+  }  
 
   toggleMenu() {
     let filterModal = this.modalCtrl.create(FilterPage);

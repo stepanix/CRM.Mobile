@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { NavController, NavParams, AlertController,Events,LoadingController  } from 'ionic-angular';
 import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
@@ -41,6 +41,7 @@ export class VisitPage {
   serverId : any = "";
   status : any = "";
   isUnscheduled : any ="false";
+  @ViewChild('history') history;
 
   constructor(private timeMileageRepoAPi : TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
@@ -75,9 +76,13 @@ export class VisitPage {
     this.status = this.navParams.get('status');
     this.isUnscheduled = this.navParams.get('isUnscheduled');
     this.getScheduleData();    
-    console.log("serverid", this.serverId);
-    console.log("repoid", this.repoId);
-    console.log("scheduleid", this.scheduleId);
+    // console.log("serverid", this.serverId);
+    // console.log("repoid", this.repoId);
+    // console.log("scheduleid", this.scheduleId);
+  }
+
+  ionViewDidEnter(){
+    this.history.listPlaceRepo();
   }
 
   getScheduleData() {

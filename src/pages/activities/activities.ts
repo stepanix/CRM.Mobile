@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { PlacesPage } from '../places/places';
@@ -25,6 +25,7 @@ export class ActivitiesPage {
     workDay: any = "Workday : 0 hrs";
     TimeMileageModel: any = {};
     pauseTotal: any = "0";
+    @ViewChild('history') history;
    
 
     constructor(
@@ -50,6 +51,10 @@ export class ActivitiesPage {
         this.checkMissedSchedule();
         this.getWorkDuration();
         this.checkWorkStatus();
+    }
+
+    ionViewDidEnter(){
+        this.history.listPlaceRepo();
     }
 
     checkMissedSchedule() {
