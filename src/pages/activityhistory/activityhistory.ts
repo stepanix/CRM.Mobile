@@ -217,7 +217,7 @@ export class ActivityhistoryPage {
             submitted: res.results[i].Submitted
           });
       }
-      console.log("temp activity",this.activitiesTemp);
+      //console.log("temp activity",this.activitiesTemp);
       this.appyModuleFilter();
     });
   }
@@ -277,7 +277,7 @@ export class ActivityhistoryPage {
   }
 
   getPhoto(photoId) {
-    let itemModel = this.photos.find(item => item.Id === photoId);
+    let itemModel = this.photos.find(item => item.Id === photoId ||item.RepoId === photoId);
     if (itemModel === undefined) {
       return "";
     } else {

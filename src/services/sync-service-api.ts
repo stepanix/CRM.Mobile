@@ -570,6 +570,8 @@ export class SyncServiceApi {
                 this.formValueRepoApi.deleteSubmitted();
                 this.orderRepoApi.deleteSubmitted();
                 this.orderItemRepoApi.deleteSubmitted();
+                this.photoRepoApi.deleteSubmitted();
+
                 for (let i = 0; i < res.length; i++) {
                     
                     if(res[i].activityLog==="Product Retail Audit") {
@@ -578,7 +580,7 @@ export class SyncServiceApi {
                             ServerId : res[i].productRetailAudit.id,
                             PlaceId : res[i].productRetailAudit.placeId,
                             RetailAuditFormId : res[i].productRetailAudit.retailAuditFormId,
-                            ScheduleId : null,
+                            ScheduleId : res[i].productRetailAudit.scheduleId,
                             RetailAuditFormFieldValues :  JSON.stringify(JSON.parse(res[i].productRetailAudit.retailAuditFormFieldValues)),
                             IsSaved : 1,
                             IsSynched : 1,
@@ -596,7 +598,7 @@ export class SyncServiceApi {
                             Id : res[i].activityTypeId,
                             ServerId : res[i].note.id,
                             PlaceId : res[i].note.placeId,
-                            ScheduleId : null,
+                            ScheduleId : res[i].note.scheduleId,
                             Description : res[i].note.description,
                             IsSynched : 1,
                             Submitted : 2
@@ -609,7 +611,7 @@ export class SyncServiceApi {
                             ServerId : res[i].formValue.id,
                             PlaceId : res[i].formValue.placeId,
                             FormId : res[i].formValue.formId,
-                            ScheduleId : null,
+                            ScheduleId : res[i].formValue.scheduleId,
                             FormFieldValues : JSON.stringify(JSON.parse(res[i].formValue.formFieldValues)),
                             IsSynched : 1,
                             Submitted : 2
@@ -657,20 +659,19 @@ export class SyncServiceApi {
                     }
 
                     if(res[i].activityLog==="Photos") {
-                        // photoDtoIn.push({
-                        //     Id: 'TEXT',
-                        //     ServerId : 'INTEGER(11)',
-                        //     PlaceId : 'TEXT',
-                        //     ScheduleId : 'TEXT',
-                        //     PictureUrl : 'TEXT',
-                        //     Note : 'TEXT',
-                        //     IsSynched: 'INTEGER(1)',
-                        //     ScheduleRepoId: 'TEXT',
-                        //     PlaceRepoId : 'TEXT',
-                        //     Submitted : 'INTEGER(1)',
-                        //     RepoId : 'TEXT'
-                        // });
-                        // = JSON.stringify(res[i].photo);
+                        photoDtoIn.push({
+                            Id: res[i].activityTypeId,
+                            ServerId : res[i].photo.id,
+                            PlaceId : res[i].photo.placeId,
+                            ScheduleId : res[i].photo.scheduleId,
+                            PictureUrl : res[i].photo.pictureUrl,
+                            Note : res[i].photo.note,
+                            IsSynched: 1,
+                            ScheduleRepoId: res[i].photo.scheduleId,
+                            PlaceRepoId : null,
+                            Submitted : 2,
+                            RepoId : res[i].photo.repoId
+                        });
                     }
 
                     activities.push({
@@ -691,6 +692,7 @@ export class SyncServiceApi {
                 this.productRetailRepoApi.insert(produtctRetailDtoIn);
                 this.orderRepoApi.insert(orderDtoIn);
                 this.orderItemRepoApi.insert(orderItemDtoIn);
+                this.photoRepoApi.insert(photoDtoIn);
             }
         }, err => {
             return;

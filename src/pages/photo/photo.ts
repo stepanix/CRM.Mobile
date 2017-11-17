@@ -129,13 +129,13 @@ export class PhotoPage {
             IsSynched: 0,
             RepoId: this.serverRepoId
         }
-        this.logActivityRepo();
         this.photoRepoApi.insertRecord(PhotoDtoIn);
         let toast = this.toastCtrl.create({
             message: 'Record saved successfully',
             duration: 3000
         });
         toast.present();
+        this.logActivityRepo();
     }
 
     logActivityRepo() {
