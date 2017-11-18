@@ -1,5 +1,5 @@
 import { Component,ViewChild } from '@angular/core';
-import { NavController, NavParams, LoadingController, AlertController,Events } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { PlacesPage } from '../places/places';
 import { SyncServiceApi } from '../../services/sync-service-api';
@@ -27,7 +27,7 @@ export class ActivitiesPage {
     pauseTotal: any = "0";
     @ViewChild('history') history;
 
-    constructor(private ev: Events,
+    constructor(
         private scheduleRepoApi: ScheduleRepoApi,
         private counterNotifications: LocalNotifications,
         private timeMileageRepoAPi: TimeMileageRepoApi,

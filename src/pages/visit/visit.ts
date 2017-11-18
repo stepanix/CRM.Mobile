@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, AlertController, Events, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
 import { ListRetailAuditFormPage } from '../listretailauditform/listretailauditform';

@@ -697,7 +697,7 @@ export class SyncServiceApi {
                 this.orderRepoApi.insert(orderDtoIn);
                 this.orderItemRepoApi.insert(orderItemDtoIn);
                 this.photoRepoApi.insert(photoDtoIn);
-                this.ev.publish('activity', true);
+               
             }
         }, err => {
             return;
