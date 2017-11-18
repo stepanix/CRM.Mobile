@@ -621,41 +621,43 @@ export class SyncServiceApi {
                     }
 
                     if(res[i].activityLog==="Orders") {
-                        orderDtoIn.push({
-                            Id : res[i].activityTypeId,
-                            ServerId : res[i].order.id,
-                            PlaceId : res[i].order.placeId,
-                            ScheduleId : res[i].order.scheduleId,
-                            Quantity : res[i].order.quantity,
-                            Amount : res[i].order.amount,
-                            DiscountRate : res[i].order.discountRate,
-                            DiscountAmount : res[i].order.discountAmount,
-                            TaxRate : res[i].order.taxRate,
-                            TaxAmount : res[i].order.taxAmount,
-                            TotalAmount : res[i].order.totalAmount,
-                            OrderDate : res[i].order.orderDate,
-                            DueDays : res[i].order.dueDays,
-                            DueDate : res[i].order.dueDate,
-                            Note : res[i].order.note,
-                            Signature : res[i].order.signature,
-                            IsSynched : 1,
-                            RepoId : res[i].order.repoId,
-                            Submitted : 2,
-                            ScheduleRepoId : res[i].order.scheduleId
-                        });
-                        if(res[i].order.orderItemList.length > 0){
-                            for(let j=0;j<res[i].order.orderItemList.length; j++){
-                                orderItemDtoIn.push({
-                                    Id : this.newGuid(),
-                                    ServerId : res[i].order.orderItemList[j].id,
-                                    OrderId : res[i].activityTypeId,
-                                    ProductId : res[i].order.orderItemList[j].productId,
-                                    Quantity : res[i].order.orderItemList[j].quantity,
-                                    Amount : res[i].order.orderItemList[j].amount,
-                                    IsSynched : 1,
-                                    Submitted : 2,
-                                    RepoId : null, 
-                                });
+                        if(res[i].order !== null){
+                            orderDtoIn.push({
+                                Id : res[i].activityTypeId,
+                                ServerId : res[i].order.id,
+                                PlaceId : res[i].order.placeId,
+                                ScheduleId : res[i].order.scheduleId,
+                                Quantity : res[i].order.quantity,
+                                Amount : res[i].order.amount,
+                                DiscountRate : res[i].order.discountRate,
+                                DiscountAmount : res[i].order.discountAmount,
+                                TaxRate : res[i].order.taxRate,
+                                TaxAmount : res[i].order.taxAmount,
+                                TotalAmount : res[i].order.totalAmount,
+                                OrderDate : res[i].order.orderDate,
+                                DueDays : res[i].order.dueDays,
+                                DueDate : res[i].order.dueDate,
+                                Note : res[i].order.note,
+                                Signature : res[i].order.signature,
+                                IsSynched : 1,
+                                RepoId : res[i].order.repoId,
+                                Submitted : 2,
+                                ScheduleRepoId : res[i].order.scheduleId
+                            });
+                            if(res[i].order.orderItemList.length > 0){
+                                for(let j=0;j<res[i].order.orderItemList.length; j++){
+                                    orderItemDtoIn.push({
+                                        Id : this.newGuid(),
+                                        ServerId : res[i].order.orderItemList[j].id,
+                                        OrderId : res[i].activityTypeId,
+                                        ProductId : res[i].order.orderItemList[j].productId,
+                                        Quantity : res[i].order.orderItemList[j].quantity,
+                                        Amount : res[i].order.orderItemList[j].amount,
+                                        IsSynched : 1,
+                                        Submitted : 2,
+                                        RepoId : null, 
+                                    });
+                                }
                             }
                         }
                     }

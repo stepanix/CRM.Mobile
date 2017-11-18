@@ -158,6 +158,7 @@ export class OrdersPage {
     this.orderRepoApi
     .listByOrderId(this.orderId)
     .then((res) => {
+        if(res.results.length > 0){
           this.OrderModel.Quantity = res.results[0].Quantity;
           this.OrderModel.Amount = res.results[0].Amount;
           this.OrderModel.DiscountRate = res.results[0].DiscountRate;
@@ -180,6 +181,7 @@ export class OrdersPage {
            if(res.results[0].Submitted===2){
              this.isDisabled = true;
            }
+        }
      });
  }
 
