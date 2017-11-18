@@ -340,6 +340,7 @@ export class VisitPage {
           placeId: this.placeId
         });
       }
+      this.startDay();
     }
   }
 
