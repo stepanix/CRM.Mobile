@@ -153,7 +153,6 @@ export class OrdersPage {
     alertConfirm.present();
 }
 
-
   getOrdersRepo() {
     this.orderRepoApi
     .listByOrderId(this.orderId)
