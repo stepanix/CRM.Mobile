@@ -328,7 +328,7 @@ export class FormPage {
             Submitted : 1
         }
         this.activityRepoApi.insertRecord(ActivityDtoIn);
-        this.ev.publish('activity', true);
+        //this.ev.publish('activity', true);
     }
 
     listProductsApi() {

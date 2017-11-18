@@ -77,9 +77,9 @@ export class VisitPage {
     this.status = this.navParams.get('status');
     this.isUnscheduled = this.navParams.get('isUnscheduled');
     this.getScheduleData();
-    this.ev.subscribe('activity', name => {
-      this.history.listPlaceRepo();
-    });
+    // this.ev.subscribe('activity', name => {
+    //   this.history.listPlaceRepo();
+    // });
     // console.log("serverid", this.serverId);
     // console.log("repoid", this.repoId);
     // console.log("scheduleid", this.scheduleId);

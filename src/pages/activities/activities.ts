@@ -47,9 +47,9 @@ export class ActivitiesPage {
         //         );
         //     }
         // });
-        this.ev.subscribe('activity', name => {
-            this.history.listPlaceRepo();
-        });
+        // this.ev.subscribe('activity', name => {
+        //     this.history.listPlaceRepo();
+        // });
                 
         this.checkMissedSchedule();
         this.getWorkDuration();
