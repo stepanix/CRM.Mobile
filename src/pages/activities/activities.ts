@@ -182,7 +182,7 @@ export class ActivitiesPage {
                         text: 'Start day',
                         handler: () => {
                             let startTime = moment().format();
-                            let TimeMileageModel = {
+                            this.TimeMileageModel = {
                                 Id: this.newGuid(),
                                 ServerId: 0,
                                 UserId: localStorage.getItem('userid'),
@@ -195,7 +195,7 @@ export class ActivitiesPage {
                                 IsSynched: 1,
                                 DateCreated: moment().format("YYYY-MM-DD")
                             }
-                            this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
+                            //this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
                             localStorage.setItem('startTime', startTime);
                             localStorage.setItem('lastMileageDate', moment().format("YYYY-MM-DD"));
                             localStorage.setItem('workStatus', "started");
@@ -240,33 +240,33 @@ export class ActivitiesPage {
     }
 
     setEndTimeMileage() {
-        this.timeMileageRepoAPi.searchByDate(localStorage.getItem('lastMileageDate')).then((res) => {
-            if (res.results.length > 0) {
+        //this.timeMileageRepoAPi.searchByDate(localStorage.getItem('lastMileageDate')).then((res) => {
+            //if (res.results.length > 0) {
                 let startTime: any = new Date(localStorage.getItem('startTime')).getTime();
                 let endTime: any = new Date(moment().format()).getTime();
                 let duration: number = (endTime - startTime);
                 this.workDay = "Workday: " + this.parseMillisecondsIntoReadableTime(duration) + " hrs";
                 this.TimeMileageModel = {
-                    Id: res.results[0].Id,
-                    ServerId: res.results[0].Id,
+                    Id: this.newGuid(),
+                    ServerId: 0,
                     UserId: localStorage.getItem('userid'),
                     PlaceId: null,
                     PlaceName: null,
-                    StartTime: res.results[0].StartTime,
+                    StartTime: moment(localStorage.getItem('startTime')).format("YYYY-MM-DD HH:mm"),
                     EndTime: moment().format("YYYY-MM-DD HH:mm"),
                     Duration: this.workDay,
                     Mileage: localStorage.getItem("mileage"),
                     IsSynched: 0,
-                    DateCreated: res.results[0].DateCreated
+                    DateCreated: moment().format("YYYY-MM-DD HH:mm")
                 };
-                this.timeMileageRepoAPi.updateMileage(this.TimeMileageModel);
                 localStorage.setItem('lastMileageDate', moment().format("YYYY-MM-DD"));
                 localStorage.setItem('workStatus', "stopped");
+                this.timeMileageRepoAPi.insertRecord(this.TimeMileageModel);
                 this.cancelAllNotifications();
                 this.checkWorkStatus();
                 this.syncServiceApi.downloadServerData();
-            }
-        });
+           // }
+        //});
     }
 
     ngAfterContentInit() {

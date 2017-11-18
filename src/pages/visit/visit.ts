@@ -1,5 +1,5 @@
-import { Component,ViewChild } from '@angular/core';
-import { NavController, NavParams, AlertController,Events,LoadingController  } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, AlertController, Events, LoadingController } from 'ionic-angular';
 import * as moment from 'moment';
 import { ListFormsPage } from '../listforms/listforms';
 import { ListRetailAuditFormPage } from '../listretailauditform/listretailauditform';
@@ -35,16 +35,16 @@ export class VisitPage {
   visitStatus = "";
   repoId: any;
   activities: any[] = [];
-  currentLat : number = 0;
-  currentLng : number = 0;
-  currentDist : number = 0;
-  serverId : any = "";
-  status : any = "";
-  isUnscheduled : any ="false";
+  currentLat: number = 0;
+  currentLng: number = 0;
+  currentDist: number = 0;
+  serverId: any = "";
+  status: any = "";
+  isUnscheduled: any = "false";
   @ViewChild('history') history;
 
   constructor(private ev: Events,
-    private timeMileageRepoAPi : TimeMileageRepoApi,
+    private timeMileageRepoAPi: TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
     private localNotifications: LocalNotifications,
     private activityRepoApi: ActivityRepoApi,
@@ -52,13 +52,13 @@ export class VisitPage {
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams) {
-      this.currentLat = parseFloat(localStorage.getItem("lat"));
-      this.currentLng =  parseFloat(localStorage.getItem("lng"));  
+    this.currentLat = parseFloat(localStorage.getItem("lat"));
+    this.currentLng = parseFloat(localStorage.getItem("lng"));
   }
 
   ionViewDidLoad() {
   }
-  
+
   openSchedule() {
     this.navCtrl.setRoot(SchedulePage, {
       placeId: this.placeId
@@ -85,12 +85,12 @@ export class VisitPage {
     // console.log("scheduleid", this.scheduleId);
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.history.listPlaceRepo();
   }
 
   getScheduleData() {
-    this.scheduleRepoApi.listByScheduleId(this.repoId,this.serverId).then((res) => {
+    this.scheduleRepoApi.listByScheduleId(this.repoId, this.serverId).then((res) => {
       if (res.results.length > 0) {
         this.dataDtoIn = res.results[0];
         if (this.dataDtoIn.VisitStatus === "In") {
@@ -109,9 +109,9 @@ export class VisitPage {
 
   enterSchedule() {
     if (this.isUnscheduled === "true") {
-      this.createNewSchedule();      
+      this.createNewSchedule();
     } else {
-      this.updateScheduleStatus();      
+      this.updateScheduleStatus();
     }
   }
 
@@ -121,7 +121,7 @@ export class VisitPage {
     this.createNewSchedule();
     this.addNotifications();
     this.getScheduleData();
-    this.startDay();   
+    this.startDay();
   }
 
   addNotifications() {
@@ -172,7 +172,7 @@ export class VisitPage {
   }
 
   updateScheduleStatus() {
-    this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(this.lat),parseFloat(this.lng),"K");
+    this.currentDist = this.computeMileage(this.currentLat, this.currentLng, parseFloat(this.lat), parseFloat(this.lng), "K");
     this.dataDtoIn.CheckInDistance = this.currentDist.toFixed(2);
     this.dataDtoIn.CheckInTime = moment().format("YYYY-MM-DD HH:mm");
     this.dataDtoIn.VisitStatus = "In";
@@ -183,14 +183,14 @@ export class VisitPage {
   }
 
   createNewSchedule() {
-    if(this.scheduleId===undefined 
-      || this.scheduleId==="undefined" 
-      || this.scheduleId===""
-      || this.scheduleId==="null"
-      || this.scheduleId===null){
-        this.scheduleId =  this.newGuid();
+    if (this.scheduleId === undefined
+      || this.scheduleId === "undefined"
+      || this.scheduleId === ""
+      || this.scheduleId === "null"
+      || this.scheduleId === null) {
+      this.scheduleId = this.newGuid();
     }
-    this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(this.lat),parseFloat(this.lng),"K");
+    this.currentDist = this.computeMileage(this.currentLat, this.currentLng, parseFloat(this.lat), parseFloat(this.lng), "K");
     let ScheduleDto = {
       Id: this.scheduleId,
       RepoId: this.scheduleId,
@@ -203,7 +203,7 @@ export class VisitPage {
       VisitTime: moment().format("YYYY-MM-DD HH:mm"),
       CheckInTime: moment().format("YYYY-MM-DD HH:mm"),
       CheckInDistance: this.currentDist.toFixed(2),
-      CheckOutDistance : "0",
+      CheckOutDistance: "0",
       VisitNote: "",
       IsRecurring: false,
       RepeatCycle: 0,
@@ -219,19 +219,19 @@ export class VisitPage {
     this.scheduleRepoApi.insertRecord(ScheduleDto);
   }
 
-  computeMileage(lat1, lon1, lat2, lon2, unit) : number {
-    var radlat1 = Math.PI * lat1/180
-    var radlat2 = Math.PI * lat2/180
-    var theta = lon1-lon2
-    var radtheta = Math.PI * theta/180
+  computeMileage(lat1, lon1, lat2, lon2, unit): number {
+    var radlat1 = Math.PI * lat1 / 180
+    var radlat2 = Math.PI * lat2 / 180
+    var theta = lon1 - lon2
+    var radtheta = Math.PI * theta / 180
     var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
     dist = Math.acos(dist)
-    dist = dist * 180/Math.PI
+    dist = dist * 180 / Math.PI
     dist = dist * 60 * 1.1515
-    if (unit=="K") { dist = dist * 1.609344 }
-    if (unit=="N") { dist = dist * 0.8684 }
+    if (unit == "K") { dist = dist * 1.609344 }
+    if (unit == "N") { dist = dist * 0.8684 }
     return dist
-}
+  }
 
   parseStreetAddress(address) {
     if (address === undefined) {
@@ -344,9 +344,9 @@ export class VisitPage {
   }
 
   checkOutVisit() {
-    this.currentDist = this.computeMileage(this.currentLat,this.currentLng,parseFloat(this.lat),parseFloat(this.lng),"K");
+    this.currentDist = this.computeMileage(this.currentLat, this.currentLng, parseFloat(this.lat), parseFloat(this.lng), "K");
     this.dataDtoIn.CheckOutDistance = this.currentDist.toFixed(2);
-    this.scheduleRepoApi.checkOutVisit(this.dataDtoIn,this.repoId);
+    this.scheduleRepoApi.checkOutVisit(this.dataDtoIn, this.repoId);
     this.cancelAllNotifications();
   }
 
@@ -356,9 +356,16 @@ export class VisitPage {
     // || localStorage.getItem('workStatus')==="started") {
     //     return;
     // }else{
+    if (localStorage.getItem('workStatus') === "paused" 
+    || localStorage.getItem('workStatus')===undefined
+    || localStorage.getItem('workStatus')==="undefined"
+    || localStorage.getItem('workStatus')===null
+    || localStorage.getItem('workStatus')==="null"
+    || (localStorage.getItem('workStatus')==="stopped" 
+       && moment(localStorage.getItem('lastMileageDate')).isBefore(moment()))) {
       let alertConfirm = this.alertCtrl.create({
         title: '',
-        message: 'Are you sure you want to startyour day ?',
+        message: 'Are you sure you want to start / resume your day ?',
         buttons: [
           {
             text: 'Cancel',
@@ -369,36 +376,26 @@ export class VisitPage {
             }
           },
           {
-            text: 'Start/resume day',
+            text: 'Start / Resume day',
             handler: () => {
               this.hideCheckOutButton = false;
-              let startTime =  moment().format("YYYY-MM-DD HH:mm");
-              let workDay : any = "Workday : 0 hrs";
-              let TimeMileageModel = {
-                Id: this.newGuid(),
-                ServerId : 0,
-                UserId: localStorage.getItem('userid'),
-                PlaceId: this.placeId,
-                PlaceName: this.placeName,
-                StartTime : startTime,
-                EndTime: null,
-                Duration: workDay,
-                Mileage: "0",
-                IsSynched: 0,
-                DateCreated : moment().format("YYYY-MM-DD")
+
+              if(localStorage.getItem('workStatus')===null 
+               || localStorage.getItem('workStatus')===undefined
+               || localStorage.getItem('workStatus')==="undefined"
+               || localStorage.getItem('workStatus')==="null") {
+                let startTime = moment().format("YYYY-MM-DD HH:mm");
+                localStorage.setItem('startTime', startTime);
               }
-              localStorage.setItem('startTime',startTime);
-              localStorage.setItem('lastMileageDate',moment().format("YYYY-MM-DD"));
-              localStorage.setItem('workStatus',"started");
-              this.timeMileageRepoAPi.insertRecord(TimeMileageModel);
-              this.addTimerNotification(); 
+              localStorage.setItem('lastMileageDate', moment().format("YYYY-MM-DD"));
+              localStorage.setItem('workStatus', "started");
+              this.addTimerNotification();
             }
           }
         ]
       });
       alertConfirm.present();
-    // }
-    
+    }
   }
 
 }
