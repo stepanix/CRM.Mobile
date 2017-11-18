@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController,Events } from 'ionic-angular';
 import { ScheduleServiceApi } from '../../shared/shared';
 import { ScheduleRepoApi } from '../../repos/schedule-repo-api';
 
@@ -26,17 +26,23 @@ export class SchedulePage {
     scheduleId: any;
     repoId: any;
     isDataAvailable: boolean = false;
-    placeId: any;
+    placeId: any;    
 
     options: CalendarModalOptions = {
         canBackwardsSelected: true
     };
 
-    constructor(private loading: LoadingController,
+    constructor(private ev: Events,
+        private loading: LoadingController,
         private scheduleRepoApi: ScheduleRepoApi,
         private navCtrl: NavController,
         private navParams: NavParams) {
-        
+            this.eventDate = new Date().toISOString();
+            this.placeId = this.navParams.get('placeId');
+
+            this.ev.subscribe('activity', name => {
+                this.isAnyPlaceCheckedIn();
+            });
     }
 
     ngOnInit() {
@@ -44,9 +50,8 @@ export class SchedulePage {
     }
 
     ionViewDidEnter(){
-        this.eventDate = new Date().toISOString();
-        this.placeId = this.navParams.get('placeId');
         this.isAnyPlaceCheckedIn();
+        //this.isAnyPlaceCheckedIn();
     }
 
     isAnyPlaceCheckedIn() {
@@ -62,7 +67,7 @@ export class SchedulePage {
                     lng: res.results[0].Longitude
                 });
             } else {
-                this.listMyScheduleRepo();                
+                this.listMyScheduleRepo();
             }
         });
     }
