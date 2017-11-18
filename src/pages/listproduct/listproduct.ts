@@ -164,7 +164,7 @@ export class ListProductPage {
             this.isDisabled = true;
           }
         }
-        console.log("order model",this.orderModel);
+        //console.log("order model",this.orderModel);
         this.getOrderItemsRepo();
       } else {
         this.createNewOrder();
@@ -201,7 +201,7 @@ export class ListProductPage {
         this.orderModel.Amount = this.valueOfItemsOrdered;
         this.orderModel.Id = this.orderId;
         this.orderRepoApi.updateRecord(this.orderModel);
-        console.log("order", this.orderModel);
+        //console.log("order items", this.orderItemsTemp);
       } else {
         this.valueOfItemsOrdered = "0";
         this.totalItems = 0;

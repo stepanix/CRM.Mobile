@@ -298,13 +298,13 @@ export class SyncServiceApi {
     }
 
     downloadUserApi() {
-        var user: any[] = [];
+        let users: any[] = [];
         this.userServiceApi.getUsers()
             .subscribe(
             res => {
                 if (res.length > 0) {
                     for (var i = 0; i < res.length; i++) {
-                        user.push({
+                        users.push({
                             Id: res[i].id,
                             FirstName: res[i].firstName,
                             Surname: res[i].surname
@@ -312,7 +312,7 @@ export class SyncServiceApi {
                     }
 
                     this.userRepoApi.delete();
-                    this.userRepoApi.insert(user);
+                    this.userRepoApi.insert(users);
                 }
 
             }, err => {

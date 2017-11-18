@@ -18,7 +18,8 @@ export class FilterPage {
   dateSelected: any = "";
   repModel: any = "";
   placeModel : any = "0";
-  reps: any[] = [];  
+  reps: any[] = [];
+  repsTemp: any[] = [];  
   places: any[] = []; 
   selectedModule : any = "";
 
@@ -45,8 +46,7 @@ export class FilterPage {
         }
       });
 
-      this.listReps();
-      this.listPlaceRepo();
+      
   }
 
   showCalendar(dateSelectedVar) {
@@ -54,19 +54,25 @@ export class FilterPage {
     this.calendar.showCalendar();
   }
 
+  ngAfterContentInit() {    
+    this.listPlaceRepo();
+  }
+
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FilterPage');
+    
   }
 
   listReps() {
     this.reps = [];
     this.userRepoApi.list().then((res) => {
       for (var i = 0; i < res.results.length; i++) {
-        this.reps.push({
+        this.repsTemp.push({
           id: res.results[i].Id,
           name: res.results[i].FirstName + ' ' + res.results[i].Surname
         });
       }
+      this.reps =  this.repsTemp;
+      
     });
   }
 
@@ -79,6 +85,7 @@ export class FilterPage {
           this.places = res.results;
         }
       });
+      this.listReps();
   }
 
   close(){

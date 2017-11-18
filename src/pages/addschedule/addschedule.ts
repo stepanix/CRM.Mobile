@@ -24,6 +24,7 @@ export class AddSchedulePage {
 
   @ViewChild('searchplace')
   searchplace: AutoCompleteComponent;
+  
 
   selectedDate : any = "Select date";
   selectedTime : any = "";

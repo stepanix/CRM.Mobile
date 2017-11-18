@@ -15,12 +15,14 @@ export class PlacesAutoCompleteService implements AutoCompleteService {
 
   constructor(private placeRepoApi : PlaceRepoApi,
     private http:Http,private placeServiceApi:PlaceServiceApi) {
+
+        this.listPlacesRepo();
     
-        if(localStorage.getItem("isOnline")==="true") {
-           this.listPlacesApi();
-        }else{
-           this.listPlacesRepo();
-        }
+        // if(localStorage.getItem("isOnline")==="true") {
+        //    this.listPlacesApi();
+        // }else{
+        //    this.listPlacesRepo();
+        // }
   }
 
     listPlacesRepo() {
