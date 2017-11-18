@@ -16,6 +16,8 @@ import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { TimeMileageRepoApi } from '../../repos/timemileage-repo-api';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
+import { ProductRepoApi } from '../../repos/product-repo-api';
+
 
 @Component({
   selector: 'page-visit',
@@ -42,8 +44,10 @@ export class VisitPage {
   status: any = "";
   isUnscheduled: any = "false";
   @ViewChild('history') history;
+  products: any[] = [];
+  navigateOrder : boolean = false;
 
-  constructor(private ev: Events,
+  constructor(public productRepoApi: ProductRepoApi,
     private timeMileageRepoAPi: TimeMileageRepoApi,
     private counterNotifications: LocalNotifications,
     private localNotifications: LocalNotifications,
@@ -76,6 +80,7 @@ export class VisitPage {
     this.lng = this.navParams.get('lng');
     this.status = this.navParams.get('status');
     this.isUnscheduled = this.navParams.get('isUnscheduled');
+    this.getProductRepo();
     this.getScheduleData();
     // this.ev.subscribe('activity', name => {
     //   this.history.listPlaceRepo();
@@ -83,6 +88,24 @@ export class VisitPage {
     // console.log("serverid", this.serverId);
     // console.log("repoid", this.repoId);
     // console.log("scheduleid", this.scheduleId);
+  }
+
+  getProductRepo() {
+    this.products = [];
+    this.productRepoApi.list().then((res) => {
+      if(res.results.length > 0){
+        this.navigateOrder = true;
+      }else{
+        this.navigateOrder = false;
+      }
+      // for (var i = 0; i < res.results.length; i++) {
+      //   this.products.push({
+      //     id: res.results[i].ServerId,
+      //     name: res.results[i].Name,
+      //     price: res.results[i].Price
+      //   });
+      // }
+    });
   }
 
   ionViewDidEnter() {
@@ -280,6 +303,10 @@ export class VisitPage {
                 });
               }
               if (type === "orders") {
+                if(this.navigateOrder===false){
+                  alert("There is no product set up for orders. Please contact administrator");
+                  return;
+                }
                 this.navCtrl.push(ListProductPage, {
                   placeName: this.placeName,
                   scheduleId: this.scheduleId,
@@ -335,6 +362,10 @@ export class VisitPage {
         });
       }
       if (type === "orders") {
+        if(this.navigateOrder===false){
+          alert("There is no product set up for orders. Please contact administrator");
+          return;
+        }
         this.navCtrl.push(ListProductPage, {
           placeName: this.placeName,
           scheduleId: this.scheduleId,
