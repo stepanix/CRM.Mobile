@@ -236,7 +236,7 @@ export class OrdersPage {
         TaxRate: this.OrderModel.TaxRate,
         TaxAmount: this.OrderModel.TaxAmount,
         TotalAmount: this.OrderModel.TotalAmount,
-        OrderDate: this.OrderModel.Date,
+        OrderDate: this.OrderModel.OrderDate,
         DueDays: this.OrderModel.DueDays,
         DueDate: this.OrderModel.DueDate,
         Note: this.OrderModel.Note,

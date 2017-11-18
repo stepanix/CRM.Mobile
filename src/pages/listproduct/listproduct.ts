@@ -69,10 +69,31 @@ export class ListProductPage {
       Submitted : 1
     }
     this.activityRepoApi.insertRecord(ActivityDtoIn);
-    this.ev.publish('activity', true);
+    //this.ev.publish('activity', true);
+  }
+
+  checkOrderSigned(){
+    this.orderRepoApi.checkSigned(this.orderId).then((res) => {
+      if (res.results.length > 0) {
+       let signature =  res.results[0].Signature
+       if(signature==="" 
+       || signature===undefined 
+       || signature==="undefined"
+       || signature==="null"
+       || signature===null){
+        alert("Please sign this order before submitting");
+        return;
+       }else{
+         this.submitOrder();
+       }
+      } else {
+        alert("Please sign this order before submitting");
+      }
+    });
   }
 
   submitOrder() {
+
     let alertConfirm = this.alertCtrl.create({
       title: '',
       message: 'Are you sure you want to submit this order ? you will not be able to make changes after submitting',

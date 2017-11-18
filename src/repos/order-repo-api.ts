@@ -79,6 +79,12 @@ export class OrderRepoApi {
         return results;
      }
 
+     checkSigned(orderId: any){
+        var data = new QueryBuilder(new OrderModel());
+        var results = data.where("Id", "=", orderId).get();
+        return results;
+     }
+
      listUnSynched() : Promise<any> {
         var data = new QueryBuilder(new OrderModel());
         var results = data.where("Submitted", "=", "1").get();

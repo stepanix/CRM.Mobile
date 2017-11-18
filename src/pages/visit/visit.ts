@@ -250,7 +250,7 @@ export class VisitPage {
             text: 'Check in here',
             handler: () => {
               this.hideCheckOutButton = false;
-              this.enterSchedule();
+              this.enterSchedule();              
               if (type === "form") {
                 this.navCtrl.push(ListFormsPage, {
                   placeName: this.placeName,
@@ -305,6 +305,7 @@ export class VisitPage {
       });
       confirm.present();
     } else {
+     
       if (type === "form") {
         this.navCtrl.push(ListFormsPage, {
           placeName: this.placeName,
