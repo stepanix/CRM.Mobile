@@ -226,7 +226,7 @@ export class ActivityhistoryPage {
             submitted: res.results[i].Submitted
           });
       }
-      this.ev.unsubscribe('activity');
+      // this.ev.unsubscribe('activity');
       this.appyModuleFilter();
     });
   }

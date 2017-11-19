@@ -24,14 +24,15 @@ export class VisitStatusPage {
     private scheduleRepoApi : ScheduleRepoApi,
     public navCtrl : NavController,
     public navParams : NavParams) {
-        this.getCheckedInVisit();
+        //this.getCheckedInVisit();
   }
 
   ionViewCanEnter() {
-    this.getCheckedInVisit();
+    //this.getCheckedInVisit();
    }
 
    getCheckedInVisit() {
+       console.log("checking visit status");
       this.scheduleRepoApi.getChekedInVisit().then((res) => {
             if (res.results.length > 0) {
                 this.placeCheckedIn = " Checked in at " + res.results[0].PlaceName;

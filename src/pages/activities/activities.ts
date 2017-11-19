@@ -26,6 +26,7 @@ export class ActivitiesPage {
     TimeMileageModel: any = {};
     pauseTotal: any = "0";
     @ViewChild('history') history;
+    @ViewChild('status') status;
 
     constructor(private ev : Events,
         private scheduleRepoApi: ScheduleRepoApi,
@@ -47,24 +48,59 @@ export class ActivitiesPage {
         //         );
         //     }
         // });
-        // this.ev.subscribe('activity', name => {
-        //     this.history.listPlaceRepo();
-        // });
+        this.ev.subscribe('activity', name => {
+            //console.log("reloading activity");
+            this.reloadData();
+            this.history.listPlaceRepo();
+        });
+        //this.syncServiceApi.downloadServerData();
+        //this.reloadData();
+    }
+
+    reloadData(){
+        this.status.getCheckedInVisit();
         this.checkMissedSchedule();
         this.getWorkDuration();
         this.checkWorkStatus();
+        this.ev.unsubscribe('activity');
     }
 
-    reloadActivity(){
-        this.loader = this.loading.create({
-            content: 'Refreshing, please wait...',
-        });
-        this.loader.present().then(() => {
-            this.syncServiceApi.downloadServerData();
-            this.history.listPlaceRepo();
-            this.loader.dismiss();
-        });
-    }
+    //reloadActivity(){
+        // this.loader = this.loading.create({
+        //     content: 'Refreshing, please wait...',
+        // });
+        //this.loader.present().then(() => {
+            //this.syncServiceApi.downloadServerData();
+            //this.history.listPlaceRepo();
+            // this.checkMissedSchedule();
+            // this.getWorkDuration();
+            // this.checkWorkStatus();             
+        //});
+        
+    //}
+
+    // doRefresh(refresher: Refresher) {
+    //     console.log('DOREFRESH', refresher);
+    
+    //     this.mockProvider.getAsyncData().then((newData) => {
+    //       for (var i = 0; i < newData.length; i++) {
+    //         this.items.unshift( newData[i] );
+    //       }
+    
+    //       refresher.complete();
+    //     });
+    //   }
+
+    // doRefresh(refresher) {
+    //     console.log('Started', refresher);
+    //     setTimeout(() => {
+    //         this.history.listPlaceRepo();
+    //         this.reloadData();
+    //         refresher.complete();
+    //     });
+    // }
+
+   
 
     ionViewDidEnter(){
         this.history.listPlaceRepo();
@@ -285,7 +321,9 @@ export class ActivitiesPage {
         if (token === null || token === undefined || token === "null") {
             this.navCtrl.setRoot(LoginPage);
         } else {
-            //this.syncServiceApi.downloadServerData();
+            this.status.getCheckedInVisit();
+            // this.syncServiceApi.downloadServerData();
+            // this.history.listPlaceRepo();
         }
     }
 

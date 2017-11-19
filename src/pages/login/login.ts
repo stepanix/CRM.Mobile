@@ -53,6 +53,7 @@ export class LoginPage {
                 localStorage.setItem('token', res.access_token);
                 localStorage.setItem('userid',res.userid);
                 localStorage.setItem('fullname',res.fullname);
+                localStorage.setItem("reload","true");
                 this.syncServiceApi.downloadServerData();               
                 this.loader.dismiss();
                 this.navCtrl.setRoot(ActivitiesPage);

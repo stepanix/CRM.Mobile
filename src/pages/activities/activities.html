@@ -7,9 +7,7 @@
 
         <ion-buttons end>
 
-            <button ion-button icon-only (click)="reloadActivity()" style="background-color: #fafafa;color:#000000">
-                <ion-icon ios="md-sync" md="md-sync" id="iconNetwork" style="color:#2E86C1!important" name="iconNetwork"></ion-icon>
-            </button>
+                <page-network> </page-network>
 
         </ion-buttons>
 
@@ -17,7 +15,15 @@
 
 </ion-header>
 <ion-content class="signInList signIn">
-    <page-visitstatus></page-visitstatus> 
+        <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+                <ion-refresher-content
+                  pullingIcon="arrow-dropdown"
+                  pullingText="Pull to refresh"
+                  refreshingSpinner="circles"
+                  refreshingText="Loading...">
+                </ion-refresher-content>
+      </ion-refresher> -->
+    <page-visitstatus #status></page-visitstatus> 
     <page-activityhistory #history></page-activityhistory>
 </ion-content>
 

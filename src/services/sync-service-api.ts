@@ -670,7 +670,7 @@ export class SyncServiceApi {
                     }
 
                     if(res[i].activityLog==="Photos") {
-                        console.log(JSON.stringify(res));
+                        //console.log(JSON.stringify(res));
                         if(res[i].photo != null){
                             photoDtoIn.push({
                                 Id: res[i].activityTypeId,
@@ -707,9 +707,10 @@ export class SyncServiceApi {
                 this.orderRepoApi.insert(orderDtoIn);
                 this.orderItemRepoApi.insert(orderItemDtoIn);
                 this.photoRepoApi.insert(photoDtoIn);
-                // if(localStorage.getItem("reload")==="true"){
-                //     this.ev.publish("activity",true);
-                // }
+                if(localStorage.getItem("reload")==="true"){
+                     this.ev.publish("activity",true);
+                     localStorage.setItem("reload","false");
+                }
             }
         }, err => {
             return;
