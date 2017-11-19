@@ -114,6 +114,7 @@ export class RetailAuditFormPage {
                             content: 'Submitting, please wait...',
                         });
                         this.loader.present().then(() => {
+                            localStorage.setItem("reload","true");
                             this.syncServiceApi.downloadServerData();
                             this.navCtrl.setRoot(ActivitiesPage);
                             this.loader.dismiss();
@@ -166,12 +167,14 @@ export class RetailAuditFormPage {
 
     takePhoto(questionId) {
         var options: CameraOptions = {
-            quality: 100,
+            quality: 55,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
             correctOrientation: true,
-            saveToPhotoAlbum: true
+            saveToPhotoAlbum: true,
+            targetWidth: 200,
+            targetHeight: 200
         }
         this.camera.getPicture(options).then((imageData) => {
             this.base64Image = 'data:image/jpeg;base64,' + imageData;
@@ -184,12 +187,14 @@ export class RetailAuditFormPage {
         let returnImage = this;
 
         var libOptions = {
-            quality: 100,
+            quality: 50,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.FILE_URI,
             encodingType: this.camera.EncodingType.JPEG,
             saveToPhotoAlbum: true,
-            correctOrientation: true
+            correctOrientation: true,
+            targetWidth: 200,
+            targetHeight: 200
         };
 
         this.camera.getPicture(libOptions).then((filePath) => {

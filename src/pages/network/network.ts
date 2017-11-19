@@ -40,6 +40,7 @@ export class NetworkPage {
               content: 'Synching data, please wait...',
           });
           this.loader.present().then(() => {
+              localStorage.setItem("reload","true");
               this.syncServiceApi.downloadServerData();
               this.loader.dismiss();
           });

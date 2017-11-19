@@ -68,6 +68,7 @@ export class PhotoPage {
                             content: 'Submitting, please wait...',
                         });
                         this.loader.present().then(() => {
+                            localStorage.setItem("reload","true");
                             this.syncServiceApi.downloadServerData();
                             this.navCtrl.setRoot(ActivitiesPage);
                             this.loader.dismiss();
@@ -205,12 +206,14 @@ export class PhotoPage {
         let returnImage = this;
 
         var libOptions = {
-            quality: 100,
+            quality: 50,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.FILE_URI,
             encodingType: this.camera.EncodingType.JPEG,
             saveToPhotoAlbum: true,
-            correctOrientation: true
+            correctOrientation: true,
+            targetWidth: 200,
+            targetHeight: 200,
         };
 
         this.camera.getPicture(libOptions).then((filePath) => {

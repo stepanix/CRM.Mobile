@@ -114,6 +114,7 @@ export class ListProductPage {
               content: 'Submitting orders, please wait...',
             });
             this.loader.present().then(() => {
+              localStorage.setItem("reload","false");
               this.syncServiceApi.downloadServerData();
               this.navCtrl.pop();
               this.loader.dismiss();

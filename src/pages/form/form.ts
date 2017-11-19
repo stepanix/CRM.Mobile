@@ -112,6 +112,7 @@ export class FormPage {
                             content: 'Submitting, please wait...',
                         });
                         this.loader.present().then(() => {
+                            localStorage.setItem("reload","true");
                             this.syncServiceApi.downloadServerData();
                             this.navCtrl.setRoot(ActivitiesPage);
                             this.loader.dismiss();
@@ -167,7 +168,7 @@ export class FormPage {
             correctOrientation: true,
             saveToPhotoAlbum: true,
             targetWidth: 200,
-            targetHeight: 200,
+            targetHeight: 200
         }
         this.camera.getPicture(options).then((imageData) => {
             this.base64Image = 'data:image/jpeg;base64,' + imageData;
@@ -180,12 +181,14 @@ export class FormPage {
         let returnImage = this;
 
         var libOptions = {
-            quality: 100,
+            quality: 50,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             destinationType: this.camera.DestinationType.FILE_URI,
             encodingType: this.camera.EncodingType.JPEG,
             saveToPhotoAlbum: true,
-            correctOrientation: true
+            correctOrientation: true,
+            targetWidth: 200,
+            targetHeight: 200
         };
 
         this.camera.getPicture(libOptions).then((filePath) => {

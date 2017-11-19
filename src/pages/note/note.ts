@@ -57,12 +57,13 @@ export class NotePage {
                 },
                 {
                     text: 'Submit',
-                    handler: () => {
+                    handler: () => {                        
                         this.noteRepoApi.submit(this.noteId);
                         this.loader = this.loading.create({
                             content: 'Submitting, please wait...',
                         });
                         this.loader.present().then(() => {
+                            localStorage.setItem("reload","true");
                             this.syncServiceApi.downloadServerData();
                             this.navCtrl.setRoot(ActivitiesPage);
                             this.loader.dismiss();

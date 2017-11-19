@@ -707,7 +707,9 @@ export class SyncServiceApi {
                 this.orderRepoApi.insert(orderDtoIn);
                 this.orderItemRepoApi.insert(orderItemDtoIn);
                 this.photoRepoApi.insert(photoDtoIn);
-                //this.ev.publish("downloaded",true);
+                if(localStorage.getItem("reload")==="true"){
+                    this.ev.publish("activity",true);
+                }
             }
         }, err => {
             return;
