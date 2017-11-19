@@ -193,8 +193,8 @@ export class PhotoPage {
             mediaType: this.camera.MediaType.PICTURE,
             correctOrientation: true,
             saveToPhotoAlbum: true,
-            targetWidth: 200,
-            targetHeight: 200,
+            targetWidth: 150,
+            targetHeight: 150,
         }
         this.camera.getPicture(options).then((imageData) => {
             this.base64Image = 'data:image/jpeg;base64,' + imageData;
@@ -212,8 +212,8 @@ export class PhotoPage {
             encodingType: this.camera.EncodingType.JPEG,
             saveToPhotoAlbum: true,
             correctOrientation: true,
-            targetWidth: 200,
-            targetHeight: 200,
+            targetWidth: 150,
+            targetHeight: 150,
         };
 
         this.camera.getPicture(libOptions).then((filePath) => {
@@ -221,7 +221,6 @@ export class PhotoPage {
                 console.log(base64);
                 returnImage.base64Image = base64;
             });
-
         }, (err) => {
         });
     }

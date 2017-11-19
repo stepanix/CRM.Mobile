@@ -47,13 +47,23 @@ export class ActivitiesPage {
         //         );
         //     }
         // });
-        this.ev.subscribe('activity', name => {
-            this.history.listPlaceRepo();
-        });
-                
+        // this.ev.subscribe('activity', name => {
+        //     this.history.listPlaceRepo();
+        // });
         this.checkMissedSchedule();
         this.getWorkDuration();
         this.checkWorkStatus();
+    }
+
+    reloadActivity(){
+        this.loader = this.loading.create({
+            content: 'Refreshing, please wait...',
+        });
+        this.loader.present().then(() => {
+            this.syncServiceApi.downloadServerData();
+            this.history.listPlaceRepo();
+            this.loader.dismiss();
+        });
     }
 
     ionViewDidEnter(){

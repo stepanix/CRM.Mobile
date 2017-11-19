@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController,Events } from 'ionic-angular';
 import { ActivityRepoApi } from '../../repos/activity-repo-api';
 import { PhotoRepoApi } from '../../repos/photo-repo-api';
 import { PlaceRepoApi } from '../../repos/place-repo-api';
@@ -43,7 +43,7 @@ export class ActivityhistoryPage {
   ActivityContent: any = {};
   
 
-  constructor(public modalCtrl: ModalController,
+  constructor(private ev:Events,public modalCtrl: ModalController,
     private loading: LoadingController,
     private noteRepoApi: NoteRepoApi,
     private activityRepoApi: ActivityRepoApi,
@@ -226,6 +226,7 @@ export class ActivityhistoryPage {
             submitted: res.results[i].Submitted
           });
       }
+      this.ev.unsubscribe('activity');
       this.appyModuleFilter();
     });
   }
