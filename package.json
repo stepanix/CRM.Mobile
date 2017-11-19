@@ -65,6 +65,7 @@
         "ionix-sqlite": "^0.1.1",
         "moment": "^2.18.1",
         "ng2-google-place-autocomplete": "^1.4.2",
+        "onesignal-cordova-plugin": "^2.2.2",
         "phonegap-plugin-barcodescanner": "^6.0.8",
         "rxjs": "5.4.0",
         "sw-toolbox": "3.6.0",
@@ -96,7 +97,8 @@
             "de.appplant.cordova.plugin.local-notification": {},
             "phonegap-plugin-barcodescanner": {},
             "cordova-plugin-nativegeocoder": {},
-            "cordova-plugin-request-location-accuracy": {}
+            "cordova-plugin-request-location-accuracy": {},
+            "onesignal-cordova-plugin": {}
         },
         "platforms": [
             "android",

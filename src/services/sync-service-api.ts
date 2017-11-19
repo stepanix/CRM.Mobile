@@ -577,47 +577,54 @@ export class SyncServiceApi {
                 for (let i = 0; i < res.length; i++) {
                     
                     if(res[i].activityLog==="Product Retail Audit") {
-                        produtctRetailDtoIn.push({
-                            Id : res[i].activityTypeId,                   
-                            ServerId : res[i].productRetailAudit.id,
-                            PlaceId : res[i].productRetailAudit.placeId,
-                            RetailAuditFormId : res[i].productRetailAudit.retailAuditFormId,
-                            ScheduleId : res[i].productRetailAudit.scheduleId,
-                            RetailAuditFormFieldValues :  JSON.stringify(JSON.parse(res[i].productRetailAudit.retailAuditFormFieldValues)),
-                            IsSaved : 1,
-                            IsSynched : 1,
-                            Available : res[i].productRetailAudit.available,
-                            Promoted : res[i].productRetailAudit.promoted,
-                            Price  : res[i].productRetailAudit.price,
-                            StockLevel :  res[i].productRetailAudit.stockLevel,
-                            Note : res[i].productRetailAudit.note,
-                            Submitted : 2
-                        });
+                        if(res[i].productRetailAudit != null){
+                            produtctRetailDtoIn.push({
+                                Id : res[i].activityTypeId,                   
+                                ServerId : res[i].productRetailAudit.id,
+                                PlaceId : res[i].productRetailAudit.placeId,
+                                RetailAuditFormId : res[i].productRetailAudit.retailAuditFormId,
+                                ScheduleId : res[i].productRetailAudit.scheduleId,
+                                RetailAuditFormFieldValues :  JSON.stringify(JSON.parse(res[i].productRetailAudit.retailAuditFormFieldValues)),
+                                IsSaved : 1,
+                                IsSynched : 1,
+                                Available : res[i].productRetailAudit.available,
+                                Promoted : res[i].productRetailAudit.promoted,
+                                Price  : res[i].productRetailAudit.price,
+                                StockLevel :  res[i].productRetailAudit.stockLevel,
+                                Note : res[i].productRetailAudit.note,
+                                Submitted : 2
+                            });
+                        }
+                       
                     }
                     
                     if(res[i].activityLog==="Notes") {
-                        noteDtoIn.push({
-                            Id : res[i].activityTypeId,
-                            ServerId : res[i].note.id,
-                            PlaceId : res[i].note.placeId,
-                            ScheduleId : res[i].note.scheduleId,
-                            Description : res[i].note.description,
-                            IsSynched : 1,
-                            Submitted : 2
-                        });
+                        if(res[i].note != null){
+                            noteDtoIn.push({
+                                Id : res[i].activityTypeId,
+                                ServerId : res[i].note.id,
+                                PlaceId : res[i].note.placeId,
+                                ScheduleId : res[i].note.scheduleId,
+                                Description : res[i].note.description,
+                                IsSynched : 1,
+                                Submitted : 2
+                            });
+                        }
                     }
 
                     if(res[i].activityLog==="Forms") {
-                          formDtoIn.push({
-                            Id : res[i].activityTypeId,
-                            ServerId : res[i].formValue.id,
-                            PlaceId : res[i].formValue.placeId,
-                            FormId : res[i].formValue.formId,
-                            ScheduleId : res[i].formValue.scheduleId,
-                            FormFieldValues : JSON.stringify(JSON.parse(res[i].formValue.formFieldValues)),
-                            IsSynched : 1,
-                            Submitted : 2
-                          });
+                        if(res[i].formValue != null){
+                            formDtoIn.push({
+                                Id : res[i].activityTypeId,
+                                ServerId : res[i].formValue.id,
+                                PlaceId : res[i].formValue.placeId,
+                                FormId : res[i].formValue.formId,
+                                ScheduleId : res[i].formValue.scheduleId,
+                                FormFieldValues : JSON.stringify(JSON.parse(res[i].formValue.formFieldValues)),
+                                IsSynched : 1,
+                                Submitted : 2
+                              });
+                        }
                     }
 
                     if(res[i].activityLog==="Orders") {
@@ -663,19 +670,22 @@ export class SyncServiceApi {
                     }
 
                     if(res[i].activityLog==="Photos") {
-                        photoDtoIn.push({
-                            Id: res[i].activityTypeId,
-                            ServerId : res[i].photo.id,
-                            PlaceId : res[i].photo.placeId,
-                            ScheduleId : res[i].photo.scheduleId,
-                            PictureUrl : res[i].photo.pictureUrl,
-                            Note : res[i].photo.note,
-                            IsSynched: 1,
-                            ScheduleRepoId: res[i].photo.scheduleId,
-                            PlaceRepoId : null,
-                            Submitted : 2,
-                            RepoId : res[i].photo.repoId
-                        });
+                        console.log(JSON.stringify(res));
+                        if(res[i].photo != null){
+                            photoDtoIn.push({
+                                Id: res[i].activityTypeId,
+                                ServerId : res[i].photo.id,
+                                PlaceId : res[i].photo.placeId,
+                                ScheduleId : res[i].photo.scheduleId,
+                                PictureUrl : res[i].photo.pictureUrl,
+                                Note : res[i].photo.note,
+                                IsSynched: 1,
+                                ScheduleRepoId: res[i].photo.scheduleId,
+                                PlaceRepoId : null,
+                                Submitted : 2,
+                                RepoId : res[i].photo.repoId
+                            });
+                        }
                     }
 
                     activities.push({
@@ -697,7 +707,7 @@ export class SyncServiceApi {
                 this.orderRepoApi.insert(orderDtoIn);
                 this.orderItemRepoApi.insert(orderItemDtoIn);
                 this.photoRepoApi.insert(photoDtoIn);
-               
+                //this.ev.publish("downloaded",true);
             }
         }, err => {
             return;

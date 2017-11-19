@@ -186,12 +186,14 @@ export class PhotoPage {
 
     takePhoto() {
         var options: CameraOptions = {
-            quality: 100,
+            quality: 55,
             destinationType: this.camera.DestinationType.DATA_URL,
             encodingType: this.camera.EncodingType.JPEG,
             mediaType: this.camera.MediaType.PICTURE,
             correctOrientation: true,
-            saveToPhotoAlbum: true
+            saveToPhotoAlbum: true,
+            targetWidth: 200,
+            targetHeight: 200,
         }
         this.camera.getPicture(options).then((imageData) => {
             this.base64Image = 'data:image/jpeg;base64,' + imageData;

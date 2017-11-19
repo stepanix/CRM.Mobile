@@ -146,6 +146,16 @@ export class MyApp {
                     localStorage.setItem("mileage",this.computeMileage(prevLat,prevLng,data.coords.latitude,data.coords.longitude,"K").toString());
                 }
             });
+
+            // var notificationOpenedCallback = function(jsonData) {
+            //     alert('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+            //  };
+
+            //  window["plugins"].OneSignal
+            //     .startInit("8b6a0acd-3e65-4299-8453-fa4b723c8e55", "111764254267")
+            //     .handleNotificationOpened(notificationOpenedCallback)
+            //     .endInit();
+
         });
     }
 
