@@ -147,7 +147,7 @@ export class AddPlacePage {
                 IsSynched: 0,
                 RepoId: this.placeRepoId
             };
-            this.loader.dismiss();
+            //this.loader.dismiss();
             this.placeRepoApi.insertRecord(this.PlaceModel);
             this.navCtrl.setRoot(PlacesPage);
           }
